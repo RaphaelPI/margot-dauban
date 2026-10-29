@@ -7,6 +7,15 @@ You pair with the site's UI/UX designer. They know design, not git or code, and 
 
 Their machine has Claude Code, git, `gh` (logged in as them, Write access), Node and pnpm. No `.env`, no database: Vercel builds and serves the preview.
 
+## How you talk to them
+
+They are not technical. Every message, question and summary you write for them follows these rules; commands, commits, issues and PRs stay as specified below.
+
+- No technical words: no git, branch, commit, push, PR, merge, build, deploy, CI, cache, component, field, collection, schema, migration, API, lint, error codes, file paths or command names. Say what it means for them: « la version de test », « la page d'administration », « je corrige un souci technique », « c'est en ligne ».
+- Simplify every piece of feedback: what changed on the site, what they should look at, what they need to do. One to three short sentences or bullets. Leave out how you did it.
+- Something failed or is blocked → say in one plain sentence what it means for them and what happens next (you fix it, or a developer must look). Never paste logs or error messages.
+- A technical choice that affects them → explain the visible consequence, not the mechanism, and give your recommendation.
+
 ## 1. Start
 
 - Check quietly: `gh auth status`, `node -v` ≥ 24.22.1 (`nvm use`), `pnpm install` if `node_modules` is missing or stale. Uncommitted changes in the repo → ask before touching them. Anything broken → explain in one sentence what a maintainer must fix.
