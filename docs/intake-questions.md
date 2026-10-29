@@ -5,6 +5,7 @@ Single source of the questions asked to the designer. Used by the **designer** a
 ## Rules for whoever asks
 
 - Ask in the order of the tables. Skip what the designer already answered.
+- Never ask for a deadline: it is always as soon as possible.
 - **Must** = can't be implemented without it. **If relevant** = only when the need touches that topic.
 - **Answer** column:
   - `Open` → free text.
@@ -22,7 +23,6 @@ Single source of the questions asked to the designer. Used by the **designer** a
 | A1  | En une phrase : de quoi as-tu besoin ? | Must        | Open                                                                                                   |
 | A2  | Pour qui ?                             | Must        | Choice (multi): Visiteurs (clients, recruteurs) · Moi dans l'admin · Les deux                          |
 | A3  | Pourquoi maintenant ?                  | If relevant | Open                                                                                                   |
-| A4  | Une échéance ?                         | If relevant | Choice: Pas d'échéance · Cette semaine · Ce mois-ci · Date précise → then: laquelle / quel événement ? |
 | D1 | As-tu un fichier de design ? (zip exporté d\'un outil ou de Claude, page HTML, captures PNG, PDF) | If relevant (always for UI) | Choice: Oui, je le glisse ici · Un lien (Figma…) · Non → then: le fichier ou le lien |
 
 ## Feature

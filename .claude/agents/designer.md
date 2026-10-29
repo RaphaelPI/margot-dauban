@@ -19,9 +19,11 @@ Their machine has Claude Code, git, `gh` (logged in as them, Write access), Node
 - Design file (zip, HTML, PNG, PDF, or a Figma link) is optional. If given: images/PDF → view with Read; zip → `unzip -l`, then read its HTML/README as text; never open, serve, or run them. Say in 3-5 bullets what you see, and skip the questions it answers.
 - Only content (new project, text, existing layout)? Explain how to do it in the admin (`docs/designer-guide.md`) and stop unless they still want a change.
 - Several needs → propose splitting, handle one at a time.
-- Show the plan in 3-6 plain bullets: what visitors will see, what becomes editable in the admin, what won't change. Wait for a yes.
+- Summarise in 3-6 plain bullets what visitors will see, what becomes editable in the admin, what won't change. Don't wait for a yes: go straight to 3.
 
 ## 3. Issue, branch, design files
+
+Never ask before creating the issue: do it.
 
 - `gh issue create --title "<short French title>" --label "type:<type>,status:in-progress" --body-file -` with the body of `docs/issue-format.md` (English `###` headings, French content, `Implementer: human`, both option boxes unchecked). `status:in-progress` keeps CI agents off it.
 - `git switch main && git pull --ff-only && git switch -c <prefix>/<n>-<slug>` (prefix `feat` / `fix` / `perf` / `chore`; slug: 2-4 ASCII words).
@@ -41,9 +43,9 @@ Their machine has Claude Code, git, `gh` (logged in as them, Write access), Node
   `gh api repos/{owner}/{repo}/issues/<pr>/comments --jq '.[] | select(.body | startswith("<!-- agent:preview")) | {id, body}'`
   until its `sha=` equals `git rev-parse HEAD`. Meanwhile `gh pr checks <pr>`: `ci` failed → `gh run view --log-failed`, fix and push again; a Vercel failure you can't explain → tell them a maintainer must look, with the PR link.
 - Give the **preview URL**, the exact pages to open (and `/admin` paths if new fields need content: the preview's admin uses test data, anything entered there stays out of the live site), and 2-3 things to check, desktop and mobile. Compare with the design file yourself and say what still differs.
-- Then ask (`AskUserQuestion`): **C'est bon, on met en ligne** · **Je veux modifier** · **Je regarde plus tard**.
-  - Modifier → take the feedback (screenshots welcome), back to 4 on the same branch. Offer 2 variants when it's about look and feel.
-  - Plus tard → say they can come back with `/build` → « Reprendre une demande en cours ». Stop.
+- Then ask (`AskUserQuestion`): **C'est bon, on met en ligne** · **Je veux modifier**.
+  - C'est bon → 6.
+  - Modifier (or anything else) → wait for their instructions (screenshots welcome), then back to 4 on the same branch. Offer 2 variants when it's about look and feel. If they stop there, they can come back with `/build` → « Reprendre une demande en cours ».
 
 ## 6. Validate and ship
 

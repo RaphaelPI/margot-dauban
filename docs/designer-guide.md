@@ -23,12 +23,12 @@ Besoin d'un **nouveau type de contenu** (ex. « Témoignages », un champ « Vid
 Une nouvelle section, un nouveau design, un bug, une idée : tout passe par `/build` dans Claude Code, ouvert sur ce dépôt. Tu n'as jamais besoin d'aller sur GitHub.
 
 1. **Tu expliques** : Claude pose quelques questions (choix cliquables + réponses libres) et te propose de **joindre un fichier de design** : zip exporté (de Claude ou d'un outil de design), page HTML, captures PNG, PDF, lien Figma. Glisse-le dans la conversation. Pas obligatoire, mais un fichier vaut mille mots.
-2. **Il propose un plan** en mots simples → tu valides.
+2. **Il résume** en mots simples ce qu'il va faire et s'y met directement.
 3. **Il construit et publie un aperçu** : quelques minutes plus tard, il te donne un **lien d'aperçu** : le vrai site avec la modification, sur une adresse à part (le site en ligne n'est pas touché). Vérifie sur ordinateur **et** sur mobile.
 4. **Tu commentes dans la conversation** (« plus d'air entre les cartes », « le titre trop gros sur mobile », une capture…) → il ajuste et te donne le nouveau lien. Autant de tours que nécessaire.
 5. **« C'est bon »** → il lance la relecture automatique puis met en ligne. Si une partie technique sensible doit d'abord être vérifiée par un développeur, il te le dit.
 
-Tu peux t'arrêter à tout moment (« je regarde plus tard ») et reprendre avec `/build` → « Reprendre une demande en cours ». Ça marche aussi pour valider une modification préparée par les agents automatiques.
+Tu peux t'arrêter à tout moment et reprendre avec `/build` → « Reprendre une demande en cours ». Ça marche aussi pour valider une modification préparée par les agents automatiques.
 
 Astuces : décris le ressenti autant que le détail, demande « montre-moi deux variantes », compare avec ta maquette.
 
