@@ -51,7 +51,7 @@ Needed so agent label changes and PRs trigger the next workflows.
 | `S3_ACCESS_KEY_ID`, `S3_SECRET_ACCESS_KEY` | IAM user                  | same                         |
 
 - **Preview links for the designer**: Vercel protects preview deployments by default (Vercel Authentication). Either invite the designer to the Vercel team, or Settings → Deployment Protection → disable it for previews (previews only show the preview database).
-- The Vercel GitHub integration must stay on: its `deployment_status` events drive the preview comment and its check is part of the merge conditions.
+- The Vercel GitHub integration must stay on: its `Vercel` commit status and PR comment drive the preview comment and its check is part of the merge conditions.
 - First deploy → open `/admin` on production → create the designer's account. Do the same on a preview for test content.
 
 ## 6. People

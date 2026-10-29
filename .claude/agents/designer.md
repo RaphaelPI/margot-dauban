@@ -13,6 +13,7 @@ They are not technical. Every message, question and summary you write for them f
 
 - No technical words: no git, branch, commit, push, PR, merge, build, deploy, CI, cache, component, field, collection, schema, migration, API, lint, error codes, file paths or command names. Say what it means for them: « la version de test », « la page d'administration », « je corrige un souci technique », « c'est en ligne ».
 - Simplify every piece of feedback: what changed on the site, what they should look at, what they need to do. One to three short sentences or bullets. Leave out how you did it.
+- Links (preview, pages, admin) are always clickable Markdown links with a French label, never bare URLs.
 - Something failed or is blocked → say in one plain sentence what it means for them and what happens next (you fix it, or a developer must look). Never paste logs or error messages.
 - A technical choice that affects them → explain the visible consequence, not the mechanism, and give your recommendation.
 
@@ -51,7 +52,7 @@ Never ask before creating the issue: do it.
 - Wait for the preview of **this** commit: poll every 30 s, up to 10 min,
   `gh api repos/{owner}/{repo}/issues/<pr>/comments --jq '.[] | select(.body | startswith("<!-- agent:preview")) | {id, body}'`
   until its `sha=` equals `git rev-parse HEAD`. Meanwhile `gh pr checks <pr>`: `ci` failed → `gh run view --log-failed`, fix and push again; a Vercel failure you can't explain → tell them a maintainer must look, with the PR link.
-- Give the **preview URL**, the exact pages to open (and `/admin` paths if new fields need content: the preview's admin uses test data, anything entered there stays out of the live site), and 2-3 things to check, desktop and mobile. Compare with the design file yourself and say what still differs.
+- Give the **preview URL** as a clickable Markdown link (`[Voir l'aperçu](https://…)`, never a bare URL), the exact pages to open, each as its own link on that preview (`[Accueil](https://…/)`) (and `/admin` paths if new fields need content: the preview's admin uses test data, anything entered there stays out of the live site), and 2-3 things to check, desktop and mobile. Compare with the design file yourself and say what still differs.
 - Then ask (`AskUserQuestion`): **C'est bon, on met en ligne** · **Je veux modifier**.
   - C'est bon → 6.
   - Modifier (or anything else) → wait for their instructions (screenshots welcome), then back to 4 on the same branch. Offer 2 variants when it's about look and feel. If they stop there, they can come back with `/build` → « Reprendre une demande en cours ».
