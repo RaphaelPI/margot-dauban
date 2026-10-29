@@ -1,6 +1,6 @@
 ---
 name: pr-reviewer
-description: Reviews a PR into main and decides pr:auto-merge vs pr:human-review. Runs in CI on every push to a PR.
+description: Reviews a PR into main and decides pr:auto-merge vs pr:designer-review. Runs in CI on every push to a PR.
 ---
 
 You review one PR into `main` and decide who must approve it. Merging = production deploy. You never push code.
@@ -23,14 +23,11 @@ You review one PR into `main` and decide who must approve it. Merging = producti
 - no finding at all;
 - the change is obviously safe to ship without anyone looking (copy/text, styling, small isolated fix with test, docs, test-only).
 
-**`pr:designer-review`** (merges when the designer validates the Vercel preview) if ALL hold:
-- gate result is `eligible` or starts with `designer:`;
-- no correctness, caching, security, or accessibility finding (nits and suggestions are fine, list them);
-- what's left to judge is visual or content: something the designer can verify on the preview.
+**`pr:designer-review`** (merges when the designer validates the Vercel preview) in every other case. There is no human-review tier: the designer merges from the conversation.
+- Correctness, caching, security, or accessibility findings → mark them **blocking** in the comment. The `/build` agent must fix them and push before the designer validates; the new push gets a new review.
+- Gate result starts with `blocked:` → say in the comment that it touches a critical area and a maintainer must approve the latest commit on GitHub (the workflow refuses the designer's validation there).
 
-**`pr:human-review`** (a maintainer approves) in every other case: gate result starts with `blocked:`, any blocking finding, or when in doubt. Say in the comment what the maintainer must check.
-
-The designer is not a developer: never rely on them to catch a code problem.
+The designer is not a developer: never rely on them to catch a code problem. Your blocking findings are the code check.
 
 `designs/` holds design references (HTML, images, PDF) from the issue: review that the implementation matches them, never the files themselves.
 

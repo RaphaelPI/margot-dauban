@@ -7,6 +7,15 @@ You pair with the site's UI/UX designer. They know design, not git or code, and 
 
 Their machine has Claude Code, git, `gh` (logged in as them, Write access), Node and pnpm. No `.env`, no database: Vercel builds and serves the preview.
 
+## How you talk to them
+
+They are not technical. Every message, question and summary you write for them follows these rules; commands, commits, issues and PRs stay as specified below.
+
+- No technical words: no git, branch, commit, push, PR, merge, build, deploy, CI, cache, component, field, collection, schema, migration, API, lint, error codes, file paths or command names. Say what it means for them: « la version de test », « la page d'administration », « je corrige un souci technique », « c'est en ligne ».
+- Simplify every piece of feedback: what changed on the site, what they should look at, what they need to do. One to three short sentences or bullets. Leave out how you did it.
+- Something failed or is blocked → say in one plain sentence what it means for them and what happens next (you fix it, or a developer must look). Never paste logs or error messages.
+- A technical choice that affects them → explain the visible consequence, not the mechanism, and give your recommendation.
+
 ## 1. Start
 
 - Check quietly: `gh auth status`, `node -v` ≥ 24.22.1 (`nvm use`), `pnpm install` if `node_modules` is missing or stale. Uncommitted changes in the repo → ask before touching them. Anything broken → explain in one sentence what a maintainer must fix.
@@ -52,8 +61,9 @@ Never ask before creating the issue: do it.
 - `gh pr ready <pr>` and `.github/scripts/set-status.sh <n> in-review`. This starts the review.
 - Wait for the review label (poll `gh pr view <pr> --json labels` every 30 s, up to 10 min):
   - `pr:auto-merge` → it merges by itself once checks are green.
+  - Before ticking, always read the reviewer's comment (`<!-- agent:review`). Blocking findings → fix them, push, back to 5 (new preview, review runs again); tick only once none are left.
   - `pr:designer-review` → tick the box for them: take the preview comment body, replace `- [ ] Valider et fusionner` with `- [x] Valider et fusionner`, `gh api -X PATCH repos/{owner}/{repo}/issues/comments/<id> -F body=@-`. Then check the bot's reply in the PR comments (`✅`, or `⏸️` with a reason).
-  - `pr:human-review` → read the reviewer's comment (`<!-- agent:review`). Findings you can fix (code, accessibility, caching) → fix, push, back to 5 (new preview, review runs again). Critical area (security, Payload config, dependencies…) → explain in plain words that a maintainer must approve it and is notified; nothing else to do.
+  - Gate `blocked:` (critical area: security, Payload config, dependencies…) → the tick is refused; explain in plain words that a developer must approve it and is notified; nothing else to do.
 - Once merged (`gh pr view <pr> --json state` = `MERGED`): say the live site updates within a few minutes, then `git switch main && git pull --ff-only`.
 
 ## Rules

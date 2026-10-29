@@ -57,4 +57,4 @@ Needed so agent label changes and PRs trigger the next workflows.
 ## 6. People
 
 - Designer (one-time, done by a maintainer on their machine): GitHub account added to the repo with **Write** access; install Claude Code (desktop app or VS Code extension), git, `gh`, Node 24 via nvm and pnpm (corepack); `gh auth login` with **their** account, clone the repo, `pnpm install`, accept the **ponytail** plugin prompt. No `.env`, no database credentials: previews are built by Vercel. After that they only use `/build` and never need github.com (see `docs/designer-guide.md`).
-- Maintainers: approve plans, review `pr:human-review` PRs.
+- Maintainers: approve plans, approve PRs touching critical areas (gate `blocked`, see `docs/agentic-workflow.md`).

@@ -71,11 +71,9 @@ jobs:
           head=$(gh pr view "$PR" --json headRefOid --jq .headRefOid)
           [[ $approved == "$head" ]] || refuse "une nouvelle version est en cours de déploiement, attends le nouvel aperçu."
           labels=$(gh pr view "$PR" --json labels --jq '.labels[].name')
-          grep -qx pr:human-review <<<"$labels" &&
-            refuse "cette modification touche une partie technique sensible : un mainteneur doit l'approuver (voir le commentaire de relecture)."
           grep -qxE 'pr:(auto-merge|designer-review)' <<<"$labels" ||
             refuse "l'analyse de la PR n'est pas terminée, réessaie dans quelques minutes."
           result=$(.github/scripts/pr-gate.sh "$PR")
-          [[ $result == blocked* ]] && refuse "un mainteneur doit approuver ($result)."
+          [[ $result == blocked* ]] && refuse "cette modification touche une partie technique sensible : un mainteneur doit l'approuver ($result)."
           gh pr edit "$PR" --add-label pr:designer-approved
           gh pr comment "$PR" --body "✅ Validé par @$SENDER. Fusion automatique dès que les vérifications sont vertes, puis mise en ligne."
