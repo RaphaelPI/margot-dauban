@@ -1,0 +1,235 @@
+# Issue state machine. Each status:* label added to an issue starts the matching agent.
+# Labels are written with the agent GitHub App token: events created with GITHUB_TOKEN
+# do not trigger workflows, so the chain would stop after the first step.
+# Comment edits catch the "Approve plan" box ticked in a plan comment (job develop).
+name: agent-issue
+
+on:
+  issues:
+    types: [labeled, edited]
+  issue_comment:
+    types: [edited]
+
+permissions:
+  contents: read
+
+env:
+  ISSUE: ${{ github.event.issue.number }}
+  RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+  PONYTAIL_MARKETPLACE: https://github.com/DietrichGebert/ponytail.git
+
+jobs:
+  # PO edited an issue the triage agent bounced: triage again.
+  retriage:
+    if: >-
+      github.event_name == 'issues' &&
+      github.event.action == 'edited' &&
+      github.event.sender.type != 'Bot' &&
+      contains(github.event.issue.labels.*.name, 'status:needs-info')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/create-github-app-token@v2
+        id: app
+        with:
+          app-id: ${{ vars.AGENT_APP_ID }}
+          private-key: ${{ secrets.AGENT_APP_PRIVATE_KEY }}
+      - uses: actions/checkout@v5
+      - run: .github/scripts/set-status.sh "$ISSUE" needs-triage
+        env:
+          GH_TOKEN: ${{ steps.app.outputs.token }}
+
+  triage:
+    if: github.event.action == 'labeled' && github.event.label.name == 'status:needs-triage'
+    # Job-level, not workflow-level: no-op label events (in-progress, in-review…)
+    # must not queue in this group, where a newer pending run replaces an older one.
+    concurrency:
+      group: issue-${{ github.event.issue.number }}
+      cancel-in-progress: false
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/create-github-app-token@v2
+        id: app
+        with:
+          app-id: ${{ vars.AGENT_APP_ID }}
+          private-key: ${{ secrets.AGENT_APP_PRIVATE_KEY }}
+      - uses: actions/checkout@v5
+      # "Draft" box checked: park the issue, consume the box so the next
+      # status:needs-triage (added by a human when ready) runs for real.
+      - name: Draft check
+        id: draft
+        env:
+          GH_TOKEN: ${{ steps.app.outputs.token }}
+        run: |
+          body=$(gh issue view "$ISSUE" --json body --jq .body)
+          if grep -qE "^- \[[xX]\] Draft:" <<<"$body"; then
+            sed -E "s/^- \[[xX]\] Draft:/- [ ] Draft:/" <<<"$body" | gh issue edit "$ISSUE" --body-file -
+            .github/scripts/set-status.sh "$ISSUE" draft
+            echo "parked=true" >> "$GITHUB_OUTPUT"
+          fi
+      - if: steps.draft.outputs.parked != 'true'
+        uses: anthropics/claude-code-action@v1
+        with:
+          # Claude subscription token if set (claude setup-token), else API key.
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          anthropic_api_key: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN == '' && secrets.ANTHROPIC_API_KEY || '' }}
+          show_full_output: ${{ vars.CLAUDE_DEBUG == 'true' }}
+          github_token: ${{ steps.app.outputs.token }}
+          allowed_bots: ${{ vars.AGENT_APP_SLUG }}[bot]
+          prompt: |
+            You are the triage agent. Read .claude/agents/triage.md and follow it exactly.
+            Repository: ${{ github.repository }}. Issue: #${{ env.ISSUE }}.
+          claude_args: |
+            --model ${{ vars.CLAUDE_MODEL_TRIAGE || 'claude-sonnet-5-5' }}
+            --max-turns 25
+            --allowedTools "Read,Glob,Grep,Bash(gh issue view:*),Bash(gh issue edit:*),Bash(gh issue comment:*),Bash(.github/scripts/set-status.sh:*)"
+      - if: failure()
+        run: |
+          .github/scripts/set-status.sh "$ISSUE" blocked
+          gh issue comment "$ISSUE" --body "⚠️ Triage agent failed: $RUN_URL"
+        env:
+          GH_TOKEN: ${{ steps.app.outputs.token }}
+
+  plan:
+    if: github.event.action == 'labeled' && github.event.label.name == 'status:needs-plan'
+    # Job-level, not workflow-level: no-op label events (in-progress, in-review…)
+    # must not queue in this group, where a newer pending run replaces an older one.
+    concurrency:
+      group: issue-${{ github.event.issue.number }}
+      cancel-in-progress: false
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/create-github-app-token@v2
+        id: app
+        with:
+          app-id: ${{ vars.AGENT_APP_ID }}
+          private-key: ${{ secrets.AGENT_APP_PRIVATE_KEY }}
+      - uses: actions/checkout@v5
+      - uses: anthropics/claude-code-action@v1
+        with:
+          # Claude subscription token if set (claude setup-token), else API key.
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          anthropic_api_key: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN == '' && secrets.ANTHROPIC_API_KEY || '' }}
+          show_full_output: ${{ vars.CLAUDE_DEBUG == 'true' }}
+          github_token: ${{ steps.app.outputs.token }}
+          allowed_bots: ${{ vars.AGENT_APP_SLUG }}[bot]
+          plugin_marketplaces: ${{ env.PONYTAIL_MARKETPLACE }}
+          plugins: ponytail@ponytail
+          prompt: |
+            You are the architect agent. Read .claude/agents/architect.md and follow it exactly.
+            Repository: ${{ github.repository }}. Issue: #${{ env.ISSUE }}.
+          claude_args: |
+            --model ${{ vars.CLAUDE_MODEL_PLAN || 'claude-sonnet-5-5' }}
+            --max-turns 40
+            --allowedTools "Read,Glob,Grep,Bash(gh issue view:*),Bash(gh issue comment:*),Bash(.github/scripts/set-status.sh:*)"
+      - if: failure()
+        run: |
+          .github/scripts/set-status.sh "$ISSUE" blocked
+          gh issue comment "$ISSUE" --body "⚠️ Architect agent failed: $RUN_URL"
+        env:
+          GH_TOKEN: ${{ steps.app.outputs.token }}
+
+  # Starts on status:agent-ready, or on the "Approve plan" box ticked in a plan comment.
+  develop:
+    if: >-
+      (github.event.action == 'labeled' && github.event.label.name == 'status:agent-ready') ||
+      (github.event_name == 'issue_comment' &&
+       contains(github.event.issue.labels.*.name, 'status:plan-review') &&
+       startsWith(github.event.comment.body, '<!-- agent:plan') &&
+       contains(github.event.changes.body.from, '- [ ] Approve plan and start dev') &&
+       contains(github.event.comment.body, '- [x] Approve plan and start dev'))
+    # Job-level, not workflow-level: no-op label events (in-progress, in-review…)
+    # must not queue in this group, where a newer pending run replaces an older one.
+    concurrency:
+      group: issue-${{ github.event.issue.number }}
+      cancel-in-progress: false
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/create-github-app-token@v2
+        id: app
+        with:
+          app-id: ${{ vars.AGENT_APP_ID }}
+          private-key: ${{ secrets.AGENT_APP_PRIVATE_KEY }}
+      - uses: actions/checkout@v5
+        with:
+          ref: main
+          token: ${{ steps.app.outputs.token }}
+
+      # Only humans with write access approve plans. A bot may start dev only when
+      # no plan was requested or written, and the issue comes from a repo member.
+      # Sender = whoever added the label or ticked the box.
+      - name: Approval guard
+        id: guard
+        env:
+          GH_TOKEN: ${{ steps.app.outputs.token }}
+          REPO: ${{ github.repository }}
+          EVENT: ${{ github.event_name }}
+          COMMENT_ID: ${{ github.event.comment.id }}
+          SENDER: ${{ github.event.sender.login }}
+          SENDER_TYPE: ${{ github.event.sender.type }}
+          AUTHOR_ASSOC: ${{ github.event.issue.author_association }}
+        run: |
+          reject() {
+            .github/scripts/set-status.sh "$ISSUE" "$1"
+            gh issue comment "$ISSUE" --body "🛑 Dev start refused: $2"
+            echo "ok=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          }
+          if [[ $EVENT == issue_comment ]]; then
+            latest=$(gh api "repos/$REPO/issues/$ISSUE/comments" --paginate \
+              --jq '.[] | select(.body | startswith("<!-- agent:plan")) | .id' | tail -1)
+            [[ $latest == "$COMMENT_ID" ]] || reject plan-review "only the latest plan can be approved."
+          fi
+          if [[ $SENDER_TYPE == Bot ]]; then
+            plans=$(gh api "repos/$REPO/issues/$ISSUE/comments" --paginate \
+              --jq '.[] | select(.body | contains("<!-- agent:plan")) | .id' | wc -l)
+            wants=$(gh issue view "$ISSUE" --json body --jq '.body | test("- \\[[xX]\\] Validate plan before dev")')
+            ((plans > 0)) && reject plan-review "a plan exists, a human must approve it."
+            [[ $wants == true ]] && reject needs-plan "plan validation was requested."
+            [[ $AUTHOR_ASSOC =~ ^(OWNER|MEMBER|COLLABORATOR)$ ]] || \
+              reject human-ready "issue author is not a repo member, a human must start dev."
+          else
+            perm=$(gh api "repos/$REPO/collaborators/$SENDER/permission" --jq .permission)
+            [[ $perm =~ ^(admin|maintain|write)$ ]] || reject plan-review "@$SENDER lacks write access."
+          fi
+          # No status:agent-ready here: added with the App token, it would re-run this job as a bot.
+          if [[ $EVENT == issue_comment ]]; then
+            gh issue comment "$ISSUE" --body "✅ Plan approved by @$SENDER, developer agent starting."
+          fi
+          .github/scripts/set-status.sh "$ISSUE" in-progress
+          echo "ok=true" >> "$GITHUB_OUTPUT"
+
+      - if: steps.guard.outputs.ok == 'true'
+        uses: ./.github/actions/setup
+      - if: steps.guard.outputs.ok == 'true'
+        uses: anthropics/claude-code-action@v1
+        env:
+          # Pages prerender at build: the agent's `pnpm build` reads the Atlas CI database.
+          DATABASE_URL: ${{ secrets.CI_DATABASE_URL }}
+          PAYLOAD_SECRET: ci-only-secret-not-used-anywhere-0000
+        with:
+          # Claude subscription token if set (claude setup-token), else API key.
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          anthropic_api_key: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN == '' && secrets.ANTHROPIC_API_KEY || '' }}
+          show_full_output: ${{ vars.CLAUDE_DEBUG == 'true' }}
+          github_token: ${{ steps.app.outputs.token }}
+          allowed_bots: ${{ vars.AGENT_APP_SLUG }}[bot]
+          plugin_marketplaces: ${{ env.PONYTAIL_MARKETPLACE }}
+          plugins: ponytail@ponytail
+          prompt: |
+            You are the developer agent. Read .claude/agents/developer.md and follow it exactly.
+            Repository: ${{ github.repository }}. Issue: #${{ env.ISSUE }}.
+          claude_args: |
+            --model ${{ vars.CLAUDE_MODEL_DEV || 'claude-sonnet-5-5' }}
+            --max-turns 120
+            --allowedTools "Read,Glob,Grep,Edit,Write,Bash(pnpm:*),Bash(git:*),Bash(gh issue view:*),Bash(gh issue comment:*),Bash(gh pr create:*),Bash(gh pr view:*),Bash(.github/scripts/set-status.sh:*)"
+      - if: failure()
+        run: |
+          .github/scripts/set-status.sh "$ISSUE" blocked
+          gh issue comment "$ISSUE" --body "⚠️ Developer agent failed: $RUN_URL"
+        env:
+          GH_TOKEN: ${{ steps.app.outputs.token }}

@@ -1,0 +1,139 @@
+# PRs into main: decide auto-merge vs human review, and enforce it.
+# `review-gate` must be a required status check on main. It only runs on label/review
+# events, so a fresh push leaves it missing (= merge blocked) until reclassified.
+name: agent-pr
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review, labeled, unlabeled]
+    branches: [main]
+  pull_request_review:
+    types: [submitted, dismissed]
+
+permissions:
+  contents: read
+  pull-requests: read
+
+env:
+  PR: ${{ github.event.pull_request.number }}
+
+jobs:
+  classify:
+    if: >-
+      github.event_name == 'pull_request' && !github.event.pull_request.draft &&
+      contains(fromJSON('["opened","synchronize","reopened","ready_for_review"]'), github.event.action)
+    concurrency:
+      group: classify-${{ github.event.pull_request.number }}
+      cancel-in-progress: true
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/create-github-app-token@v2
+        id: app
+        with:
+          app-id: ${{ vars.AGENT_APP_ID }}
+          private-key: ${{ secrets.AGENT_APP_PRIVATE_KEY }}
+      # Scripts and agent instructions come from the base branch, never from the PR.
+      - uses: actions/checkout@v5
+        with:
+          ref: ${{ github.event.pull_request.base.ref }}
+          fetch-depth: 0
+      - run: git fetch origin "pull/$PR/head:pr"
+      - name: Reset decision
+        id: gate
+        env:
+          GH_TOKEN: ${{ steps.app.outputs.token }}
+        run: |
+          gh pr merge "$PR" --disable-auto 2>/dev/null || true
+          gh pr edit "$PR" --remove-label pr:auto-merge --remove-label pr:human-review
+          echo "result=$(.github/scripts/pr-gate.sh "$PR")" >> "$GITHUB_OUTPUT"
+      - uses: anthropics/claude-code-action@v1
+        with:
+          # Claude subscription token if set (claude setup-token), else API key.
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          anthropic_api_key: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN == '' && secrets.ANTHROPIC_API_KEY || '' }}
+          show_full_output: ${{ vars.CLAUDE_DEBUG == 'true' }}
+          github_token: ${{ steps.app.outputs.token }}
+          allowed_bots: ${{ vars.AGENT_APP_SLUG }}[bot]
+          plugin_marketplaces: https://github.com/DietrichGebert/ponytail.git
+          plugins: ponytail@ponytail
+          prompt: |
+            You are the PR reviewer agent. Read .claude/agents/pr-reviewer.md and follow it exactly.
+            Repository: ${{ github.repository }}. PR: #${{ env.PR }}. Base branch checked out;
+            PR head fetched as local branch `pr` (diff: `git diff main...pr`).
+            Deterministic gate result: "${{ steps.gate.outputs.result }}".
+          claude_args: |
+            --model ${{ vars.CLAUDE_MODEL_REVIEW || 'claude-sonnet-5-5' }}
+            --max-turns 40
+            --allowedTools "Read,Glob,Grep,Bash(git diff:*),Bash(git log:*),Bash(git show:*),Bash(gh pr view:*),Bash(gh pr diff:*),Bash(gh pr comment:*),Bash(gh pr edit:*),Bash(gh issue view:*)"
+      - name: Fallback to human review
+        if: always()
+        env:
+          GH_TOKEN: ${{ steps.app.outputs.token }}
+        run: |
+          labels=$(gh pr view "$PR" --json labels --jq '.labels[].name')
+          grep -qE '^pr:(auto-merge|human-review)$' <<<"$labels" || gh pr edit "$PR" --add-label pr:human-review
+
+  review-gate:
+    if: >-
+      github.event_name == 'pull_request_review' ||
+      contains(fromJSON('["labeled","unlabeled"]'), github.event.action)
+    concurrency:
+      group: gate-${{ github.event.pull_request.number }}
+      cancel-in-progress: true
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: ${{ github.event.pull_request.base.ref }}
+      - env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          SHA: ${{ github.event.pull_request.head.sha }}
+        run: |
+          labels=$(gh pr view "$PR" --json labels --jq '.labels[].name')
+          approvals=$(gh api "repos/$REPO/pulls/$PR/reviews" --paginate \
+            --jq ".[] | select(.state == \"APPROVED\" and .commit_id == \"$SHA\" and .user.type == \"User\") | .id" | wc -l)
+          if ((approvals > 0)); then echo "Human approved."; exit 0; fi
+          if grep -qx pr:human-review <<<"$labels"; then
+            echo "::error::pr:human-review → needs a human approval on the latest commit."; exit 1
+          fi
+          if grep -qx pr:auto-merge <<<"$labels"; then
+            # Defense in depth: re-check the hard limits whoever set the label.
+            result=$(.github/scripts/pr-gate.sh "$PR")
+            [[ $result == eligible ]] && exit 0
+            echo "::error::pr:auto-merge not allowed: $result"; exit 1
+          fi
+          echo "::error::Not classified yet."; exit 1
+
+  auto-merge:
+    if: github.event.action == 'labeled' && github.event.label.name == 'pr:auto-merge'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/create-github-app-token@v2
+        id: app
+        with:
+          app-id: ${{ vars.AGENT_APP_ID }}
+          private-key: ${{ secrets.AGENT_APP_PRIVATE_KEY }}
+      - uses: actions/checkout@v5
+        with:
+          ref: ${{ github.event.pull_request.base.ref }}
+      - env:
+          GH_TOKEN: ${{ steps.app.outputs.token }}
+        run: |
+          method=--squash
+          gh pr merge "$PR" --auto $method && exit 0
+
+          # GitHub Free private repos have no auto-merge and no required checks:
+          # re-check the hard gate, wait for ci + pr-meta, then merge ourselves.
+          result=$(.github/scripts/pr-gate.sh "$PR")
+          [[ $result == eligible ]] || { echo "::error::Not eligible: $result"; exit 1; }
+          for _ in $(seq 80); do
+            buckets=$( (gh pr checks "$PR" --json name,bucket || true) |
+              jq -r '.[] | select(.name == "ci" or .name == "pr-meta") | .bucket')
+            grep -qE 'fail|cancel' <<<"$buckets" && { echo "::error::CI failed"; exit 1; }
+            [[ $(grep -c pass <<<"$buckets") -ge 2 ]] && exec gh pr merge "$PR" $method
+            sleep 20
+          done
+          echo "::error::Timed out waiting for CI"; exit 1

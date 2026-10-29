@@ -1,0 +1,102 @@
+[
+  {
+    "name": "type:feature",
+    "color": "1D76DB",
+    "description": "New user-facing capability"
+  },
+  {
+    "name": "type:bug",
+    "color": "D73A4A",
+    "description": "Something is broken"
+  },
+  {
+    "name": "type:improvement",
+    "color": "A2EEEF",
+    "description": "Enhance an existing feature"
+  },
+  {
+    "name": "type:perf",
+    "color": "FBCA04",
+    "description": "Speed, load, cost"
+  },
+  {
+    "name": "type:chore",
+    "color": "C5DEF5",
+    "description": "Tooling, deps, refactor. No user-visible change"
+  },
+  {
+    "name": "status:draft",
+    "color": "FFFFFF",
+    "description": "Parked. No agent runs. Add status:needs-triage to start"
+  },
+  {
+    "name": "status:needs-triage",
+    "color": "EDEDED",
+    "description": "Triage agent validates and routes"
+  },
+  {
+    "name": "status:needs-info",
+    "color": "D876E3",
+    "description": "Issue incomplete. PO edits issue to re-trigger triage"
+  },
+  {
+    "name": "status:needs-plan",
+    "color": "5319E7",
+    "description": "Architect agent writes an implementation plan"
+  },
+  {
+    "name": "status:plan-review",
+    "color": "FBCA04",
+    "description": "Plan posted. Human approves or requests changes"
+  },
+  {
+    "name": "status:agent-ready",
+    "color": "0E8A16",
+    "description": "Developer agent implements"
+  },
+  {
+    "name": "status:human-ready",
+    "color": "006B75",
+    "description": "Ready for a human developer"
+  },
+  {
+    "name": "status:in-progress",
+    "color": "0052CC",
+    "description": "Being implemented"
+  },
+  {
+    "name": "status:in-review",
+    "color": "BFD4F2",
+    "description": "PR open"
+  },
+  {
+    "name": "status:blocked",
+    "color": "B60205",
+    "description": "Agent failed or is stuck. Human needed"
+  },
+  {
+    "name": "pr:auto-merge",
+    "color": "0E8A16",
+    "description": "Low risk. Merges automatically when CI is green"
+  },
+  {
+    "name": "pr:human-review",
+    "color": "D93F0B",
+    "description": "Needs a human approval before merge"
+  },
+  {
+    "name": "priority:urgent",
+    "color": "B60205",
+    "description": "Live site broken"
+  },
+  {
+    "name": "security",
+    "color": "000000",
+    "description": "Security-sensitive. Forces plan + human review"
+  },
+  {
+    "name": "breaking-change",
+    "color": "E99695",
+    "description": "Breaks content or URLs. Forces plan + human review"
+  }
+]

@@ -1,0 +1,57 @@
+name: "🐛 Bug"
+description: "Quelque chose ne marche pas"
+labels: ["type:bug", "status:needs-triage"]
+body:
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: "Étape par étape."
+      value: |
+        1.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected
+      description: "Ce que tu attendais."
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual
+      description: "Ce qui s'est passé (message d'erreur exact si il y en a un)."
+    validations:
+      required: true
+  - type: dropdown
+    id: env
+    attributes:
+      label: Environment
+      options: [production, preview, admin, local]
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Evidence
+      description: "URL de la page, appareil et navigateur, capture ou vidéo (pas de mot de passe)."
+  - type: checkboxes
+    id: plan
+    attributes:
+      label: Options
+      options:
+        - label: Validate plan before dev
+        - label: "Draft: don't start agents yet"
+  - type: dropdown
+    id: implementer
+    attributes:
+      label: Implementer
+      description: agent = développé automatiquement · human = moi avec /build ou un développeur
+      options:
+        - agent
+        - human
+      default: 0
+    validations:
+      required: true

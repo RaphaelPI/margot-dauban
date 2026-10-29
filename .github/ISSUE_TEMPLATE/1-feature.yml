@@ -1,0 +1,58 @@
+name: "✨ Nouvelle fonctionnalité"
+description: "Une nouvelle section, page, interaction ou un nouveau type de contenu"
+labels: ["type:feature", "status:needs-triage"]
+body:
+  - type: textarea
+    id: context
+    attributes:
+      label: Context / problem
+      description: "Quel problème ça résout, pour qui ?"
+    validations:
+      required: true
+  - type: textarea
+    id: story
+    attributes:
+      label: User story
+      value: |
+        As a <visitor | recruiter | client | editor>, I want <capability>, so that <benefit>.
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance criteria
+      description: "Vérifiables. Un par ligne."
+      value: |
+        - [ ] Given ..., when ..., then ...
+    validations:
+      required: true
+  - type: textarea
+    id: out-of-scope
+    attributes:
+      label: Out of scope
+      description: "Ce qui ne fait pas partie de la demande."
+  - type: textarea
+    id: notes
+    attributes:
+      label: Design / content notes
+      description: "Lien Figma ou image, où ça apparaît, comportement mobile, ce qui doit être modifiable dans l'admin."
+    validations:
+      required: true
+  - type: checkboxes
+    id: plan
+    attributes:
+      label: Options
+      options:
+        - label: Validate plan before dev
+        - label: "Draft: don't start agents yet"
+  - type: dropdown
+    id: implementer
+    attributes:
+      label: Implementer
+      description: agent = développé automatiquement · human = moi avec /build ou un développeur
+      options:
+        - agent
+        - human
+      default: 0
+    validations:
+      required: true

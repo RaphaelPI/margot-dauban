@@ -1,0 +1,50 @@
+name: ci
+
+on:
+  pull_request:
+
+concurrency:
+  group: ci-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    # Pages prerender at build and read the database: Atlas `margot-ci` (throwaway content).
+    env:
+      DATABASE_URL: ${{ secrets.CI_DATABASE_URL }}
+      PAYLOAD_SECRET: ci-only-secret-not-used-anywhere-0000
+    steps:
+      - uses: actions/checkout@v5
+      - uses: ./.github/actions/setup
+      - run: pnpm lint
+      - run: pnpm typecheck
+      - run: pnpm test
+      - run: pnpm build
+      - name: Generated Payload files are up to date
+        run: |
+          pnpm generate
+          git diff --exit-code -- src/payload-types.ts 'src/app/(payload)/admin/importMap.js' || {
+            echo "::error::Content model changed without regenerating. Run pnpm generate and commit."
+            exit 1
+          }
+
+  pr-meta:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Conventional title + linked issue
+        env:
+          TITLE: ${{ github.event.pull_request.title }}
+          BODY: ${{ github.event.pull_request.body }}
+        run: |
+          [[ $TITLE =~ ^(feat|fix|perf|refactor|chore|docs|test|ci|build|revert)(\(.+\))?!?:\ .+ ]] || {
+            echo "::error::PR title must follow Conventional Commits, e.g. 'feat(projects): add gallery'"
+            exit 1
+          }
+          grep -qiE '(closes|fixes|resolves) #[0-9]+' <<<"$BODY" || {
+            echo "::error::PR must link its issue: 'Closes #123'"
+            exit 1
+          }

@@ -1,0 +1,42 @@
+name: "⚡ Performance"
+description: "Trop lent, trop lourd"
+labels: ["type:perf", "status:needs-triage"]
+body:
+  - type: textarea
+    id: where
+    attributes:
+      label: Where
+      description: "Page ou action."
+    validations:
+      required: true
+  - type: textarea
+    id: current
+    attributes:
+      label: Current measurement
+      description: "Chiffre + comment il a été mesuré (ex. « Lighthouse mobile 54 sur la page projet »)."
+    validations:
+      required: true
+  - type: input
+    id: target
+    attributes:
+      label: Target
+    validations:
+      required: true
+  - type: checkboxes
+    id: plan
+    attributes:
+      label: Options
+      options:
+        - label: Validate plan before dev
+        - label: "Draft: don't start agents yet"
+  - type: dropdown
+    id: implementer
+    attributes:
+      label: Implementer
+      description: agent = développé automatiquement · human = moi avec /build ou un développeur
+      options:
+        - agent
+        - human
+      default: 0
+    validations:
+      required: true

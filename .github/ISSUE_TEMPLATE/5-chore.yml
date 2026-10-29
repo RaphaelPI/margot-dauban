@@ -1,0 +1,34 @@
+name: "🧹 Technique"
+description: "Outillage, dépendances, refactor. Aucun changement visible"
+labels: ["type:chore", "status:needs-triage"]
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: What and why
+    validations:
+      required: true
+  - type: textarea
+    id: done
+    attributes:
+      label: Done when
+    validations:
+      required: true
+  - type: checkboxes
+    id: plan
+    attributes:
+      label: Options
+      options:
+        - label: Validate plan before dev
+        - label: "Draft: don't start agents yet"
+  - type: dropdown
+    id: implementer
+    attributes:
+      label: Implementer
+      description: agent = développé automatiquement · human = moi avec /build ou un développeur
+      options:
+        - agent
+        - human
+      default: 0
+    validations:
+      required: true
