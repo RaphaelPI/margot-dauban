@@ -12,6 +12,8 @@ Aller sur `https://<le-site>/admin` (site en ligne).
 | Créer une page (À propos, Services…)                            | **Pages** → Créer. Elle sera visible à `/<slug>`                                                                    |
 | Changer le nom du site, l'accroche, l'intro, l'email, les liens | **Réglages du site**                                                                                                |
 | Remplacer une image                                             | **Médias**                                                                                                          |
+| Changer le témoignage de l'accueil                              | **Accueil** → Témoignage (vide = bloc masqué)                                                                       |
+| Mettre une animation sur une expertise                          | **Expertises** → l'expertise → Animation : déposer le fichier Lottie (.json)                                        |
 
 - **Brouillon / Publier** : tant que ce n'est pas publié, rien n'apparaît sur le site. Publier = visible à la prochaine visite (quelques secondes).
 - L'admin d'une **preview** (lien Vercel d'une PR) utilise une base de test : ce qu'on y saisit n'arrive jamais sur le site en ligne.
