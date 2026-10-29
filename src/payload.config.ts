@@ -12,7 +12,6 @@ import { Media } from './collections/Media'
 import { Pages } from './collections/Pages'
 import { Projects } from './collections/Projects'
 import { Services } from './collections/Services'
-import { Testimonials } from './collections/Testimonials'
 import { Users } from './collections/Users'
 import { Home } from './globals/Home'
 import { Settings } from './globals/Settings'
@@ -28,7 +27,7 @@ export default buildConfig({
     importMap: { baseDir: path.resolve(dirname) },
   },
   i18n: { supportedLanguages: { fr }, fallbackLanguage: 'fr' },
-  collections: [Projects, Testimonials, Clients, Services, Faqs, Pages, Media, Users].map(withRevalidation),
+  collections: [Projects, Clients, Services, Faqs, Pages, Media, Users].map(withRevalidation),
   globals: [Home, Settings].map(withGlobalRevalidation),
   editor: lexicalEditor(),
   secret: env.PAYLOAD_SECRET,

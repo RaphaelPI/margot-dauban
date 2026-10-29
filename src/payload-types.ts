@@ -68,7 +68,6 @@ export interface Config {
   blocks: {};
   collections: {
     projects: Project;
-    testimonials: Testimonial;
     clients: Client;
     services: Service;
     faqs: Faq;
@@ -83,7 +82,6 @@ export interface Config {
   collectionsJoins: {};
   collectionsSelect: {
     projects: ProjectsSelect<false> | ProjectsSelect<true>;
-    testimonials: TestimonialsSelect<false> | TestimonialsSelect<true>;
     clients: ClientsSelect<false> | ClientsSelect<true>;
     services: ServicesSelect<false> | ServicesSelect<true>;
     faqs: FaqsSelect<false> | FaqsSelect<true>;
@@ -306,26 +304,6 @@ export interface Media {
   focalY?: number | null;
 }
 /**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "testimonials".
- */
-export interface Testimonial {
-  id: string;
-  _order?: string | null;
-  quote: string;
-  /**
-   * Suite de la citation affichée en accent, idéalement celle qui parle du résultat.
-   */
-  highlight?: string | null;
-  authorName: string;
-  authorRole?: string | null;
-  company?: string | null;
-  photo?: (string | null) | Media;
-  project?: (string | null) | Project;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
  * Références affichées sur l'accueil (bandeau).
  *
  * This interface was referenced by `Config`'s JSON-Schema
@@ -489,10 +467,6 @@ export interface PayloadLockedDocument {
         value: string | Project;
       } | null)
     | ({
-        relationTo: 'testimonials';
-        value: string | Testimonial;
-      } | null)
-    | ({
         relationTo: 'clients';
         value: string | Client;
       } | null)
@@ -612,22 +586,6 @@ export interface ProjectsSelect<T extends boolean = true> {
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "testimonials_select".
- */
-export interface TestimonialsSelect<T extends boolean = true> {
-  _order?: T;
-  quote?: T;
-  highlight?: T;
-  authorName?: T;
-  authorRole?: T;
-  company?: T;
-  photo?: T;
-  project?: T;
-  updatedAt?: T;
-  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -801,7 +759,6 @@ export interface Home {
      */
     items?: (string | Project)[] | null;
   };
-  testimonial?: (string | null) | Testimonial;
   expertise?: {
     title?: string | null;
     linkLabel?: string | null;
@@ -888,7 +845,6 @@ export interface HomeSelect<T extends boolean = true> {
         linkLabel?: T;
         items?: T;
       };
-  testimonial?: T;
   expertise?:
     | T
     | {

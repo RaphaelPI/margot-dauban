@@ -2,7 +2,6 @@ import Link from 'next/link'
 import { ClientName } from '@/components/models/client-name'
 import { ProjectCard } from '@/components/models/project-card'
 import { ServiceCard } from '@/components/models/service-card'
-import { TestimonialQuote } from '@/components/models/testimonial-quote'
 import { Button } from '@/components/ui/button'
 import { getClientIds, getFeaturedProjectIds, getHomeServiceIds } from '@/data/ids'
 import { getHome } from '@/data/settings'
@@ -78,12 +77,6 @@ export default async function HomePage() {
           <p className="text-muted-foreground">Aucun projet publié pour le moment.</p>
         )}
       </section>
-
-      {home.testimonial ? (
-        <section id="temoignages" aria-label="Témoignage">
-          <TestimonialQuote id={asId(home.testimonial)} />
-        </section>
-      ) : null}
 
       {serviceIds.length ? (
         <section aria-labelledby="expertises-titre" className="flex flex-col gap-8">

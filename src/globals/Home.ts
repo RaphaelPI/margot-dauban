@@ -74,12 +74,6 @@ export const Home: GlobalConfig = {
       ],
     },
     {
-      name: 'testimonial',
-      label: 'Témoignage affiché',
-      type: 'relationship',
-      relationTo: 'testimonials',
-    },
-    {
       name: 'expertise',
       label: 'Expertises',
       type: 'group',
