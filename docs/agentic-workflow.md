@@ -83,9 +83,9 @@ The designer can attach a design (zip exported from a design tool or Claude, HTM
 
 `.claude/agents/designer.md`, started with `/build` (or `claude --agent designer`). The designer's only entry point, in French. They never open github.com: their `gh` is logged in as them once at setup, and Claude does every GitHub action on their behalf. No `.env` or database on their machine.
 
-1. **Need**: questions from `docs/intake-questions.md`, optional design file (D1), short plan validated in the chat. Content-only needs are redirected to the admin.
-2. **Issue + branch + draft PR**: issue with `status:in-progress` (CI agents stay off), branch `feat/<n>-<slug>`, design files committed, draft PR into `main` on the first push.
-3. **Iterate on the preview**: each change → lint/typecheck/test → push → the preview comment for that commit → Claude gives the **Vercel URL** in the chat. Feedback → next push. They can stop and resume later (« Reprendre une demande en cours »), which also works for PRs made by the CI agents.
+1. **Need**: questions from `docs/intake-questions.md`, optional design file (D1), short summary in the chat (no validation step). Content-only needs are redirected to the admin.
+2. **Issue + branch + draft PR**, created without asking: issue with `status:in-progress` (CI agents stay off), branch `feat/<n>-<slug>`, design files committed, draft PR into `main` on the first push.
+3. **Iterate on the preview**: each change → lint/typecheck/test → push → the preview comment for that commit → Claude gives the **Vercel URL** in the chat. Anything but « C'est bon » → wait for their instructions, then next push. They can stop and resume later (« Reprendre une demande en cours »), which also works for PRs made by the CI agents.
 4. **« C'est bon »**: `gh pr ready` → reviewer classifies → `pr:designer-review`: Claude ticks « Valider et fusionner » as them; `pr:human-review`: Claude fixes the findings it can (new preview, new review) or explains that a maintainer must approve. Merged → live.
 
 ## PR review and merge
