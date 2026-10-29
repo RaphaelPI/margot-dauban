@@ -25,7 +25,7 @@ body=$(cat <<MD
 <!-- agent:preview sha=$SHA -->
 ### 👀 Aperçu de cette version
 
-**$URL**
+**[Ouvrir l'aperçu]($URL)**
 
 Vérifie le rendu sur ordinateur et sur mobile. Si c'est bon pour toi :
 
@@ -41,5 +41,5 @@ if [[ -n $existing ]]; then
 else
   gh pr comment "$pr" --body "$body"
   issue=$(gh pr view "$pr" --json body --jq .body | grep -oiE '(closes|fixes|resolves) #[0-9]+' | head -1 | grep -oE '[0-9]+' || true)
-  [[ -z $issue ]] || gh issue comment "$issue" --body "👀 Aperçu prêt : $URL — à valider dans la PR #$pr."
+  [[ -z $issue ]] || gh issue comment "$issue" --body "👀 [Aperçu prêt]($URL) — à valider dans la PR #$pr."
 fi
