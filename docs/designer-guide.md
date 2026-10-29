@@ -1,6 +1,6 @@
 # Guide designer
 
-Trois façons de faire évoluer le site, de la plus simple à la plus technique.
+Deux façons de faire évoluer le site : le contenu dans l'admin, tout le reste avec Claude.
 
 ## 1. Ajouter ou modifier du contenu → l'admin
 
@@ -16,41 +16,24 @@ Aller sur `https://<le-site>/admin` (site en ligne).
 - **Brouillon / Publier** : tant que ce n'est pas publié, rien n'apparaît sur le site. Publier = visible à la prochaine visite (quelques secondes).
 - L'admin d'une **preview** (lien Vercel d'une PR) utilise une base de test : ce qu'on y saisit n'arrive jamais sur le site en ligne.
 
-Besoin d'un **nouveau type de contenu** (ex. « Témoignages », un champ « Vidéo » sur les projets, un bloc « Chiffres clés ») ? C'est une fonctionnalité → 2 ou 3.
+Besoin d'un **nouveau type de contenu** (ex. « Témoignages », un champ « Vidéo » sur les projets, un bloc « Chiffres clés ») ? C'est une fonctionnalité → 2.
 
-## 2. Demander une fonctionnalité ou signaler un bug → `/request`
+## 2. Faire évoluer le site → `/build`
 
-Dans Claude Code, taper `/request`. Claude pose des questions (choix cliquables + réponses libres) et te propose de **joindre un fichier de design** : zip exporté (de Claude ou d'un outil de design), page HTML, captures PNG, PDF. Glisse-le dans la conversation. Ce n'est pas obligatoire, mais un fichier vaut mille mots : Claude le lit et pose moins de questions. Il montre ensuite le ticket et le crée sur GitHub, avec ton fichier rangé à côté. Puis des agents automatiques :
+Une nouvelle section, un nouveau design, un bug, une idée : tout passe par `/build` dans Claude Code, ouvert sur ce dépôt. Tu n'as jamais besoin d'aller sur GitHub.
 
-1. vérifient le ticket et posent des questions en commentaire si besoin → **répondre en modifiant le ticket** (pas en commentaire) ;
-2. si demandé, proposent un plan → cocher **Approve plan and start dev** pour lancer ;
-3. développent et ouvrent une PR → tu reçois un **lien d'aperçu** (sur le ticket et la PR).
+1. **Tu expliques** : Claude pose quelques questions (choix cliquables + réponses libres) et te propose de **joindre un fichier de design** : zip exporté (de Claude ou d'un outil de design), page HTML, captures PNG, PDF, lien Figma. Glisse-le dans la conversation. Pas obligatoire, mais un fichier vaut mille mots.
+2. **Il propose un plan** en mots simples → tu valides.
+3. **Il construit et publie un aperçu** : quelques minutes plus tard, il te donne un **lien d'aperçu** : le vrai site avec la modification, sur une adresse à part (le site en ligne n'est pas touché). Vérifie sur ordinateur **et** sur mobile.
+4. **Tu commentes dans la conversation** (« plus d'air entre les cartes », « le titre trop gros sur mobile », une capture…) → il ajuste et te donne le nouveau lien. Autant de tours que nécessaire.
+5. **« C'est bon »** → il lance la relecture automatique puis met en ligne. Si une partie technique sensible doit d'abord être vérifiée par un développeur, il te le dit.
 
-Sans Claude Code : GitHub → Issues → New issue → choisir un formulaire (« Avec mes mots » si tu ne sais pas lequel). On peut y glisser des captures ou un lien Figma.
+Tu peux t'arrêter à tout moment (« je regarde plus tard ») et reprendre avec `/build` → « Reprendre une demande en cours ». Ça marche aussi pour valider une modification préparée par les agents automatiques.
 
-## 3. Construire soi-même avec Claude → `/build`
+Astuces : décris le ressenti autant que le détail, demande « montre-moi deux variantes », compare avec ta maquette.
 
-Pour itérer en direct sur le design. Dans Claude Code, ouvert sur ce dépôt, taper `/build` :
+À noter : l'admin d'un lien d'aperçu utilise une base de test. Ce que tu y saisis n'arrive jamais sur le site en ligne.
 
-1. Claude demande quel ticket (ou en crée un avec toi) et ton fichier de design s'il y en a un ;
-2. te dit ce qu'il voit dans le fichier, propose un plan en mots simples → tu valides ;
-3. code, lance le site en local et te donne l'adresse (`http://localhost:3000`) → tu regardes, tu commentes, il ajuste ;
-4. quand c'est bon, il ouvre la PR et te donne le **lien d'aperçu**.
+## Préparer son poste (une fois, avec un mainteneur)
 
-Tu n'as pas besoin de connaître git. Rien ne part en ligne sans ta validation ou celle d'un mainteneur.
-
-Astuces : envoie une capture ou un lien Figma, décris le ressenti (« plus aéré », « hiérarchie plus forte sur le titre »), demande « montre-moi deux variantes ».
-
-## 4. Valider et mettre en ligne
-
-Chaque fonctionnalité a sa PR et son **lien d'aperçu** : le vrai site avec la modification, sur une adresse à part. Le lien est mis à jour à chaque nouvelle version.
-
-1. Ouvre le lien, vérifie sur ordinateur **et** sur mobile (il faut peut-être être connectée ou connecté à Vercel).
-2. Si c'est bon : coche **Valider et fusionner** dans le commentaire « Aperçu » de la PR. Ou dis-le à Claude dans `/build` (→ « Valider une PR »), il coche pour toi.
-3. La PR fusionne dès que les vérifications automatiques sont vertes, et le site en ligne est à jour quelques minutes après.
-
-Si la case se décoche toute seule, lis le message du robot : soit une nouvelle version arrive (attends le nouveau lien), soit la modification touche une partie technique sensible et un mainteneur doit d'abord l'approuver. Les toutes petites modifications sûres (un texte, une couleur) peuvent aussi fusionner seules.
-
-## Préparer son poste (une fois)
-
-Installer Claude Code, Node 24, pnpm et `gh` (GitHub CLI), puis `gh auth login`, cloner le dépôt, `pnpm install`, `cp .env.example .env` et demander les valeurs à un mainteneur. `/build` vérifie le reste.
+Un mainteneur installe Claude Code, git, GitHub CLI, Node et pnpm, connecte ton compte GitHub une fois (`gh auth login`), récupère le projet et l'ouvre dans Claude Code. Ensuite tu n'utilises plus que `/build`.

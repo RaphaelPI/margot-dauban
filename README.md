@@ -8,7 +8,7 @@ Portfolio of a freelance UI/UX designer, built by humans and agents. Content is 
 nvm use                       # Node 24 (≥ 24.22.1)
 pnpm install
 cp .env.example .env          # DATABASE_URL = Atlas preview URL, PAYLOAD_SECRET: openssl rand -base64 32
-pnpm dev                      # site http://localhost:3000, admin http://localhost:3000/admin
+pnpm dev                      # maintainers: site http://localhost:3000, admin /admin (needs .env)
 ```
 
 First visit to `/admin` creates the first user.
@@ -17,8 +17,7 @@ First visit to `/admin` creates the first user.
 
 | Command    | What                                                                                    |
 | ---------- | --------------------------------------------------------------------------------------- |
-| `/request` | Describe a need (feature, bug, change) → guided questions → GitHub issue for the agents |
-| `/build`   | Build a feature or fix yourself, with Claude, on your machine → PR with a preview link  |
+| `/build` | The designer's only entry point: describe a need (+ optional design file) → issue + PR → iterate on the Vercel preview in the chat → « c'est bon » = merged and live |
 
 ## Docs
 
@@ -29,7 +28,7 @@ First visit to `/admin` creates the first user.
 | [docs/agentic-workflow.md](docs/agentic-workflow.md) | How issues flow through agents, plan approval, auto-merge      |
 | [docs/labels.md](docs/labels.md)                     | Every label and who sets it                                    |
 | [docs/issue-format.md](docs/issue-format.md)         | Issue formats and the checklists triage enforces               |
-| [docs/intake-questions.md](docs/intake-questions.md) | Questions asked by `/request` (single source)                  |
+| [docs/intake-questions.md](docs/intake-questions.md) | Questions asked by `/build` (single source)                  |
 | [docs/git-flow.md](docs/git-flow.md)                 | Branches, PR rules, deploys, content model changes             |
 | [docs/setup.md](docs/setup.md)                       | One-time GitHub / Vercel / Atlas / S3 setup                    |
 | [docs/decisions.md](docs/decisions.md)               | Decision log (why things are this way)                         |

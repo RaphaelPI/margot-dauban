@@ -1,6 +1,6 @@
 # Intake questions
 
-Single source of the questions asked to the designer. Used by the **intake** agent (`/request`), the **designer** agent (`/build`, when no issue exists), and the triage agent (checks the answers are in the issue). **Edit questions here only.** Ask them in French; options below are the French labels to show.
+Single source of the questions asked to the designer. Used by the **designer** agent (`/build`) and the triage agent (checks the answers are in the issue). **Edit questions here only.** Ask them in French; options below are the French labels to show.
 
 ## Rules for whoever asks
 
@@ -76,13 +76,3 @@ Single source of the questions asked to the designer. Used by the **intake** age
 | --- | ------------------------------------- | ----- | ------ |
 | C1  | Quoi et pourquoi ?                    | Must  | Open   |
 | C2  | Comment vérifie-t-on que c'est fait ? | Must  | Open   |
-
-## Options (always last, one clickable batch — `/request` only)
-
-| #   | Question                                           | Answer                                                         |
-| --- | -------------------------------------------------- | -------------------------------------------------------------- |
-| O1  | Valider le plan technique avant le développement ? | Choice: Non · Oui                                              |
-| O2  | Qui développe ?                                    | Choice: Agent (automatique) · Moi avec /build · Un développeur |
-| O3  | Lancer maintenant ou garder en brouillon ?         | Choice: Lancer maintenant · Garder en brouillon                |
-
-O2 mapping: Agent → `Implementer: agent`; Moi avec /build or Un développeur → `Implementer: human`.

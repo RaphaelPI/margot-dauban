@@ -4,8 +4,8 @@ Two ways to ship a change, same rules (`CLAUDE.md`), same PR review:
 
 | Path            | Who codes                                   | Entry                                  |
 | --------------- | ------------------------------------------- | -------------------------------------- |
-| **CI agents**   | Claude in GitHub Actions                    | an issue (`/request` or an issue form) |
-| **Local build** | The designer + Claude Code on their machine | `/build`                               |
+| **CI agents** | Claude in GitHub Actions | an issue from a maintainer (issue form) |
+| **`/build`** | Claude Code on the designer's machine, iterating with them on the Vercel preview | the designer, in conversation (never on github.com) |
 
 Content (projects, pages, media, site settings) needs neither: it is edited in the Payload admin. A _new kind_ of content (new collection, new fields, new block) is a feature.
 
@@ -15,9 +15,8 @@ Issues move through `status:*` labels. Adding a label fires a GitHub Actions job
 
 ```mermaid
 stateDiagram-v2
-    [*] --> needs_triage: issue form / /request
-    [*] --> draft: /request (draft)
-    [*] --> in_progress: /build (local)
+    [*] --> needs_triage: issue form
+    [*] --> in_progress: /build (designer)
     needs_triage --> draft: Draft box checked
     draft --> needs_triage: human adds label
     needs_triage --> needs_info: triage: incomplete
@@ -36,18 +35,16 @@ stateDiagram-v2
     in_review --> [*]: designer validates preview<br/>(or auto / maintainer) → merged
 ```
 
-### 1. Intake — need → issue
+### 1. Intake — issue forms
 
-- **Claude Code — `/request`** (`.claude/agents/intake.md`, also `claude --agent intake`): guided questions from `docs/intake-questions.md`, clickable choices where possible, in French; shows the draft, asks the options, then `gh issue create`.
-- **GitHub issue forms** (`.github/ISSUE_TEMPLATE/`, in French): one per type, plus **« Avec mes mots »**: a free prompt the triage agent formats.
+Maintainers open issues with the GitHub issue forms (`.github/ISSUE_TEMPLATE/`, in French): one per type, plus **« Avec mes mots »**, a free prompt the triage agent formats. The designer doesn't use them: `/build` creates their issues.
 
 Every issue ends with the options `Validate plan before dev`, `Draft: don't start agents yet`, and `Implementer: agent | human`.
 
-| Create without starting agents             | Result                                                       |
-| ------------------------------------------ | ------------------------------------------------------------ |
-| Form with **Draft** box checked            | Triage job unchecks it, sets `status:draft` (no Claude call) |
-| `/request` → "Keep as draft"               | Created with `status:draft`                                  |
-| `gh issue create` with no `status:*` label | Nothing runs                                                 |
+| Create without starting agents | Result |
+|---|---|
+| Form with **Draft** box checked | Triage job unchecks it, sets `status:draft` (no Claude call) |
+| `gh issue create` with no `status:*` label | Nothing runs |
 
 Start later: add `status:needs-triage`. Stop a running flow: set `status:human-ready` or `status:draft`.
 
@@ -77,19 +74,19 @@ Iterate on any PR or issue by commenting `@claude <request>` (`agent-mention.yml
 
 The designer can attach a design (zip exported from a design tool or Claude, HTML page, PNG, PDF) to any request. Never mandatory.
 
-- `/request` and `/build` ask for it (question D1), read it to skip questions it answers, and store it with `scripts/add-design.sh`: extracted into `designs/<n>-<slug>/` on branch `feat/<n>-<slug>`, committed and pushed (the designer's working tree is untouched). The issue gets a `### Design files` section.
+- `/build` asks for it (question D1), reads it to skip questions it answers, and stores it with `scripts/add-design.sh` in `designs/<n>-<slug>/` on the feature branch, committed. The issue gets a `### Design files` section.
 - The developer agent (or `/build`) works **on that branch**, so the reference ships in the PR next to the implementation, and the reviewer checks the result against it.
 - Issue forms accept screenshots and links; zip/HTML go through Claude Code.
 - `designs/` is excluded from lint, TypeScript, Tailwind scanning and the PR size limits. Files are references: agents read them, never execute them. Max 25 MB per issue.
 
-## Local path — `/build`
+## Designer path — `/build`
 
-`.claude/agents/designer.md`, started with `/build` (or `claude --agent designer`). For the designer, in French, no git knowledge needed:
+`.claude/agents/designer.md`, started with `/build` (or `claude --agent designer`). The designer's only entry point, in French. They never open github.com: their `gh` is logged in as them once at setup, and Claude does every GitHub action on their behalf. No `.env` or database on their machine.
 
-1. Picks an existing issue, creates one with the intake questions (label `status:in-progress`, so no CI agent picks it up), or jumps to validating an existing PR.
-2. Asks for a design file (optional), checks the machine, branches (on the design branch if there is one).
-3. Reads the design, proposes a short plan, implements, runs `pnpm dev` and asks the designer to look at `http://localhost:3000`. Iterates on feedback.
-4. Runs every check, opens the PR (`Closes #n`), waits for the **preview link**, gives it, and asks « C'est bon, fusionner ? ». Yes → ticks « Valider et fusionner » on their behalf (same as ticking it on GitHub).
+1. **Need**: questions from `docs/intake-questions.md`, optional design file (D1), short plan validated in the chat. Content-only needs are redirected to the admin.
+2. **Issue + branch + draft PR**: issue with `status:in-progress` (CI agents stay off), branch `feat/<n>-<slug>`, design files committed, draft PR into `main` on the first push.
+3. **Iterate on the preview**: each change → lint/typecheck/test → push → the preview comment for that commit → Claude gives the **Vercel URL** in the chat. Feedback → next push. They can stop and resume later (« Reprendre une demande en cours »), which also works for PRs made by the CI agents.
+4. **« C'est bon »**: `gh pr ready` → reviewer classifies → `pr:designer-review`: Claude ticks « Valider et fusionner » as them; `pr:human-review`: Claude fixes the findings it can (new preview, new review) or explains that a maintainer must approve. Merged → live.
 
 ## PR review and merge
 
@@ -105,7 +102,7 @@ The designer can attach a design (zip exported from a design tool or Claude, HTM
    - `pr:designer-review`: gate not `blocked`, no correctness/caching/security/accessibility finding → merges when the designer validates;
    - `pr:human-review`: everything else → a maintainer approves on GitHub.
 4. **Preview comment** (`agent-preview.yml`, job `preview`): on Vercel's `deployment_status` success for the PR head, posts (then updates on each push) one comment with the **preview URL** and `- [ ] Valider et fusionner`, and announces the first preview on the issue. No agent involved.
-5. **Designer validation** (job `approve`): ticking the box (on GitHub, or `/build` does it) → checks the person has write access, the ticked version is the current head, the PR isn't `pr:human-review` and the gate isn't `blocked` → labels `pr:designer-approved`. Otherwise unticks and explains why.
+5. **Designer validation** (job `approve`): ticking the box (`/build` does it as the designer; a maintainer can tick it on GitHub) → checks the person has write access, the ticked version is the current head, the PR isn't `pr:human-review` and the gate isn't `blocked` → labels `pr:designer-approved`. Otherwise unticks and explains why.
 6. **`review-gate`** check passes with: a maintainer approval on the head commit, `pr:auto-merge` + gate `eligible`, or `pr:designer-approved` (set by the workflow's bot only) + gate not `blocked`.
 7. **Merge**: `pr:auto-merge` or `pr:designer-approved` → squash merge once `ci`, `pr-meta` and the Vercel build are green. Merge to `main` = production deploy.
 
@@ -113,8 +110,7 @@ The designer can attach a design (zip exported from a design tool or Claude, HTM
 
 | Agent       | Trigger               | Instructions                    | Model (repo var → default)                  | Can                                        |
 | ----------- | --------------------- | ------------------------------- | ------------------------------------------- | ------------------------------------------ |
-| Intake      | `/request` (local)    | `.claude/agents/intake.md`      | session model                               | ask questions, create issue                |
-| Designer    | `/build` (local)      | `.claude/agents/designer.md`    | session model                               | edit code, run dev server, git, open PR    |
+| Designer | `/build` (designer's machine) | `.claude/agents/designer.md` | session model | create issue/PR, edit code, push, tick validation as the designer |
 | Triage      | `status:needs-triage` | `.claude/agents/triage.md`      | `CLAUDE_MODEL_TRIAGE` → `claude-sonnet-5-5` | read repo, edit issue, comment, set status |
 | Architect   | `status:needs-plan`   | `.claude/agents/architect.md`   | `CLAUDE_MODEL_PLAN` → `claude-sonnet-5-5`   | read repo, comment, set status             |
 | Developer   | `status:agent-ready`  | `.claude/agents/developer.md`   | `CLAUDE_MODEL_DEV` → `claude-sonnet-5-5`    | edit code, pnpm, git, open PR              |

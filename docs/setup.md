@@ -56,5 +56,5 @@ Needed so agent label changes and PRs trigger the next workflows.
 
 ## 6. People
 
-- Designer: GitHub account added to the repo as collaborator with **Write** access (needed for « Valider et fusionner »). Install Claude Code (desktop app or VS Code extension), clone the repo, get `.env` values (preview database URL) from a maintainer, accept the **ponytail** plugin prompt, `gh auth login`. Then `/request` and `/build` (see `docs/designer-guide.md`).
+- Designer (one-time, done by a maintainer on their machine): GitHub account added to the repo with **Write** access; install Claude Code (desktop app or VS Code extension), git, `gh`, Node 24 via nvm and pnpm (corepack); `gh auth login` with **their** account, clone the repo, `pnpm install`, accept the **ponytail** plugin prompt. No `.env`, no database credentials: previews are built by Vercel. After that they only use `/build` and never need github.com (see `docs/designer-guide.md`).
 - Maintainers: approve plans, review `pr:human-review` PRs.

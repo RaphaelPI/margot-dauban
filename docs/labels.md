@@ -17,8 +17,8 @@ Source of truth: `.github/labels.json` (synced to GitHub by `.github/workflows/l
 
 | Label                 | Meaning                          | Set by                                                       | Triggers                                        |
 | --------------------- | -------------------------------- | ------------------------------------------------------------ | ----------------------------------------------- |
-| `status:draft`        | Parked, nothing runs             | Triage job (Draft box), `/request`, or a human               | — (add `status:needs-triage` to start)          |
-| `status:needs-triage` | New or edited issue to check     | Issue forms, `/request`, retriage job                        | Triage agent                                    |
+| `status:draft`        | Parked, nothing runs             | Triage job (Draft box) or a human               | — (add `status:needs-triage` to start)          |
+| `status:needs-triage` | New or edited issue to check     | Issue forms, retriage job                        | Triage agent                                    |
 | `status:needs-info`   | Incomplete; questions in comment | Triage / architect agent                                     | — (designer edits issue → back to needs-triage) |
 | `status:needs-plan`   | Plan required                    | Triage agent, or human (to request plan changes)             | Architect agent                                 |
 | `status:plan-review`  | Plan posted, waiting for a human | Architect agent                                              | —                                               |

@@ -4,7 +4,7 @@
 # Stores design references (zip, html, images, pdf) in designs/<n>-<slug>/ on branch
 # feat/<n>-<slug>, committed. Zips are extracted. Files are references: never executed.
 # - Already on a branch for this issue (/build): commits there, push is up to the caller.
-# - Otherwise (/request): uses a temporary worktree from origin/main, commits and pushes the
+# - Otherwise (e.g. a maintainer attaching files to an existing issue): uses a temporary worktree from origin/main, commits and pushes the
 #   branch, leaving the current working tree untouched.
 set -euo pipefail
 [[ $# -ge 3 ]] || { sed -n '2,3p' "$0"; exit 1; }

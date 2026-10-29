@@ -2,9 +2,9 @@
 
 Questions that produce these sections: `docs/intake-questions.md`. Sections are `### Heading` (what GitHub issue forms output). Headings stay in English (agents match them); content is in the designer's language.
 
-The triage agent validates issues against these formats; `/request` and the issue forms produce them.
+The triage agent validates issues against these formats; `/build` and the issue forms produce them.
 
-Optional, any type, right before `### Options` (added by `/request` or `/build` when the designer gives a file):
+Optional, any type, right before `### Options` (added by `/build` when the designer gives a file):
 
 ```markdown
 ### Design files

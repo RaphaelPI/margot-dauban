@@ -25,6 +25,7 @@ Newest last. Change a decision by adding an entry that supersedes it. Agentic wo
 | 18 | 2026-10-29 | Design files (zip/html/png/pdf) are optional input to `/request` and `/build`, stored per issue in `designs/<n>-<slug>/` on the feature branch by `scripts/add-design.sh` | Agents read the exact reference; it ships with the PR; no external storage. Excluded from lint, TS, Tailwind, size limits |
 | 19 | 2026-10-29 | Preview URL posted by a deterministic workflow on Vercel `deployment_status` (one comment per PR, updated per push, announced on the issue) | Works for CI and local paths, no agent polling, always the current head |
 | 20 | 2026-10-29 | Three merge tiers: `pr:auto-merge` (tiny, safe), `pr:designer-review` (designer ticks « Valider et fusionner » on the preview), `pr:human-review` (critical paths or reviewer findings → maintainer). Approval bound to the commit SHA, write access required, label settable only by the workflow | The designer decides what ships visually; code-level risks still need a developer |
+| 21 | 2026-10-29 | `/build` is the designer's only entry point (`/request` and the intake agent removed): issue + draft PR at once, each iteration pushed and judged on the Vercel preview URL in the conversation, « c'est bon » → PR ready → review → validation ticked by Claude as them. Their `gh` is logged in as them (Write access); no `.env` or database on their machine | They iterate in conversation without ever opening GitHub; approvals stay theirs; no secrets on their machine |
 
 ## Open questions
 
