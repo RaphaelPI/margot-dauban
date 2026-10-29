@@ -19,8 +19,7 @@ Needed so agent label changes and PRs trigger the next workflows.
 | Kind                | Name                                                                                  | Value                                                                        |
 | ------------------- | ------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------- |
 | Secret              | `AGENT_APP_PRIVATE_KEY`                                                               | the `.pem` content                                                           |
-| Secret              | `CLAUDE_CODE_OAUTH_TOKEN`                                                             | Claude Pro/Max subscription token: `claude setup-token`. Used first when set |
-| Secret (fallback)   | `ANTHROPIC_API_KEY`                                                                   | API key from console.anthropic.com                                           |
+| Secret | `CLAUDE_CODE_OAUTH_TOKEN` | Claude Max subscription token: run `claude setup-token` locally. The only Claude credential: no API key |
 | Secret | `CI_DATABASE_URL` | Atlas URL `…/margot-ci` (CI user). Used by `ci`, `develop`, `@claude` builds |
 | Variable            | `AGENT_APP_ID`                                                                        | App ID                                                                       |
 | Variable            | `AGENT_APP_SLUG`                                                                      | App slug, e.g. `margot-site-agent`                                           |

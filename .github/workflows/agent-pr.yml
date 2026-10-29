@@ -49,9 +49,8 @@ jobs:
           echo "result=$(.github/scripts/pr-gate.sh "$PR")" >> "$GITHUB_OUTPUT"
       - uses: anthropics/claude-code-action@v1
         with:
-          # Claude subscription token if set (claude setup-token), else API key.
+          # Claude Max subscription only (token from `claude setup-token`). No API key.
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
-          anthropic_api_key: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN == '' && secrets.ANTHROPIC_API_KEY || '' }}
           show_full_output: ${{ vars.CLAUDE_DEBUG == 'true' }}
           github_token: ${{ steps.app.outputs.token }}
           allowed_bots: ${{ vars.AGENT_APP_SLUG }}[bot]
