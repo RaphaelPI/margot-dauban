@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation'
 import { Suspense } from 'react'
 import { ProjectView } from '@/components/models/project-view'
-import { getProjectIdBySlug } from '@/data/projects'
+import { getProjectIdBySlug } from '@/data/ids'
 
 export default function ProjectPage({ params }: PageProps<'/projets/[slug]'>) {
   return (

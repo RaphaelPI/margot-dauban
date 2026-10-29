@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation'
 import { Suspense } from 'react'
 import { PageView } from '@/components/models/page-view'
-import { getPageIdBySlug } from '@/data/pages'
+import { getPageIdBySlug } from '@/data/ids'
 
 export default function Page({ params }: PageProps<'/[slug]'>) {
   return (

@@ -68,6 +68,10 @@ export interface Config {
   blocks: {};
   collections: {
     projects: Project;
+    testimonials: Testimonial;
+    clients: Client;
+    services: Service;
+    faqs: Faq;
     pages: Page;
     media: Media;
     users: User;
@@ -79,6 +83,10 @@ export interface Config {
   collectionsJoins: {};
   collectionsSelect: {
     projects: ProjectsSelect<false> | ProjectsSelect<true>;
+    testimonials: TestimonialsSelect<false> | TestimonialsSelect<true>;
+    clients: ClientsSelect<false> | ClientsSelect<true>;
+    services: ServicesSelect<false> | ServicesSelect<true>;
+    faqs: FaqsSelect<false> | FaqsSelect<true>;
     pages: PagesSelect<false> | PagesSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
@@ -92,9 +100,11 @@ export interface Config {
   };
   fallbackLocale: null;
   globals: {
+    home: Home;
     settings: Setting;
   };
   globalsSelect: {
+    home: HomeSelect<false> | HomeSelect<true>;
     settings: SettingsSelect<false> | SettingsSelect<true>;
   };
   locale: null;
@@ -137,13 +147,22 @@ export interface Project {
    */
   generateSlug?: boolean | null;
   slug: string;
+  year?: number | null;
+  featured?: boolean | null;
+  /**
+   * Ex. Site vitrine, Web app, E-commerce
+   */
+  kind: string;
+  /**
+   * Ex. Événementiel, Santé
+   */
+  sector?: string | null;
+  /**
+   * Une phrase sur le résultat. Ex. « Moins de rebond, plus de billets vendus. »
+   */
   summary: string;
   cover: string | Media;
-  client?: string | null;
-  year?: number | null;
-  role?: string | null;
-  tags?: string[] | null;
-  content?: {
+  lead?: {
     root: {
       type: string;
       children: {
@@ -158,6 +177,106 @@ export interface Project {
     };
     [k: string]: unknown;
   } | null;
+  /**
+   * Ex. Audit UI / UX, Wireframes, Design System
+   */
+  interventions?: string[] | null;
+  /**
+   * Sinon, l'image de la carte.
+   */
+  hero?: (string | null) | Media;
+  context?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  constraints?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  approachTitle?: string | null;
+  approach?:
+    | {
+        title: string;
+        content?: {
+          root: {
+            type: string;
+            children: {
+              type: any;
+              version: number;
+              [k: string]: unknown;
+            }[];
+            direction: ('ltr' | 'rtl') | null;
+            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+            indent: number;
+            version: number;
+          };
+          [k: string]: unknown;
+        } | null;
+        images?: (string | Media)[] | null;
+        id?: string | null;
+      }[]
+    | null;
+  resultsTitle?: string | null;
+  metrics?:
+    | {
+        /**
+         * Ex. −25 %
+         */
+        value: string;
+        label: string;
+        id?: string | null;
+      }[]
+    | null;
+  results?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  website?: {
+    url?: string | null;
+    label?: string | null;
+  };
+  gallery?: (string | Media)[] | null;
+  /**
+   * Laisser vide pour utiliser le titre et le résumé.
+   */
+  seo?: {
+    title?: string | null;
+    description?: string | null;
+    image?: (string | null) | Media;
+  };
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
@@ -188,6 +307,96 @@ export interface Media {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "testimonials".
+ */
+export interface Testimonial {
+  id: string;
+  _order?: string | null;
+  quote: string;
+  /**
+   * Suite de la citation affichée en accent, idéalement celle qui parle du résultat.
+   */
+  highlight?: string | null;
+  authorName: string;
+  authorRole?: string | null;
+  company?: string | null;
+  photo?: (string | null) | Media;
+  project?: (string | null) | Project;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Références affichées sur l'accueil (bandeau).
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "clients".
+ */
+export interface Client {
+  id: string;
+  _order?: string | null;
+  name: string;
+  /**
+   * SVG ou PNG transparent.
+   */
+  logo?: (string | null) | Media;
+  url?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Groupes de prestations (UX, UI, Branding…).
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "services".
+ */
+export interface Service {
+  id: string;
+  _order?: string | null;
+  title: string;
+  summary?: string | null;
+  /**
+   * Liste complète (page Services).
+   */
+  items: string[];
+  /**
+   * Version courte. Vide = liste complète.
+   */
+  homeItems?: string[] | null;
+  showOnHome?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "faqs".
+ */
+export interface Faq {
+  id: string;
+  _order?: string | null;
+  question: string;
+  answer: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  category: 'general' | 'services' | 'collaboration' | 'pricing' | 'process' | 'contact';
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Pages de texte : à propos, mentions légales, confidentialité…
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "pages".
  */
 export interface Page {
@@ -213,6 +422,14 @@ export interface Page {
     };
     [k: string]: unknown;
   } | null;
+  /**
+   * Laisser vide pour utiliser le titre et le résumé.
+   */
+  seo?: {
+    title?: string | null;
+    description?: string | null;
+    image?: (string | null) | Media;
+  };
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
@@ -270,6 +487,22 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'projects';
         value: string | Project;
+      } | null)
+    | ({
+        relationTo: 'testimonials';
+        value: string | Testimonial;
+      } | null)
+    | ({
+        relationTo: 'clients';
+        value: string | Client;
+      } | null)
+    | ({
+        relationTo: 'services';
+        value: string | Service;
+      } | null)
+    | ({
+        relationTo: 'faqs';
+        value: string | Faq;
       } | null)
     | ({
         relationTo: 'pages';
@@ -333,16 +566,106 @@ export interface ProjectsSelect<T extends boolean = true> {
   title?: T;
   generateSlug?: T;
   slug?: T;
+  year?: T;
+  featured?: T;
+  kind?: T;
+  sector?: T;
   summary?: T;
   cover?: T;
-  client?: T;
-  year?: T;
-  role?: T;
-  tags?: T;
-  content?: T;
+  lead?: T;
+  interventions?: T;
+  hero?: T;
+  context?: T;
+  constraints?: T;
+  approachTitle?: T;
+  approach?:
+    | T
+    | {
+        title?: T;
+        content?: T;
+        images?: T;
+        id?: T;
+      };
+  resultsTitle?: T;
+  metrics?:
+    | T
+    | {
+        value?: T;
+        label?: T;
+        id?: T;
+      };
+  results?: T;
+  website?:
+    | T
+    | {
+        url?: T;
+        label?: T;
+      };
+  gallery?: T;
+  seo?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        image?: T;
+      };
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "testimonials_select".
+ */
+export interface TestimonialsSelect<T extends boolean = true> {
+  _order?: T;
+  quote?: T;
+  highlight?: T;
+  authorName?: T;
+  authorRole?: T;
+  company?: T;
+  photo?: T;
+  project?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "clients_select".
+ */
+export interface ClientsSelect<T extends boolean = true> {
+  _order?: T;
+  name?: T;
+  logo?: T;
+  url?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "services_select".
+ */
+export interface ServicesSelect<T extends boolean = true> {
+  _order?: T;
+  title?: T;
+  summary?: T;
+  items?: T;
+  homeItems?: T;
+  showOnHome?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "faqs_select".
+ */
+export interface FaqsSelect<T extends boolean = true> {
+  _order?: T;
+  question?: T;
+  answer?: T;
+  category?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -353,6 +676,13 @@ export interface PagesSelect<T extends boolean = true> {
   generateSlug?: T;
   slug?: T;
   content?: T;
+  seo?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        image?: T;
+      };
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
@@ -442,23 +772,140 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "home".
+ */
+export interface Home {
+  id: string;
+  hero: {
+    title: string;
+    highlight?: string | null;
+    intro?: string | null;
+    ctaLabel?: string | null;
+    ctaHref?: string | null;
+  };
+  stats?:
+    | {
+        /**
+         * Ex. 60+
+         */
+        value: string;
+        label: string;
+        id?: string | null;
+      }[]
+    | null;
+  projects?: {
+    title?: string | null;
+    linkLabel?: string | null;
+    /**
+     * Vide = les projets « mis en avant », du plus récent au plus ancien.
+     */
+    items?: (string | Project)[] | null;
+  };
+  testimonial?: (string | null) | Testimonial;
+  expertise?: {
+    title?: string | null;
+    linkLabel?: string | null;
+  };
+  cta?: {
+    title?: string | null;
+    text?: string | null;
+    buttonLabel?: string | null;
+    buttonHref?: string | null;
+  };
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "settings".
  */
 export interface Setting {
   id: string;
   siteName: string;
-  tagline?: string | null;
-  intro?: string | null;
+  jobTitle?: string | null;
+  photo?: (string | null) | Media;
+  available?: boolean | null;
+  availabilityLabel?: string | null;
   email?: string | null;
-  links?:
+  headerNav?:
     | {
         label: string;
-        url: string;
+        /**
+         * /projets, https://…, mailto:…
+         */
+        href: string;
         id?: string | null;
       }[]
     | null;
+  headerCta?: {
+    label?: string | null;
+    href?: string | null;
+  };
+  footerText?: string | null;
+  footerNav?:
+    | {
+        label: string;
+        /**
+         * /projets, https://…, mailto:…
+         */
+        href: string;
+        id?: string | null;
+      }[]
+    | null;
+  seo?: {
+    title?: string | null;
+    description?: string | null;
+    image?: (string | null) | Media;
+  };
   updatedAt?: string | null;
   createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "home_select".
+ */
+export interface HomeSelect<T extends boolean = true> {
+  hero?:
+    | T
+    | {
+        title?: T;
+        highlight?: T;
+        intro?: T;
+        ctaLabel?: T;
+        ctaHref?: T;
+      };
+  stats?:
+    | T
+    | {
+        value?: T;
+        label?: T;
+        id?: T;
+      };
+  projects?:
+    | T
+    | {
+        title?: T;
+        linkLabel?: T;
+        items?: T;
+      };
+  testimonial?: T;
+  expertise?:
+    | T
+    | {
+        title?: T;
+        linkLabel?: T;
+      };
+  cta?:
+    | T
+    | {
+        title?: T;
+        text?: T;
+        buttonLabel?: T;
+        buttonHref?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -466,15 +913,38 @@ export interface Setting {
  */
 export interface SettingsSelect<T extends boolean = true> {
   siteName?: T;
-  tagline?: T;
-  intro?: T;
+  jobTitle?: T;
+  photo?: T;
+  available?: T;
+  availabilityLabel?: T;
   email?: T;
-  links?:
+  headerNav?:
     | T
     | {
         label?: T;
-        url?: T;
+        href?: T;
         id?: T;
+      };
+  headerCta?:
+    | T
+    | {
+        label?: T;
+        href?: T;
+      };
+  footerText?: T;
+  footerNav?:
+    | T
+    | {
+        label?: T;
+        href?: T;
+        id?: T;
+      };
+  seo?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        image?: T;
       };
   updatedAt?: T;
   createdAt?: T;

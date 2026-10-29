@@ -2,9 +2,10 @@ import type { CollectionConfig, GlobalConfig } from 'payload'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 
 const revalidateTag = vi.fn()
-vi.mock('next/cache', () => ({ revalidateTag }))
+const cacheTag = vi.fn()
+vi.mock('next/cache', () => ({ cacheTag, revalidateTag }))
 
-const { tags, withGlobalRevalidation, withRevalidation } = await import('./cache')
+const { tagDocs, tags, withGlobalRevalidation, withRevalidation } = await import('./cache')
 
 const drafts: CollectionConfig = { slug: 'projects', versions: { drafts: true }, fields: [] }
 const plain: CollectionConfig = { slug: 'media', fields: [] }
@@ -63,5 +64,13 @@ describe('revalidation hooks', () => {
       { global: settings, doc: {}, context: {} } as any,
     )
     expect(expired()).toEqual([tags.global('settings')])
+  })
+})
+
+describe('tagDocs', () => {
+  it('tags populated docs and skips bare ids and empty values', () => {
+    cacheTag.mockClear()
+    tagDocs('media', { id: 'a' }, 'b', null, [{ id: 'c' }, undefined])
+    expect(cacheTag.mock.calls.map(([tag]) => tag)).toEqual(['media:a', 'media:c'])
   })
 })

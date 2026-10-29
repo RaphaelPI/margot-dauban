@@ -11,6 +11,7 @@ Single source of the questions asked to the designer. Used by the **intake** age
   - `Choice: a | b | c` → clickable options (max 4); the designer can always type something else. `(multi)` = several allowed.
   - `→ then` = follow-up open question when a given option is picked.
 - Never more than 4 clickable questions at once; ask open questions one by one.
+- **D1 (design file)** is never mandatory. Files are stored with the issue by `scripts/add-design.sh` (`designs/<n>-<slug>/` on the feature branch); a file answers many questions by itself: read it and skip what it answers.
 - Before asking for a new feature, check if it is only **content** (a new project, a text change, a new page with existing layout): then explain how to do it in the admin (`docs/designer-guide.md`) instead of creating an issue.
 
 ## All types
@@ -22,6 +23,7 @@ Single source of the questions asked to the designer. Used by the **intake** age
 | A2  | Pour qui ?                             | Must        | Choice (multi): Visiteurs (clients, recruteurs) · Moi dans l'admin · Les deux                          |
 | A3  | Pourquoi maintenant ?                  | If relevant | Open                                                                                                   |
 | A4  | Une échéance ?                         | If relevant | Choice: Pas d'échéance · Cette semaine · Ce mois-ci · Date précise → then: laquelle / quel événement ? |
+| D1 | As-tu un fichier de design ? (zip exporté d\'un outil ou de Claude, page HTML, captures PNG, PDF) | If relevant (always for UI) | Choice: Oui, je le glisse ici · Un lien (Figma…) · Non → then: le fichier ou le lien |
 
 ## Feature
 
@@ -30,7 +32,7 @@ Single source of the questions asked to the designer. Used by the **intake** age
 | F1  | Quel problème ça résout ? Comment fais-tu aujourd'hui ?                                                          | Must        | Open                                                                                                                                   |
 | F2  | Décris le parcours : le visiteur arrive… voit… clique…                                                           | Must        | Open                                                                                                                                   |
 | F3  | Comment saura-t-on que c'est fini ? Liste ce qui doit être vrai (chaque point devient un critère d'acceptation). | Must        | Open                                                                                                                                   |
-| F4  | As-tu une maquette ?                                                                                             | Must        | Choice: Oui, lien Figma · Oui, image/description · Non, propose-moi quelque chose → then: le lien ou la description                    |
+| F4 | (si pas de fichier en D1) Comment imagines-tu le rendu ? Une référence ? | Must if UI | Open |
 | F5  | Où ça apparaît ?                                                                                                 | Must        | Choice (multi): Accueil · Page projet · Une page (à propos…) · Nouvelle page → then: laquelle / quelle URL ?                           |
 | F6  | Le contenu doit-il être modifiable dans l'admin ?                                                                | Must        | Choice: Oui, je veux le modifier moi-même · Non, c'est fixe · Je ne sais pas → then (Oui): quels champs (texte, image, lien, liste…) ? |
 | F7  | Comportement sur mobile ?                                                                                        | Must if UI  | Choice: Identique, adapté · Différent → then: comment ?                                                                                |

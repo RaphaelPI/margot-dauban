@@ -1,0 +1,81 @@
+# Vercel preview → one "Aperçu" comment per PR (updated on every push) with the URL and a
+# "Valider et fusionner" box. Ticking it (designer, write access) approves THAT commit:
+# the job labels pr:designer-approved, which agent-pr.yml's auto-merge and review-gate handle.
+name: agent-preview
+
+on:
+  deployment_status:
+  issue_comment:
+    types: [edited]
+
+permissions:
+  contents: read
+
+jobs:
+  preview:
+    if: >-
+      github.event_name == 'deployment_status' &&
+      github.event.deployment_status.state == 'success' &&
+      startsWith(github.event.deployment.environment, 'Preview')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/create-github-app-token@v2
+        id: app
+        with:
+          app-id: ${{ vars.AGENT_APP_ID }}
+          private-key: ${{ secrets.AGENT_APP_PRIVATE_KEY }}
+      - uses: actions/checkout@v5
+      - env:
+          GH_TOKEN: ${{ steps.app.outputs.token }}
+          REPO: ${{ github.repository }}
+          SHA: ${{ github.event.deployment.sha }}
+          URL: ${{ github.event.deployment_status.environment_url || github.event.deployment_status.target_url }}
+        run: .github/scripts/preview-comment.sh
+
+  approve:
+    if: >-
+      github.event_name == 'issue_comment' &&
+      github.event.issue.pull_request &&
+      github.event.sender.type != 'Bot' &&
+      startsWith(github.event.comment.body, '<!-- agent:preview') &&
+      contains(github.event.changes.body.from, '- [ ] Valider et fusionner') &&
+      contains(github.event.comment.body, '- [x] Valider et fusionner')
+    concurrency:
+      group: approve-${{ github.event.issue.number }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/create-github-app-token@v2
+        id: app
+        with:
+          app-id: ${{ vars.AGENT_APP_ID }}
+          private-key: ${{ secrets.AGENT_APP_PRIVATE_KEY }}
+      - uses: actions/checkout@v5
+      - env:
+          GH_TOKEN: ${{ steps.app.outputs.token }}
+          REPO: ${{ github.repository }}
+          PR: ${{ github.event.issue.number }}
+          COMMENT_ID: ${{ github.event.comment.id }}
+          BODY: ${{ github.event.comment.body }}
+          SENDER: ${{ github.event.sender.login }}
+        run: |
+          refuse() {
+            # Untick (bot edit: ignored by this job) and say why.
+            sed 's/- \[x\] Valider et fusionner/- [ ] Valider et fusionner/' <<<"$BODY" |
+              gh api -X PATCH "repos/$REPO/issues/comments/$COMMENT_ID" -F body=@- >/dev/null
+            gh pr comment "$PR" --body "⏸️ @$SENDER validation non prise en compte : $1"
+            exit 0
+          }
+          perm=$(gh api "repos/$REPO/collaborators/$SENDER/permission" --jq .permission)
+          [[ $perm =~ ^(admin|maintain|write)$ ]] || refuse "il faut un accès en écriture au dépôt."
+          approved=$(grep -oE 'sha=[0-9a-f]{40}' <<<"$BODY" | cut -d= -f2)
+          head=$(gh pr view "$PR" --json headRefOid --jq .headRefOid)
+          [[ $approved == "$head" ]] || refuse "une nouvelle version est en cours de déploiement, attends le nouvel aperçu."
+          labels=$(gh pr view "$PR" --json labels --jq '.labels[].name')
+          grep -qx pr:human-review <<<"$labels" &&
+            refuse "cette modification touche une partie technique sensible : un mainteneur doit l'approuver (voir le commentaire de relecture)."
+          grep -qxE 'pr:(auto-merge|designer-review)' <<<"$labels" ||
+            refuse "l'analyse de la PR n'est pas terminée, réessaie dans quelques minutes."
+          result=$(.github/scripts/pr-gate.sh "$PR")
+          [[ $result == blocked* ]] && refuse "un mainteneur doit approuver ($result)."
+          gh pr edit "$PR" --add-label pr:designer-approved
+          gh pr comment "$PR" --body "✅ Validé par @$SENDER. Fusion automatique dès que les vérifications sont vertes, puis mise en ligne."

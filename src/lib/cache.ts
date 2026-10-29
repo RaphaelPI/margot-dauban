@@ -1,4 +1,4 @@
-import { revalidateTag } from 'next/cache'
+import { cacheTag, revalidateTag } from 'next/cache'
 import type {
   CollectionAfterChangeHook,
   CollectionAfterDeleteHook,
@@ -13,6 +13,13 @@ export const tags = {
   collection: (slug: string) => slug,
   doc: (slug: string, id: string | number) => `${slug}:${id}`,
   global: (slug: string) => `global:${slug}`,
+}
+
+// Inside a model component: tag every populated related doc it renders (ids-only values skipped).
+export const tagDocs = (collection: string, ...docs: unknown[]) => {
+  for (const doc of docs.flat()) {
+    if (doc && typeof doc === 'object' && 'id' in doc) cacheTag(tags.doc(collection, String(doc.id)))
+  }
 }
 
 // Payload hooks run outside a Server Action: `{ expire: 0 }` = next request is fresh.

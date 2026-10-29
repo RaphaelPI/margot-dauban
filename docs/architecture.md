@@ -45,15 +45,22 @@ Goal: every model-related component is cached **for life, by id**, and refreshed
 
 ## Content model
 
-| Slug       | Kind                    | Drafts | Used by                                                      |
-| ---------- | ----------------------- | ------ | ------------------------------------------------------------ |
-| `projects` | collection              | yes    | home grid (`ProjectCard`), `/projets/[slug]` (`ProjectView`) |
-| `pages`    | collection              | yes    | `/[slug]` (`PageView`), e.g. `/a-propos`                     |
-| `media`    | collection (upload, S3) | no     | covers, rich text                                            |
-| `users`    | collection (auth)       | no     | admin login                                                  |
-| `settings` | global                  | no     | site name, tagline, intro, contact, links                    |
+Extracted from margotdauban.fr (WordPress) and the V4 home design. Field names English, labels French. After any change: `pnpm generate` (types + admin import map), committed.
 
-Field names English, labels French. After any change: `pnpm generate` (types + admin import map), committed.
+| Slug | Kind | Drafts | Holds | Rendered by |
+|---|---|---|---|---|
+| `projects` | collection | yes | Card (type, sector, accroche, cover), case study (intro, interventions, hero, contexte & objectifs, contraintes, démarche steps with images, chiffres clés, résultats, site link, galerie), SEO, `featured` | `ProjectCard`, `ProjectView` |
+| `testimonials` | collection (orderable) | no | quote + highlighted phrase, author, role, company, photo, project | `TestimonialQuote` |
+| `clients` | collection (orderable) | no | name, logo, url (home marquee) | `ClientName` |
+| `services` | collection (orderable) | no | expertise group: title, description, full list, short home list, `showOnHome` | `ServiceCard` |
+| `faqs` | collection (orderable) | no | question, answer, category (6 fixed) | — (FAQ page to build) |
+| `pages` | collection | yes | free text pages: à propos, mentions légales, confidentialité; SEO | `PageView` |
+| `media` | collection (upload, S3) | no | images with required alt | `MediaImage` inside model components |
+| `users` | collection (auth) | no | admin login | — |
+| `home` | global | no | hero, stats, project selection (or featured), testimonial, expertise titles, CTA | home page |
+| `settings` | global | no | identity, photo, availability, header nav + button, footer, default SEO | header, footer, metadata |
+
+Not modelled yet (features to request): contact form + submissions, `/projets` list, `/prestations` and `/faq` pages.
 
 ## Environments
 

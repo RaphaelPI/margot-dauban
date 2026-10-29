@@ -1,4 +1,5 @@
-# PRs into main: decide auto-merge vs human review, and enforce it.
+# PRs into main: classify (auto-merge / designer review / human review) and enforce it.
+# The preview comment and the designer's approval live in agent-preview.yml.
 # `review-gate` must be a required status check on main. It only runs on label/review
 # events, so a fresh push leaves it missing (= merge blocked) until reclassified.
 name: agent-pr
@@ -45,7 +46,9 @@ jobs:
           GH_TOKEN: ${{ steps.app.outputs.token }}
         run: |
           gh pr merge "$PR" --disable-auto 2>/dev/null || true
-          gh pr edit "$PR" --remove-label pr:auto-merge --remove-label pr:human-review
+          # New commits = new decision: a designer approval was for the previous version.
+          gh pr edit "$PR" --remove-label pr:auto-merge --remove-label pr:human-review \
+            --remove-label pr:designer-review --remove-label pr:designer-approved
           echo "result=$(.github/scripts/pr-gate.sh "$PR")" >> "$GITHUB_OUTPUT"
       - uses: anthropics/claude-code-action@v1
         with:
@@ -71,7 +74,7 @@ jobs:
           GH_TOKEN: ${{ steps.app.outputs.token }}
         run: |
           labels=$(gh pr view "$PR" --json labels --jq '.labels[].name')
-          grep -qE '^pr:(auto-merge|human-review)$' <<<"$labels" || gh pr edit "$PR" --add-label pr:human-review
+          grep -qE '^pr:(auto-merge|designer-review|human-review)$' <<<"$labels" || gh pr edit "$PR" --add-label pr:human-review
 
   review-gate:
     if: >-
@@ -89,6 +92,7 @@ jobs:
           GH_TOKEN: ${{ github.token }}
           REPO: ${{ github.repository }}
           SHA: ${{ github.event.pull_request.head.sha }}
+          APP_BOT: ${{ vars.AGENT_APP_SLUG }}[bot]
         run: |
           labels=$(gh pr view "$PR" --json labels --jq '.labels[].name')
           approvals=$(gh api "repos/$REPO/pulls/$PR/reviews" --paginate \
@@ -103,10 +107,24 @@ jobs:
             [[ $result == eligible ]] && exit 0
             echo "::error::pr:auto-merge not allowed: $result"; exit 1
           fi
+          if grep -qx pr:designer-approved <<<"$labels"; then
+            # Only the approval workflow may set it (it checks who ticked and for which commit).
+            actor=$(gh api "repos/$REPO/issues/$PR/events" --paginate \
+              --jq '.[] | select(.event == "labeled" and .label.name == "pr:designer-approved") | .actor.login' | tail -1)
+            [[ $actor == "$APP_BOT" ]] || { echo "::error::pr:designer-approved set by $actor, not the workflow"; exit 1; }
+            result=$(.github/scripts/pr-gate.sh "$PR")
+            [[ $result != blocked* ]] && exit 0
+            echo "::error::Designer approval not enough: $result"; exit 1
+          fi
+          if grep -qx pr:designer-review <<<"$labels"; then
+            echo "::error::Waiting for the designer: tick « Valider et fusionner » in the preview comment."; exit 1
+          fi
           echo "::error::Not classified yet."; exit 1
 
   auto-merge:
-    if: github.event.action == 'labeled' && github.event.label.name == 'pr:auto-merge'
+    if: >-
+      github.event.action == 'labeled' &&
+      contains(fromJSON('["pr:auto-merge","pr:designer-approved"]'), github.event.label.name)
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
@@ -120,6 +138,7 @@ jobs:
           ref: ${{ github.event.pull_request.base.ref }}
       - env:
           GH_TOKEN: ${{ steps.app.outputs.token }}
+          LABEL: ${{ github.event.label.name }}
         run: |
           method=--squash
           gh pr merge "$PR" --auto $method && exit 0
@@ -127,7 +146,11 @@ jobs:
           # GitHub Free private repos have no auto-merge and no required checks:
           # re-check the hard gate, wait for ci + pr-meta + the Vercel build, then merge ourselves.
           result=$(.github/scripts/pr-gate.sh "$PR")
-          [[ $result == eligible ]] || { echo "::error::Not eligible: $result"; exit 1; }
+          if [[ $LABEL == pr:auto-merge ]]; then
+            [[ $result == eligible ]] || { echo "::error::Not eligible: $result"; exit 1; }
+          else
+            [[ $result != blocked* ]] || { echo "::error::Needs a maintainer: $result"; exit 1; }
+          fi
           for _ in $(seq 80); do
             buckets=$( (gh pr checks "$PR" --json name,bucket || true) |
               jq -r '.[] | select(.name == "ci" or .name == "pr-meta" or (.name | startswith("Vercel"))) | .bucket')

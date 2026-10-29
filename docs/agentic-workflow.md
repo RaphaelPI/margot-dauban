@@ -33,7 +33,7 @@ stateDiagram-v2
     agent_ready --> in_progress: approval guard OK
     in_progress --> in_review: PR opened
     in_progress --> blocked: agent stuck / failed
-    in_review --> [*]: PR merged into main (Closes #n)
+    in_review --> [*]: designer validates preview<br/>(or auto / maintainer) → merged
 ```
 
 ### 1. Intake — need → issue
@@ -73,24 +73,41 @@ Job `develop`, instructions `.claude/agents/developer.md`. Branches from `main` 
 
 Iterate on any PR or issue by commenting `@claude <request>` (`agent-mention.yml`, writers only).
 
+## Design files
+
+The designer can attach a design (zip exported from a design tool or Claude, HTML page, PNG, PDF) to any request. Never mandatory.
+
+- `/request` and `/build` ask for it (question D1), read it to skip questions it answers, and store it with `scripts/add-design.sh`: extracted into `designs/<n>-<slug>/` on branch `feat/<n>-<slug>`, committed and pushed (the designer's working tree is untouched). The issue gets a `### Design files` section.
+- The developer agent (or `/build`) works **on that branch**, so the reference ships in the PR next to the implementation, and the reviewer checks the result against it.
+- Issue forms accept screenshots and links; zip/HTML go through Claude Code.
+- `designs/` is excluded from lint, TypeScript, Tailwind scanning and the PR size limits. Files are references: agents read them, never execute them. Max 25 MB per issue.
+
 ## Local path — `/build`
 
 `.claude/agents/designer.md`, started with `/build` (or `claude --agent designer`). For the designer, in French, no git knowledge needed:
 
-1. Picks an existing issue, or creates one with the intake questions (label `status:in-progress`, so no CI agent picks it up).
-2. Checks the machine (Node, `.env`, database), branches from up-to-date `main`.
-3. Proposes a short plan in plain words, gets a yes, implements, runs `pnpm dev` and asks the designer to look at `http://localhost:3000`. Iterates on feedback.
-4. Runs every check, commits, pushes, opens the PR (`Closes #n`), sets `status:in-review`, gives the PR and Vercel preview links.
+1. Picks an existing issue, creates one with the intake questions (label `status:in-progress`, so no CI agent picks it up), or jumps to validating an existing PR.
+2. Asks for a design file (optional), checks the machine, branches (on the design branch if there is one).
+3. Reads the design, proposes a short plan, implements, runs `pnpm dev` and asks the designer to look at `http://localhost:3000`. Iterates on feedback.
+4. Runs every check, opens the PR (`Closes #n`), waits for the **preview link**, gives it, and asks « C'est bon, fusionner ? ». Yes → ticks « Valider et fusionner » on their behalf (same as ticking it on GitHub).
 
-## PR review — auto-merge or human
+## PR review and merge
 
-`.github/workflows/agent-pr.yml`, on every push to a PR into `main` (both paths):
+`.github/workflows/agent-pr.yml` + `.github/workflows/agent-preview.yml`, on every PR into `main` (both paths):
 
-1. **Reset**: removes `pr:*` labels, disables auto-merge.
-2. **Hard gate** (`.github/scripts/pr-gate.sh`, deterministic): ≤ 80 changed lines, ≤ 8 files, no sensitive path (content model, access, Payload config/admin, cache layer, env, `.github/`, `.claude/`, deps, config files), no `security`/`breaking-change`, no `!` in title.
-3. **Reviewer agent** (`.claude/agents/pr-reviewer.md`): correctness, caching rules, security, accessibility, tests, over-engineering; one comment; `pr:auto-merge` only if the gate said `eligible` **and** no finding **and** obviously safe. Else `pr:human-review`.
-4. **`review-gate`** check: passes with a human approval on the head commit, or `pr:auto-merge` + hard gate re-checked.
-5. `pr:auto-merge` → merge (squash) once `ci` + `pr-meta` + the Vercel preview build are green. Merge to `main` = production deploy.
+1. **Reset** on each push: removes `pr:*` labels (incl. a previous designer approval), disables auto-merge.
+2. **Gate** (`.github/scripts/pr-gate.sh`, deterministic) prints a tier:
+   - `eligible`: small (≤ 80 lines, ≤ 8 files, `designs/` not counted), no content model change, nothing critical;
+   - `designer: …`: bigger, or content model change (`src/collections`, `src/globals`, `src/fields`);
+   - `blocked: …`: critical paths (access, Payload config/admin, cache/env/payload libs, migrations, `scripts/`, `.github/`, `.claude/`, deps, config), `security`/`breaking-change` label, `!` in title.
+3. **Reviewer agent** (`.claude/agents/pr-reviewer.md`) posts one review comment and labels:
+   - `pr:auto-merge`: gate `eligible`, no finding, obviously safe → merges alone when checks are green;
+   - `pr:designer-review`: gate not `blocked`, no correctness/caching/security/accessibility finding → merges when the designer validates;
+   - `pr:human-review`: everything else → a maintainer approves on GitHub.
+4. **Preview comment** (`agent-preview.yml`, job `preview`): on Vercel's `deployment_status` success for the PR head, posts (then updates on each push) one comment with the **preview URL** and `- [ ] Valider et fusionner`, and announces the first preview on the issue. No agent involved.
+5. **Designer validation** (job `approve`): ticking the box (on GitHub, or `/build` does it) → checks the person has write access, the ticked version is the current head, the PR isn't `pr:human-review` and the gate isn't `blocked` → labels `pr:designer-approved`. Otherwise unticks and explains why.
+6. **`review-gate`** check passes with: a maintainer approval on the head commit, `pr:auto-merge` + gate `eligible`, or `pr:designer-approved` (set by the workflow's bot only) + gate not `blocked`.
+7. **Merge**: `pr:auto-merge` or `pr:designer-approved` → squash merge once `ci`, `pr-meta` and the Vercel build are green. Merge to `main` = production deploy.
 
 ## Agents summary
 
@@ -123,4 +140,6 @@ Skills available to every agent: **payload** (`.claude/skills/payload`, Payload 
 | Triage didn't start                | Remove and re-add `status:needs-triage`                                                                 |
 | PR stuck "review-gate expected"    | Classification still running or failed: re-run `agent-pr` or approve the PR                             |
 | Agent opened a bad PR              | Close it, comment on the issue, add `status:needs-plan` or `status:agent-ready` again                   |
+| No preview comment on the PR | Vercel deployment failed or still running (see the Vercel check); the comment only targets the current head commit |
+| « Valider et fusionner » got unticked | Read the bot's reply: new version deploying, maintainer review needed, or classification not finished |
 | Content saved but site not updated | Check the doc is **published**; check the model component tags what it renders (`docs/architecture.md`) |

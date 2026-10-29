@@ -4,6 +4,16 @@ Questions that produce these sections: `docs/intake-questions.md`. Sections are 
 
 The triage agent validates issues against these formats; `/request` and the issue forms produce them.
 
+Optional, any type, right before `### Options` (added by `/request` or `/build` when the designer gives a file):
+
+```markdown
+### Design files
+
+`designs/<n>-<slug>/` on branch `feat/<n>-<slug>` — <file: what it shows>
+```
+
+Links (Figma, public images) can go there too. The developer works on that branch and treats the files as the visual reference.
+
 Every issue ends with:
 
 ```markdown

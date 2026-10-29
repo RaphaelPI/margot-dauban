@@ -50,9 +50,11 @@ Needed so agent label changes and PRs trigger the next workflows.
 | `S3_PREFIX`                                | `prod`                    | `preview`                    |
 | `S3_ACCESS_KEY_ID`, `S3_SECRET_ACCESS_KEY` | IAM user                  | same                         |
 
+- **Preview links for the designer**: Vercel protects preview deployments by default (Vercel Authentication). Either invite the designer to the Vercel team, or Settings → Deployment Protection → disable it for previews (previews only show the preview database).
+- The Vercel GitHub integration must stay on: its `deployment_status` events drive the preview comment and its check is part of the merge conditions.
 - First deploy → open `/admin` on production → create the designer's account. Do the same on a preview for test content.
 
 ## 6. People
 
-- Designer: install Claude Code (desktop app or VS Code extension), clone the repo, get `.env` values (preview database URL) from a maintainer, accept the **ponytail** plugin prompt, `gh auth login`. Then `/request` and `/build` (see `docs/designer-guide.md`).
+- Designer: GitHub account added to the repo as collaborator with **Write** access (needed for « Valider et fusionner »). Install Claude Code (desktop app or VS Code extension), clone the repo, get `.env` values (preview database URL) from a maintainer, accept the **ponytail** plugin prompt, `gh auth login`. Then `/request` and `/build` (see `docs/designer-guide.md`).
 - Maintainers: approve plans, review `pr:human-review` PRs.

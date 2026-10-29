@@ -38,6 +38,11 @@ body:
       description: "Lien Figma ou image, où ça apparaît, comportement mobile, ce qui doit être modifiable dans l'admin."
     validations:
       required: true
+  - type: textarea
+    id: design
+    attributes:
+      label: Design files
+      description: "Optionnel. Glisse ici des captures (PNG, PDF) ou colle un lien Figma. Pour un zip ou une page HTML, passe plutôt par /request ou /build dans Claude Code."
   - type: checkboxes
     id: plan
     attributes:

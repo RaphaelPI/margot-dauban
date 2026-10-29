@@ -8,7 +8,8 @@
       "!src/app/(payload)",
       "!src/components/ui",
       "!.claude/skills/payload",
-      "!**/*.md"
+      "!**/*.md",
+      "!designs"
     ]
   },
   "formatter": { "indentStyle": "space", "lineWidth": 110 },

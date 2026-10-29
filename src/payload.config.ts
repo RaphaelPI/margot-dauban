@@ -6,10 +6,15 @@ import { s3Storage } from '@payloadcms/storage-s3'
 import { fr } from '@payloadcms/translations/languages/fr'
 import { buildConfig } from 'payload'
 import sharp from 'sharp'
+import { Clients } from './collections/Clients'
+import { Faqs } from './collections/Faqs'
 import { Media } from './collections/Media'
 import { Pages } from './collections/Pages'
 import { Projects } from './collections/Projects'
+import { Services } from './collections/Services'
+import { Testimonials } from './collections/Testimonials'
 import { Users } from './collections/Users'
+import { Home } from './globals/Home'
 import { Settings } from './globals/Settings'
 import { withGlobalRevalidation, withRevalidation } from './lib/cache'
 import { parseEnv } from './lib/env'
@@ -23,8 +28,8 @@ export default buildConfig({
     importMap: { baseDir: path.resolve(dirname) },
   },
   i18n: { supportedLanguages: { fr }, fallbackLanguage: 'fr' },
-  collections: [Projects, Pages, Media, Users].map(withRevalidation),
-  globals: [Settings].map(withGlobalRevalidation),
+  collections: [Projects, Testimonials, Clients, Services, Faqs, Pages, Media, Users].map(withRevalidation),
+  globals: [Home, Settings].map(withGlobalRevalidation),
   editor: lexicalEditor(),
   secret: env.PAYLOAD_SECRET,
   graphQL: { disable: true },

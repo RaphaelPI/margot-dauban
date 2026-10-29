@@ -28,12 +28,14 @@ Source of truth: `.github/labels.json` (synced to GitHub by `.github/workflows/l
 | `status:in-review`    | PR open                          | Developer agent, `/build`, human                             | —                                               |
 | `status:blocked`      | Agent failed or stuck            | Any workflow on failure                                      | —                                               |
 
-## PR (exactly one per PR into main)
+## PR (one tier label per PR into main, plus `pr:designer-approved` once validated)
 
 | Label             | Meaning                                     | Set by                                                   |
 | ----------------- | ------------------------------------------- | -------------------------------------------------------- |
 | `pr:auto-merge`   | Low risk; merges itself when CI is green    | PR reviewer agent (only if hard gate passes), or a human |
-| `pr:human-review` | Needs a human approval on the latest commit | PR reviewer agent / fallback                             |
+| `pr:designer-review` | Merges when the designer ticks « Valider et fusionner » on the preview | PR reviewer agent |
+| `pr:designer-approved` | Designer validated the current version; triggers the merge | `agent-preview.yml` only (review-gate rejects it from anyone else) |
+| `pr:human-review` | A maintainer must approve the latest commit | PR reviewer agent / fallback |
 
 ## Flags
 

@@ -1,24 +1,32 @@
 #!/usr/bin/env bash
 # Usage: pr-gate.sh <pr-number>
-# Deterministic auto-merge eligibility. Prints "eligible" or the reason it is not.
-# The reviewer agent may only choose pr:auto-merge when this prints "eligible".
+# Deterministic merge tier. Prints one of:
+#   eligible            → may auto-merge (reviewer agent decides)
+#   designer: <reason>  → the designer's approval is enough to merge
+#   blocked: <reason>   → a maintainer must approve
+# Design references under designs/ never count: they don't run.
 set -euo pipefail
 MAX_LINES=${MAX_LINES:-80}
 MAX_FILES=${MAX_FILES:-8}
-# Paths that always need a human: content model, access, Payload config/admin, cache layer,
-# env, CI/agents, deps, config files.
-SENSITIVE='^(src/collections/|src/globals/|src/access/|src/migrations/|src/payload\.config\.ts|src/payload-types\.ts|src/app/\(payload\)/|src/lib/(cache|env|payload)\.ts|\.github/|\.claude/|pnpm-lock\.yaml|biome\.json|components\.json)|(^|/)package\.json$|(^|/)next\.config\.|(^|/)\.env'
+# Security, data access, Payload admin/config, cache layer, env, CI/agents, deps, config files.
+CRITICAL='^(src/access/|src/migrations/|src/payload\.config\.ts|src/app/\(payload\)/|src/lib/(cache|env|payload)\.ts|\.github/|\.claude/|pnpm-lock\.yaml|biome\.json|components\.json|tsconfig\.json|scripts/)|(^|/)package\.json$|(^|/)next\.config\.|(^|/)\.env'
+# Content model: never auto-merged, but the designer can validate it on the preview.
+MODEL='^(src/collections/|src/globals/|src/fields/|src/payload-types\.ts)'
 
-pr=$(gh pr view "$1" --json title,additions,deletions,files,labels)
-lines=$(jq '.additions + .deletions' <<<"$pr")
-files=$(jq '.files | length' <<<"$pr")
-hits=$(jq -r '.files[].path' <<<"$pr" | grep -E "$SENSITIVE" || true)
+pr=$(gh pr view "$1" --json title,files,labels)
+code=$(jq '[.files[] | select(.path | startswith("designs/") | not)]' <<<"$pr")
+lines=$(jq 'map(.additions + .deletions) | add // 0' <<<"$code")
+files=$(jq 'length' <<<"$code")
+paths=$(jq -r '.[].path' <<<"$code")
+critical=$(grep -E "$CRITICAL" <<<"$paths" || true)
+model=$(grep -E "$MODEL" <<<"$paths" || true)
 flags=$(jq -r '.labels[].name | select(. == "security" or . == "breaking-change")' <<<"$pr")
 
-if [[ $(jq -r .title <<<"$pr") =~ ^[a-z]+(\(.+\))?!: ]]; then echo "breaking change in title"
-elif [[ -n $flags ]]; then echo "labelled $flags"
-elif ((lines > MAX_LINES)); then echo "$lines changed lines (max $MAX_LINES)"
-elif ((files > MAX_FILES)); then echo "$files files (max $MAX_FILES)"
-elif [[ -n $hits ]]; then echo "sensitive paths: $(tr '\n' ' ' <<<"$hits")"
+if [[ $(jq -r .title <<<"$pr") =~ ^[a-z]+(\(.+\))?!: ]]; then echo "blocked: breaking change in title"
+elif [[ -n $flags ]]; then echo "blocked: labelled $(tr '\n' ' ' <<<"$flags")"
+elif [[ -n $critical ]]; then echo "blocked: critical paths: $(tr '\n' ' ' <<<"$critical")"
+elif [[ -n $model ]]; then echo "designer: content model: $(tr '\n' ' ' <<<"$model")"
+elif ((lines > MAX_LINES)); then echo "designer: $lines changed lines (auto-merge max $MAX_LINES)"
+elif ((files > MAX_FILES)); then echo "designer: $files files (auto-merge max $MAX_FILES)"
 else echo eligible
 fi

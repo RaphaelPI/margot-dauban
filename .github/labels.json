@@ -80,9 +80,19 @@
     "description": "Low risk. Merges automatically when CI is green"
   },
   {
+    "name": "pr:designer-review",
+    "color": "FBCA04",
+    "description": "Merges when the designer ticks \"Valider et fusionner\" on the preview"
+  },
+  {
+    "name": "pr:designer-approved",
+    "color": "0E8A16",
+    "description": "Designer validated the preview. Set by the workflow only"
+  },
+  {
     "name": "pr:human-review",
     "color": "D93F0B",
-    "description": "Needs a human approval before merge"
+    "description": "A maintainer must approve the latest commit"
   },
   {
     "name": "priority:urgent",

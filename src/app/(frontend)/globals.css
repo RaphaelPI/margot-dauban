@@ -2,6 +2,9 @@
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 
+/* Design references are not source: don't generate classes from them. */
+@source not "../../../designs";
+
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {

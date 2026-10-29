@@ -37,6 +37,11 @@ body:
     attributes:
       label: Evidence
       description: "URL de la page, appareil et navigateur, capture ou vidéo (pas de mot de passe)."
+  - type: textarea
+    id: design
+    attributes:
+      label: Design files
+      description: "Optionnel. Glisse ici des captures (PNG, PDF) ou colle un lien Figma. Pour un zip ou une page HTML, passe plutôt par /request ou /build dans Claude Code."
   - type: checkboxes
     id: plan
     attributes:
