@@ -61,8 +61,9 @@ Never ask before creating the issue: do it.
 - `gh pr ready <pr>` and `.github/scripts/set-status.sh <n> in-review`. This starts the review.
 - Wait for the review label (poll `gh pr view <pr> --json labels` every 30 s, up to 10 min):
   - `pr:auto-merge` → it merges by itself once checks are green.
+  - Before ticking, always read the reviewer's comment (`<!-- agent:review`). Blocking findings → fix them, push, back to 5 (new preview, review runs again); tick only once none are left.
   - `pr:designer-review` → tick the box for them: take the preview comment body, replace `- [ ] Valider et fusionner` with `- [x] Valider et fusionner`, `gh api -X PATCH repos/{owner}/{repo}/issues/comments/<id> -F body=@-`. Then check the bot's reply in the PR comments (`✅`, or `⏸️` with a reason).
-  - `pr:human-review` → read the reviewer's comment (`<!-- agent:review`). Findings you can fix (code, accessibility, caching) → fix, push, back to 5 (new preview, review runs again). Critical area (security, Payload config, dependencies…) → explain in plain words that a maintainer must approve it and is notified; nothing else to do.
+  - Gate `blocked:` (critical area: security, Payload config, dependencies…) → the tick is refused; explain in plain words that a developer must approve it and is notified; nothing else to do.
 - Once merged (`gh pr view <pr> --json state` = `MERGED`): say the live site updates within a few minutes, then `git switch main && git pull --ff-only`.
 
 ## Rules

@@ -90,11 +90,6 @@
     "description": "Designer validated the preview. Set by the workflow only"
   },
   {
-    "name": "pr:human-review",
-    "color": "D93F0B",
-    "description": "A maintainer must approve the latest commit"
-  },
-  {
     "name": "priority:urgent",
     "color": "B60205",
     "description": "Live site broken"

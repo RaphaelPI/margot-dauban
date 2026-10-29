@@ -33,9 +33,8 @@ Source of truth: `.github/labels.json` (synced to GitHub by `.github/workflows/l
 | Label             | Meaning                                     | Set by                                                   |
 | ----------------- | ------------------------------------------- | -------------------------------------------------------- |
 | `pr:auto-merge`   | Low risk; merges itself when CI is green    | PR reviewer agent (only if hard gate passes), or a human |
-| `pr:designer-review` | Merges when the designer ticks « Valider et fusionner » on the preview | PR reviewer agent |
+| `pr:designer-review` | Merges when the designer ticks « Valider et fusionner » on the preview (critical areas: a maintainer approves instead) | PR reviewer agent / fallback |
 | `pr:designer-approved` | Designer validated the current version; triggers the merge | `agent-preview.yml` only (review-gate rejects it from anyone else) |
-| `pr:human-review` | A maintainer must approve the latest commit | PR reviewer agent / fallback |
 
 ## Flags
 

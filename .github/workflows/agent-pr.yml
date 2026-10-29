@@ -1,4 +1,5 @@
-# PRs into main: classify (auto-merge / designer review / human review) and enforce it.
+# PRs into main: classify (auto-merge / designer review) and enforce it.
+# Critical areas (pr-gate.sh `blocked:`) still need a maintainer approval on GitHub.
 # The preview comment and the designer's approval live in agent-preview.yml.
 # `review-gate` must be a required status check on main. It only runs on label/review
 # events, so a fresh push leaves it missing (= merge blocked) until reclassified.
@@ -47,7 +48,7 @@ jobs:
         run: |
           gh pr merge "$PR" --disable-auto 2>/dev/null || true
           # New commits = new decision: a designer approval was for the previous version.
-          gh pr edit "$PR" --remove-label pr:auto-merge --remove-label pr:human-review \
+          gh pr edit "$PR" --remove-label pr:auto-merge \
             --remove-label pr:designer-review --remove-label pr:designer-approved
           echo "result=$(.github/scripts/pr-gate.sh "$PR")" >> "$GITHUB_OUTPUT"
       - uses: anthropics/claude-code-action@v1
@@ -68,13 +69,13 @@ jobs:
             --model ${{ vars.CLAUDE_MODEL_REVIEW || 'claude-sonnet-5-5' }}
             --max-turns 40
             --allowedTools "Read,Glob,Grep,Bash(git diff:*),Bash(git log:*),Bash(git show:*),Bash(gh pr view:*),Bash(gh pr diff:*),Bash(gh pr comment:*),Bash(gh pr edit:*),Bash(gh issue view:*)"
-      - name: Fallback to human review
+      - name: Fallback to designer review
         if: always()
         env:
           GH_TOKEN: ${{ steps.app.outputs.token }}
         run: |
           labels=$(gh pr view "$PR" --json labels --jq '.labels[].name')
-          grep -qE '^pr:(auto-merge|designer-review|human-review)$' <<<"$labels" || gh pr edit "$PR" --add-label pr:human-review
+          grep -qE '^pr:(auto-merge|designer-review)$' <<<"$labels" || gh pr edit "$PR" --add-label pr:designer-review
 
   review-gate:
     if: >-
@@ -98,9 +99,6 @@ jobs:
           approvals=$(gh api "repos/$REPO/pulls/$PR/reviews" --paginate \
             --jq ".[] | select(.state == \"APPROVED\" and .commit_id == \"$SHA\" and .user.type == \"User\") | .id" | wc -l)
           if ((approvals > 0)); then echo "Human approved."; exit 0; fi
-          if grep -qx pr:human-review <<<"$labels"; then
-            echo "::error::pr:human-review → needs a human approval on the latest commit."; exit 1
-          fi
           if grep -qx pr:auto-merge <<<"$labels"; then
             # Defense in depth: re-check the hard limits whoever set the label.
             result=$(.github/scripts/pr-gate.sh "$PR")
@@ -117,6 +115,8 @@ jobs:
             echo "::error::Designer approval not enough: $result"; exit 1
           fi
           if grep -qx pr:designer-review <<<"$labels"; then
+            result=$(.github/scripts/pr-gate.sh "$PR")
+            [[ $result == blocked* ]] && { echo "::error::Critical area, a maintainer must approve the latest commit: $result"; exit 1; }
             echo "::error::Waiting for the designer: tick « Valider et fusionner » in the preview comment."; exit 1
           fi
           echo "::error::Not classified yet."; exit 1

@@ -86,7 +86,7 @@ The designer can attach a design (zip exported from a design tool or Claude, HTM
 1. **Need**: questions from `docs/intake-questions.md`, optional design file (D1), short summary in the chat (no validation step). Content-only needs are redirected to the admin.
 2. **Issue + branch + draft PR**, created without asking: issue with `status:in-progress` (CI agents stay off), branch `feat/<n>-<slug>`, design files committed, draft PR into `main` on the first push.
 3. **Iterate on the preview**: each change → lint/typecheck/test → push → the preview comment for that commit → Claude gives the **Vercel URL** in the chat. Anything but « C'est bon » → wait for their instructions, then next push. They can stop and resume later (« Reprendre une demande en cours »), which also works for PRs made by the CI agents.
-4. **« C'est bon »**: `gh pr ready` → reviewer classifies → `pr:designer-review`: Claude ticks « Valider et fusionner » as them; `pr:human-review`: Claude fixes the findings it can (new preview, new review) or explains that a maintainer must approve. Merged → live.
+4. **« C'est bon »**: `gh pr ready` → reviewer classifies → `pr:designer-review`: Claude fixes the reviewer's blocking findings first (new preview, new review), then ticks « Valider et fusionner » as them; critical area (gate `blocked`): a maintainer must approve on GitHub. Merged → live.
 
 ## PR review and merge
 
@@ -99,11 +99,10 @@ The designer can attach a design (zip exported from a design tool or Claude, HTM
    - `blocked: …`: critical paths (access, Payload config/admin, cache/env/payload libs, migrations, `scripts/`, `.github/`, `.claude/`, deps, config), `security`/`breaking-change` label, `!` in title.
 3. **Reviewer agent** (`.claude/agents/pr-reviewer.md`) posts one review comment and labels:
    - `pr:auto-merge`: gate `eligible`, no finding, obviously safe → merges alone when checks are green;
-   - `pr:designer-review`: gate not `blocked`, no correctness/caching/security/accessibility finding → merges when the designer validates;
-   - `pr:human-review`: everything else → a maintainer approves on GitHub.
+   - `pr:designer-review`: everything else (also the fallback if the agent fails) → merges when the designer validates. Blocking findings are fixed by `/build` before validating. No human-review tier.
 4. **Preview comment** (`agent-preview.yml`, job `preview`): on Vercel's `deployment_status` success for the PR head, posts (then updates on each push) one comment with the **preview URL** and `- [ ] Valider et fusionner`, and announces the first preview on the issue. No agent involved.
-5. **Designer validation** (job `approve`): ticking the box (`/build` does it as the designer; a maintainer can tick it on GitHub) → checks the person has write access, the ticked version is the current head, the PR isn't `pr:human-review` and the gate isn't `blocked` → labels `pr:designer-approved`. Otherwise unticks and explains why.
-6. **`review-gate`** check passes with: a maintainer approval on the head commit, `pr:auto-merge` + gate `eligible`, or `pr:designer-approved` (set by the workflow's bot only) + gate not `blocked`.
+5. **Designer validation** (job `approve`): ticking the box (`/build` does it as the designer; a maintainer can tick it on GitHub) → checks the person has write access, the ticked version is the current head, the PR is classified and the gate isn't `blocked` → labels `pr:designer-approved`. Otherwise unticks and explains why.
+6. **`review-gate`** check passes with: a maintainer approval on the head commit, `pr:auto-merge` + gate `eligible`, or `pr:designer-approved` (set by the workflow's bot only) + gate not `blocked`. Gate `blocked` (critical areas) → only a maintainer approval passes.
 7. **Merge**: `pr:auto-merge` or `pr:designer-approved` → squash merge once `ci`, `pr-meta` and the Vercel build are green. Merge to `main` = production deploy.
 
 ## Agents summary
