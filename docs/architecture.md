@@ -4,7 +4,7 @@
 
 | Layer       | Choice                                                                     | Notes                                                           |
 | ----------- | -------------------------------------------------------------------------- | --------------------------------------------------------------- |
-| App         | Next.js 16, App Router, React 19, `cacheComponents` + `partialPrefetching` | Single app, no monorepo                                         |
+| App         | Next.js 16, App Router, React 19, `cacheComponents` (no `partialPrefetching`, see decisions #22) | Single app, no monorepo                                         |
 | CMS         | Payload 3, mounted in Next                                                 | Admin `/admin` (French), REST `/api/*`, GraphQL disabled        |
 | Database    | MongoDB Atlas                                                              | `@payloadcms/db-mongodb`                                        |
 | Media       | Amazon S3                                                                  | `@payloadcms/storage-s3`; local dev without S3 writes `./media` |

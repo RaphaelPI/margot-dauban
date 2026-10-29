@@ -3,7 +3,6 @@ import type { NextConfig } from 'next'
 
 const nextConfig: NextConfig = {
   cacheComponents: true,
-  partialPrefetching: true,
   cacheLife: {
     // Model components (src/components/models): content only changes when Payload
     // revalidates its tag (src/lib/cache.ts), so time-based refresh is a safety net.
