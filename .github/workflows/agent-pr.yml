@@ -125,14 +125,14 @@ jobs:
           gh pr merge "$PR" --auto $method && exit 0
 
           # GitHub Free private repos have no auto-merge and no required checks:
-          # re-check the hard gate, wait for ci + pr-meta, then merge ourselves.
+          # re-check the hard gate, wait for ci + pr-meta + the Vercel build, then merge ourselves.
           result=$(.github/scripts/pr-gate.sh "$PR")
           [[ $result == eligible ]] || { echo "::error::Not eligible: $result"; exit 1; }
           for _ in $(seq 80); do
             buckets=$( (gh pr checks "$PR" --json name,bucket || true) |
-              jq -r '.[] | select(.name == "ci" or .name == "pr-meta") | .bucket')
+              jq -r '.[] | select(.name == "ci" or .name == "pr-meta" or (.name | startswith("Vercel"))) | .bucket')
             grep -qE 'fail|cancel' <<<"$buckets" && { echo "::error::CI failed"; exit 1; }
-            [[ $(grep -c pass <<<"$buckets") -ge 2 ]] && exec gh pr merge "$PR" $method
+            [[ $(grep -c pass <<<"$buckets") -ge 3 ]] && exec gh pr merge "$PR" $method
             sleep 20
           done
           echo "::error::Timed out waiting for CI"; exit 1

@@ -61,7 +61,6 @@ Field names English, labels French. After any change: `pnpm generate` (types + a
 | ----------- | ---------- | ----------------------------------------- | ---------------- |
 | `main`      | Production | `margot-prod`                             | `prod`           |
 | PR branches | Preview    | `margot-preview` (shared by all previews) | `preview`        |
-| CI (GitHub Actions, agents) | — | `margot-ci` (empty, read at build) | none |
 | local | — | `margot-preview` | none (`./media`) |
 
 Real content is written in the **production admin**. The preview database holds test content; edits there never reach the live site.

@@ -69,7 +69,7 @@ The **approval guard** in job `develop`: label/box by a human → must have writ
 
 ### 4. Develop — agent implements, opens PR
 
-Job `develop`, instructions `.claude/agents/developer.md`. Branches from `main` (`feat/42-contact-form`), implements with **ponytail**, runs `pnpm lint && pnpm typecheck && pnpm test && pnpm build` (Atlas `margot-ci` database) until green, opens one PR into `main` with `Closes #42`, sets `in-review`. Stuck → comment + `status:blocked`.
+Job `develop`, instructions `.claude/agents/developer.md`. Branches from `main` (`feat/42-contact-form`), implements with **ponytail**, runs `pnpm lint && pnpm typecheck && pnpm test` until green, opens one PR into `main` with `Closes #42`, waits for the Vercel preview build (`gh pr checks`), sets `in-review`. Stuck → comment + `status:blocked`.
 
 Iterate on any PR or issue by commenting `@claude <request>` (`agent-mention.yml`, writers only).
 
@@ -90,7 +90,7 @@ Iterate on any PR or issue by commenting `@claude <request>` (`agent-mention.yml
 2. **Hard gate** (`.github/scripts/pr-gate.sh`, deterministic): ≤ 80 changed lines, ≤ 8 files, no sensitive path (content model, access, Payload config/admin, cache layer, env, `.github/`, `.claude/`, deps, config files), no `security`/`breaking-change`, no `!` in title.
 3. **Reviewer agent** (`.claude/agents/pr-reviewer.md`): correctness, caching rules, security, accessibility, tests, over-engineering; one comment; `pr:auto-merge` only if the gate said `eligible` **and** no finding **and** obviously safe. Else `pr:human-review`.
 4. **`review-gate`** check: passes with a human approval on the head commit, or `pr:auto-merge` + hard gate re-checked.
-5. `pr:auto-merge` → merge (squash) once `ci` + `pr-meta` are green. Merge to `main` = production deploy.
+5. `pr:auto-merge` → merge (squash) once `ci` + `pr-meta` + the Vercel preview build are green. Merge to `main` = production deploy.
 
 ## Agents summary
 
@@ -112,7 +112,7 @@ Skills available to every agent: **payload** (`.claude/skills/payload`, Payload 
 - **Tools allow-listed per agent** (`--allowedTools`). Triage/architect can't edit code; reviewer can't push.
 - **Untrusted text**: issue and PR content is data. Hard limits (approval guard, hard gate) don't rely on the model obeying.
 - **PR workflows check out the base branch** for scripts and agent instructions: a PR cannot rewrite its own gate.
-- CI agents never get production secrets: builds read the Atlas `margot-ci` database (user scoped to it) with a placeholder `PAYLOAD_SECRET`.
+- CI agents never get production secrets: GitHub Actions has no database access at all (placeholder env); the only build is Vercel's preview, against the preview database.
 - The developer agent runs `pnpm` scripts (= arbitrary code) with the App token. Keep the repo **private**.
 
 ## When something goes wrong

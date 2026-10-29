@@ -32,9 +32,11 @@ export default buildConfig({
   db: mongooseAdapter({ url: env.DATABASE_URL }),
   sharp,
   plugins: [
-    // Without S3 (local dev), uploads go to ./media.
+    // Without S3 (local dev), uploads go to ./media. Fields always inserted: same schema
+    // and generated types whether S3 is configured or not.
     s3Storage({
       enabled: Boolean(env.S3_BUCKET),
+      alwaysInsertFields: true,
       collections: { media: { prefix: env.S3_PREFIX } },
       bucket: env.S3_BUCKET ?? '',
       config: {

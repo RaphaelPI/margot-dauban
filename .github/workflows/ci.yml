@@ -13,9 +13,9 @@ permissions:
 jobs:
   ci:
     runs-on: ubuntu-latest
-    # Pages prerender at build and read the database: Atlas `margot-ci` (throwaway content).
+    # No database here: nothing below connects. The build (needs the DB) is Vercel's preview deployment.
     env:
-      DATABASE_URL: ${{ secrets.CI_DATABASE_URL }}
+      DATABASE_URL: mongodb://placeholder/ci
       PAYLOAD_SECRET: ci-only-secret-not-used-anywhere-0000
     steps:
       - uses: actions/checkout@v5
@@ -23,7 +23,6 @@ jobs:
       - run: pnpm lint
       - run: pnpm typecheck
       - run: pnpm test
-      - run: pnpm build
       - name: Generated Payload files are up to date
         run: |
           pnpm generate

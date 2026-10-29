@@ -30,7 +30,7 @@ jobs:
       - uses: ./.github/actions/setup
       - uses: anthropics/claude-code-action@v1
         env:
-          DATABASE_URL: ${{ secrets.CI_DATABASE_URL }}
+          DATABASE_URL: mongodb://placeholder/ci
           PAYLOAD_SECRET: ci-only-secret-not-used-anywhere-0000
         with:
           # Claude Max subscription only (token from `claude setup-token`). No API key.
@@ -42,4 +42,4 @@ jobs:
           claude_args: |
             --model ${{ vars.CLAUDE_MODEL_DEV || 'claude-sonnet-5-5' }}
             --max-turns 60
-            --allowedTools "Read,Glob,Grep,Edit,Write,Bash(pnpm:*),Bash(git:*),Bash(gh pr view:*),Bash(gh pr diff:*),Bash(gh issue view:*)"
+            --allowedTools "Read,Glob,Grep,Edit,Write,Bash(pnpm:*),Bash(git:*),Bash(gh pr view:*),Bash(gh pr diff:*),Bash(gh pr checks:*),Bash(gh issue view:*)"

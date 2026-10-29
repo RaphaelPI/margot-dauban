@@ -5,7 +5,7 @@
 - Private repo, default branch `main`.
 - Settings → General: allow **squash** only; enable **Allow auto-merge**; enable **Automatically delete head branches**.
 - Labels: run workflow **labels** once (Actions → labels → Run workflow).
-- Ruleset on `main` (GitHub Pro / Team; on Free private repos it isn't available, the `auto-merge` job then waits for checks itself and merges): require PR · required checks `ci`, `pr-meta`, `review-gate` · block force push · **no required approvals** (`review-gate` decides).
+- Ruleset on `main` (GitHub Pro / Team; on Free private repos it isn't available, the `auto-merge` job then waits for checks itself and merges): require PR · required checks `ci`, `pr-meta`, `review-gate`, Vercel · block force push · **no required approvals** (`review-gate` decides).
 
 ## 2. GitHub App (agent identity)
 
@@ -20,7 +20,6 @@ Needed so agent label changes and PRs trigger the next workflows.
 | ------------------- | ------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------- |
 | Secret              | `AGENT_APP_PRIVATE_KEY`                                                               | the `.pem` content                                                           |
 | Secret | `CLAUDE_CODE_OAUTH_TOKEN` | Claude Max subscription token: run `claude setup-token` locally. The only Claude credential: no API key |
-| Secret | `CI_DATABASE_URL` | Atlas URL `…/margot-ci` (CI user). Used by `ci`, `develop`, `@claude` builds |
 | Variable            | `AGENT_APP_ID`                                                                        | App ID                                                                       |
 | Variable            | `AGENT_APP_SLUG`                                                                      | App slug, e.g. `margot-site-agent`                                           |
 | Variable (optional) | `CLAUDE_DEBUG`                                                                        | `true` prints full agent output in Actions logs                              |
@@ -29,9 +28,9 @@ Needed so agent label changes and PRs trigger the next workflows.
 ## 3. MongoDB Atlas
 
 - One cluster (same region as Vercel functions, e.g. Paris `eu-west-3` / Vercel `cdg1`). Free/Flex tier is enough to start.
-- Three databases: `margot-prod` (live site), `margot-preview` (Vercel previews + local dev), `margot-ci` (GitHub Actions builds, stays empty). One database user each, `readWrite` on its database only.
+- Two databases: `margot-prod` (live site) and `margot-preview` (Vercel previews + local dev). One database user each, `readWrite` on its database only. GitHub Actions never connects.
 - No local MongoDB, no Docker: everyone, agents included, uses Atlas.
-- Network access: Vercel functions have dynamic IPs → allow `0.0.0.0/0` (auth via user/password) or use the Atlas ↔ Vercel integration.
+- Network access: Vercel functions and local machines have dynamic IPs → allow `0.0.0.0/0` (auth via user/password) or use the Atlas ↔ Vercel integration.
 
 ## 4. Amazon S3
 

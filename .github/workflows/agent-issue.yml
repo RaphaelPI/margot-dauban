@@ -206,8 +206,8 @@ jobs:
       - if: steps.guard.outputs.ok == 'true'
         uses: anthropics/claude-code-action@v1
         env:
-          # Pages prerender at build: the agent's `pnpm build` reads the Atlas CI database.
-          DATABASE_URL: ${{ secrets.CI_DATABASE_URL }}
+          # No database: the agent doesn't build; Vercel's preview deployment does.
+          DATABASE_URL: mongodb://placeholder/ci
           PAYLOAD_SECRET: ci-only-secret-not-used-anywhere-0000
         with:
           # Claude Max subscription only (token from `claude setup-token`). No API key.
@@ -223,7 +223,7 @@ jobs:
           claude_args: |
             --model ${{ vars.CLAUDE_MODEL_DEV || 'claude-sonnet-5-5' }}
             --max-turns 120
-            --allowedTools "Read,Glob,Grep,Edit,Write,Bash(pnpm:*),Bash(git:*),Bash(gh issue view:*),Bash(gh issue comment:*),Bash(gh pr create:*),Bash(gh pr view:*),Bash(.github/scripts/set-status.sh:*)"
+            --allowedTools "Read,Glob,Grep,Edit,Write,Bash(pnpm:*),Bash(git:*),Bash(gh issue view:*),Bash(gh issue comment:*),Bash(gh pr create:*),Bash(gh pr view:*),Bash(gh pr checks:*),Bash(gh pr comment:*),Bash(.github/scripts/set-status.sh:*)"
       - if: failure()
         run: |
           .github/scripts/set-status.sh "$ISSUE" blocked

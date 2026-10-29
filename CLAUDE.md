@@ -27,7 +27,7 @@ pnpm dev                          # :3000, needs .env (Atlas margot-preview URL,
 pnpm generate                     # after any collection/global/admin component change
 pnpm lint:fix && pnpm lint        # Biome
 pnpm typecheck && pnpm test       # tsc (after next typegen) + Vitest
-pnpm build                        # reads DATABASE_URL (Atlas): pages prerender at build
+pnpm build                        # local only (reads DATABASE_URL: pages prerender at build). In CI, Vercel builds
 ```
 
 ## Hard rules
