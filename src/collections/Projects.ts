@@ -1,6 +1,6 @@
 import { type CollectionConfig, slugField } from 'payload'
 import { loggedIn, publishedOrLoggedIn } from '@/access'
-import { lightEditor, richTextFrom } from '@/fields/light-editor'
+import { lightText, richTextFrom } from '@/fields/light-editor'
 import { seoField } from '@/fields/seo'
 
 export const Projects: CollectionConfig = {
@@ -111,8 +111,8 @@ export const Projects: CollectionConfig = {
                 {
                   type: 'row',
                   fields: [
-                    { name: 'challenge', label: 'Le défi', type: 'richText', editor: lightEditor },
-                    { name: 'response', label: 'Ma réponse', type: 'richText', editor: lightEditor },
+                    { name: 'challenge', label: 'Le défi', ...lightText },
+                    { name: 'response', label: 'Ma réponse', ...lightText },
                   ],
                 },
                 {
@@ -176,8 +176,7 @@ export const Projects: CollectionConfig = {
                 {
                   name: 'objectives',
                   label: 'Texte à côté des étapes',
-                  type: 'richText',
-                  editor: lightEditor,
+                  ...lightText,
                   admin: { description: 'Ex. « Objectifs : vendre plus en simplifiant le catalogue… »' },
                 },
                 {
@@ -250,8 +249,7 @@ export const Projects: CollectionConfig = {
                     {
                       name: 'summary',
                       label: 'Résumé en une phrase (en bref)',
-                      type: 'richText',
-                      editor: lightEditor,
+                      ...lightText,
                     },
                     { name: 'content', label: 'Texte détaillé', type: 'richText' },
                     { name: 'images', label: 'Captures', type: 'upload', relationTo: 'media', hasMany: true },
@@ -274,8 +272,7 @@ export const Projects: CollectionConfig = {
                 {
                   name: 'text',
                   label: 'Texte',
-                  type: 'richText',
-                  editor: lightEditor,
+                  ...lightText,
                   defaultValue: richTextFrom(
                     'Webdesigner freelance à Toulouse, en mission sur place ou à distance.',
                   ),
