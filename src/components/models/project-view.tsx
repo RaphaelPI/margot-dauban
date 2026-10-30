@@ -4,6 +4,7 @@ import { cacheLife, cacheTag } from 'next/cache'
 import Link from 'next/link'
 import type { CSSProperties, ReactNode } from 'react'
 import { GlowCard } from '@/components/glow-card'
+import { TocSpy } from '@/components/toc-spy'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { tagDocs, tags } from '@/lib/cache'
@@ -287,7 +288,7 @@ export async function ProjectView({ id, nextSlot }: { id: string; nextSlot?: Rea
           aria-labelledby="detail-titre"
           className="flex scroll-mt-6 flex-wrap gap-14 border-t pt-18 pb-16 md:pb-26"
         >
-          <nav
+          <TocSpy
             aria-label="Sommaire de la démarche"
             className="flex flex-[1_1_15rem] flex-col gap-2.5 self-start text-base md:sticky md:top-6"
           >
@@ -295,21 +296,24 @@ export async function ProjectView({ id, nextSlot }: { id: string; nextSlot?: Rea
             <ul className="flex flex-col gap-2.5 font-semibold">
               {hasContext ? (
                 <li>
-                  <a href="#contexte" className="hover:text-primary-strong">
+                  <a href="#contexte" className="hover:text-primary-strong aria-[current]:text-primary">
                     {project.contextTitle || 'Contexte & enjeux'}
                   </a>
                 </li>
               ) : null}
               {steps.map((step) => (
                 <li key={step.id ?? step.anchor}>
-                  <a href={`#${step.anchor}`} className="flex gap-2.5 hover:text-primary-strong">
+                  <a
+                    href={`#${step.anchor}`}
+                    className="flex gap-2.5 hover:text-primary-strong aria-[current]:text-primary"
+                  >
                     <span className="w-4.5 shrink-0 text-primary">{step.num}</span>
                     <span>{step.short}</span>
                   </a>
                 </li>
               ))}
             </ul>
-          </nav>
+          </TocSpy>
           <div className="flex max-w-195 min-w-0 flex-[999_1_40rem] flex-col gap-14">
             <h2 id="detail-titre" className={h2Lg}>
               {project.approachTitle || 'La démarche en détail'}
