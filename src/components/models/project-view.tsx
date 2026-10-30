@@ -89,7 +89,7 @@ export async function ProjectView({ id, nextSlot }: { id: string; nextSlot?: Rea
   return (
     <article className="flex flex-col">
       <header className="flex flex-col items-center gap-5.5 pt-12 pb-12 text-center md:pt-18">
-        <nav aria-label="Fil d’Ariane" className="text-base text-muted-foreground">
+        <nav aria-label="Fil d’Ariane" className="mb-4 text-base text-muted-foreground">
           <ol className="flex flex-wrap justify-center gap-1.5">
             <li>
               <Link href="/" className="underline underline-offset-4 hover:text-primary-strong">
@@ -106,6 +106,9 @@ export async function ProjectView({ id, nextSlot }: { id: string; nextSlot?: Rea
             <li aria-current="page">{project.title}</li>
           </ol>
         </nav>
+        <h1 className="font-heading text-[clamp(2.5rem,6vw,5rem)] leading-none font-semibold tracking-[-0.03em] text-balance">
+          {project.title}
+        </h1>
         <div className="flex flex-wrap justify-center gap-2">
           <Badge variant="secondary" className={chip}>
             {project.kind}
@@ -119,9 +122,6 @@ export async function ProjectView({ id, nextSlot }: { id: string; nextSlot?: Rea
             </Badge>
           ) : null}
         </div>
-        <h1 className="font-heading text-[clamp(2.5rem,6vw,5rem)] leading-none font-semibold tracking-[-0.03em] text-balance">
-          {project.title}
-        </h1>
         <p className="max-w-215 font-heading text-[clamp(1.25rem,2.2vw,1.75rem)] leading-[1.35] font-medium text-balance">
           {headline ? (
             <>
