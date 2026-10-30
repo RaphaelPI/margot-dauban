@@ -4,7 +4,8 @@
 name: agent-preview
 
 on:
-  deployment_status:
+  # Vercel reports builds as a commit status (context "Vercel"), not as GitHub deployments.
+  status:
   issue_comment:
     types: [edited]
 
@@ -14,9 +15,9 @@ permissions:
 jobs:
   preview:
     if: >-
-      github.event_name == 'deployment_status' &&
-      github.event.deployment_status.state == 'success' &&
-      startsWith(github.event.deployment.environment, 'Preview')
+      github.event_name == 'status' &&
+      github.event.state == 'success' &&
+      github.event.context == 'Vercel'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/create-github-app-token@v2
@@ -28,8 +29,7 @@ jobs:
       - env:
           GH_TOKEN: ${{ steps.app.outputs.token }}
           REPO: ${{ github.repository }}
-          SHA: ${{ github.event.deployment.sha }}
-          URL: ${{ github.event.deployment_status.environment_url || github.event.deployment_status.target_url }}
+          SHA: ${{ github.event.sha }}
         run: .github/scripts/preview-comment.sh
 
   approve:
