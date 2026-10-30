@@ -2,6 +2,7 @@ import { type CollectionConfig, slugField } from 'payload'
 import { loggedIn, publishedOrLoggedIn } from '@/access'
 import { lightText, richTextFrom } from '@/fields/light-editor'
 import { seoField } from '@/fields/seo'
+import { validateHref } from '@/lib/safe-href'
 
 export const Projects: CollectionConfig = {
   slug: 'projects',
@@ -189,7 +190,7 @@ export const Projects: CollectionConfig = {
                     {
                       type: 'row',
                       fields: [
-                        { name: 'url', label: 'URL', type: 'text' },
+                        { name: 'url', label: 'URL', type: 'text', validate: validateHref },
                         {
                           name: 'label',
                           label: 'Libellé du lien',
@@ -354,7 +355,13 @@ export const Projects: CollectionConfig = {
                       type: 'text',
                       defaultValue: 'Me contacter',
                     },
-                    { name: 'buttonHref', label: 'Lien du bouton', type: 'text', defaultValue: '/contact' },
+                    {
+                      name: 'buttonHref',
+                      label: 'Lien du bouton',
+                      type: 'text',
+                      defaultValue: '/contact',
+                      validate: validateHref,
+                    },
                   ],
                 },
               ],

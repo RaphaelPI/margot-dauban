@@ -10,6 +10,7 @@ import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { tagDocs, tags } from '@/lib/cache'
 import { getPayload } from '@/lib/payload'
+import { isSafeHref } from '@/lib/safe-href'
 import type { Media } from '@/payload-types'
 import { MediaImage } from './media-image'
 
@@ -205,7 +206,7 @@ export async function ProjectView({ id, nextSlot }: { id: string; nextSlot?: Rea
             <h2 id="resultats" className={h2}>
               {project.resultsTitle || 'Les résultats'}
             </h2>
-            {project.website?.url ? (
+            {project.website?.url && isSafeHref(project.website.url) ? (
               <a href={project.website.url} target="_blank" rel="noopener noreferrer" className={linkClass}>
                 {project.website.label || 'Voir le site'} ↗<span className="sr-only"> (nouvel onglet)</span>
               </a>
@@ -429,7 +430,7 @@ export async function ProjectView({ id, nextSlot }: { id: string; nextSlot?: Rea
               </h2>
               {cta.text ? <Rich value={cta.text} className={`text-lg ${short}`} /> : null}
             </div>
-            {cta.buttonLabel && cta.buttonHref ? (
+            {cta.buttonLabel && cta.buttonHref && isSafeHref(cta.buttonHref) ? (
               <Button
                 asChild
                 className="h-auto rounded-xl bg-ink px-6.5 py-4.5 text-base font-bold text-primary-foreground hover:bg-ink/85 focus-visible:ring-primary-foreground"
