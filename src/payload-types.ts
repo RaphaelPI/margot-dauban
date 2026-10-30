@@ -160,7 +160,55 @@ export interface Project {
    */
   summary: string;
   cover: string | Media;
-  lead?: {
+  /**
+   * Vide : l’accroche de la carte est utilisée.
+   */
+  headline?: {
+    /**
+     * Ex. « +10 % de chiffre d’affaires »
+     */
+    highlight?: string | null;
+    /**
+     * Ex. « grâce à une expérience d’achat repensée… »
+     */
+    text?: string | null;
+  };
+  /**
+   * Sinon, l'image de la carte.
+   */
+  hero?: (string | null) | Media;
+  overviewTitle?: string | null;
+  challenge?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  role?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  response?: {
     root: {
       type: string;
       children: {
@@ -180,67 +228,16 @@ export interface Project {
    */
   interventions?: string[] | null;
   /**
-   * Sinon, l'image de la carte.
+   * Ex. « Les résultats, 12 mois après »
    */
-  hero?: (string | null) | Media;
-  context?: {
-    root: {
-      type: string;
-      children: {
-        type: any;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  } | null;
-  constraints?: {
-    root: {
-      type: string;
-      children: {
-        type: any;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  } | null;
-  approachTitle?: string | null;
-  approach?:
-    | {
-        title: string;
-        content?: {
-          root: {
-            type: string;
-            children: {
-              type: any;
-              version: number;
-              [k: string]: unknown;
-            }[];
-            direction: ('ltr' | 'rtl') | null;
-            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-            indent: number;
-            version: number;
-          };
-          [k: string]: unknown;
-        } | null;
-        images?: (string | Media)[] | null;
-        id?: string | null;
-      }[]
-    | null;
   resultsTitle?: string | null;
+  /**
+   * Le premier est mis en avant sur fond indigo.
+   */
   metrics?:
     | {
         /**
-         * Ex. −25 %
+         * Ex. +10 %, 13 → 10, Moins d’appels
          */
         value: string;
         label: string;
@@ -262,11 +259,221 @@ export interface Project {
     };
     [k: string]: unknown;
   } | null;
+  galleryTitle?: string | null;
+  /**
+   * Affichées deux par ligne.
+   */
+  gallery?: (string | Media)[] | null;
+  stepsTitle?: string | null;
+  /**
+   * Ex. « Objectifs : vendre plus en simplifiant le catalogue… »
+   */
+  objectives?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  /**
+   * Lien affiché à droite du titre des résultats.
+   */
   website?: {
     url?: string | null;
     label?: string | null;
   };
-  gallery?: (string | Media)[] | null;
+  approachTitle?: string | null;
+  contextTitle?: string | null;
+  context?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  goalsTitle?: string | null;
+  /**
+   * Une carte par objectif, sous « Contexte & enjeux ».
+   */
+  goals?:
+    | {
+        /**
+         * Nom d’une icône de phosphoricons.com : clique sur l’icône et copie son nom (ex. target, arrow-up-right).
+         */
+        icon?: string | null;
+        /**
+         * Ex. Diminuer le taux de rebond
+         */
+        title: string;
+        text?: {
+          root: {
+            type: string;
+            children: {
+              type: any;
+              version: number;
+              [k: string]: unknown;
+            }[];
+            direction: ('ltr' | 'rtl') | null;
+            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+            indent: number;
+            version: number;
+          };
+          [k: string]: unknown;
+        } | null;
+        id?: string | null;
+      }[]
+    | null;
+  constraintsTitle?: string | null;
+  /**
+   * Une carte par contrainte, sous les objectifs.
+   */
+  constraintCards?:
+    | {
+        /**
+         * Nom d’une icône de phosphoricons.com : clique sur l’icône et copie son nom (ex. target, arrow-up-right).
+         */
+        icon?: string | null;
+        /**
+         * Ex. Billetterie externe imposée
+         */
+        title: string;
+        text?: {
+          root: {
+            type: string;
+            children: {
+              type: any;
+              version: number;
+              [k: string]: unknown;
+            }[];
+            direction: ('ltr' | 'rtl') | null;
+            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+            indent: number;
+            version: number;
+          };
+          [k: string]: unknown;
+        } | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Plus affiché sur la page : à reprendre dans les cartes « Contraintes » ci-dessus.
+   */
+  constraints?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  /**
+   * Chaque étape apparaît deux fois : en bref (partie 1) et en détail (partie 2).
+   */
+  approach?:
+    | {
+        /**
+         * Vide : le titre détaillé.
+         */
+        shortTitle?: string | null;
+        title: string;
+        summary?: {
+          root: {
+            type: string;
+            children: {
+              type: any;
+              version: number;
+              [k: string]: unknown;
+            }[];
+            direction: ('ltr' | 'rtl') | null;
+            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+            indent: number;
+            version: number;
+          };
+          [k: string]: unknown;
+        } | null;
+        content?: {
+          root: {
+            type: string;
+            children: {
+              type: any;
+              version: number;
+              [k: string]: unknown;
+            }[];
+            direction: ('ltr' | 'rtl') | null;
+            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+            indent: number;
+            version: number;
+          };
+          [k: string]: unknown;
+        } | null;
+        images?: (string | Media)[] | null;
+        id?: string | null;
+      }[]
+    | null;
+  cta?: {
+    /**
+     * Ex. « Un projet e-commerce à refondre ? »
+     */
+    title?: string | null;
+    text?: {
+      root: {
+        type: string;
+        children: {
+          type: any;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    } | null;
+    buttonLabel?: string | null;
+    buttonHref?: string | null;
+  };
+  /**
+   * Plus affichée sur la page : à reprendre dans « Accroche » ou « Le défi ».
+   */
+  lead?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
   /**
    * Laisser vide pour utiliser le titre et le résumé.
    */
@@ -550,20 +757,18 @@ export interface ProjectsSelect<T extends boolean = true> {
   sector?: T;
   summary?: T;
   cover?: T;
-  lead?: T;
-  interventions?: T;
-  hero?: T;
-  context?: T;
-  constraints?: T;
-  approachTitle?: T;
-  approach?:
+  headline?:
     | T
     | {
-        title?: T;
-        content?: T;
-        images?: T;
-        id?: T;
+        highlight?: T;
+        text?: T;
       };
+  hero?: T;
+  overviewTitle?: T;
+  challenge?: T;
+  role?: T;
+  response?: T;
+  interventions?: T;
   resultsTitle?: T;
   metrics?:
     | T
@@ -573,13 +778,57 @@ export interface ProjectsSelect<T extends boolean = true> {
         id?: T;
       };
   results?: T;
+  galleryTitle?: T;
+  gallery?: T;
+  stepsTitle?: T;
+  objectives?: T;
   website?:
     | T
     | {
         url?: T;
         label?: T;
       };
-  gallery?: T;
+  approachTitle?: T;
+  contextTitle?: T;
+  context?: T;
+  goalsTitle?: T;
+  goals?:
+    | T
+    | {
+        icon?: T;
+        title?: T;
+        text?: T;
+        id?: T;
+      };
+  constraintsTitle?: T;
+  constraintCards?:
+    | T
+    | {
+        icon?: T;
+        title?: T;
+        text?: T;
+        id?: T;
+      };
+  constraints?: T;
+  approach?:
+    | T
+    | {
+        shortTitle?: T;
+        title?: T;
+        summary?: T;
+        content?: T;
+        images?: T;
+        id?: T;
+      };
+  cta?:
+    | T
+    | {
+        title?: T;
+        text?: T;
+        buttonLabel?: T;
+        buttonHref?: T;
+      };
+  lead?: T;
   seo?:
     | T
     | {

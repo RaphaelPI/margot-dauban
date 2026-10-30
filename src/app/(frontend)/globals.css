@@ -207,6 +207,34 @@
   }
 }
 
+/* Vertical line drawn top-down while a list scrolls by (case study steps). The list carries
+   `draw-timeline`; each segment animates over its own slice of that list's scroll range
+   (--draw-from → --draw-to), so the segments draw one after another as a single line.
+   Browsers without scroll-driven animations, or with reduced motion, show the line at once. */
+@utility draw-timeline {
+  view-timeline-name: --draw;
+}
+
+@utility draw-on-scroll {
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+      transform-origin: top;
+      animation: draw-line linear both;
+      animation-timeline: --draw;
+      animation-range: cover var(--draw-from, 0%) cover var(--draw-to, 50%);
+    }
+  }
+}
+
+@keyframes draw-line {
+  from {
+    transform: scaleY(0);
+  }
+  to {
+    transform: scaleY(1);
+  }
+}
+
 @keyframes marquee {
   to {
     transform: translateX(-50%);

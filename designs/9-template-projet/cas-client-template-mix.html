@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Cas client E — Mix</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Albert+Sans:wght@400;500;600;700&amp;family=Unbounded:wght@500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#F7F7FA}
+a{color:#121814}a:hover{color:#3730A3}
+@property --mx{syntax:'<length>';inherits:true;initial-value:0px}
+@property --my{syntax:'<length>';inherits:true;initial-value:0px}
+.carte{position:relative;isolation:isolate;transition:border-color .6s ease,box-shadow .6s ease}
+.carte::before{content:"";position:absolute;inset:0;border-radius:inherit;background:radial-gradient(420px circle at var(--mx) var(--my),rgba(226,224,252,0.75),rgba(232,230,253,0.35) 45%,rgba(232,230,253,0) 75%);opacity:0;transition:opacity .7s cubic-bezier(.22,.61,.36,1);z-index:-1;pointer-events:none}
+.carte:hover{border-color:#DCDAF8;box-shadow:0 16px 36px rgba(79,70,229,0.06)}
+.carte:hover::before{opacity:1}
+.carte-indigo::before{background:radial-gradient(520px circle at var(--mx) var(--my),rgba(140,133,255,0.85),rgba(120,112,250,0.35) 45%,rgba(120,112,250,0) 75%)}
+.carte-indigo:hover{box-shadow:0 20px 44px rgba(79,70,229,0.22)}
+.lien-carte::after{content:"";position:absolute;inset:0;border-radius:inherit;z-index:1}
+.lien-carte:focus-visible{outline:none}
+.carte:has(.lien-carte:focus-visible){outline:3px solid #4F46E5;outline-offset:3px}
+@media (prefers-reduced-motion: reduce){.carte,.carte::before{transition:none}}
+.clignote{animation:clignote 1.8s ease-in-out infinite}
+@keyframes clignote{0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(31,157,85,0.45)}50%{opacity:0.45;box-shadow:0 0 0 6px rgba(31,157,85,0)}}
+@media (prefers-reduced-motion: reduce){.clignote{animation:none}}
+</style>
+</helmet>
+<div style="font-family: 'Albert Sans', system-ui, sans-serif; color: #121814; background: radial-gradient(900px 540px at 18% 0px, #DAD8FA, rgba(247,247,250,0) 70%), radial-gradient(900px 540px at 82% 60px, #FCE1D3, rgba(247,247,250,0) 70%), linear-gradient(180deg, #F3EEF1 0px, #F6F4F6 600px, #F7F7FA 1000px, #F7F7FA 100%)">
+  <div style="max-width: 1240px; margin: 0 auto; padding: 0 32px">
+
+    <header style="display: flex; justify-content: space-between; align-items: center; gap: 24px; padding: 22px 0; flex-wrap: wrap">
+      <a href="#" style="display: flex; align-items: center; gap: 12px; text-decoration: none">
+        <span aria-hidden="true" style="width: 44px; height: 44px; border-radius: 50%; background: #E2E1FF; border: 2px solid #FFFFFF; display: flex; align-items: center; justify-content: center; font-size: 10px">[Photo]</span>
+        <span style="display: flex; flex-direction: column"><strong style="font-family: Unbounded, system-ui, sans-serif; font-weight: 600; font-size: 15px">Margot Dauban</strong><span style="font-size: 14px; color: #4F5A53">Webdesigner UI / UX</span></span>
+      </a>
+      <nav aria-label="Navigation principale" style="display: flex; align-items: center; gap: 28px; flex-wrap: wrap; font-size: 15px; font-weight: 500">
+        <span style="display: inline-flex; align-items: center; gap: 8px; background: #FFFFFF; border: 1px solid #E3E4EC; border-radius: 999px; padding: 7px 14px; font-size: 14px; font-weight: 600; color: #1D6B3E"><span aria-hidden="true" class="clignote" style="width: 8px; height: 8px; border-radius: 50%; background: #1F9D55"></span>Disponible</span>
+        <a href="#" aria-current="page" style="text-decoration: none; color: #3730A3; font-weight: 700">Projets</a>
+        <a href="#" style="text-decoration: none">Témoignages</a>
+        <a href="#" style="text-decoration: none">Services</a>
+        <a href="#" style="text-decoration: none">À propos</a>
+        <a href="#" style="text-decoration: none; background: #4F46E5; color: #FFFFFF; padding: 12px 20px; border-radius: 999px; font-weight: 700">Me contacter</a>
+      </nav>
+    </header>
+
+    <section style="padding: 72px 0 48px; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 22px">
+      <nav aria-label="Fil d’Ariane" style="font-size: 14px; color: #4F5A53"><a href="#" style="color: #4F5A53">Accueil</a> / <a href="#" style="color: #4F5A53">Projets</a> / Triple Zéro</nav>
+      <div style="display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; font-size: 13px; font-weight: 700"><span style="background: #E7E6FF; padding: 6px 12px; border-radius: 6px">E-commerce</span><span style="background: #F2E6DF; color: #6B4A3C; padding: 6px 12px; border-radius: 6px">Retail</span><span style="background: #FFFFFF; border: 1px solid #D9DAE4; padding: 5px 12px; border-radius: 6px">2025</span></div>
+      <h1 style="margin: 0; font-family: Unbounded, system-ui, sans-serif; font-weight: 600; font-size: clamp(40px, 6vw, 80px); line-height: 1; letter-spacing: -0.03em">Triple Zéro</h1>
+      <p style="margin: 0; font-family: Unbounded, system-ui, sans-serif; font-weight: 500; font-size: clamp(20px, 2.2vw, 28px); line-height: 1.35; max-width: 860px; text-wrap: balance"><span style="color: #4F46E5">+10 % de chiffre d’affaires</span> grâce à une expérience d’achat repensée et un configurateur produit qui rassure avant de commander.</p>
+    </section>
+
+    <section aria-label="Aperçu du projet" style="padding-bottom: 88px">
+      <div style="border-radius: 28px; overflow: hidden; background: #F2F2F2; border: 1px solid #E1E5DF"><img src="/_blob/d17c8482338f2169aa7fdbc4080313e4" alt="Refonte du site e-commerce Triple Zéro : fiche produit avec configurateur, page doudounes et récapitulatif de commande" style="display: block; width: 100%; aspect-ratio: 3 / 2; object-fit: cover"></div>
+    </section>
+
+    <section aria-labelledby="bref" style="display: flex; flex-direction: column; gap: 20px; padding-bottom: 24px">
+      <h2 id="bref" style="margin: 0; font-family: Unbounded, system-ui, sans-serif; font-weight: 600; font-size: 28px">La prestation en bref</h2>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr)); gap: 16px">
+        <div style="background: #FFFFFF; border: 1px solid #E1E5DF; border-radius: 22px; padding: 26px; display: flex; flex-direction: column; gap: 10px"><span style="font-size: 13px; font-weight: 700; color: #6B4A3C; text-transform: uppercase; letter-spacing: 0.06em">Le défi</span><p style="margin: 0; font-size: 16px; line-height: 1.6">Un site inchangé depuis les années 2000, unique canal de vente : non responsive, catalogue confus, achat peu rassurant.</p></div>
+        <div style="background: #FFFFFF; border: 1px solid #E1E5DF; border-radius: 22px; padding: 26px; display: flex; flex-direction: column; gap: 10px"><span style="font-size: 13px; font-weight: 700; color: #3730A3; text-transform: uppercase; letter-spacing: 0.06em">Ma réponse</span><p style="margin: 0; font-size: 16px; line-height: 1.6">Un catalogue simplifié, une fiche produit-configurateur et un tunnel rassurant, dans une identité rétro modernisée.</p></div>
+        <div style="background: #FFFFFF; border: 1px solid #E1E5DF; border-radius: 22px; padding: 26px; display: flex; flex-direction: column; gap: 10px"><span style="font-size: 13px; font-weight: 700; color: #4F5A53; text-transform: uppercase; letter-spacing: 0.06em">Prestations</span><div style="display: flex; gap: 6px; flex-wrap: wrap; font-size: 13px"><span style="background: #F1F1F5; padding: 5px 10px; border-radius: 6px">Audit UI / UX</span><span style="background: #F1F1F5; padding: 5px 10px; border-radius: 6px">Architecture</span><span style="background: #F1F1F5; padding: 5px 10px; border-radius: 6px">Wireframes</span><span style="background: #F1F1F5; padding: 5px 10px; border-radius: 6px">Prototype HD</span><span style="background: #F1F1F5; padding: 5px 10px; border-radius: 6px">Design system</span><span style="background: #F1F1F5; padding: 5px 10px; border-radius: 6px">Rédaction SEO</span></div></div>
+      </div>
+    </section>
+
+    <section aria-labelledby="res" style="display: flex; flex-direction: column; gap: 20px; padding: 48px 0 104px">
+      <h2 id="res" style="margin: 0; font-family: Unbounded, system-ui, sans-serif; font-weight: 600; font-size: 28px">Les résultats, 12 mois après</h2>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr)); gap: 16px">
+        <div style="background: #4F46E5; color: #FFFFFF; border-radius: 22px; padding: 26px; display: flex; flex-direction: column; gap: 8px"><span style="font-family: Unbounded, system-ui, sans-serif; font-weight: 700; font-size: 40px">+10 %</span><span style="font-size: 15px">de chiffre d’affaires : plus de commandes, panier moyen plus élevé</span></div>
+        <div style="background: #FFFFFF; border: 1px solid #E1E5DF; border-radius: 22px; padding: 26px; display: flex; flex-direction: column; gap: 8px"><span style="font-family: Unbounded, system-ui, sans-serif; font-weight: 700; font-size: 40px; color: #4F46E5">13 → 10</span><span style="font-size: 15px">position moyenne sur Google (Search Console)</span></div>
+        <div style="background: #FFFFFF; border: 1px solid #E1E5DF; border-radius: 22px; padding: 26px; display: flex; flex-direction: column; gap: 8px"><span style="font-family: Unbounded, system-ui, sans-serif; font-weight: 700; font-size: 24px; line-height: 1.2">Moins d’appels</span><span style="font-size: 15px">sur la personnalisation des produits</span></div>
+        <div style="background: #FFFFFF; border: 1px solid #E1E5DF; border-radius: 22px; padding: 26px; display: flex; flex-direction: column; gap: 8px"><span style="font-family: Unbounded, system-ui, sans-serif; font-weight: 700; font-size: 24px; line-height: 1.2">Moins d’abandons</span><span style="font-size: 15px">de panier, surtout sur mobile</span></div>
+      </div>
+    </section>
+
+    <section aria-labelledby="captures" style="display: flex; flex-direction: column; gap: 20px; padding-bottom: 104px">
+      <h2 id="captures" style="margin: 0; font-family: Unbounded, system-ui, sans-serif; font-weight: 600; font-size: 28px">Le résultat en images</h2>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(420px, 100%), 1fr)); gap: 20px">
+        <div style="aspect-ratio: 4 / 3; border-radius: 22px; background: #E7E6FF; display: flex; align-items: flex-end; padding: 18px; box-sizing: border-box; font-size: 14px; color: #3B3A55">[Capture — écrans desktop : catégories, fiche produit, tunnel]</div>
+        <div style="aspect-ratio: 4 / 3; border-radius: 22px; background: #F2E6DF; display: flex; align-items: flex-end; padding: 18px; box-sizing: border-box; font-size: 14px; color: #5A3E33">[Capture — écrans mobile : accueil, catégories, fiche produit]</div>
+        <div style="aspect-ratio: 4 / 3; border-radius: 22px; background: #E9EEF7; display: flex; align-items: flex-end; padding: 18px; box-sizing: border-box; font-size: 14px; color: #3B3A55">[Capture — design system]</div>
+        <div style="aspect-ratio: 4 / 3; border-radius: 22px; background: #E7E6FF; display: flex; align-items: flex-end; padding: 18px; box-sizing: border-box; font-size: 14px; color: #3B3A55">[Capture — tunnel d’achat mobile]</div>
+      </div>
+    </section>
+
+    <section style="display: flex; flex-wrap: wrap; gap: 48px; padding-bottom: 104px">
+      <div style="flex: 1 1 300px; display: flex; flex-direction: column; gap: 16px">
+        <h2 style="margin: 0; font-family: Unbounded, system-ui, sans-serif; font-weight: 600; font-size: 30px; line-height: 1.15">En bref : comment on y est arrivés</h2>
+        <p style="margin: 0; font-size: 17px; line-height: 1.65; color: #4A544D">Objectifs : vendre plus en simplifiant le catalogue et en renforçant la réassurance, gagner en visibilité naturelle, sans perdre l’identité rétro de la marque.</p>
+        <a href="#detail" style="font-weight: 700">Lire la démarche détaillée ↓</a>
+      </div>
+      <ol style="flex: 999 1 600px; min-width: 0; margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column">
+        <sc-for list="{{ etapes }}" as="e" hint-placeholder-count="6">
+          <li style="display: flex; gap: 22px">
+            <div style="display: flex; flex-direction: column; align-items: center; flex-shrink: 0">
+              <span style="width: 44px; height: 44px; border-radius: 50%; background: #FFFFFF; border: 2px solid #4F46E5; box-sizing: border-box; color: #3730A3; font-family: Unbounded, system-ui, sans-serif; font-weight: 600; font-size: 15px; display: flex; align-items: center; justify-content: center">{{ e.num }}</span>
+              <span style="flex: 1; width: 2px; background: #D9D8F6; min-height: 20px"></span>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 6px; padding: 8px 0 28px">
+              <h3 style="margin: 0; font-family: Unbounded, system-ui, sans-serif; font-weight: 600; font-size: 18px">{{ e.court }}</h3>
+              <p style="margin: 0; font-size: 16px; line-height: 1.55; color: #414A44">{{ e.resume }}</p>
+            </div>
+          </li>
+        </sc-for>
+      </ol>
+    </section>
+
+    <section id="detail" aria-labelledby="detail-titre" style="display: flex; flex-wrap: wrap; gap: 56px; padding-bottom: 104px; border-top: 1px solid #E1E5DF; padding-top: 72px">
+      <nav aria-label="Sommaire de la démarche" style="flex: 1 1 240px; display: flex; flex-direction: column; gap: 10px; font-size: 15px">
+        <span style="font-size: 13px; font-weight: 700; color: #4F5A53; text-transform: uppercase; letter-spacing: 0.06em">Sommaire</span>
+        <a href="#contexte" style="text-decoration: none; font-weight: 600">Contexte &amp; enjeux</a>
+        <sc-for list="{{ etapes }}" as="e" hint-placeholder-count="6">
+          <a href="#{{ e.ancre }}" style="text-decoration: none; font-weight: 600; display: flex; gap: 10px"><span style="color: #4F46E5; width: 18px">{{ e.num }}</span><span>{{ e.court }}</span></a>
+        </sc-for>
+      </nav>
+      <article style="flex: 999 1 640px; min-width: 0; display: flex; flex-direction: column; gap: 56px; max-width: 780px">
+        <h2 id="detail-titre" style="margin: 0; font-family: Unbounded, system-ui, sans-serif; font-weight: 600; font-size: 30px">La démarche en détail</h2>
+        <section id="contexte" style="display: flex; flex-direction: column; gap: 16px">
+          <h3 style="margin: 0; font-family: Unbounded, system-ui, sans-serif; font-weight: 600; font-size: 22px">Contexte &amp; enjeux</h3>
+          <p style="margin: 0; font-size: 18px; line-height: 1.7; color: #2E3530">Triple Zéro fabrique en France, de façon artisanale, des sacs de couchage, doudounes et accessoires en duvet d’oie pour la haute montagne. Son site était l’unique canal de vente de la marque : chaque panier abandonné était une vente perdue.</p>
+          <p style="margin: 0; font-size: 18px; line-height: 1.7; color: #2E3530">Il n’était pas responsive, la navigation était confuse, le tunnel d’achat peu rassurant et les options produits peu intuitives. Références en doublon, catégories floues : le catalogue était difficile à parcourir.</p>
+        </section>
+        <sc-for list="{{ etapes }}" as="e" hint-placeholder-count="6">
+          <section id="{{ e.ancre }}" style="display: flex; flex-direction: column; gap: 14px">
+            <div style="display: flex; align-items: center; gap: 14px"><span style="width: 40px; height: 40px; border-radius: 50%; background: #4F46E5; color: #FFFFFF; font-family: Unbounded, system-ui, sans-serif; font-weight: 600; font-size: 15px; display: flex; align-items: center; justify-content: center; flex-shrink: 0">{{ e.num }}</span><h3 style="margin: 0; font-family: Unbounded, system-ui, sans-serif; font-weight: 600; font-size: 21px">{{ e.titre }}</h3></div>
+            <p style="margin: 0; font-size: 18px; line-height: 1.7; color: #2E3530">{{ e.texte }}</p>
+            <sc-if value="{{ e.capture }}" hint-placeholder-val="{{ true }}">
+              <div style="aspect-ratio: 16 / 9; border-radius: 18px; background: {{ e.tint }}; display: flex; align-items: flex-end; padding: 16px; box-sizing: border-box; font-size: 14px; color: #3B3A55">{{ e.capture }}</div>
+            </sc-if>
+          </section>
+        </sc-for>
+      </article>
+    </section>
+
+    <section aria-label="Projet suivant" style="padding-bottom: 72px">
+      <a href="#" class="carte" onMouseMove="{{ suivre }}" style="text-decoration: none; background: #FFFFFF; border: 1px solid #E1E5DF; border-radius: 28px; padding: 20px; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(360px, 100%), 1fr)); gap: 28px; align-items: center">
+        <div style="display: flex; flex-direction: column; gap: 10px; padding: 12px">
+          <span style="font-size: 14px; font-weight: 700; color: #4F5A53; text-transform: uppercase; letter-spacing: 0.06em">Projet suivant</span>
+          <span style="font-family: Unbounded, system-ui, sans-serif; font-weight: 600; font-size: 30px">Axis Vision →</span>
+          <span style="font-size: 16px; color: #414A44">Un outil technique devenu clair, accessible et humain.</span>
+        </div>
+        <div style="border-radius: 18px; overflow: hidden; background: #F2F2F2"><img src="/_blob/643fd45f7031d4e62af1971c73180a69" alt="Web app Axis Vision" style="display: block; width: 100%; aspect-ratio: 16 / 9; object-fit: cover"></div>
+      </a>
+    </section>
+
+    <section style="padding: 0 0 64px">
+      <div class="carte carte-indigo" onMouseMove="{{ suivre }}" style="background: #4F46E5; border-radius: 32px; padding: 72px 48px; display: flex; justify-content: space-between; align-items: center; gap: 32px; flex-wrap: wrap">
+        <div style="display: flex; flex-direction: column; gap: 10px; max-width: 720px">
+          <h2 style="margin: 0; font-family: Unbounded, system-ui, sans-serif; font-weight: 700; font-size: clamp(30px, 3.6vw, 46px); line-height: 1.08; letter-spacing: -0.02em; color: #FFFFFF">Un projet e-commerce à refondre ?</h2>
+          <p style="margin: 0; font-size: 18px; color: #FFFFFF">Webdesigner freelance à Toulouse, en mission sur place ou à distance.</p>
+        </div>
+        <a href="#" style="background: #0F1411; color: #FFFFFF; text-decoration: none; padding: 18px 26px; border-radius: 12px; font-weight: 700">Me contacter →</a>
+      </div>
+    </section>
+  </div>
+
+  <footer style="border-top: 1px solid #E1E5DF">
+    <div style="max-width: 1240px; margin: 0 auto; padding: 28px 32px; display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; font-size: 14px; color: #414A44">
+      <span>Margot Dauban — Webdesigner UI / UX freelance à Toulouse</span>
+      <nav aria-label="Liens de pied de page" style="display: flex; gap: 20px; flex-wrap: wrap"><a href="#">Contact</a><a href="#">FAQ</a><a href="#">Profil Malt</a><a href="#">Mentions légales</a><a href="#">Confidentialité</a></nav>
+    </div>
+  </footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":7600}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      suivre: function (e) { var el = e.currentTarget; var r = el.getBoundingClientRect(); var k = r.width ? el.offsetWidth / r.width : 1; el.style.setProperty('--mx', ((e.clientX - r.left) * k) + 'px'); el.style.setProperty('--my', ((e.clientY - r.top) * k) + 'px'); },
+      etapes: [
+        { num: '1', ancre: 'etape-1', court: 'Clarifier le catalogue', resume: 'Deux univers, Montagne et Maison, et des produits fusionnés.', titre: 'Une architecture et un catalogue clarifiés', texte: 'L’offre est réorganisée en deux univers, Montagne et Maison. Les produits similaires sont fusionnés et le poids devient une option, pour un catalogue plus court et plus lisible.', capture: '[Capture — arborescence Montagne / Maison]', tint: '#E7E6FF' },
+        { num: '2', ancre: 'etape-2', court: 'Un configurateur produit', resume: 'Options visibles d’un coup d’œil et récapitulatif en direct.', titre: 'Une fiche produit pensée comme un configurateur', texte: 'Options visibles d’un coup d’œil, barre récapitulative qui met à jour prix et caractéristiques, photo qui suit la sélection. Les options essentielles d’abord, les avancées en accordéon.', capture: '[Capture — fiche produit avant / après]', tint: '#F2E6DF' },
+        { num: '3', ancre: 'etape-3', court: 'Moderniser l’identité', resume: 'Un vert fluo et le flocon du logo en motif récurrent.', titre: 'Une identité rétro modernisée', texte: 'Un accent vert fluo et le flocon du logo repris comme motif récurrent : la marque garde son caractère, avec une interface actuelle.', capture: '[Capture — charte graphique]', tint: '#E9EEF7' },
+        { num: '4', ancre: 'etape-4', court: 'Un design system', resume: 'Couleurs, typographie, espacements et composants documentés.', titre: 'Un design system documenté', texte: 'Couleurs, typographie, espacements et composants réutilisables : une base commune pour faire évoluer le site sans perdre en cohérence.', capture: '[Capture — design system]', tint: '#E7E6FF' },
+        { num: '5', ancre: 'etape-5', court: 'Rassurer au paiement', resume: 'Trois étapes, un récapitulatif et l’atelier joignable sur mobile.', titre: 'Un tunnel d’achat rassurant', texte: 'Trois étapes (Panier, Coordonnées, Paiement), une progression visible, un récapitulatif permanent et un contact direct avec l’atelier sur mobile.', capture: '[Capture — tunnel d’achat mobile]', tint: '#F2E6DF' },
+        { num: '6', ancre: 'etape-6', court: 'Réécrire pour le SEO', resume: 'Des contenus construits autour des recherches des clients.', titre: 'Des contenus réécrits pour le SEO', texte: 'Catégories, fiches produits et pages éditoriales réécrites autour des recherches réelles des clients.', capture: '', tint: '#FFFFFF' }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>
