@@ -8,7 +8,7 @@ Aller sur `https://<le-site>/admin` (site en ligne).
 
 | Je veux…                                                        | Où                                                                                                                  |
 | --------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------- |
-| Ajouter un projet                                               | **Projets** → Créer. Titre, résumé, image de couverture (avec texte alternatif), client, année, rôle, tags, contenu |
+| Ajouter un projet                                               | **Projets** → Créer. Onglet *Carte* (type, secteur, accroche, image), puis *Étude de cas* en deux blocs : **Partie 1 — Résumé** (accroche, défi, réponse, prestations, chiffres clés, captures, étapes en bref) et **Partie 2 — Démarche détaillée** (contexte, texte de chaque étape), plus le bandeau de contact. Une section vide n'apparaît pas ; le projet suivant est choisi automatiquement |
 | Créer une page (À propos, Services…)                            | **Pages** → Créer. Elle sera visible à `/<slug>`                                                                    |
 | Changer le nom du site, l'accroche, l'intro, l'email, les liens | **Réglages du site**                                                                                                |
 | Remplacer une image                                             | **Médias**                                                                                                          |

@@ -33,7 +33,7 @@ Goal: every model-related component is cached **for life, by id**, and refreshed
 
 | Piece                                                                     | Where                   | Cache key     | Tag                                                        |
 | ------------------------------------------------------------------------- | ----------------------- | ------------- | ---------------------------------------------------------- |
-| Model component (`<ProjectCard id>`, `<ProjectView id>`, `<PageView id>`) | `src/components/models` | its `id` prop | `projects:<id>` + each related doc rendered (`media:<id>`) |
+| Model component (`<ProjectCard id>`, `<ProjectView id>`, `<ProjectNextCard id>`, `<PageView id>`) | `src/components/models` | its `id` prop | `projects:<id>` + each related doc rendered (`media:<id>`) |
 | Id lookups (`getProjectIds`, `getProjectIdBySlug`)                        | `src/data`              | arguments     | `projects`                                                 |
 | Globals (`getSettings`)                                                   | `src/data`              | —             | `global:settings`                                          |
 
@@ -49,7 +49,7 @@ Extracted from margotdauban.fr (WordPress) and the V4 home design. Field names E
 
 | Slug | Kind | Drafts | Holds | Rendered by |
 |---|---|---|---|---|
-| `projects` | collection | yes | Card (type, sector, accroche, cover), case study (intro, interventions, hero, contexte & objectifs, contraintes, démarche steps with images, chiffres clés, résultats, site link, galerie), SEO, `featured` | `ProjectCard`, `ProjectView` |
+| `projects` | collection | yes | Card (type, sector, accroche, cover), case study in two parts — résumé (headline, hero, défi / réponse / interventions, chiffres clés, galerie, steps in short, objectives, site link) and détail (contexte, contraintes, steps with text and images) — plus contact band (`cta`), section titles editable; legacy `lead` kept but not rendered; SEO, `featured` | `ProjectCard`, `ProjectView`, `ProjectNextCard` |
 | `clients` | collection (orderable) | no | name, logo, url (home marquee) | `ClientName` |
 | `services` | collection (orderable) | no | expertise group: title, description, full list, short home list, `showOnHome` | `ServiceCard` |
 | `faqs` | collection (orderable) | no | question, answer, category (6 fixed) | — (FAQ page to build) |

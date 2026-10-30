@@ -1,7 +1,8 @@
 import 'server-only'
 import { cacheLife, cacheTag } from 'next/cache'
-import type { CollectionSlug, Where } from 'payload'
+import type { CollectionSlug, Sort, Where } from 'payload'
 import { tags } from '@/lib/cache'
+import { nextInList } from '@/lib/next-in-list'
 import { getPayload } from '@/lib/payload'
 
 const published: Where = { _status: { equals: 'published' } }
@@ -10,7 +11,7 @@ const published: Where = { _status: { equals: 'published' } }
 // Collections with drafts must pass `published` in `where` (the Local API skips access control).
 export async function findIds(
   collection: CollectionSlug,
-  { where, sort, limit }: { where?: Where; sort?: string; limit?: number } = {},
+  { where, sort, limit }: { where?: Where; sort?: Sort; limit?: number } = {},
 ) {
   'use cache'
   cacheLife('model')
@@ -42,3 +43,8 @@ export const getClientIds = () => findIds('clients', { sort: '_order' })
 
 export const getHomeServiceIds = () =>
   findIds('services', { where: { showOnHome: { equals: true } }, sort: '_order' })
+
+// Same order as the admin list (newest year first); title breaks ties so the order is stable.
+export const getProjectIds = () => findIds('projects', { where: published, sort: ['-year', 'title'] })
+
+export const getNextProjectId = async (id: string) => nextInList(await getProjectIds(), id)
