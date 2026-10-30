@@ -21,7 +21,7 @@ export async function ProjectNextCard({ id }: { id: string }) {
         <div className="flex flex-col gap-2.5 p-3">
           <h2
             id="projet-suivant"
-            className="text-sm font-bold tracking-[0.06em] text-muted-foreground uppercase"
+            className="text-base font-bold tracking-[0.06em] text-muted-foreground uppercase"
           >
             Projet suivant
           </h2>

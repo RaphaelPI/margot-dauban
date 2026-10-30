@@ -16,9 +16,9 @@ import { MediaImage } from './media-image'
 
 const h2 = 'font-heading text-[1.625rem] leading-tight font-semibold md:text-[1.75rem]'
 const h2Lg = 'font-heading text-[1.75rem] leading-[1.15] font-semibold md:text-[1.875rem]'
-const kicker = 'text-[0.8125rem] font-bold tracking-[0.06em] uppercase'
+const kicker = 'text-base font-bold tracking-[0.06em] uppercase'
 const card = 'flex flex-col rounded-xl border bg-card p-6.5'
-const chip = 'h-auto rounded-md px-3 py-1.5 text-[0.8125rem] font-bold'
+const chip = 'h-auto rounded-md px-3 py-1.5 text-base font-bold'
 // Rich text from the admin: paragraphs, lists, links, bold (no typography plugin installed).
 const body =
   'text-lg leading-[1.7] text-foreground-soft [&_*+*]:mt-4 [&_a]:font-bold [&_a]:underline [&_a]:underline-offset-4 [&_li+li]:mt-1.5 [&_ol]:list-decimal [&_ol]:pl-6 [&_strong]:font-bold [&_strong]:text-foreground [&_ul]:list-disc [&_ul]:pl-6'
@@ -79,7 +79,7 @@ export async function ProjectView({ id, nextSlot }: { id: string; nextSlot?: Rea
   return (
     <article className="flex flex-col">
       <header className="flex flex-col items-center gap-5.5 pt-12 pb-12 text-center md:pt-18">
-        <nav aria-label="Fil d’Ariane" className="text-sm text-muted-foreground">
+        <nav aria-label="Fil d’Ariane" className="text-base text-muted-foreground">
           <ol className="flex flex-wrap justify-center gap-1.5">
             <li>
               <Link href="/" className="underline underline-offset-4 hover:text-primary-strong">
@@ -157,7 +157,7 @@ export async function ProjectView({ id, nextSlot }: { id: string; nextSlot?: Rea
             {project.interventions?.length ? (
               <div className={`${card} gap-2.5`}>
                 <h3 className={`${kicker} text-muted-foreground`}>Prestations</h3>
-                <ul className="flex flex-wrap gap-1.5 text-[0.8125rem]">
+                <ul className="flex flex-wrap gap-1.5 text-base">
                   {project.interventions.map((item) => (
                     <li key={item} className="rounded-md bg-muted px-2.5 py-1.25">
                       {item}
@@ -183,7 +183,7 @@ export async function ProjectView({ id, nextSlot }: { id: string; nextSlot?: Rea
                   key={metric.id ?? metric.label}
                   className={`${card} flex-col-reverse justify-end gap-2 ${index === 0 ? 'border-primary bg-primary text-primary-foreground' : ''}`}
                 >
-                  <dt className="text-[0.9375rem]">{metric.label}</dt>
+                  <dt className="text-base">{metric.label}</dt>
                   <dd
                     className={`font-heading leading-[1.2] font-bold ${metric.value.length > 8 ? 'text-2xl' : 'text-[2.5rem] leading-none'} ${index === 0 ? '' : 'text-primary'}`}
                   >
@@ -243,7 +243,7 @@ export async function ProjectView({ id, nextSlot }: { id: string; nextSlot?: Rea
             {steps.map((step) => (
               <li key={step.id ?? step.anchor} className="flex gap-5.5">
                 <div aria-hidden="true" className="flex shrink-0 flex-col items-center">
-                  <span className="flex size-11 items-center justify-center rounded-full border-2 border-primary bg-card font-heading text-[0.9375rem] font-semibold text-primary-strong">
+                  <span className="flex size-11 items-center justify-center rounded-full border-2 border-primary bg-card font-heading text-base font-semibold text-primary-strong">
                     {step.num}
                   </span>
                   <span className="min-h-5 w-0.5 flex-1 bg-accent" />
@@ -271,7 +271,7 @@ export async function ProjectView({ id, nextSlot }: { id: string; nextSlot?: Rea
         >
           <nav
             aria-label="Sommaire de la démarche"
-            className="flex flex-[1_1_15rem] flex-col gap-2.5 self-start text-[0.9375rem] md:sticky md:top-6"
+            className="flex flex-[1_1_15rem] flex-col gap-2.5 self-start text-base md:sticky md:top-6"
           >
             <span className={`${kicker} text-muted-foreground`}>Sommaire</span>
             <ul className="flex flex-col gap-2.5 font-semibold">
@@ -319,7 +319,7 @@ export async function ProjectView({ id, nextSlot }: { id: string; nextSlot?: Rea
                 <div className="flex items-center gap-3.5">
                   <span
                     aria-hidden="true"
-                    className="flex size-10 shrink-0 items-center justify-center rounded-full bg-primary font-heading text-[0.9375rem] font-semibold text-primary-foreground"
+                    className="flex size-10 shrink-0 items-center justify-center rounded-full bg-primary font-heading text-base font-semibold text-primary-foreground"
                   >
                     {step.num}
                   </span>
