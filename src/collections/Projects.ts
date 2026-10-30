@@ -1,5 +1,6 @@
 import { type CollectionConfig, slugField } from 'payload'
 import { loggedIn, publishedOrLoggedIn } from '@/access'
+import { lightEditor, richTextFrom } from '@/fields/light-editor'
 import { seoField } from '@/fields/seo'
 
 export const Projects: CollectionConfig = {
@@ -110,8 +111,8 @@ export const Projects: CollectionConfig = {
                 {
                   type: 'row',
                   fields: [
-                    { name: 'challenge', label: 'Le défi', type: 'textarea' },
-                    { name: 'response', label: 'Ma réponse', type: 'textarea' },
+                    { name: 'challenge', label: 'Le défi', type: 'richText', editor: lightEditor },
+                    { name: 'response', label: 'Ma réponse', type: 'richText', editor: lightEditor },
                   ],
                 },
                 {
@@ -175,7 +176,8 @@ export const Projects: CollectionConfig = {
                 {
                   name: 'objectives',
                   label: 'Texte à côté des étapes',
-                  type: 'textarea',
+                  type: 'richText',
+                  editor: lightEditor,
                   admin: { description: 'Ex. « Objectifs : vendre plus en simplifiant le catalogue… »' },
                 },
                 {
@@ -245,7 +247,12 @@ export const Projects: CollectionConfig = {
                         { name: 'title', label: 'Titre détaillé', type: 'text', required: true },
                       ],
                     },
-                    { name: 'summary', label: 'Résumé en une phrase (en bref)', type: 'textarea' },
+                    {
+                      name: 'summary',
+                      label: 'Résumé en une phrase (en bref)',
+                      type: 'richText',
+                      editor: lightEditor,
+                    },
                     { name: 'content', label: 'Texte détaillé', type: 'richText' },
                     { name: 'images', label: 'Captures', type: 'upload', relationTo: 'media', hasMany: true },
                   ],
@@ -267,8 +274,11 @@ export const Projects: CollectionConfig = {
                 {
                   name: 'text',
                   label: 'Texte',
-                  type: 'textarea',
-                  defaultValue: 'Webdesigner freelance à Toulouse, en mission sur place ou à distance.',
+                  type: 'richText',
+                  editor: lightEditor,
+                  defaultValue: richTextFrom(
+                    'Webdesigner freelance à Toulouse, en mission sur place ou à distance.',
+                  ),
                 },
                 {
                   type: 'row',

@@ -1,3 +1,4 @@
+import type { SerializedEditorState } from '@payloadcms/richtext-lexical/lexical'
 import { RichText } from '@payloadcms/richtext-lexical/react'
 import { cacheLife, cacheTag } from 'next/cache'
 import Link from 'next/link'
@@ -21,6 +22,19 @@ const chip = 'h-auto rounded-md px-3 py-1.5 text-[0.8125rem] font-bold'
 // Rich text from the admin: paragraphs, lists, links, bold (no typography plugin installed).
 const body =
   'text-lg leading-[1.7] text-foreground-soft [&_*+*]:mt-4 [&_a]:font-bold [&_a]:underline [&_a]:underline-offset-4 [&_li+li]:mt-1.5 [&_ol]:list-decimal [&_ol]:pl-6 [&_strong]:font-bold [&_strong]:text-foreground [&_ul]:list-disc [&_ul]:pl-6'
+// Short texts written with the light editor (bold, italic, underline, links, lists).
+const short =
+  '[&_*+*]:mt-2 [&_a]:underline [&_a]:underline-offset-4 [&_em]:italic [&_ol]:list-decimal [&_ol]:pl-5 [&_strong]:font-bold [&_ul]:list-disc [&_ul]:pl-5'
+
+// Rich text, or a plain string (contact band default, texts saved before the editor existed).
+function Rich({ value, className }: { value: SerializedEditorState | string; className: string }) {
+  return typeof value === 'string' ? (
+    <p className={className}>{value}</p>
+  ) : (
+    <RichText data={value} className={className} />
+  )
+}
+
 const linkClass = 'font-bold underline underline-offset-4 hover:text-primary-strong'
 
 const images = (list: (Media | string)[] | null | undefined) =>
@@ -131,13 +145,13 @@ export async function ProjectView({ id, nextSlot }: { id: string; nextSlot?: Rea
             {project.challenge ? (
               <div className={`${card} gap-2.5`}>
                 <h3 className={`${kicker} text-tag-warm-foreground`}>Le défi</h3>
-                <p className="leading-relaxed">{project.challenge}</p>
+                <Rich value={project.challenge} className={`leading-relaxed ${short}`} />
               </div>
             ) : null}
             {project.response ? (
               <div className={`${card} gap-2.5`}>
                 <h3 className={`${kicker} text-primary-strong`}>Ma réponse</h3>
-                <p className="leading-relaxed">{project.response}</p>
+                <Rich value={project.response} className={`leading-relaxed ${short}`} />
               </div>
             ) : null}
             {project.interventions?.length ? (
@@ -209,7 +223,10 @@ export async function ProjectView({ id, nextSlot }: { id: string; nextSlot?: Rea
               {project.stepsTitle || 'En bref : comment on y est arrivés'}
             </h2>
             {project.objectives ? (
-              <p className="text-[1.0625rem] leading-[1.65] text-foreground-soft">{project.objectives}</p>
+              <Rich
+                value={project.objectives}
+                className={`text-[1.0625rem] leading-[1.65] text-foreground-soft ${short}`}
+              />
             ) : null}
             {hasDetail ? (
               <a href="#detail" className={linkClass}>
@@ -237,7 +254,7 @@ export async function ProjectView({ id, nextSlot }: { id: string; nextSlot?: Rea
                     {step.short}
                   </h3>
                   {step.summary ? (
-                    <p className="leading-normal text-foreground-soft">{step.summary}</p>
+                    <Rich value={step.summary} className={`leading-normal text-foreground-soft ${short}`} />
                   ) : null}
                 </div>
               </li>
@@ -338,7 +355,7 @@ export async function ProjectView({ id, nextSlot }: { id: string; nextSlot?: Rea
               <h2 className="font-heading text-[clamp(1.875rem,3.6vw,2.875rem)] leading-[1.08] font-bold tracking-[-0.02em]">
                 {cta.title}
               </h2>
-              {cta.text ? <p className="text-lg">{cta.text}</p> : null}
+              {cta.text ? <Rich value={cta.text} className={`text-lg ${short}`} /> : null}
             </div>
             {cta.buttonLabel && cta.buttonHref ? (
               <Button

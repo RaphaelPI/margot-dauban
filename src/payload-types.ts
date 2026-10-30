@@ -178,8 +178,36 @@ export interface Project {
    */
   hero?: (string | null) | Media;
   overviewTitle?: string | null;
-  challenge?: string | null;
-  response?: string | null;
+  challenge?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  response?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
   /**
    * Ex. Audit UI / UX, Wireframes, Design System
    */
@@ -225,7 +253,21 @@ export interface Project {
   /**
    * Ex. « Objectifs : vendre plus en simplifiant le catalogue… »
    */
-  objectives?: string | null;
+  objectives?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
   /**
    * Lien affiché sous le texte à côté des étapes.
    */
@@ -278,7 +320,21 @@ export interface Project {
          */
         shortTitle?: string | null;
         title: string;
-        summary?: string | null;
+        summary?: {
+          root: {
+            type: string;
+            children: {
+              type: any;
+              version: number;
+              [k: string]: unknown;
+            }[];
+            direction: ('ltr' | 'rtl') | null;
+            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+            indent: number;
+            version: number;
+          };
+          [k: string]: unknown;
+        } | null;
         content?: {
           root: {
             type: string;
@@ -303,7 +359,21 @@ export interface Project {
      * Ex. « Un projet e-commerce à refondre ? »
      */
     title?: string | null;
-    text?: string | null;
+    text?: {
+      root: {
+        type: string;
+        children: {
+          type: any;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    } | null;
     buttonLabel?: string | null;
     buttonHref?: string | null;
   };
