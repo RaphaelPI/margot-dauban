@@ -219,6 +219,29 @@ export const Projects: CollectionConfig = {
                 },
                 { name: 'context', label: 'Contexte & enjeux', type: 'richText' },
                 {
+                  name: 'goalsTitle',
+                  label: 'Titre des objectifs',
+                  type: 'text',
+                  defaultValue: 'Objectifs',
+                },
+                {
+                  name: 'goals',
+                  label: 'Objectifs',
+                  labels: { singular: 'Objectif', plural: 'Objectifs' },
+                  type: 'array',
+                  admin: { description: 'Une carte par objectif, sous « Contexte & enjeux ».' },
+                  fields: [
+                    {
+                      name: 'title',
+                      label: 'Titre court',
+                      type: 'text',
+                      required: true,
+                      admin: { description: 'Ex. Diminuer le taux de rebond' },
+                    },
+                    { name: 'text', label: 'Texte', ...lightText },
+                  ],
+                },
+                {
                   name: 'constraints',
                   label: 'Contraintes',
                   type: 'richText',

@@ -78,7 +78,9 @@ export async function ProjectView({ id, nextSlot }: { id: string; nextSlot?: Rea
   const hasOverview = Boolean(project.challenge || project.response || project.interventions?.length)
   const hasResults = Boolean(project.metrics?.length || project.results || project.website?.url)
   const hasContext = Boolean(project.context || project.constraints)
-  const hasDetail = hasContext || steps.length > 0
+  const goals = project.goals ?? []
+  const goalsTitle = project.goalsTitle || 'Objectifs'
+  const hasDetail = hasContext || goals.length > 0 || steps.length > 0
   // Projects saved before the contact band existed get its default texts.
   const cta = project.cta ?? {
     title: 'Un projet similaire ?',
@@ -301,6 +303,13 @@ export async function ProjectView({ id, nextSlot }: { id: string; nextSlot?: Rea
                   </a>
                 </li>
               ) : null}
+              {goals.length ? (
+                <li>
+                  <a href="#objectifs" className="hover:text-primary-strong aria-[current]:text-primary">
+                    {goalsTitle}
+                  </a>
+                </li>
+              ) : null}
               {steps.map((step) => (
                 <li key={step.id ?? step.anchor}>
                   <a
@@ -329,6 +338,25 @@ export async function ProjectView({ id, nextSlot }: { id: string; nextSlot?: Rea
                 </h3>
                 {project.context ? <RichText data={project.context} className={body} /> : null}
                 {project.constraints ? <RichText data={project.constraints} className={body} /> : null}
+              </section>
+            ) : null}
+            {goals.length ? (
+              <section
+                id="objectifs"
+                aria-labelledby="objectifs-titre"
+                className="flex scroll-mt-6 flex-col gap-4"
+              >
+                <h3 id="objectifs-titre" className="font-heading text-[1.375rem] font-semibold">
+                  {goalsTitle}
+                </h3>
+                <ul className="grid grid-cols-[repeat(auto-fit,minmax(min(16.25rem,100%),1fr))] gap-4">
+                  {goals.map((goal) => (
+                    <li key={goal.id ?? goal.title} className={`${card} gap-2.5`}>
+                      <h4 className={`${kicker} text-primary`}>{goal.title}</h4>
+                      {goal.text ? <Rich value={goal.text} className={`leading-relaxed ${short}`} /> : null}
+                    </li>
+                  ))}
+                </ul>
               </section>
             ) : null}
             {steps.map((step) => (

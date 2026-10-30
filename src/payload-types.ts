@@ -292,6 +292,34 @@ export interface Project {
     };
     [k: string]: unknown;
   } | null;
+  goalsTitle?: string | null;
+  /**
+   * Une carte par objectif, sous « Contexte & enjeux ».
+   */
+  goals?:
+    | {
+        /**
+         * Ex. Diminuer le taux de rebond
+         */
+        title: string;
+        text?: {
+          root: {
+            type: string;
+            children: {
+              type: any;
+              version: number;
+              [k: string]: unknown;
+            }[];
+            direction: ('ltr' | 'rtl') | null;
+            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+            indent: number;
+            version: number;
+          };
+          [k: string]: unknown;
+        } | null;
+        id?: string | null;
+      }[]
+    | null;
   /**
    * Affiché à la suite du contexte.
    */
@@ -711,6 +739,14 @@ export interface ProjectsSelect<T extends boolean = true> {
   approachTitle?: T;
   contextTitle?: T;
   context?: T;
+  goalsTitle?: T;
+  goals?:
+    | T
+    | {
+        title?: T;
+        text?: T;
+        id?: T;
+      };
   constraints?: T;
   approach?:
     | T
