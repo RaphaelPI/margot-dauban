@@ -34,7 +34,7 @@ export default async function HomePage() {
           <h1 className="font-heading text-[clamp(2.125rem,4.4vw,3.625rem)] leading-[1.12] font-semibold tracking-[-0.02em] text-balance">
             {home.hero.title}{' '}
             {home.hero.highlight ? (
-              <span className="rounded-[0.875rem] bg-accent px-3 whitespace-nowrap">
+              <span className="rounded-[0.875rem] bg-accent px-3 md:whitespace-nowrap">
                 {home.hero.highlight}
               </span>
             ) : null}
