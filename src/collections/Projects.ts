@@ -233,6 +233,15 @@ export const Projects: CollectionConfig = {
                   admin: { description: 'Une carte par objectif, sous « Contexte & enjeux ».' },
                   fields: [
                     {
+                      name: 'icon',
+                      label: 'Picto',
+                      type: 'text',
+                      admin: {
+                        description:
+                          'Nom d’une icône de phosphoricons.com : clique sur l’icône et copie son nom (ex. target, arrow-up-right).',
+                      },
+                    },
+                    {
                       name: 'title',
                       label: 'Titre court',
                       type: 'text',
@@ -255,6 +264,15 @@ export const Projects: CollectionConfig = {
                   type: 'array',
                   admin: { description: 'Une carte par contrainte, sous les objectifs.' },
                   fields: [
+                    {
+                      name: 'icon',
+                      label: 'Picto',
+                      type: 'text',
+                      admin: {
+                        description:
+                          'Nom d’une icône de phosphoricons.com : clique sur l’icône et copie son nom (ex. target, arrow-up-right).',
+                      },
+                    },
                     {
                       name: 'title',
                       label: 'Titre court',

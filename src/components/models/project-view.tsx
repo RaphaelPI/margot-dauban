@@ -4,6 +4,7 @@ import { cacheLife, cacheTag } from 'next/cache'
 import Link from 'next/link'
 import type { CSSProperties, ReactNode } from 'react'
 import { GlowCard } from '@/components/glow-card'
+import { PhosphorIcon } from '@/components/phosphor-icon'
 import { TocSpy } from '@/components/toc-spy'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -370,7 +371,10 @@ export async function ProjectView({ id, nextSlot }: { id: string; nextSlot?: Rea
                 <ul className="grid grid-cols-[repeat(auto-fit,minmax(min(16.25rem,100%),1fr))] gap-4">
                   {section.items.map((item) => (
                     <li key={item.id ?? item.title} className={`${card} gap-2.5`}>
-                      <h4 className={`${kicker} text-primary`}>{item.title}</h4>
+                      <h4 className={`${kicker} flex items-center gap-2.5 text-primary`}>
+                        <PhosphorIcon name={item.icon} className="shrink-0" />
+                        {item.title}
+                      </h4>
                       {item.text ? <Rich value={item.text} className={`leading-relaxed ${short}`} /> : null}
                     </li>
                   ))}

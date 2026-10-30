@@ -314,6 +314,10 @@ export interface Project {
   goals?:
     | {
         /**
+         * Nom d’une icône de phosphoricons.com : clique sur l’icône et copie son nom (ex. target, arrow-up-right).
+         */
+        icon?: string | null;
+        /**
          * Ex. Diminuer le taux de rebond
          */
         title: string;
@@ -341,6 +345,10 @@ export interface Project {
    */
   constraintCards?:
     | {
+        /**
+         * Nom d’une icône de phosphoricons.com : clique sur l’icône et copie son nom (ex. target, arrow-up-right).
+         */
+        icon?: string | null;
         /**
          * Ex. Billetterie externe imposée
          */
@@ -787,6 +795,7 @@ export interface ProjectsSelect<T extends boolean = true> {
   goals?:
     | T
     | {
+        icon?: T;
         title?: T;
         text?: T;
         id?: T;
@@ -795,6 +804,7 @@ export interface ProjectsSelect<T extends boolean = true> {
   constraintCards?:
     | T
     | {
+        icon?: T;
         title?: T;
         text?: T;
         id?: T;
