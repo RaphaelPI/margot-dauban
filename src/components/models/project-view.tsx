@@ -65,7 +65,7 @@ export async function ProjectView({ id, nextSlot }: { id: string; nextSlot?: Rea
     shots: images(step.images),
   }))
   const hasOverview = Boolean(project.challenge || project.response || project.interventions?.length)
-  const hasResults = Boolean(project.metrics?.length || project.results)
+  const hasResults = Boolean(project.metrics?.length || project.results || project.website?.url)
   const hasContext = Boolean(project.context || project.constraints)
   const hasDetail = hasContext || steps.length > 0
   // Projects saved before the contact band existed get its default texts.
@@ -172,9 +172,16 @@ export async function ProjectView({ id, nextSlot }: { id: string; nextSlot?: Rea
 
       {hasResults ? (
         <section aria-labelledby="resultats" className="flex flex-col gap-5 pt-12 pb-16 md:pb-26">
-          <h2 id="resultats" className={h2}>
-            {project.resultsTitle || 'Les résultats'}
-          </h2>
+          <div className="flex flex-wrap items-end justify-between gap-4">
+            <h2 id="resultats" className={h2}>
+              {project.resultsTitle || 'Les résultats'}
+            </h2>
+            {project.website?.url ? (
+              <a href={project.website.url} target="_blank" rel="noopener noreferrer" className={linkClass}>
+                {project.website.label || 'Voir le site'} ↗<span className="sr-only"> (nouvel onglet)</span>
+              </a>
+            ) : null}
+          </div>
           {project.metrics?.length ? (
             // auto-fit: 1 to 4 figures share the full width, wrapping when too narrow.
             <dl className="grid grid-cols-[repeat(auto-fit,minmax(min(16.25rem,100%),1fr))] gap-4">
@@ -231,11 +238,6 @@ export async function ProjectView({ id, nextSlot }: { id: string; nextSlot?: Rea
             {hasDetail ? (
               <a href="#detail" className={linkClass}>
                 Lire la démarche détaillée ↓
-              </a>
-            ) : null}
-            {project.website?.url ? (
-              <a href={project.website.url} target="_blank" rel="noopener noreferrer" className={linkClass}>
-                {project.website.label || 'Voir le site'} ↗<span className="sr-only"> (nouvel onglet)</span>
               </a>
             ) : null}
           </div>

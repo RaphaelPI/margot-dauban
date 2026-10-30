@@ -183,7 +183,7 @@ export const Projects: CollectionConfig = {
                   name: 'website',
                   label: 'Site en ligne',
                   type: 'group',
-                  admin: { description: 'Lien affiché sous le texte à côté des étapes.' },
+                  admin: { description: 'Lien affiché à droite du titre des résultats.' },
                   fields: [
                     {
                       type: 'row',

@@ -269,7 +269,7 @@ export interface Project {
     [k: string]: unknown;
   } | null;
   /**
-   * Lien affiché sous le texte à côté des étapes.
+   * Lien affiché à droite du titre des résultats.
    */
   website?: {
     url?: string | null;
