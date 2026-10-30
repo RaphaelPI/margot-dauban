@@ -2,7 +2,7 @@ import type { SerializedEditorState } from '@payloadcms/richtext-lexical/lexical
 import { RichText } from '@payloadcms/richtext-lexical/react'
 import { cacheLife, cacheTag } from 'next/cache'
 import Link from 'next/link'
-import type { ReactNode } from 'react'
+import type { CSSProperties, ReactNode } from 'react'
 import { GlowCard } from '@/components/glow-card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -33,6 +33,16 @@ function Rich({ value, className }: { value: SerializedEditorState | string; cla
   ) : (
     <RichText data={value} className={className} />
   )
+}
+
+// One line drawn 1 → 2 → 3… while the list scrolls by: segment `index` of `count` takes its
+// share of the list's scroll range (see `draw-on-scroll` in globals.css).
+const drawRange = (index: number, count: number) => {
+  const [start, span] = [10, 45] // % of the list's `cover` range
+  return {
+    '--draw-from': `${start + (span * index) / count}%`,
+    '--draw-to': `${start + (span * (index + 1)) / count}%`,
+  } as CSSProperties
 }
 
 const linkClass = 'font-bold underline underline-offset-4 hover:text-primary-strong'
@@ -241,7 +251,7 @@ export async function ProjectView({ id, nextSlot }: { id: string; nextSlot?: Rea
               </a>
             ) : null}
           </div>
-          <ol className="flex min-w-0 flex-[999_1_37.5rem] flex-col">
+          <ol className="draw-timeline flex min-w-0 flex-[999_1_37.5rem] flex-col">
             {steps.map((step) => (
               <li key={step.id ?? step.anchor} className="flex gap-5.5">
                 <div aria-hidden="true" className="flex shrink-0 flex-col items-center">
@@ -250,7 +260,10 @@ export async function ProjectView({ id, nextSlot }: { id: string; nextSlot?: Rea
                   </span>
                   {/* The line links one step to the next: none after the last one. */}
                   {step.num < steps.length ? (
-                    <span className="draw-on-scroll min-h-5 w-0.5 flex-1 bg-accent" />
+                    <span
+                      className="draw-on-scroll min-h-5 w-0.5 flex-1 bg-accent"
+                      style={drawRange(step.num - 1, steps.length - 1)}
+                    />
                   ) : null}
                 </div>
                 <div className="flex flex-col gap-1.5 pt-2 pb-7">

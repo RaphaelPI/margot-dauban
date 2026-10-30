@@ -207,15 +207,21 @@
   }
 }
 
-/* Vertical line drawn top-down as it scrolls into view (case study steps). CSS scroll-driven
-   animation: browsers without it, or with reduced motion, show the line at once. */
+/* Vertical line drawn top-down while a list scrolls by (case study steps). The list carries
+   `draw-timeline`; each segment animates over its own slice of that list's scroll range
+   (--draw-from → --draw-to), so the segments draw one after another as a single line.
+   Browsers without scroll-driven animations, or with reduced motion, show the line at once. */
+@utility draw-timeline {
+  view-timeline-name: --draw;
+}
+
 @utility draw-on-scroll {
   @media (prefers-reduced-motion: no-preference) {
     @supports (animation-timeline: view()) {
       transform-origin: top;
       animation: draw-line linear both;
-      animation-timeline: view();
-      animation-range: entry 0% cover 50%;
+      animation-timeline: --draw;
+      animation-range: cover var(--draw-from, 0%) cover var(--draw-to, 50%);
     }
   }
 }
