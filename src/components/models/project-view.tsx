@@ -248,7 +248,7 @@ export async function ProjectView({ id, nextSlot }: { id: string; nextSlot?: Rea
                   <span className="flex size-11 items-center justify-center rounded-full border-2 border-primary bg-card font-heading text-base font-semibold text-primary-strong">
                     {step.num}
                   </span>
-                  <span className="min-h-5 w-0.5 flex-1 bg-accent" />
+                  <span className="draw-on-scroll min-h-5 w-0.5 flex-1 bg-accent" />
                 </div>
                 <div className="flex flex-col gap-1.5 pt-2 pb-7">
                   <h3 className="font-heading text-lg font-semibold">

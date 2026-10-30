@@ -207,6 +207,28 @@
   }
 }
 
+/* Vertical line drawn top-down as it scrolls into view (case study steps). CSS scroll-driven
+   animation: browsers without it, or with reduced motion, show the line at once. */
+@utility draw-on-scroll {
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+      transform-origin: top;
+      animation: draw-line linear both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 50%;
+    }
+  }
+}
+
+@keyframes draw-line {
+  from {
+    transform: scaleY(0);
+  }
+  to {
+    transform: scaleY(1);
+  }
+}
+
 @keyframes marquee {
   to {
     transform: translateX(-50%);
