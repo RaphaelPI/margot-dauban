@@ -162,7 +162,8 @@ export async function ProjectView({ id, nextSlot }: { id: string; nextSlot?: Rea
             {project.resultsTitle || 'Les résultats'}
           </h2>
           {project.metrics?.length ? (
-            <dl className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {/* auto-fit: 1 to 4 figures share the full width, wrapping when too narrow. */}
+            <dl className="grid grid-cols-[repeat(auto-fit,minmax(min(16.25rem,100%),1fr))] gap-4">
               {project.metrics.map((metric, index) => (
                 <div
                   key={metric.id ?? metric.label}
