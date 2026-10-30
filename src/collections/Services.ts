@@ -25,6 +25,17 @@ export const Services: CollectionConfig = {
       hasMany: true,
       admin: { description: 'Version courte. Vide = liste complète.' },
     },
+    {
+      name: 'animation',
+      label: 'Animation',
+      type: 'upload',
+      relationTo: 'media',
+      filterOptions: { mimeType: { equals: 'application/json' } },
+      admin: {
+        description:
+          "Fichier d'animation Lottie (.json), affiché au-dessus du titre sur l'accueil. Facultatif.",
+      },
+    },
     { name: 'showOnHome', label: "Afficher sur l'accueil", type: 'checkbox', defaultValue: true },
   ],
 }

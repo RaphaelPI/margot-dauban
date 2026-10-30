@@ -74,6 +74,34 @@ export const Home: GlobalConfig = {
       ],
     },
     {
+      name: 'testimonial',
+      label: 'Témoignage',
+      type: 'group',
+      admin: { description: 'Bloc sombre après les projets. Vide = bloc masqué.' },
+      fields: [
+        {
+          name: 'quote',
+          label: 'Citation',
+          type: 'textarea',
+          admin: { description: 'Sans guillemets : ils sont ajoutés automatiquement.' },
+        },
+        {
+          name: 'highlight',
+          label: 'Fin de la citation en accent',
+          type: 'text',
+          admin: { description: 'Ex. la phrase qui parle du résultat. Affichée en lilas après la citation.' },
+        },
+        {
+          type: 'row',
+          fields: [
+            { name: 'author', label: 'Prénom Nom', type: 'text' },
+            { name: 'role', label: 'Poste', type: 'text' },
+            { name: 'company', label: 'Entreprise', type: 'text' },
+          ],
+        },
+      ],
+    },
+    {
       name: 'expertise',
       label: 'Expertises',
       type: 'group',

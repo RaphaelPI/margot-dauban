@@ -14,6 +14,8 @@ export function MediaImage({
   priority?: boolean
 }) {
   if (!media || typeof media === 'string' || !media.url) return null
+  // Media also holds videos and animations (JSON): only images go through next/image.
+  if (media.mimeType && !media.mimeType.startsWith('image/')) return null
   return (
     <Image
       src={media.url}

@@ -5,7 +5,8 @@ export const Media: CollectionConfig = {
   slug: 'media',
   labels: { singular: 'Média', plural: 'Médias' },
   access: { read: () => true, create: loggedIn, update: loggedIn, delete: loggedIn },
-  upload: { mimeTypes: ['image/*', 'video/*'] },
+  // application/json: Lottie animations (expertises). Played without expressions (no code runs).
+  upload: { mimeTypes: ['image/*', 'video/*', 'application/json'] },
   fields: [
     {
       name: 'alt',

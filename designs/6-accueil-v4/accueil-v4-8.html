@@ -1,0 +1,262 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>V4 · 8 — Indigo et pêche affiné</title>
+<script src="./support.js"></script>
+<script src="/_blob/4a794e07276cba0777368bfe1388e123"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Albert+Sans:wght@400;500;600;700&amp;family=Unbounded:wght@500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#F7F7FA}
+a{color:#121814}a:hover{color:#3730A3}
+@property --mx{syntax:'<length>';inherits:true;initial-value:0px}
+@property --my{syntax:'<length>';inherits:true;initial-value:0px}
+.carte{position:relative;isolation:isolate;transition:border-color .6s ease,box-shadow .6s ease}
+.carte::before{content:"";position:absolute;inset:0;border-radius:inherit;background:radial-gradient(380px circle at var(--mx) var(--my),rgba(226,224,252,0.75),rgba(232,230,253,0.35) 45%,rgba(232,230,253,0) 75%);opacity:0;transition:opacity .7s cubic-bezier(.22,.61,.36,1);z-index:-1;pointer-events:none}
+.carte:hover{border-color:#DCDAF8;box-shadow:0 16px 36px rgba(79,70,229,0.06)}
+.carte:hover::before{opacity:1}
+.carte-indigo::before{background:radial-gradient(520px circle at var(--mx) var(--my),rgba(140,133,255,0.85),rgba(120,112,250,0.35) 45%,rgba(120,112,250,0) 75%)}
+.carte-indigo:hover{box-shadow:0 20px 44px rgba(79,70,229,0.22)}
+.lien-carte::after{content:"";position:absolute;inset:0;border-radius:inherit;z-index:1}
+.lien-carte:focus-visible{outline:none}
+.carte:has(.lien-carte:focus-visible){outline:3px solid #4F46E5;outline-offset:3px}
+@media (prefers-reduced-motion: reduce){.carte,.carte::before{transition:none}}
+.marquee{overflow:hidden;-webkit-mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent);mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent)}
+.track{display:flex;gap:52px;width:max-content;animation:defile 34s linear infinite}
+@keyframes defile{to{transform:translateX(-50%)}}
+.flotte{animation:flotte 7s ease-in-out infinite}
+@keyframes flotte{0%,100%{transform:translate(0,0)}25%{transform:translate(16px,-10px)}50%{transform:translate(6px,12px)}75%{transform:translate(-12px,3px)}}
+.clignote{animation:clignote 1.8s ease-in-out infinite}
+@keyframes clignote{0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(31,157,85,0.45)}50%{opacity:0.45;box-shadow:0 0 0 6px rgba(31,157,85,0)}}
+@media (prefers-reduced-motion: reduce){.track,.flotte,.clignote{animation:none}}
+@media (max-width: 1040px){.deco{display:none}}
+</style>
+</helmet>
+<div style="font-family: 'Albert Sans', system-ui, sans-serif; color: #121814; background: {{heroBg}}; position: relative">
+  <div style="max-width: 1240px; margin: 0 auto; padding: 0 32px; position: relative">
+
+    <header style="display: flex; justify-content: space-between; align-items: center; gap: 24px; padding: 22px 0; flex-wrap: wrap">
+      <a href="#" style="display: flex; align-items: center; gap: 12px; text-decoration: none">
+        <span aria-hidden="true" style="width: 44px; height: 44px; border-radius: 50%; background: #E2E1FF; border: 2px solid #FFFFFF; display: flex; align-items: center; justify-content: center; font-size: 10px">[Photo]</span>
+        <span style="display: flex; flex-direction: column"><strong style="font-family: Unbounded, system-ui, sans-serif; font-weight: 600; font-size: 15px">Margot Dauban</strong><span style="font-size: 14px; color: #4F5A53">Webdesigner UI / UX</span></span>
+      </a>
+      <nav aria-label="Navigation principale" style="display: flex; align-items: center; gap: 28px; flex-wrap: wrap; font-size: 15px; font-weight: 500">
+        <span style="display: inline-flex; align-items: center; gap: 8px; background: #FFFFFF; border: 1px solid #E3E4EC; border-radius: 999px; padding: 7px 14px; font-size: 14px; font-weight: 600; color: #1D6B3E"><span aria-hidden="true" class="clignote" style="width: 8px; height: 8px; border-radius: 50%; background: #1F9D55"></span>Disponible</span>
+        <a href="#projets" style="text-decoration: none">Projets</a>
+        <a href="#temoignages" style="text-decoration: none">Témoignages</a>
+        <a href="#" style="text-decoration: none">Services</a>
+        <a href="#" style="text-decoration: none">À propos</a>
+        <a href="#" style="text-decoration: none; background: {{accent}}; color: #FFFFFF; padding: 12px 20px; border-radius: 999px; font-weight: 700">Me contacter</a>
+      </nav>
+    </header>
+
+    <section style="position: relative; padding: 120px 0 130px">
+      <div aria-hidden="true" class="deco" style="position: absolute; left: -103px; top: 41px; width: 196px; background: #FFFFFF; border: 1px solid #E6E6EE; border-radius: 14px; padding: 12px; transform: rotate(-5deg); box-shadow: 0 18px 36px rgba(40,36,90,0.12); display: flex; flex-direction: column; gap: 8px; font-size: 11px">
+        <div style="display: flex; justify-content: space-between; align-items: center"><strong style="font-size: 12px">Couleurs</strong><span style="color: #6B6B78; font-size: 10px">5 styles</span></div>
+        <div style="display: flex; height: 26px; border-radius: 7px; overflow: hidden"><span style="flex: 1; background: #3730A3"></span><span style="flex: 1; background: #4F46E5"></span><span style="flex: 1; background: #A9A4FF"></span><span style="flex: 1; background: #E2E1FF"></span><span style="flex: 1; background: #FCE1D3"></span></div>
+        <div style="display: flex; flex-direction: column; gap: 5px">
+          <div style="display: flex; align-items: center; gap: 7px"><span style="width: 14px; height: 14px; border-radius: 4px; background: #4F46E5"></span><span style="flex: 1">Indigo / 500</span><span style="color: #6B6B78">#4F46E5</span></div>
+          <div style="display: flex; align-items: center; gap: 7px"><span style="width: 14px; height: 14px; border-radius: 4px; background: #3730A3"></span><span style="flex: 1">Indigo / 700</span><span style="color: #6B6B78">#3730A3</span></div>
+          <div style="display: flex; align-items: center; gap: 7px"><span style="width: 14px; height: 14px; border-radius: 4px; background: #FCE1D3; border: 1px solid #F0D3C3; box-sizing: border-box"></span><span style="flex: 1">Pêche / 100</span><span style="color: #6B6B78">#FCE1D3</span></div>
+        </div>
+      </div>
+      <sc-if value="{{ showBouton }}" hint-placeholder-val="{{ false }}">
+      <div aria-hidden="true" class="deco" style="position: absolute; left: 7%; top: 330px; width: 220px; background: #FFFFFF; border: 1px solid #E6E6EE; border-radius: 16px; padding: 14px; transform: rotate(3deg); box-shadow: 0 20px 40px rgba(40,36,90,0.12); display: flex; flex-direction: column; gap: 12px; font-size: 12px">
+        <div style="display: flex; justify-content: space-between; align-items: center"><strong style="font-size: 13px">Bouton</strong><span style="color: #6B6B78; font-size: 11px">Composant</span></div>
+        <div style="display: flex; gap: 8px; flex-wrap: wrap; padding: 10px; border: 1px dashed #B9B4F5; border-radius: 10px">
+          <span style="background: {{accent}}; color: #FFFFFF; padding: 8px 12px; border-radius: 999px; font-weight: 700">Primaire</span>
+          <span style="border: 1.5px solid {{accent}}; color: #3730A3; padding: 6.5px 12px; border-radius: 999px; font-weight: 700">Secondaire</span>
+        </div>
+        <div style="display: flex; gap: 6px; color: #6B6B78; font-size: 11px"><span style="background: #F1F1F5; padding: 3px 8px; border-radius: 5px">Défaut</span><span style="background: #F1F1F5; padding: 3px 8px; border-radius: 5px">Survol</span><span style="background: #F1F1F5; padding: 3px 8px; border-radius: 5px">Désactivé</span></div>
+      </div>
+      </sc-if>
+      <sc-if value="{{ showStepper }}" hint-placeholder-val="{{ true }}">
+      
+      </sc-if>
+      
+      <div aria-hidden="true" class="deco" style="position: absolute; right: 24%; top: 440px">
+        <div class="flotte" style="display: flex; flex-direction: column; align-items: flex-start; gap: 2px">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="{{accent}}" stroke="#FFFFFF" stroke-width="1.5"><path d="M4 3l16 7-7 2-2 7z"></path></svg>
+          <span style="margin-left: 16px; background: {{accent}}; color: #FFFFFF; font-size: 13px; font-weight: 700; padding: 5px 10px; border-radius: 999px">Margot</span>
+        </div>
+      </div>
+
+      <div style="position: relative; max-width: 760px; margin: 0 auto; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 24px">
+        <h1 style="margin: 0; font-family: Unbounded, system-ui, sans-serif; font-weight: 600; font-size: clamp(34px, 4.4vw, 58px); line-height: 1.12; letter-spacing: -0.02em; text-wrap: balance">Webdesigner UI / UX freelance <span style="background: #E2E1FF; padding: 0 12px; border-radius: 14px; white-space: nowrap">à Toulouse</span></h1>
+        <p style="margin: 0; font-size: 20px; line-height: 1.5; color: #4A544D; max-width: 560px">Je rends les produits complexes simples à utiliser : sites, SaaS et logiciels métier pour éditeurs, startups, PME et ETI.</p>
+        <div style="display: flex; gap: 12px; flex-wrap: wrap; justify-content: center">
+          <a href="#projets" style="background: {{accent}}; color: #FFFFFF; text-decoration: none; padding: 17px 30px; border-radius: 999px; font-weight: 700; font-size: 17px">Voir mes projets ↓</a>
+        </div>
+      </div>
+    </section>
+
+    <section aria-label="Références clients" style="background: #FFFFFF; border: 1px solid #E1E5DF; border-radius: 999px; padding: 18px 36px; display: flex; gap: 40px; align-items: center; flex-wrap: wrap">
+      <div style="display: flex; gap: 32px; flex-shrink: 0">
+        <div style="display: flex; align-items: center; gap: 10px"><span style="font-family: Unbounded, system-ui, sans-serif; font-weight: 600; font-size: 32px; line-height: 1; color: {{accent}}">60+</span><span style="font-size: 14px; color: #4F5A53">entreprises<br>accompagnées</span></div>
+        <div style="display: flex; align-items: center; gap: 10px"><span style="font-family: Unbounded, system-ui, sans-serif; font-weight: 600; font-size: 32px; line-height: 1; color: {{accent}}">10 ans</span><span style="font-size: 14px; color: #4F5A53">d’expertise<br>web</span></div>
+      </div>
+      <div class="marquee" style="flex: 1 1 420px; min-width: 0">
+        <div class="track" style="font-weight: 700; font-size: 19px; color: #4F5A53">
+          <span>le bikini</span><span>Ze-Watt</span><span>LaGuild</span><span>Utopia</span><span>Stafy</span><span>lesiteimmo</span><span>Triple Zéro</span>
+          <span>le bikini</span><span>Ze-Watt</span><span>LaGuild</span><span>Utopia</span><span>Stafy</span><span>lesiteimmo</span><span>Triple Zéro</span>
+        </div>
+      </div>
+    </section>
+
+    <section id="projets" style="padding: 112px 0 40px; display: flex; flex-direction: column; gap: 36px">
+      <div style="display: flex; justify-content: space-between; align-items: flex-end; gap: 16px; flex-wrap: wrap">
+        <h2 style="margin: 0; font-family: Unbounded, system-ui, sans-serif; font-weight: 600; font-size: 38px; letter-spacing: -0.02em">Projets UI / UX récents</h2>
+        <a href="#" style="font-weight: 700">Voir tous les projets →</a>
+      </div>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr)); gap: 20px">
+        <article class="carte" onMouseMove="{{ suivre }}" style="background: #FFFFFF; border: 1px solid #E1E5DF; border-radius: 22px; padding: 14px; display: flex; flex-direction: column; gap: 18px">
+          <div style="border-radius: 14px; overflow: hidden; background: #F2F2F2"><img src="/_blob/c5cac3a4df713153116bd85bafe86f9d" alt="Refonte du site du Bikini : menu mobile, page programmation mobile et version desktop" style="display: block; width: 100%; aspect-ratio: 3 / 2; object-fit: cover"></div>
+          <div style="display: flex; flex-direction: column; gap: 12px; padding: 0 8px 10px">
+            <div style="display: flex; gap: 6px; flex-wrap: wrap; font-size: 12px; font-weight: 700"><span style="background: #E7E6FF; padding: 5px 10px; border-radius: 6px">Site vitrine</span><span style="background: #F2E6DF; color: #6B4A3C; padding: 5px 10px; border-radius: 6px">Événementiel</span></div>
+            <h3 style="margin: 0; font-family: Unbounded, system-ui, sans-serif; font-weight: 600; font-size: 22px">Le Bikini</h3>
+            <p style="margin: 0; font-size: 16px; line-height: 1.55; color: #414A44">Moins de rebond sur la page d’accueil, plus de billets vendus.</p>
+            <a href="#" class="lien-carte" aria-label="Découvrir le projet Le Bikini" style="font-weight: 700">Découvrir le projet →</a>
+          </div>
+        </article>
+        <article class="carte" onMouseMove="{{ suivre }}" style="background: #FFFFFF; border: 1px solid #E1E5DF; border-radius: 22px; padding: 14px; display: flex; flex-direction: column; gap: 18px">
+          <div style="border-radius: 14px; overflow: hidden; background: #F2F2F2"><img src="/_blob/643fd45f7031d4e62af1971c73180a69" alt="Web app Axis Vision : tableau de bord, liste des élèves et sélecteur de durée" style="display: block; width: 100%; aspect-ratio: 3 / 2; object-fit: cover"></div>
+          <div style="display: flex; flex-direction: column; gap: 12px; padding: 0 8px 10px">
+            <div style="display: flex; gap: 6px; flex-wrap: wrap; font-size: 12px; font-weight: 700"><span style="background: #E7E6FF; padding: 5px 10px; border-radius: 6px">Web app</span><span style="background: #F2E6DF; color: #6B4A3C; padding: 5px 10px; border-radius: 6px">Santé</span></div>
+            <h3 style="margin: 0; font-family: Unbounded, system-ui, sans-serif; font-weight: 600; font-size: 22px">Axis Vision</h3>
+            <p style="margin: 0; font-size: 16px; line-height: 1.55; color: #414A44">Un outil technique devenu clair, accessible et humain.</p>
+            <a href="#" class="lien-carte" aria-label="Découvrir le projet Axis Vision" style="font-weight: 700">Découvrir le projet →</a>
+          </div>
+        </article>
+        <article class="carte" onMouseMove="{{ suivre }}" style="background: #FFFFFF; border: 1px solid #E1E5DF; border-radius: 22px; padding: 14px; display: flex; flex-direction: column; gap: 18px">
+          <div style="position: relative; border-radius: 14px; overflow: hidden; background: #F2F2F2"><img src="/_blob/d17c8482338f2169aa7fdbc4080313e4" alt="Site e-commerce Triple Zéro : fiche produit avec configurateur, catégorie doudounes et récapitulatif de commande" style="display: block; width: 100%; aspect-ratio: 3 / 2; object-fit: cover"></div>
+          <div style="display: flex; flex-direction: column; gap: 12px; padding: 0 8px 10px">
+            <div style="display: flex; gap: 6px; flex-wrap: wrap; font-size: 12px; font-weight: 700"><span style="background: #E7E6FF; padding: 5px 10px; border-radius: 6px">E-commerce</span><span style="background: #F2E6DF; color: #6B4A3C; padding: 5px 10px; border-radius: 6px">Retail</span></div>
+            <h3 style="margin: 0; font-family: Unbounded, system-ui, sans-serif; font-weight: 600; font-size: 22px">Triple Zéro</h3>
+            <p style="margin: 0; font-size: 16px; line-height: 1.55; color: #414A44">Un parcours d’achat repensé et un configurateur qui rassure avant de commander.</p>
+            <a href="#" class="lien-carte" aria-label="Découvrir le projet Triple Zéro" style="font-weight: 700">Découvrir le projet →</a>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="temoignages" style="padding: 96px 0 40px">
+      <figure style="margin: 0; background: #0F1411; color: #EEF2EE; border-radius: 32px; padding: 56px; display: flex; flex-direction: column; gap: 28px">
+        <blockquote style="margin: 0; font-family: Unbounded, system-ui, sans-serif; font-weight: 500; font-size: clamp(22px, 2.6vw, 32px); line-height: 1.35; max-width: 960px">« [Citation client — le début du témoignage,] <span style="color: #A9A4FF">[la phrase qui parle du résultat].</span> »</blockquote>
+        <figcaption style="display: flex; justify-content: space-between; gap: 16px; border-top: 1px solid #2C3830; padding-top: 16px; font-size: 15px; flex-wrap: wrap"><span><strong>[Prénom Nom]</strong><br><span style="color: #B3BDB6">[Poste]</span></span><span style="font-weight: 700; color: #B3BDB6">[Entreprise]</span></figcaption>
+      </figure>
+    </section>
+
+    <section style="padding: 96px 0 40px; display: flex; flex-direction: column; gap: 36px">
+      <div style="display: flex; justify-content: space-between; align-items: flex-end; gap: 16px; flex-wrap: wrap">
+        <h2 style="margin: 0; font-family: Unbounded, system-ui, sans-serif; font-weight: 600; font-size: 38px; letter-spacing: -0.02em; line-height: 1.12">Expertises UX, UI &amp; branding</h2>
+        <a href="#" style="font-weight: 700">Découvrir mes services →</a>
+      </div>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr)); gap: 20px">
+        <div style="background: #FFFFFF; border: 1px solid #E1E5DF; border-radius: 22px; padding: 30px; display: flex; flex-direction: column; gap: 16px">
+          <div aria-hidden="true" ref="{{ setUx }}" style="width: 150px; height: 150px; margin: -8px 0 0 -12px"></div>
+          <h3 style="margin: 0; font-family: Unbounded, system-ui, sans-serif; font-size: 19px; font-weight: 600">Expérience utilisateur</h3>
+          <ul style="margin: 0; padding-left: 18px; display: flex; flex-direction: column; gap: 8px; font-size: 16px; color: #414A44"><li>Audit UI / UX</li><li>Arborescence et user flow</li><li>Wireframes</li><li>User research, personas</li><li>Animation d’atelier</li><li>Tests utilisateurs</li></ul>
+        </div>
+        <div style="background: #FFFFFF; border: 1px solid #E1E5DF; border-radius: 22px; padding: 30px; display: flex; flex-direction: column; gap: 16px">
+          <div aria-hidden="true" ref="{{ setUi }}" style="width: 150px; height: 150px; margin: -8px 0 0 -12px"></div>
+          <h3 style="margin: 0; font-family: Unbounded, system-ui, sans-serif; font-size: 19px; font-weight: 600">Interface utilisateur</h3>
+          <ul style="margin: 0; padding-left: 18px; display: flex; flex-direction: column; gap: 8px; font-size: 16px; color: #414A44"><li>Design system, Atomic Design</li><li>Maquettes haute-fidélité</li><li>Prototype interactif</li><li>Responsive design</li><li>Micro-interactions et animations</li><li>Accessibilité</li></ul>
+        </div>
+        <div style="background: #FFFFFF; border: 1px solid #E1E5DF; border-radius: 22px; padding: 30px; display: flex; flex-direction: column; gap: 16px">
+          <div aria-hidden="true" ref="{{ setBr }}" style="width: 150px; height: 150px; margin: -8px 0 0 -12px"></div>
+          <h3 style="margin: 0; font-family: Unbounded, system-ui, sans-serif; font-size: 19px; font-weight: 600">Branding</h3>
+          <ul style="margin: 0; padding-left: 18px; display: flex; flex-direction: column; gap: 8px; font-size: 16px; color: #414A44"><li>Direction artistique</li><li>Charte graphique</li><li>Logo</li><li>Déclinaison sur vos supports digitaux et prints</li></ul>
+        </div>
+      </div>
+    </section>
+
+    <section style="padding: 56px 0 64px">
+      <div class="carte carte-indigo" onMouseMove="{{ suivre }}" style="background: {{accent}}; border-radius: 32px; padding: 72px 48px; display: flex; justify-content: space-between; align-items: center; gap: 32px; flex-wrap: wrap">
+        <div style="display: flex; flex-direction: column; gap: 10px; max-width: 720px">
+          <h2 style="margin: 0; font-family: Unbounded, system-ui, sans-serif; font-weight: 700; font-size: clamp(32px, 4vw, 52px); line-height: 1.08; letter-spacing: -0.02em; color: #FFFFFF">Un projet web ? Parlons-en.</h2>
+          <p style="margin: 0; font-size: 18px; color: #FFFFFF">Webdesigner freelance à Toulouse, en mission sur place ou à distance.</p>
+        </div>
+        <a href="#" style="background: #0F1411; color: #FFFFFF; text-decoration: none; padding: 18px 26px; border-radius: 12px; font-weight: 700">Me contacter →</a>
+      </div>
+    </section>
+  </div>
+
+  <footer style="border-top: 1px solid #E1E5DF">
+    <div style="max-width: 1240px; margin: 0 auto; padding: 28px 32px; display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; font-size: 14px; color: #414A44">
+      <span>Margot Dauban — Webdesigner UI / UX freelance à Toulouse</span>
+      <nav aria-label="Liens de pied de page" style="display: flex; gap: 20px; flex-wrap: wrap"><a href="#">Contact</a><a href="#">FAQ</a><a href="#">Profil Malt</a><a href="#">Mentions légales</a><a href="#">Confidentialité</a></nav>
+    </div>
+  </footer>
+<div aria-hidden="true" class="deco" style="position: absolute; top: 200px; width: 230px; background: #FFFFFF; border: 1px solid #E6E6EE; border-radius: 16px; padding: 16px; transform: rotate(5deg); box-shadow: 0 20px 40px rgba(40,36,90,0.12); display: flex; flex-direction: column; gap: 8px; font-size: 12px; left: 1203px; font-family: &quot;Albert Sans&quot;, system-ui, sans-serif; color: rgb(18, 24, 20)">
+        <span style="color: #6B6B78">Taux de conversion</span>
+        <div style="display: flex; align-items: baseline; gap: 8px"><strong style="font-family: Unbounded, system-ui, sans-serif; font-size: 26px; font-weight: 600">4,8 %</strong><span style="background: #DFF5E7; color: #1D6B3E; font-weight: 700; padding: 3px 7px; border-radius: 999px">▲ 1,2 pt</span></div>
+        <svg width="198" height="54" viewBox="0 0 198 54" fill="none"><path d="M2 46 L30 40 L58 43 L86 30 L114 33 L142 20 L170 22 L196 8" stroke="{{accent}}" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M2 46 L30 40 L58 43 L86 30 L114 33 L142 20 L170 22 L196 8 L196 54 L2 54 Z" fill="#E2E1FF" opacity="0.6"></path></svg>
+        <span style="color: #6B6B78; font-size: 11px">30 derniers jours</span>
+      </div><div aria-hidden="true" class="deco" style="position: absolute; left: -9px; top: 439px; width: 250px; background: #FFFFFF; border: 1px solid #E6E6EE; border-radius: 16px; padding: 14px 16px 16px; transform: rotate(3deg); box-shadow: 0 20px 40px rgba(40,36,90,0.12); display: flex; flex-direction: column; gap: 14px; font-size: 12px">
+        <div style="display: flex; justify-content: space-between; align-items: center"><strong style="font-size: 13px">Stepper</strong><span style="color: #6B6B78; font-size: 11px">Composant</span></div>
+        <div style="display: flex; align-items: flex-start">
+          <div style="display: flex; flex-direction: column; align-items: center; gap: 6px; width: 56px"><span style="width: 26px; height: 26px; border-radius: 50%; background: {{accent}}; display: flex; align-items: center; justify-content: center"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"></path></svg></span><span style="color: #4A4A55">Panier</span></div>
+          <span style="flex: 1; height: 2px; background: {{accent}}; margin-top: 12px"></span>
+          <div style="display: flex; flex-direction: column; align-items: center; gap: 6px; width: 64px"><span style="width: 26px; height: 26px; border-radius: 50%; background: #FFFFFF; border: 2px solid {{accent}}; box-sizing: border-box; color: #3730A3; font-weight: 700; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 0 4px #E2E1FF">2</span><strong style="color: #3730A3">Livraison</strong></div>
+          <span style="flex: 1; height: 2px; background: #E3E4EC; margin-top: 12px"></span>
+          <div style="display: flex; flex-direction: column; align-items: center; gap: 6px; width: 60px"><span style="width: 26px; height: 26px; border-radius: 50%; background: #F1F1F5; color: #6B6B78; font-weight: 700; display: flex; align-items: center; justify-content: center">3</span><span style="color: #6B6B78">Paiement</span></div>
+        </div>
+      </div></div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;composant&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Stepper&quot;,&quot;Bouton&quot;],&quot;default&quot;:&quot;Stepper&quot;},&quot;fond&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Lilas&quot;,&quot;Brume indigo&quot;,&quot;Indigo &amp; rose&quot;,&quot;Indigo &amp; pêche&quot;,&quot;Ciel &amp; lavande&quot;,&quot;Gris bleuté&quot;],&quot;default&quot;:&quot;Indigo &amp; pêche&quot;},&quot;accent&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#4F46E5&quot;,&quot;options&quot;:[&quot;#4F46E5&quot;,&quot;#4338CA&quot;,&quot;#5B54E8&quot;]},&quot;$preview&quot;:{&quot;width&quot;:1440,&quot;height&quot;:4100}}">
+class Component extends DCLogic {
+  componentDidMount() {
+    this.tryLoad(0);
+  }
+  componentWillUnmount() {
+    clearTimeout(this.timer);
+    (this.anims || []).forEach(function (a) { a.destroy(); });
+    this.anims = [];
+  }
+  tryLoad(n) {
+    var els = this.els || {};
+    if (window.lottie && els.ux && els.ui && els.br) {
+      var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      var files = [['ux', '/_blob/441bd513670f354bfd2c2cdaf0b3906e'], ['ui', '/_blob/2829fd46b2d25b37f5fd6004d0368c29'], ['br', '/_blob/e26a914560b7c2853bed5bedd82b3baf']];
+      this.anims = files.map(function (f) {
+        var a = window.lottie.loadAnimation({ container: els[f[0]], renderer: 'svg', loop: true, autoplay: !reduce, path: f[1] });
+        if (reduce) { a.addEventListener('DOMLoaded', function () { a.goToAndStop(40, true); }); }
+        return a;
+      });
+    } else if (n < 60) {
+      var self = this;
+      this.timer = setTimeout(function () { self.tryLoad(n + 1); }, 100);
+    }
+  }
+  renderVals() {
+    if (!this.els) {
+      var els = this.els = {};
+      this.refs3 = {
+        setUx: function (el) { els.ux = el; },
+        setUi: function (el) { els.ui = el; },
+        setBr: function (el) { els.br = el; }
+      };
+    }
+    var fonds = {
+      'Lilas': ['#E2DAF0', '#E2DAF0', '#ECE7F4', '#F2F1F5'],
+      'Brume indigo': ['#D5D6FA', '#E3E1FA', '#ECECF9', '#F3F3F8'],
+      'Indigo & rose': ['#D9D7FB', '#F8D9EA', '#F1ECF6', '#F5F3F8'],
+      'Indigo & pêche': ['#DAD8FA', '#FCE1D3', '#F3EEF1', '#F6F4F6'],
+      'Ciel & lavande': ['#D3E3F8', '#E2DAF7', '#EAEFF8', '#F2F4F8'],
+      'Gris bleuté': ['#DCDFE8', '#E3E2EC', '#EBECF1', '#F2F3F6']
+    };
+    var c = fonds[this.props.fond] || fonds['Lilas'];
+    var heroBg = 'radial-gradient(900px 540px at 18% 0px, ' + c[0] + ', rgba(247,247,250,0) 70%), radial-gradient(900px 540px at 82% 60px, ' + c[1] + ', rgba(247,247,250,0) 70%), linear-gradient(180deg, ' + c[2] + ' 0px, ' + c[3] + ' 800px, #F7F7FA 1400px, #F7F7FA 100%)';
+    var bouton = this.props.composant === 'Bouton';
+    var suivre = function (e) { var el = e.currentTarget; var r = el.getBoundingClientRect(); var k = r.width ? el.offsetWidth / r.width : 1; el.style.setProperty('--mx', ((e.clientX - r.left) * k) + 'px'); el.style.setProperty('--my', ((e.clientY - r.top) * k) + 'px'); };
+    return { suivre: suivre, showBouton: bouton, showStepper: !bouton, heroBg: heroBg, accent: this.props.accent ?? '#4F46E5', setUx: this.refs3.setUx, setUi: this.refs3.setUi, setBr: this.refs3.setBr };
+  }
+}
+</script>
+</body>
+</html>

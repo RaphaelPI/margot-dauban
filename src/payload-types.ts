@@ -340,6 +340,10 @@ export interface Service {
    * Version courte. Vide = liste complète.
    */
   homeItems?: string[] | null;
+  /**
+   * Fichier d'animation Lottie (.json), affiché au-dessus du titre sur l'accueil. Facultatif.
+   */
+  animation?: (string | null) | Media;
   showOnHome?: boolean | null;
   updatedAt: string;
   createdAt: string;
@@ -609,6 +613,7 @@ export interface ServicesSelect<T extends boolean = true> {
   summary?: T;
   items?: T;
   homeItems?: T;
+  animation?: T;
   showOnHome?: T;
   updatedAt?: T;
   createdAt?: T;
@@ -759,6 +764,22 @@ export interface Home {
      */
     items?: (string | Project)[] | null;
   };
+  /**
+   * Bloc sombre après les projets. Vide = bloc masqué.
+   */
+  testimonial?: {
+    /**
+     * Sans guillemets : ils sont ajoutés automatiquement.
+     */
+    quote?: string | null;
+    /**
+     * Ex. la phrase qui parle du résultat. Affichée en lilas après la citation.
+     */
+    highlight?: string | null;
+    author?: string | null;
+    role?: string | null;
+    company?: string | null;
+  };
   expertise?: {
     title?: string | null;
     linkLabel?: string | null;
@@ -844,6 +865,15 @@ export interface HomeSelect<T extends boolean = true> {
         title?: T;
         linkLabel?: T;
         items?: T;
+      };
+  testimonial?:
+    | T
+    | {
+        quote?: T;
+        highlight?: T;
+        author?: T;
+        role?: T;
+        company?: T;
       };
   expertise?:
     | T

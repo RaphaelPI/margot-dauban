@@ -13,8 +13,8 @@ export async function ClientName({ id }: { id: string }) {
   tagDocs('media', client.logo)
 
   return typeof client.logo === 'object' && client.logo ? (
-    <MediaImage media={client.logo} sizes="160px" className="h-8 w-auto object-contain" />
+    <MediaImage media={client.logo} sizes="160px" className="h-7 w-auto object-contain" />
   ) : (
-    <span className="font-heading text-lg font-semibold whitespace-nowrap">{client.name}</span>
+    <span className="text-[1.1875rem] font-bold whitespace-nowrap">{client.name}</span>
   )
 }
