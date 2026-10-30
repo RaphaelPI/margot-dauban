@@ -77,10 +77,17 @@ export async function ProjectView({ id, nextSlot }: { id: string; nextSlot?: Rea
   }))
   const hasOverview = Boolean(project.challenge || project.response || project.interventions?.length)
   const hasResults = Boolean(project.metrics?.length || project.results || project.website?.url)
-  const hasContext = Boolean(project.context || project.constraints)
-  const goals = project.goals ?? []
-  const goalsTitle = project.goalsTitle || 'Objectifs'
-  const hasDetail = hasContext || goals.length > 0 || steps.length > 0
+  const hasContext = Boolean(project.context)
+  // Card sections under the context, in the table of contents too.
+  const cardSections = [
+    { anchor: 'objectifs', title: project.goalsTitle || 'Objectifs', items: project.goals ?? [] },
+    {
+      anchor: 'contraintes',
+      title: project.constraintsTitle || 'Contraintes',
+      items: project.constraintCards ?? [],
+    },
+  ].filter((section) => section.items.length > 0)
+  const hasDetail = hasContext || cardSections.length > 0 || steps.length > 0
   // Projects saved before the contact band existed get its default texts.
   const cta = project.cta ?? {
     title: 'Un projet similaire ?',
@@ -303,13 +310,16 @@ export async function ProjectView({ id, nextSlot }: { id: string; nextSlot?: Rea
                   </a>
                 </li>
               ) : null}
-              {goals.length ? (
-                <li>
-                  <a href="#objectifs" className="hover:text-primary-strong aria-[current]:text-primary">
-                    {goalsTitle}
+              {cardSections.map((section) => (
+                <li key={section.anchor}>
+                  <a
+                    href={`#${section.anchor}`}
+                    className="hover:text-primary-strong aria-[current]:text-primary"
+                  >
+                    {section.title}
                   </a>
                 </li>
-              ) : null}
+              ))}
               {steps.map((step) => (
                 <li key={step.id ?? step.anchor}>
                   <a
@@ -337,28 +347,28 @@ export async function ProjectView({ id, nextSlot }: { id: string; nextSlot?: Rea
                   {project.contextTitle || 'Contexte & enjeux'}
                 </h3>
                 {project.context ? <RichText data={project.context} className={body} /> : null}
-                {project.constraints ? <RichText data={project.constraints} className={body} /> : null}
               </section>
             ) : null}
-            {goals.length ? (
+            {cardSections.map((section) => (
               <section
-                id="objectifs"
-                aria-labelledby="objectifs-titre"
+                key={section.anchor}
+                id={section.anchor}
+                aria-labelledby={`${section.anchor}-titre`}
                 className="flex scroll-mt-6 flex-col gap-4"
               >
-                <h3 id="objectifs-titre" className="font-heading text-[1.375rem] font-semibold">
-                  {goalsTitle}
+                <h3 id={`${section.anchor}-titre`} className="font-heading text-[1.375rem] font-semibold">
+                  {section.title}
                 </h3>
                 <ul className="grid grid-cols-[repeat(auto-fit,minmax(min(16.25rem,100%),1fr))] gap-4">
-                  {goals.map((goal) => (
-                    <li key={goal.id ?? goal.title} className={`${card} gap-2.5`}>
-                      <h4 className={`${kicker} text-primary`}>{goal.title}</h4>
-                      {goal.text ? <Rich value={goal.text} className={`leading-relaxed ${short}`} /> : null}
+                  {section.items.map((item) => (
+                    <li key={item.id ?? item.title} className={`${card} gap-2.5`}>
+                      <h4 className={`${kicker} text-primary`}>{item.title}</h4>
+                      {item.text ? <Rich value={item.text} className={`leading-relaxed ${short}`} /> : null}
                     </li>
                   ))}
                 </ul>
               </section>
-            ) : null}
+            ))}
             {steps.map((step) => (
               <section
                 key={step.id ?? step.anchor}

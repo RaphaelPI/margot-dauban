@@ -242,10 +242,36 @@ export const Projects: CollectionConfig = {
                   ],
                 },
                 {
-                  name: 'constraints',
+                  name: 'constraintsTitle',
+                  label: 'Titre des contraintes',
+                  type: 'text',
+                  defaultValue: 'Contraintes',
+                },
+                {
+                  name: 'constraintCards',
                   label: 'Contraintes',
+                  labels: { singular: 'Contrainte', plural: 'Contraintes' },
+                  type: 'array',
+                  admin: { description: 'Une carte par contrainte, sous les objectifs.' },
+                  fields: [
+                    {
+                      name: 'title',
+                      label: 'Titre court',
+                      type: 'text',
+                      required: true,
+                      admin: { description: 'Ex. Billetterie externe imposée' },
+                    },
+                    { name: 'text', label: 'Texte', ...lightText },
+                  ],
+                },
+                {
+                  name: 'constraints',
+                  label: 'Contraintes (ancien modèle)',
                   type: 'richText',
-                  admin: { description: 'Affiché à la suite du contexte.' },
+                  admin: {
+                    description:
+                      'Plus affiché sur la page : à reprendre dans les cartes « Contraintes » ci-dessus.',
+                  },
                 },
                 {
                   name: 'approach',

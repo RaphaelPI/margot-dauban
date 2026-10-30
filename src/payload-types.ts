@@ -320,8 +320,36 @@ export interface Project {
         id?: string | null;
       }[]
     | null;
+  constraintsTitle?: string | null;
   /**
-   * Affiché à la suite du contexte.
+   * Une carte par contrainte, sous les objectifs.
+   */
+  constraintCards?:
+    | {
+        /**
+         * Ex. Billetterie externe imposée
+         */
+        title: string;
+        text?: {
+          root: {
+            type: string;
+            children: {
+              type: any;
+              version: number;
+              [k: string]: unknown;
+            }[];
+            direction: ('ltr' | 'rtl') | null;
+            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+            indent: number;
+            version: number;
+          };
+          [k: string]: unknown;
+        } | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Plus affiché sur la page : à reprendre dans les cartes « Contraintes » ci-dessus.
    */
   constraints?: {
     root: {
@@ -741,6 +769,14 @@ export interface ProjectsSelect<T extends boolean = true> {
   context?: T;
   goalsTitle?: T;
   goals?:
+    | T
+    | {
+        title?: T;
+        text?: T;
+        id?: T;
+      };
+  constraintsTitle?: T;
+  constraintCards?:
     | T
     | {
         title?: T;
