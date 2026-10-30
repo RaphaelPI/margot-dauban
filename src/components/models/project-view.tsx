@@ -89,7 +89,7 @@ export async function ProjectView({ id, nextSlot }: { id: string; nextSlot?: Rea
   return (
     <article className="flex flex-col">
       <header className="flex flex-col items-center gap-5.5 pt-12 pb-12 text-center md:pt-18">
-        <nav aria-label="Fil d’Ariane" className="mb-4 text-base text-muted-foreground">
+        <nav aria-label="Fil d’Ariane" className="mb-4 text-xs text-muted-foreground">
           <ol className="flex flex-wrap justify-center gap-1.5">
             <li>
               <Link href="/" className="underline underline-offset-4 hover:text-primary-strong">
