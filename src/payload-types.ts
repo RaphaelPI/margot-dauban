@@ -193,6 +193,21 @@ export interface Project {
     };
     [k: string]: unknown;
   } | null;
+  role?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
   response?: {
     root: {
       type: string;
@@ -743,6 +758,7 @@ export interface ProjectsSelect<T extends boolean = true> {
   hero?: T;
   overviewTitle?: T;
   challenge?: T;
+  role?: T;
   response?: T;
   interventions?: T;
   resultsTitle?: T;

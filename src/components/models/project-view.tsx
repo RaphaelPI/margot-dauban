@@ -75,7 +75,9 @@ export async function ProjectView({ id, nextSlot }: { id: string; nextSlot?: Rea
     short: step.shortTitle || step.title,
     shots: images(step.images),
   }))
-  const hasOverview = Boolean(project.challenge || project.response || project.interventions?.length)
+  const hasOverview = Boolean(
+    project.challenge || project.role || project.response || project.interventions?.length,
+  )
   const hasResults = Boolean(project.metrics?.length || project.results || project.website?.url)
   const hasContext = Boolean(project.context)
   // Card sections under the context, in the table of contents too.
@@ -161,16 +163,22 @@ export async function ProjectView({ id, nextSlot }: { id: string; nextSlot?: Rea
           <h2 id="bref" className={h2}>
             {project.overviewTitle || 'La prestation en bref'}
           </h2>
-          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+          <div className="grid grid-cols-[repeat(auto-fit,minmax(min(16.25rem,100%),1fr))] gap-4">
             {project.challenge ? (
               <div className={`${card} gap-2.5`}>
-                <h3 className={`${kicker} text-primary`}>Le défi</h3>
+                <h3 className={`${kicker} text-primary`}>Le problème</h3>
                 <Rich value={project.challenge} className={`leading-relaxed ${short}`} />
+              </div>
+            ) : null}
+            {project.role ? (
+              <div className={`${card} gap-2.5`}>
+                <h3 className={`${kicker} text-primary`}>Mon rôle</h3>
+                <Rich value={project.role} className={`leading-relaxed ${short}`} />
               </div>
             ) : null}
             {project.response ? (
               <div className={`${card} gap-2.5`}>
-                <h3 className={`${kicker} text-primary`}>Ma réponse</h3>
+                <h3 className={`${kicker} text-primary`}>La solution</h3>
                 <Rich value={project.response} className={`leading-relaxed ${short}`} />
               </div>
             ) : null}

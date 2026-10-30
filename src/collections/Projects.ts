@@ -111,8 +111,9 @@ export const Projects: CollectionConfig = {
                 {
                   type: 'row',
                   fields: [
-                    { name: 'challenge', label: 'Le défi', ...lightText },
-                    { name: 'response', label: 'Ma réponse', ...lightText },
+                    { name: 'challenge', label: 'Le problème', ...lightText },
+                    { name: 'role', label: 'Mon rôle', ...lightText },
+                    { name: 'response', label: 'La solution', ...lightText },
                   ],
                 },
                 {
