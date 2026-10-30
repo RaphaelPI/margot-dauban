@@ -144,19 +144,19 @@ export async function ProjectView({ id, nextSlot }: { id: string; nextSlot?: Rea
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
             {project.challenge ? (
               <div className={`${card} gap-2.5`}>
-                <h3 className={`${kicker} text-tag-warm-foreground`}>Le défi</h3>
+                <h3 className={`${kicker} text-primary`}>Le défi</h3>
                 <Rich value={project.challenge} className={`leading-relaxed ${short}`} />
               </div>
             ) : null}
             {project.response ? (
               <div className={`${card} gap-2.5`}>
-                <h3 className={`${kicker} text-primary-strong`}>Ma réponse</h3>
+                <h3 className={`${kicker} text-primary`}>Ma réponse</h3>
                 <Rich value={project.response} className={`leading-relaxed ${short}`} />
               </div>
             ) : null}
             {project.interventions?.length ? (
               <div className={`${card} gap-2.5`}>
-                <h3 className={`${kicker} text-muted-foreground`}>Prestations</h3>
+                <h3 className={`${kicker} text-primary`}>Prestations</h3>
                 <ul className="flex flex-wrap gap-1.5 text-base">
                   {project.interventions.map((item) => (
                     <li key={item} className="rounded-md bg-muted px-2.5 py-1.25">
