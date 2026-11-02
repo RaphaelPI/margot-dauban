@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { orderKey } from './20261102_140000_order_projects'
+import { orderKey } from './order-key'
 
 describe('orderKey', () => {
   it('produces strictly increasing keys', () => {
