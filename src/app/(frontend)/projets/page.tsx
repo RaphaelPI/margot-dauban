@@ -4,7 +4,7 @@ import { Suspense } from 'react'
 import { GlowCard } from '@/components/glow-card'
 import { ProjectCard } from '@/components/models/project-card'
 import { ProjectCategoryFilter } from '@/components/models/project-category-filter'
-import { filterCountClass, filterLinkClass } from '@/components/models/project-filter-style'
+import { filterCountClass, filterLinkClass, filterVariant } from '@/components/models/project-filter-style'
 import { RichTextOrPlain } from '@/components/rich-text-or-plain'
 import { SlidingTabs } from '@/components/sliding-tabs'
 import { Button } from '@/components/ui/button'
@@ -114,9 +114,9 @@ async function ProjectList({ categoryId = null }: { categoryId?: string | null }
       {categoryIds.length ? (
         <section
           aria-label="Filtrer les projets"
-          className="flex flex-wrap items-center justify-between gap-4 pt-2 pb-8"
+          className={`mb-8 flex flex-wrap justify-between gap-4 pt-2 ${filterVariant === 'underline' ? 'items-end border-b' : 'items-center'}`}
         >
-          <SlidingTabs aria-label="Catégories de projets">
+          <SlidingTabs aria-label="Catégories de projets" variant={filterVariant}>
             <Link
               href="/projets"
               scroll={false}
@@ -130,7 +130,10 @@ async function ProjectList({ categoryId = null }: { categoryId?: string | null }
               <ProjectCategoryFilter key={id} id={id} active={id === categoryId} />
             ))}
           </SlidingTabs>
-          <p aria-live="polite" className="text-base text-muted-foreground">
+          <p
+            aria-live="polite"
+            className={`text-base text-muted-foreground ${filterVariant === 'underline' ? 'pb-4' : ''}`}
+          >
             {ids.length} projet{ids.length > 1 ? 's' : ''}
           </p>
         </section>
