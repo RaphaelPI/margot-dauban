@@ -30,7 +30,7 @@ export async function findIds(
 }
 
 export const getFeaturedProjectIds = (limit = 3) =>
-  findIds('projects', { where: { and: [published, { featured: { equals: true } }] }, sort: '-year', limit })
+  findIds('projects', { where: { and: [published, { featured: { equals: true } }] }, sort: '_order', limit })
 
 export const getProjectIdBySlug = async (slug: string) =>
   (await findIds('projects', { where: { and: [published, { slug: { equals: slug } }] }, limit: 1 }))[0] ??
@@ -46,7 +46,18 @@ export const getServiceIds = () => findIds('services', { sort: '_order' })
 export const getHomeServiceIds = () =>
   findIds('services', { where: { showOnHome: { equals: true } }, sort: '_order' })
 
-// Same order as the admin list (newest year first); title breaks ties so the order is stable.
-export const getProjectIds = () => findIds('projects', { where: published, sort: ['-year', 'title'] })
+// Projects are ordered by hand in the admin (drag and drop): the same order everywhere.
+export const getProjectIds = () => findIds('projects', { where: published, sort: '_order' })
+
+export const getProjectIdsInCategory = (categoryId: string) =>
+  findIds('projects', {
+    where: { and: [published, { categories: { in: [categoryId] } }] },
+    sort: '_order',
+  })
+
+export const getProjectCategoryIds = () => findIds('project-categories', { sort: '_order' })
+
+export const getProjectCategoryIdBySlug = async (slug: string) =>
+  (await findIds('project-categories', { where: { slug: { equals: slug } }, limit: 1 }))[0] ?? null
 
 export const getNextProjectId = async (id: string) => nextInList(await getProjectIds(), id)

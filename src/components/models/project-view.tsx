@@ -1,10 +1,10 @@
-import type { SerializedEditorState } from '@payloadcms/richtext-lexical/lexical'
 import { RichText } from '@payloadcms/richtext-lexical/react'
 import { cacheLife, cacheTag } from 'next/cache'
 import Link from 'next/link'
 import type { CSSProperties, ReactNode } from 'react'
 import { GlowCard } from '@/components/glow-card'
 import { PhosphorIcon } from '@/components/phosphor-icon'
+import { RichTextOrPlain } from '@/components/rich-text-or-plain'
 import { TocSpy } from '@/components/toc-spy'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -25,19 +25,6 @@ const chip = 'h-auto rounded-md px-3 py-1.5 text-base font-bold'
 // Rich text from the admin: paragraphs, lists, links, bold (no typography plugin installed).
 const body =
   'text-lg leading-[1.7] text-foreground-soft [&_*+*]:mt-4 [&_a]:font-bold [&_a]:underline [&_a]:underline-offset-4 [&_li+li]:mt-1.5 [&_ol]:list-decimal [&_ol]:pl-6 [&_strong]:font-bold [&_strong]:text-foreground [&_ul]:list-disc [&_ul]:pl-6'
-// Short texts written with the light editor (bold, italic, underline, links, lists).
-const short =
-  '[&_*+*]:mt-2 [&_a]:underline [&_a]:underline-offset-4 [&_em]:italic [&_ol]:list-decimal [&_ol]:pl-5 [&_strong]:font-bold [&_ul]:list-disc [&_ul]:pl-5'
-
-// Rich text, or a plain string (contact band default, texts saved before the editor existed).
-function Rich({ value, className }: { value: SerializedEditorState | string; className: string }) {
-  return typeof value === 'string' ? (
-    <p className={className}>{value}</p>
-  ) : (
-    <RichText data={value} className={className} />
-  )
-}
-
 // One line drawn 1 → 2 → 3… while the list scrolls by: segment `index` of `count` takes its
 // share of the list's scroll range (see `draw-on-scroll` in globals.css).
 const drawRange = (index: number, count: number) => {
@@ -112,7 +99,7 @@ export async function ProjectView({ id, nextSlot }: { id: string; nextSlot?: Rea
               /
             </li>
             <li>
-              <Link href="/#projets" className="underline underline-offset-4 hover:text-primary-strong">
+              <Link href="/projets" className="underline underline-offset-4 hover:text-primary-strong">
                 Projets
               </Link>{' '}
               /
@@ -169,19 +156,19 @@ export async function ProjectView({ id, nextSlot }: { id: string; nextSlot?: Rea
             {project.challenge ? (
               <div className={`${card} gap-2.5`}>
                 <h3 className={`${kicker} text-primary`}>Le problème</h3>
-                <Rich value={project.challenge} className={`leading-relaxed ${short}`} />
+                <RichTextOrPlain value={project.challenge} className="leading-relaxed" />
               </div>
             ) : null}
             {project.role ? (
               <div className={`${card} gap-2.5`}>
                 <h3 className={`${kicker} text-primary`}>Mon rôle</h3>
-                <Rich value={project.role} className={`leading-relaxed ${short}`} />
+                <RichTextOrPlain value={project.role} className="leading-relaxed" />
               </div>
             ) : null}
             {project.response ? (
               <div className={`${card} gap-2.5`}>
                 <h3 className={`${kicker} text-primary`}>La solution</h3>
-                <Rich value={project.response} className={`leading-relaxed ${short}`} />
+                <RichTextOrPlain value={project.response} className="leading-relaxed" />
               </div>
             ) : null}
             {project.interventions?.length ? (
@@ -260,9 +247,9 @@ export async function ProjectView({ id, nextSlot }: { id: string; nextSlot?: Rea
               {project.stepsTitle || 'En bref : comment on y est arrivés'}
             </h2>
             {project.objectives ? (
-              <Rich
+              <RichTextOrPlain
                 value={project.objectives}
-                className={`text-[1.0625rem] leading-[1.65] text-foreground-soft ${short}`}
+                className="text-[1.0625rem] leading-[1.65] text-foreground-soft"
               />
             ) : null}
             {hasDetail ? (
@@ -292,7 +279,7 @@ export async function ProjectView({ id, nextSlot }: { id: string; nextSlot?: Rea
                     {step.short}
                   </h3>
                   {step.summary ? (
-                    <Rich value={step.summary} className={`leading-normal text-foreground-soft ${short}`} />
+                    <RichTextOrPlain value={step.summary} className="leading-normal text-foreground-soft" />
                   ) : null}
                 </div>
               </li>
@@ -376,7 +363,7 @@ export async function ProjectView({ id, nextSlot }: { id: string; nextSlot?: Rea
                         <PhosphorIcon name={item.icon} className="shrink-0" />
                         {item.title}
                       </h4>
-                      {item.text ? <Rich value={item.text} className={`leading-relaxed ${short}`} /> : null}
+                      {item.text ? <RichTextOrPlain value={item.text} className="leading-relaxed" /> : null}
                     </li>
                   ))}
                 </ul>
@@ -428,7 +415,7 @@ export async function ProjectView({ id, nextSlot }: { id: string; nextSlot?: Rea
               <h2 className="font-heading text-[clamp(1.875rem,3.6vw,2.875rem)] leading-[1.08] font-bold tracking-[-0.02em]">
                 {cta.title}
               </h2>
-              {cta.text ? <Rich value={cta.text} className={`text-lg ${short}`} /> : null}
+              {cta.text ? <RichTextOrPlain value={cta.text} className="text-lg" /> : null}
             </div>
             {cta.buttonLabel && cta.buttonHref && isSafeHref(cta.buttonHref) ? (
               <Button

@@ -10,10 +10,12 @@ import { Clients } from './collections/Clients'
 import { Faqs } from './collections/Faqs'
 import { Media } from './collections/Media'
 import { Pages } from './collections/Pages'
+import { ProjectCategories } from './collections/ProjectCategories'
 import { Projects } from './collections/Projects'
 import { Services } from './collections/Services'
 import { Users } from './collections/Users'
 import { Home } from './globals/Home'
+import { ProjectsPage } from './globals/ProjectsPage'
 import { ServicesPage } from './globals/ServicesPage'
 import { Settings } from './globals/Settings'
 import { withGlobalRevalidation, withRevalidation } from './lib/cache'
@@ -28,8 +30,10 @@ export default buildConfig({
     importMap: { baseDir: path.resolve(dirname) },
   },
   i18n: { supportedLanguages: { fr }, fallbackLanguage: 'fr' },
-  collections: [Projects, Clients, Services, Faqs, Pages, Media, Users].map(withRevalidation),
-  globals: [Home, ServicesPage, Settings].map(withGlobalRevalidation),
+  collections: [Projects, ProjectCategories, Clients, Services, Faqs, Pages, Media, Users].map(
+    withRevalidation,
+  ),
+  globals: [Home, ProjectsPage, ServicesPage, Settings].map(withGlobalRevalidation),
   editor: lexicalEditor(),
   secret: env.PAYLOAD_SECRET,
   graphQL: { disable: true },

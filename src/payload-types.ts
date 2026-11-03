@@ -68,6 +68,7 @@ export interface Config {
   blocks: {};
   collections: {
     projects: Project;
+    'project-categories': ProjectCategory;
     clients: Client;
     services: Service;
     faqs: Faq;
@@ -82,6 +83,7 @@ export interface Config {
   collectionsJoins: {};
   collectionsSelect: {
     projects: ProjectsSelect<false> | ProjectsSelect<true>;
+    'project-categories': ProjectCategoriesSelect<false> | ProjectCategoriesSelect<true>;
     clients: ClientsSelect<false> | ClientsSelect<true>;
     services: ServicesSelect<false> | ServicesSelect<true>;
     faqs: FaqsSelect<false> | FaqsSelect<true>;
@@ -99,11 +101,13 @@ export interface Config {
   fallbackLocale: null;
   globals: {
     home: Home;
+    'projects-page': ProjectsPage;
     'services-page': ServicesPage;
     settings: Setting;
   };
   globalsSelect: {
     home: HomeSelect<false> | HomeSelect<true>;
+    'projects-page': ProjectsPageSelect<false> | ProjectsPageSelect<true>;
     'services-page': ServicesPageSelect<false> | ServicesPageSelect<true>;
     settings: SettingsSelect<false> | SettingsSelect<true>;
   };
@@ -141,6 +145,7 @@ export interface UserAuthOperations {
  */
 export interface Project {
   id: string;
+  _order?: string | null;
   title: string;
   /**
    * When enabled, the slug will auto-generate from the title field on save and autosave.
@@ -148,6 +153,10 @@ export interface Project {
   generateSlug?: boolean | null;
   slug: string;
   year?: number | null;
+  /**
+   * Filtres de la page Projets.
+   */
+  categories?: (string | ProjectCategory)[] | null;
   featured?: boolean | null;
   /**
    * Ex. Site vitrine, Web app, E-commerce
@@ -489,6 +498,27 @@ export interface Project {
   _status?: ('draft' | 'published') | null;
 }
 /**
+ * Filtres de la page Projets, dans cet ordre (glisser-déposer pour réordonner).
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "project-categories".
+ */
+export interface ProjectCategory {
+  id: string;
+  _order?: string | null;
+  /**
+   * Ex. SaaS & logiciels métier
+   */
+  title: string;
+  /**
+   * When enabled, the slug will auto-generate from the title field on save and autosave.
+   */
+  generateSlug?: boolean | null;
+  slug: string;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "media".
  */
@@ -680,6 +710,10 @@ export interface PayloadLockedDocument {
         value: string | Project;
       } | null)
     | ({
+        relationTo: 'project-categories';
+        value: string | ProjectCategory;
+      } | null)
+    | ({
         relationTo: 'clients';
         value: string | Client;
       } | null)
@@ -750,10 +784,12 @@ export interface PayloadMigration {
  * via the `definition` "projects_select".
  */
 export interface ProjectsSelect<T extends boolean = true> {
+  _order?: T;
   title?: T;
   generateSlug?: T;
   slug?: T;
   year?: T;
+  categories?: T;
   featured?: T;
   kind?: T;
   sector?: T;
@@ -841,6 +877,18 @@ export interface ProjectsSelect<T extends boolean = true> {
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "project-categories_select".
+ */
+export interface ProjectCategoriesSelect<T extends boolean = true> {
+  _order?: T;
+  title?: T;
+  generateSlug?: T;
+  slug?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1040,6 +1088,62 @@ export interface Home {
     text?: string | null;
     buttonLabel?: string | null;
     buttonHref?: string | null;
+  };
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * Textes de la page qui liste tous les projets (/projets).
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "projects-page".
+ */
+export interface ProjectsPage {
+  id: string;
+  title: string;
+  highlight?: string | null;
+  intro?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  cta?: {
+    title?: string | null;
+    text?: {
+      root: {
+        type: string;
+        children: {
+          type: any;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    } | null;
+    buttonLabel?: string | null;
+    buttonHref?: string | null;
+  };
+  /**
+   * Laisser vide pour utiliser le titre et le résumé.
+   */
+  seo?: {
+    title?: string | null;
+    description?: string | null;
+    image?: (string | null) | Media;
   };
   updatedAt?: string | null;
   createdAt?: string | null;
@@ -1256,6 +1360,33 @@ export interface HomeSelect<T extends boolean = true> {
         text?: T;
         buttonLabel?: T;
         buttonHref?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "projects-page_select".
+ */
+export interface ProjectsPageSelect<T extends boolean = true> {
+  title?: T;
+  highlight?: T;
+  intro?: T;
+  cta?:
+    | T
+    | {
+        title?: T;
+        text?: T;
+        buttonLabel?: T;
+        buttonHref?: T;
+      };
+  seo?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        image?: T;
       };
   updatedAt?: T;
   createdAt?: T;
