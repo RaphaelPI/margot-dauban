@@ -10,11 +10,20 @@ export const Projects: CollectionConfig = {
   admin: { useAsTitle: 'title', defaultColumns: ['title', 'kind', 'sector', 'year', 'featured', '_status'] },
   access: { read: publishedOrLoggedIn, create: loggedIn, update: loggedIn, delete: loggedIn },
   versions: { drafts: true },
-  defaultSort: '-year',
+  // Manual order (drag and drop in the list), used everywhere projects are listed.
+  orderable: true,
   fields: [
     { name: 'title', label: 'Titre (nom du client)', type: 'text', required: true },
     slugField({ useAsSlug: 'title' }),
     { name: 'year', label: 'Année', type: 'number', min: 2000, max: 2100, admin: { position: 'sidebar' } },
+    {
+      name: 'categories',
+      label: 'Catégories',
+      type: 'relationship',
+      relationTo: 'project-categories',
+      hasMany: true,
+      admin: { position: 'sidebar', description: 'Filtres de la page Projets.' },
+    },
     {
       name: 'featured',
       label: "Mis en avant sur l'accueil",

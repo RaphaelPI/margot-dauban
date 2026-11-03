@@ -20,3 +20,11 @@ export async function getHome() {
   const payload = await getPayload()
   return payload.findGlobal({ slug: 'home', depth: 0 })
 }
+
+export async function getProjectsPage() {
+  'use cache'
+  cacheLife('model')
+  cacheTag(tags.global('projects-page'))
+  const payload = await getPayload()
+  return payload.findGlobal({ slug: 'projects-page', depth: 0 })
+}

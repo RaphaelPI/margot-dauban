@@ -49,7 +49,8 @@ Extracted from margotdauban.fr (WordPress) and the V4 home design. Field names E
 
 | Slug | Kind | Drafts | Holds | Rendered by |
 |---|---|---|---|---|
-| `projects` | collection | yes | Card (type, sector, accroche, cover), case study in two parts — résumé (headline, hero, défi / réponse / interventions, chiffres clés, galerie, steps in short, objectives, site link) and détail (contexte, objectives and constraints as cards, steps with text and images) — plus contact band (`cta`), section titles editable; legacy `lead` and `constraints` rich text kept but not rendered; SEO, `featured` | `ProjectCard`, `ProjectView`, `ProjectNextCard` |
+| `projects` | collection (orderable) | yes | Card (type, sector, accroche, cover), case study in two parts — résumé (headline, hero, défi / réponse / interventions, chiffres clés, galerie, steps in short, objectives, site link) and détail (contexte, objectives and constraints as cards, steps with text and images) — plus contact band (`cta`), section titles editable; legacy `lead` and `constraints` rich text kept but not rendered; `categories`, SEO, `featured` | `ProjectCard`, `ProjectView`, `ProjectNextCard` |
+| `project-categories` | collection (orderable) | no | title, slug (filters of `/projets`, `?categorie=<slug>`) | `ProjectCategoryFilter` |
 | `clients` | collection (orderable) | no | name, logo, url (home marquee) | `ClientName` |
 | `services` | collection (orderable) | no | expertise group: title, description, full list, short home list, `showOnHome` | `ServiceCard` |
 | `faqs` | collection (orderable) | no | question, answer, category (6 fixed) | — (FAQ page to build) |
@@ -57,6 +58,7 @@ Extracted from margotdauban.fr (WordPress) and the V4 home design. Field names E
 | `media` | collection (upload, S3) | no | images with required alt | `MediaImage` inside model components |
 | `users` | collection (auth) | no | admin login | — |
 | `home` | global | no | hero, stats, project selection (or featured), expertise titles, CTA | home page |
+| `projects-page` | global | no | title, highlight, intro, contact band (`cta`), SEO for `/projets` | `/projets` page |
 | `settings` | global | no | identity, photo, availability, header nav + button, footer, default SEO | header, footer, metadata |
 
 Not modelled yet (features to request): contact form + submissions, `/projets` list, `/prestations` and `/faq` pages.
