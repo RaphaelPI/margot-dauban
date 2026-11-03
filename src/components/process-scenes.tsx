@@ -121,7 +121,6 @@ function Structure() {
           <div className={`h-4 w-[60%] bg-[#e3e4ec] ${bar}`} />
           <div className={`h-2.5 bg-decor-border ${bar}`} />
           <div className={`h-2.5 w-[80%] bg-decor-border ${bar}`} />
-          <div className="h-7.5 w-30 rounded-lg border-2 border-[#cfccf7]" />
         </div>
       </div>
     </div>
