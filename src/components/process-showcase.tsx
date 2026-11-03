@@ -3,7 +3,7 @@
 import { type KeyboardEvent, useEffect, useRef, useState } from 'react'
 import { processDurations, processScenes } from './process-scenes'
 
-const [sceneWidth, sceneHeight] = [620, 440]
+const [sceneWidth, sceneHeight] = [620, 460]
 
 type Step = { id?: string | null; title: string; text?: string | null; screenLabel?: string | null }
 
@@ -131,7 +131,7 @@ export function ProcessShowcase({ steps }: { steps: Step[] }) {
         id="etape-ecran"
         role="tabpanel"
         aria-labelledby={`etape-tab-${current}`}
-        className="flex min-w-0 flex-[999_1_35rem] flex-col overflow-hidden rounded-3xl border bg-card shadow-[0_30px_60px_rgb(40_36_90/0.1)]"
+        className="flex min-w-0 flex-[999_1_37.5rem] flex-col overflow-hidden rounded-3xl border bg-card shadow-[0_30px_60px_rgb(40_36_90/0.1)]"
       >
         <div
           aria-hidden="true"

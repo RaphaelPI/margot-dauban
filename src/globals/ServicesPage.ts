@@ -8,22 +8,22 @@ const defaultSteps = [
   {
     title: 'Comprendre',
     text: 'Vos utilisateurs, leurs usages et vos objectifs.',
-    screenLabel: 'atelier — utilisateurs',
+    screenLabel: 'atelier — vos clients en ligne',
   },
   {
     title: 'Analyser',
     text: 'L’existant, pour repérer ce qui freine.',
-    screenLabel: 'audit — interface actuelle',
+    screenLabel: 'audit — liste produits actuelle',
   },
   {
     title: 'Structurer',
     text: 'Les parcours, l’arborescence et les wireframes.',
-    screenLabel: 'wireframes — parcours',
+    screenLabel: 'wireframes — liste › fiche › panier',
   },
   {
     title: 'Concevoir',
     text: 'Des maquettes Figma prêtes à développer, avec design system.',
-    screenLabel: 'maquettes — fiche produit',
+    screenLabel: 'ceramia.fr — maquette finale',
   },
 ]
 
