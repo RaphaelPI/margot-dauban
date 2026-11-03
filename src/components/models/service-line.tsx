@@ -17,9 +17,7 @@ export async function ServiceLine({ id }: { id: string }) {
     <article className="grid grid-cols-[repeat(auto-fit,minmax(min(18.75rem,100%),1fr))] gap-x-12 gap-y-6 border-t border-border py-10">
       <div className="flex flex-col gap-3">
         <ServiceVisual media={service.animation} className="size-30" />
-        <h3 className="font-heading text-[1.75rem] leading-tight font-semibold text-primary">
-          {service.title}
-        </h3>
+        <h3 className="font-heading text-[1.75rem] leading-tight font-semibold">{service.title}</h3>
       </div>
       {service.summary ? (
         <p className="text-lg leading-[1.7] text-foreground-soft">{service.summary}</p>
