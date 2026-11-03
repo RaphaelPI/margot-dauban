@@ -14,15 +14,6 @@ export async function SiteHeader() {
   return (
     <header className="mx-auto flex w-full max-w-page flex-wrap items-center justify-between gap-x-6 gap-y-4 px-5 py-5.5 md:px-8">
       <div className="flex flex-wrap items-center gap-x-5 gap-y-3">
-        {settings.available ? (
-          <span className="inline-flex items-center gap-2 rounded-full border border-decor-border bg-card px-3.5 py-1.5 text-sm font-semibold text-success-foreground">
-            <span
-              aria-hidden="true"
-              className="size-2 animate-blink rounded-full bg-success motion-reduce:animate-none"
-            />
-            {settings.availabilityLabel}
-          </span>
-        ) : null}
         <Link href="/" className="flex items-center gap-3 rounded-full">
           {typeof settings.photo === 'object' && settings.photo ? (
             <MediaImage
@@ -45,6 +36,15 @@ export async function SiteHeader() {
             ) : null}
           </span>
         </Link>
+        {settings.available ? (
+          <span className="inline-flex items-center gap-2 rounded-full border border-decor-border bg-card px-3.5 py-1.5 text-sm font-semibold text-success-foreground">
+            <span
+              aria-hidden="true"
+              className="size-2 animate-blink rounded-full bg-success motion-reduce:animate-none"
+            />
+            {settings.availabilityLabel}
+          </span>
+        ) : null}
       </div>
       <nav
         aria-label="Navigation principale"
