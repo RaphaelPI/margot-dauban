@@ -58,6 +58,7 @@ Extracted from margotdauban.fr (WordPress) and the V4 home design. Field names E
 | `media` | collection (upload, S3) | no | images with required alt | `MediaImage` inside model components |
 | `users` | collection (auth) | no | admin login | — |
 | `home` | global | no | hero, stats, project selection (or featured), expertise titles, CTA | home page |
+| `faq-page` | global | no | eyebrow, title (« & » in indigo), intro, CTA, SEO for `/faq`; questions from `faqs` grouped by `faqCategories` | `/faq` page |
 | `projects-page` | global | no | title, highlight, intro, contact band (`cta`), SEO for `/projets` | `/projets` page |
 | `settings` | global | no | identity, photo, availability, header nav + button, footer, default SEO | header, footer, metadata |
 
