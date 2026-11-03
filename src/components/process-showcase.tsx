@@ -144,6 +144,10 @@ export function ProcessShowcase({ steps }: { steps: Step[] }) {
             {shown[current]?.screenLabel}
           </span>
         </div>
+        {/* Screen readers get the step in words; the illustration below is decorative. */}
+        <p className="sr-only">
+          Étape {current + 1} : {shown[current]?.title}. {shown[current]?.text}
+        </p>
         {/* Decorative illustration of the step: replayed each time the step changes. */}
         <div
           ref={screen}
