@@ -148,11 +148,26 @@ export const ServicesPage: GlobalConfig = {
               ),
             },
             {
-              name: 'labels',
+              name: 'links',
               label: 'Étiquettes',
-              type: 'text',
-              hasMany: true,
-              defaultValue: ['LaGuild', 'HappyDev'],
+              labels: { singular: 'Étiquette', plural: 'Étiquettes' },
+              type: 'array',
+              defaultValue: [
+                { label: 'LaGuild', url: 'https://laguild.io' },
+                { label: 'HappyDev', url: '' },
+              ],
+              admin: {
+                description: 'Avec un lien, l’étiquette est cliquable (ouvre le site dans un nouvel onglet).',
+              },
+              fields: [
+                {
+                  type: 'row',
+                  fields: [
+                    { name: 'label', label: 'Libellé', type: 'text', required: true },
+                    { name: 'url', label: 'Lien', type: 'text', validate: validateHref },
+                  ],
+                },
+              ],
             },
           ],
         },

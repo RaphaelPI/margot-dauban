@@ -113,16 +113,27 @@ export default async function ServicesPage() {
                 />
               ) : null}
             </div>
-            {team.labels?.length ? (
+            {team.links?.length ? (
               <ul className="flex flex-[1_1_13.75rem] flex-wrap justify-end gap-2.5 font-heading text-base font-semibold">
-                {team.labels.map((label, index) => (
-                  <li
-                    key={label}
-                    className={`rounded-[0.875rem] px-4.5 py-3.5 ${index % 2 ? 'bg-[#f6eeea]' : 'bg-[#f4f3ff]'}`}
-                  >
-                    {label}
-                  </li>
-                ))}
+                {team.links.map((link, index) => {
+                  const chip = `block rounded-[0.875rem] px-4.5 py-3.5 ${index % 2 ? 'bg-[#f6eeea]' : 'bg-[#f4f3ff]'}`
+                  return (
+                    <li key={link.id ?? link.label}>
+                      {link.url && isSafeHref(link.url) ? (
+                        <a
+                          href={link.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className={`${chip} underline-offset-4 transition-colors hover:text-primary-strong hover:underline`}
+                        >
+                          {link.label} ↗<span className="sr-only"> (nouvel onglet)</span>
+                        </a>
+                      ) : (
+                        <span className={chip}>{link.label}</span>
+                      )}
+                    </li>
+                  )
+                })}
               </ul>
             ) : null}
           </div>

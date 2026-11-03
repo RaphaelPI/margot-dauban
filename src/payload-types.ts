@@ -1232,7 +1232,16 @@ export interface ServicesPage {
       };
       [k: string]: unknown;
     } | null;
-    labels?: string[] | null;
+    /**
+     * Avec un lien, l’étiquette est cliquable (ouvre le site dans un nouvel onglet).
+     */
+    links?:
+      | {
+          label: string;
+          url?: string | null;
+          id?: string | null;
+        }[]
+      | null;
   };
   cta?: {
     title?: string | null;
@@ -1428,7 +1437,13 @@ export interface ServicesPageSelect<T extends boolean = true> {
     | {
         title?: T;
         text?: T;
-        labels?: T;
+        links?:
+          | T
+          | {
+              label?: T;
+              url?: T;
+              id?: T;
+            };
       };
   cta?:
     | T
