@@ -14,6 +14,7 @@ import { ProjectCategories } from './collections/ProjectCategories'
 import { Projects } from './collections/Projects'
 import { Services } from './collections/Services'
 import { Users } from './collections/Users'
+import { FaqPage } from './globals/FaqPage'
 import { Home } from './globals/Home'
 import { ProjectsPage } from './globals/ProjectsPage'
 import { ServicesPage } from './globals/ServicesPage'
@@ -33,7 +34,7 @@ export default buildConfig({
   collections: [Projects, ProjectCategories, Clients, Services, Faqs, Pages, Media, Users].map(
     withRevalidation,
   ),
-  globals: [Home, ProjectsPage, ServicesPage, Settings].map(withGlobalRevalidation),
+  globals: [Home, ProjectsPage, ServicesPage, FaqPage, Settings].map(withGlobalRevalidation),
   editor: lexicalEditor(),
   secret: env.PAYLOAD_SECRET,
   graphQL: { disable: true },

@@ -1,6 +1,16 @@
 import type { CollectionConfig } from 'payload'
 import { loggedIn } from '@/access'
 
+// Themes of the FAQ page, in this order.
+export const faqCategories = [
+  { label: 'Général', value: 'general' },
+  { label: 'Services et expertise', value: 'services' },
+  { label: 'Zone d’intervention et collaboration', value: 'collaboration' },
+  { label: 'Tarifs et devis', value: 'pricing' },
+  { label: 'Processus et méthodologie', value: 'process' },
+  { label: 'Contact et délais', value: 'contact' },
+]
+
 export const Faqs: CollectionConfig = {
   slug: 'faqs',
   labels: { singular: 'Question', plural: 'FAQ' },
@@ -15,14 +25,7 @@ export const Faqs: CollectionConfig = {
       label: 'Catégorie',
       type: 'select',
       required: true,
-      options: [
-        { label: 'Général', value: 'general' },
-        { label: 'Services et expertise', value: 'services' },
-        { label: 'Zone d’intervention et collaboration', value: 'collaboration' },
-        { label: 'Tarifs et devis', value: 'pricing' },
-        { label: 'Processus et méthodologie', value: 'process' },
-        { label: 'Contact et délais', value: 'contact' },
-      ],
+      options: faqCategories,
     },
   ],
 }

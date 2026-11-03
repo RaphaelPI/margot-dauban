@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>FAQ C — Éditoriale, réponses ouvertes</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Albert+Sans:wght@400;500;600;700&amp;family=Unbounded:wght@500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#F7F7FA}
+a{color:#121814}a:hover{color:#3730A3}
+button,input,select,textarea{font:inherit;color:inherit}
+.champ{width:100%;box-sizing:border-box;background:#FFFFFF;border:1px solid #D9DAE4;border-radius:12px;padding:13px 16px;font-size:16px;min-height:48px;transition:border-color .2s,box-shadow .2s}
+.champ:focus{outline:none;border-color:#4F46E5;box-shadow:0 0 0 4px rgba(79,70,229,0.15)}
+.champ::placeholder{color:#8A8A98}
+button:focus-visible,a:focus-visible{outline:3px solid #4F46E5;outline-offset:3px}
+@property --mx{syntax:'<length>';inherits:true;initial-value:0px}
+@property --my{syntax:'<length>';inherits:true;initial-value:0px}
+.carte{position:relative;isolation:isolate;transition:border-color .6s ease,box-shadow .6s ease}
+.carte::before{content:"";position:absolute;inset:0;border-radius:inherit;background:radial-gradient(380px circle at var(--mx) var(--my),rgba(226,224,252,0.75),rgba(232,230,253,0.35) 45%,rgba(232,230,253,0) 75%);opacity:0;transition:opacity .7s cubic-bezier(.22,.61,.36,1);z-index:-1;pointer-events:none}
+.carte:hover{border-color:#DCDAF8;box-shadow:0 16px 36px rgba(79,70,229,0.06)}
+.carte:hover::before{opacity:1}
+.carte-indigo::before{background:radial-gradient(520px circle at var(--mx) var(--my),rgba(140,133,255,0.85),rgba(120,112,250,0.35) 45%,rgba(120,112,250,0) 75%)}
+.carte-indigo:hover{box-shadow:0 20px 44px rgba(79,70,229,0.22)}
+.clignote{animation:clignote 1.8s ease-in-out infinite}
+@keyframes clignote{0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(31,157,85,0.45)}50%{opacity:0.45;box-shadow:0 0 0 6px rgba(31,157,85,0)}}
+.apparait{animation:apparait .5s cubic-bezier(.22,.61,.36,1) both}
+@keyframes apparait{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion: reduce){.clignote,.apparait{animation:none}.carte,.carte::before,.champ{transition:none}}
+</style>
+</helmet>
+<div style="font-family: 'Albert Sans', system-ui, sans-serif; color: #121814; background: radial-gradient(900px 540px at 18% 0px, #DAD8FA, rgba(247,247,250,0) 70%), radial-gradient(900px 540px at 82% 60px, #FCE1D3, rgba(247,247,250,0) 70%), linear-gradient(180deg, #F3EEF1 0px, #F6F4F6 600px, #F7F7FA 1000px, #F7F7FA 100%)">
+  <div style="max-width: 1240px; margin: 0 auto; padding: 0 32px">
+    <header style="display: flex; justify-content: space-between; align-items: center; gap: 24px; padding: 22px 0; flex-wrap: wrap">
+      <a href="#" style="display: flex; align-items: center; gap: 12px; text-decoration: none">
+        <span aria-hidden="true" style="width: 44px; height: 44px; border-radius: 50%; background: #E2E1FF; border: 2px solid #FFFFFF; display: flex; align-items: center; justify-content: center; font-size: 10px">[Photo]</span>
+        <span style="display: flex; flex-direction: column"><strong style="font-family: Unbounded, system-ui, sans-serif; font-weight: 600; font-size: 15px">Margot Dauban</strong><span style="font-size: 14px; color: #4F5A53">Webdesigner UI / UX</span></span>
+      </a>
+      <nav aria-label="Navigation principale" style="display: flex; align-items: center; gap: 28px; flex-wrap: wrap; font-size: 15px; font-weight: 500">
+        <span style="display: inline-flex; align-items: center; gap: 8px; background: #FFFFFF; border: 1px solid #E3E4EC; border-radius: 999px; padding: 7px 14px; font-size: 14px; font-weight: 600; color: #1D6B3E"><span aria-hidden="true" class="clignote" style="width: 8px; height: 8px; border-radius: 50%; background: #1F9D55"></span>Disponible</span>
+        <a href="#" style="text-decoration: none">Projets</a>
+        <a href="#" style="text-decoration: none">Témoignages</a>
+        <a href="#" style="text-decoration: none">Services</a>
+        <a href="#" style="text-decoration: none">À propos</a>
+        <a href="#" style="text-decoration: none; background: #4F46E5; color: #FFFFFF; padding: 12px 20px; border-radius: 999px; font-weight: 700">Me contacter</a>
+      </nav>
+    </header>
+    <section style="padding: 72px 0 56px; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(420px, 100%), 1fr)); gap: 40px; align-items: end">
+      <div style="display: flex; flex-direction: column; gap: 18px">
+        <nav aria-label="Fil d’Ariane" style="font-size: 14px; color: #4F5A53"><a href="#" style="color: #4F5A53">Accueil</a> / FAQ</nav>
+        <span style="font-size: 13px; font-weight: 700; color: #4F46E5; text-transform: uppercase; letter-spacing: 0.08em">FAQ</span>
+        <h1 style="margin: 0; font-family: Unbounded, system-ui, sans-serif; font-weight: 700; font-size: clamp(34px, 4.6vw, 60px); line-height: 1.04; letter-spacing: -0.03em">Tarifs, délais <span style="color: #4F46E5">&amp;</span> méthode</h1>
+        <p style="margin: 0; font-size: 19px; line-height: 1.55; color: #4A544D; max-width: 560px">Webdesigner UI / UX freelance à Toulouse&nbsp;: tout ce qu’il faut savoir avant de lancer votre projet.</p>
+      </div>
+      <div style="background: #FFFFFF; border: 1px solid #E1E5DF; border-radius: 28px; padding: 24px; display: flex; flex-direction: column; gap: 16px; box-shadow: 0 30px 60px rgba(40,36,90,0.08)">
+        <span style="font-family: Unbounded, system-ui, sans-serif; font-weight: 600; font-size: 17px">Les questions les plus consultées</span>
+        <div style="display: flex; gap: 8px; flex-wrap: wrap">
+          <sc-for list="{{ raccourcis }}" as="r" hint-placeholder-count="4"><a href="{{ r.href }}" onClick="{{ r.pick }}" style="display: inline-flex; align-items: center; padding: 10px 14px; min-height: 44px; box-sizing: border-box; border-radius: 999px; background: #E7E6FF; color: #2E2A7A; font-size: 14px; font-weight: 700; text-decoration: none">{{ r.label }}</a></sc-for>
+        </div>
+      </div>
+    </section>
+    <div style="padding-bottom: 72px; display: flex; flex-direction: column">
+      <sc-for list="{{ sections }}" as="s" hint-placeholder-count="3">
+        <section style="border-top: 1px solid #DCDCE5; padding: 48px 0; display: flex; flex-wrap: wrap; gap: 32px 64px">
+          <div style="flex: 1 1 260px; display: flex; flex-direction: column; gap: 10px">
+            <span style="font-family: Unbounded, system-ui, sans-serif; font-weight: 700; font-size: 44px; line-height: 1; color: #DAD8FA">{{ s.num }}</span>
+            <h2 style="margin: 0; font-family: Unbounded, system-ui, sans-serif; font-weight: 600; font-size: 24px; line-height: 1.2">{{ s.titre }}</h2>
+          </div>
+          <div style="flex: 999 1 560px; min-width: 0; display: flex; flex-direction: column; gap: 28px">
+            <sc-for list="{{ s.qs }}" as="x" hint-placeholder-count="3">
+              <div id="{{ x.id }}" style="{{ x.style }}">
+                <h3 style="margin: 0; font-size: 19px; font-weight: 700; line-height: 1.35">{{ x.q }}</h3>
+                <p style="margin: 0; font-size: 17px; line-height: 1.7; color: #414A44">{{ x.r }}</p>
+              </div>
+            </sc-for>
+          </div>
+        </section>
+      </sc-for>
+    </div>
+    <section style="padding: 0 0 72px">
+      <div class="carte carte-indigo" onMouseMove="{{ suivre }}" style="background: #4F46E5; border-radius: 32px; padding: 56px 48px; display: flex; justify-content: space-between; align-items: center; gap: 32px; flex-wrap: wrap">
+        <div style="display: flex; flex-direction: column; gap: 10px; max-width: 680px">
+          <h2 style="margin: 0; font-family: Unbounded, system-ui, sans-serif; font-weight: 700; font-size: clamp(26px, 3vw, 38px); line-height: 1.1; letter-spacing: -0.02em; color: #FFFFFF">Vous ne trouvez pas votre réponse&nbsp;?</h2>
+          <p style="margin: 0; font-size: 18px; color: #FFFFFF">Posez-moi directement votre question&nbsp;: réponse sous 24 à 48&nbsp;h.</p>
+        </div>
+        <a href="#" style="background: #0F1411; color: #FFFFFF; text-decoration: none; padding: 18px 26px; border-radius: 12px; font-weight: 700">Me contacter →</a>
+      </div>
+    </section>
+  </div>
+  <footer style="border-top: 1px solid #E1E5DF">
+    <div style="max-width: 1240px; margin: 0 auto; padding: 28px 32px; display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; font-size: 14px; color: #414A44">
+      <span>Margot Dauban — Webdesigner UI / UX freelance à Toulouse</span>
+      <nav aria-label="Liens de pied de page" style="display: flex; gap: 20px; flex-wrap: wrap"><a href="#">Contact</a><a href="#">FAQ</a><a href="#">Profil Malt</a><a href="#">Mentions légales</a><a href="#">Confidentialité</a></nav>
+    </div>
+  </footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":4600}}'>
+class Component extends DCLogic {
+  renderVals() {
+    var self = this; var st = this.state || {};
+    var DATA = [{"id": "general", "titre": "Général", "qs": [{"q": "Qui êtes-vous ?", "r": "Je suis Margot Dauban, designer UX/UI freelance basée à Toulouse. Issue de la communication digitale, je me suis spécialisée en webdesign et j’accompagne depuis plus de cinq ans TPE, PME et startups : création de sites, refontes et conception d’applications."}, {"q": "Quels services proposez-vous ?", "r": "Trois expertises : l’UX (audit, recherche utilisateur, wireframes, tests d’utilisabilité), l’UI (maquettes haute fidélité, responsive design, prototypes interactifs, design system) et le branding (direction artistique, charte graphique, création de logo)."}, {"q": "Pourquoi faire appel à une freelance plutôt qu’à une agence ?", "r": "Vous échangez directement avec la personne qui conçoit votre projet : plus de réactivité, un tarif plus accessible et une meilleure compréhension de vos enjeux métier."}]}, {"id": "services", "titre": "Services et expertise", "qs": [{"q": "Quelle différence entre UX et UI design ?", "r": "L’UX travaille la structure, l’ergonomie et la facilité d’utilisation ; l’UI, l’aspect visuel : couleurs, typographies, esthétique. Les deux se complètent pour une interface efficace, qui convertit."}, {"q": "Créez-vous des sites ou faites-vous des refontes ?", "r": "Les deux. Chaque projet commence par une phase d’analyse pour comprendre vos objectifs et les besoins de vos utilisateurs."}, {"q": "Faites-vous le développement web ?", "r": "Non, je me concentre sur le design UX/UI. Je suis le développement pour que les maquettes soient fidèlement intégrées et je peux vous recommander des développeurs de confiance."}, {"q": "Créez-vous des design systems ?", "r": "Oui : UI kits et design systems complets, pour garder une cohérence visuelle et accélérer les développements futurs."}]}, {"id": "zone", "titre": "Zone d’intervention et collaboration", "qs": [{"q": "Travaillez-vous uniquement à Toulouse ?", "r": "Non, j’accompagne des clients partout en France et à l’étranger, le plus souvent à distance. Je peux me déplacer si vous êtes à Toulouse ou pour les étapes clés du projet."}, {"q": "Comment se déroule une collaboration ?", "r": "On commence par échanger sur vos besoins, votre cible et vos objectifs. Je construis ensuite une méthode sur mesure (recherche utilisateur, ateliers, wireframes, maquettes, prototypes, tests), avec des points réguliers."}, {"q": "Combien de temps dure un projet ?", "r": "Cela dépend de la complexité et de la rapidité des retours. Comptez 1 à 2 semaines pour un audit UX et 2 à 4 mois pour une refonte complète. Un planning précis accompagne chaque proposition."}]}, {"id": "tarifs", "titre": "Tarifs et devis", "qs": [{"q": "Quels sont vos tarifs ?", "r": "Ils dépendent du périmètre du projet. Je propose des forfaits pour un budget maîtrisé, ou un tarif journalier pour plus de souplesse. Demandez un devis gratuit et personnalisé via la page contact."}, {"q": "Le premier rendez-vous est-il gratuit ?", "r": "Oui : un premier échange gratuit et sans engagement, pour évaluer votre projet et voir si nous sommes faits pour travailler ensemble."}, {"q": "Acceptez-vous les petits budgets ?", "r": "Oui. Des prestations ciblées sont possibles : audit, wireframes seuls ou accompagnement ponctuel."}]}, {"id": "methode", "titre": "Processus et méthodologie", "qs": [{"q": "Réalisez-vous des tests utilisateurs ?", "r": "Oui : ils valident les choix de conception et révèlent les points de friction avant le développement, ce qui limite les corrections coûteuses."}, {"q": "Comment vous assurez-vous que le design correspond à ma marque ?", "r": "Je commence par m’imprégner de votre marque : identité existante, valeurs, positionnement. Les maquettes sont ensuite ajustées selon vos retours jusqu’à correspondre à votre vision."}, {"q": "Les maquettes seront-elles adaptées au mobile ?", "r": "Toujours. Tous mes designs sont responsive (ordinateur, tablette, mobile), un point essentiel pour l’expérience utilisateur comme pour le référencement."}, {"q": "Utilisez-vous l’IA ?", "r": "Oui, comme un outil parmi d’autres pour gagner du temps : synthèse de retours utilisateurs, exploration d’idées, contenus de test. Les décisions de design et les maquettes restent les miennes."}]}, {"id": "contact", "titre": "Contact et délais", "qs": [{"q": "Comment vous contacter ?", "r": "Via le formulaire de la page contact. Je réponds généralement sous 24 à 48 h pour fixer un premier appel."}, {"q": "Quelles sont vos disponibilités ?", "r": "Elles varient selon ma charge de travail. Un nouveau projet peut généralement démarrer sous 2 à 4 semaines ; les demandes urgentes se discutent."}]}];
+    var norm = function (x) { return (x || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, ''); };
+    var surl = st.surl || '';
+    var sections = DATA.map(function (s, si) {
+      var qs = s.qs.map(function (x, i) { return Object.assign({ id: s.id + '-' + i }, x); }).map(function (x) {
+        var on = x.id === surl;
+        return { id: x.id, q: x.q, r: x.r, style: 'display: flex; flex-direction: column; gap: 8px; scroll-margin-top: 24px; border-radius: 16px; transition: background .6s, padding .3s; ' + (on ? 'background: #FFFFFF; box-shadow: 0 0 0 1px #CFCCF7; padding: 18px 20px; margin: -18px -20px' : 'padding: 0') };
+      });
+      return { num: ('0' + (si + 1)).slice(-2), titre: s.titre, qs: qs };
+    }).filter(function (s) { return s.qs.length; });
+    var raccourcis = [['Tarifs', 'tarifs-0'], ['Durée d’un projet', 'zone-2'], ['Développement web', 'services-2'], ['Petits budgets', 'tarifs-2'], ['IA', 'methode-3']].map(function (r) {
+      return { label: r[0], href: '#' + r[1], pick: function (e) { if (e && e.preventDefault) e.preventDefault(); self.setState({ surl: r[1] }); var el = document.getElementById(r[1]); if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' }); } };
+    });
+    var suivre = function (e) { var el = e.currentTarget; var r = el.getBoundingClientRect(); var k = r.width ? el.offsetWidth / r.width : 1; el.style.setProperty('--mx', ((e.clientX - r.left) * k) + 'px'); el.style.setProperty('--my', ((e.clientY - r.top) * k) + 'px'); };
+    return { sections: sections, raccourcis: raccourcis, suivre: suivre };
+  }
+}
+</script>
+</body>
+</html>

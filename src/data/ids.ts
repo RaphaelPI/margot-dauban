@@ -39,6 +39,9 @@ export const getProjectIdBySlug = async (slug: string) =>
 export const getPageIdBySlug = async (slug: string) =>
   (await findIds('pages', { where: { and: [published, { slug: { equals: slug } }] }, limit: 1 }))[0] ?? null
 
+export const getFaqIdsInCategory = (category: string) =>
+  findIds('faqs', { where: { category: { equals: category } }, sort: '_order' })
+
 export const getClientIds = () => findIds('clients', { sort: '_order' })
 
 export const getServiceIds = () => findIds('services', { sort: '_order' })

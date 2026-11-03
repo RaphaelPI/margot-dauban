@@ -39,3 +39,11 @@ export async function getServicesPage() {
   if (typeof portrait === 'object' && portrait) cacheTag(tags.doc('media', portrait.id))
   return page
 }
+
+export async function getFaqPage() {
+  'use cache'
+  cacheLife('model')
+  cacheTag(tags.global('faq-page'))
+  const payload = await getPayload()
+  return payload.findGlobal({ slug: 'faq-page', depth: 0 })
+}
