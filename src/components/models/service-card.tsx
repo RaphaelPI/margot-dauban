@@ -18,11 +18,15 @@ export async function ServiceCard({ id, short = false }: { id: string; short?: b
       <ServiceVisual media={service.animation} className="-mt-2 -ml-3 size-37.5" />
       <h3 className="font-heading text-[1.1875rem] font-semibold">{service.title}</h3>
       {service.summary && !short ? <p className="text-foreground-soft">{service.summary}</p> : null}
-      <ul className="flex list-disc flex-col gap-2 pl-4.5 text-base text-foreground-soft">
-        {items?.map((item) => (
-          <li key={item}>{item}</li>
-        ))}
-      </ul>
+      {items?.length ? (
+        <ul className="flex flex-wrap content-start gap-2 text-base">
+          {items.map((item) => (
+            <li key={item} className="rounded-[0.625rem] bg-muted px-3.5 py-2">
+              {item}
+            </li>
+          ))}
+        </ul>
+      ) : null}
     </div>
   )
 }
