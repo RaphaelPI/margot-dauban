@@ -38,17 +38,6 @@ export default async function ProjectsPage({ searchParams }: PageProps<'/projets
       <div aria-hidden="true" className="bg-hero absolute inset-x-0 top-0 -z-10 h-[1000px]" />
 
       <header className="flex max-w-205 flex-col gap-5 pt-12 pb-10 md:pt-18">
-        <nav aria-label="Fil d’Ariane" className="text-xs text-muted-foreground">
-          <ol className="flex flex-wrap gap-1.5">
-            <li>
-              <Link href="/" className="underline underline-offset-4 hover:text-primary-strong">
-                Accueil
-              </Link>{' '}
-              /
-            </li>
-            <li aria-current="page">Projets</li>
-          </ol>
-        </nav>
         <h1 className="font-heading text-[clamp(2rem,4vw,3.25rem)] leading-[1.12] font-semibold tracking-[-0.02em] text-balance">
           {page.title}{' '}
           {page.highlight ? (

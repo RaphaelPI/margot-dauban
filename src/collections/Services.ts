@@ -16,7 +16,7 @@ export const Services: CollectionConfig = {
       type: 'text',
       hasMany: true,
       required: true,
-      admin: { description: 'Liste complète (page Services).' },
+      admin: { description: 'Liste complète (page Prestations).' },
     },
     {
       name: 'homeItems',
@@ -26,14 +26,17 @@ export const Services: CollectionConfig = {
       admin: { description: 'Version courte. Vide = liste complète.' },
     },
     {
+      // Name kept from when it only held Lottie files: renaming would need a migration.
       name: 'animation',
-      label: 'Animation',
+      label: 'Image ou animation',
       type: 'upload',
       relationTo: 'media',
-      filterOptions: { mimeType: { equals: 'application/json' } },
+      filterOptions: {
+        or: [{ mimeType: { contains: 'image/' } }, { mimeType: { equals: 'application/json' } }],
+      },
       admin: {
         description:
-          "Fichier d'animation Lottie (.json), affiché au-dessus du titre sur l'accueil. Facultatif.",
+          'Image ou animation Lottie (.json), affichée au-dessus du titre (accueil et page Prestations). Facultatif.',
       },
     },
     { name: 'showOnHome', label: "Afficher sur l'accueil", type: 'checkbox', defaultValue: true },
