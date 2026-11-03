@@ -1071,9 +1071,6 @@ export interface ServicesPage {
       };
       [k: string]: unknown;
     } | null;
-    /**
-     * Ex. « Mon objectif : rendre simples des outils complexes… »
-     */
     callout?: {
       root: {
         type: string;
