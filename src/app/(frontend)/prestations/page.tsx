@@ -36,17 +36,6 @@ export default async function ServicesPage() {
 
       <section className="grid grid-cols-[repeat(auto-fit,minmax(min(26.25rem,100%),1fr))] items-center gap-16 pt-12 pb-20 md:pt-16 md:pb-26">
         <div className="flex flex-col gap-5">
-          <nav aria-label="Fil d’Ariane" className="text-xs text-muted-foreground">
-            <ol className="flex flex-wrap gap-1.5">
-              <li>
-                <Link href="/" className="underline underline-offset-4 hover:text-primary-strong">
-                  Accueil
-                </Link>{' '}
-                /
-              </li>
-              <li aria-current="page">Prestations</li>
-            </ol>
-          </nav>
           <h1 className="font-heading text-[clamp(2rem,4vw,3.25rem)] leading-[1.12] font-semibold tracking-[-0.02em] text-balance">
             {hero?.title}{' '}
             {hero?.highlight ? (
