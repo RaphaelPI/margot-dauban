@@ -343,11 +343,6 @@ function Design() {
               <span className="absolute top-2.5 left-2.5 rounded bg-tag-warm px-1.75 py-0.75 text-[0.5625rem] font-bold text-tag-warm-foreground">
                 Nouveau
               </span>
-              <div className="absolute inset-x-2.5 bottom-2.5 flex gap-1.5">
-                <span className="h-7 flex-1 rounded-[7px] border-2 border-primary bg-white/75" />
-                <span className="h-7 flex-1 rounded-[7px] bg-white/55" />
-                <span className="h-7 flex-1 rounded-[7px] bg-white/55" />
-              </div>
             </div>
             <div className="flex flex-col gap-2">
               <span className="text-[0.625rem] text-[#8a8a98]">Vases › {product}</span>
