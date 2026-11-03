@@ -29,6 +29,15 @@
   --animate-marquee: marquee 34s linear infinite;
   --animate-float: float 7s ease-in-out infinite;
   --animate-blink: blink 1.8s ease-in-out infinite;
+  /* « Comment se déroule une mission » (designs/13-page-prestations/process-ecran.html). */
+  --animate-appear: appear 0.6s cubic-bezier(0.22, 0.61, 0.36, 1) both;
+  --animate-drop: drop 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  --animate-pop: pop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  --animate-pin: pop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both, pulse-peach 1.6s ease-in-out 0.6s infinite;
+  --animate-trace: trace 0.6s ease both;
+  --animate-fill: fill-width linear both;
+  --animate-press: pop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both, press 0.5s ease both;
+  --animate-toast: toast 4s ease 3.3s both;
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -232,6 +241,99 @@
   }
   to {
     transform: scaleY(1);
+  }
+}
+
+@keyframes appear {
+  from {
+    opacity: 0;
+    transform: translateY(14px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes drop {
+  from {
+    opacity: 0;
+    transform: translateY(-28px) scale(0.9);
+  }
+}
+
+@keyframes pop {
+  from {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes pulse-peach {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgb(224 96 58 / 0.45);
+  }
+  50% {
+    box-shadow: 0 0 0 10px rgb(224 96 58 / 0);
+  }
+}
+
+@keyframes trace {
+  from {
+    opacity: 0;
+    transform: scaleX(0);
+  }
+  to {
+    opacity: 1;
+    transform: scaleX(1);
+  }
+}
+
+@keyframes fill-width {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+@keyframes press {
+  0% {
+    transform: scale(1);
+  }
+  40% {
+    transform: scale(0.94);
+    box-shadow: 0 0 0 6px rgb(79 70 229 / 0.2);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgb(79 70 229 / 0);
+  }
+}
+
+@keyframes toast {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  10%,
+  100% {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* The mission screen is decorative: with reduced motion it shows each step at once (unlayered,
+   so it wins over the animate-* utilities). */
+@media (prefers-reduced-motion: reduce) {
+  .process-screen * {
+    animation: none;
   }
 }
 

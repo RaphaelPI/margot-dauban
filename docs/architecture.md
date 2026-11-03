@@ -57,6 +57,7 @@ Extracted from margotdauban.fr (WordPress) and the V4 home design. Field names E
 | `media` | collection (upload, S3) | no | images with required alt | `MediaImage` inside model components |
 | `users` | collection (auth) | no | admin login | — |
 | `home` | global | no | hero, stats, project selection (or featured), expertise titles, CTA | home page |
+| `services-page` | global | no | hero (title, highlight, lead, body, callout, portrait), expertises title, process (eyebrow, title, intro, ≤ 4 steps with screen label), team (title, text, labels), CTA, SEO for `/prestations` | `/prestations` page, `ProcessShowcase` |
 | `settings` | global | no | identity, photo, availability, header nav + button, footer, default SEO | header, footer, metadata |
 
 Not modelled yet (features to request): contact form + submissions, `/projets` list, `/prestations` and `/faq` pages.

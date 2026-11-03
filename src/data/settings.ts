@@ -20,3 +20,14 @@ export async function getHome() {
   const payload = await getPayload()
   return payload.findGlobal({ slug: 'home', depth: 0 })
 }
+
+export async function getServicesPage() {
+  'use cache'
+  cacheLife('model')
+  cacheTag(tags.global('services-page'))
+  const payload = await getPayload()
+  const page = await payload.findGlobal({ slug: 'services-page', depth: 1 })
+  const portrait = page.hero?.portrait
+  if (typeof portrait === 'object' && portrait) cacheTag(tags.doc('media', portrait.id))
+  return page
+}

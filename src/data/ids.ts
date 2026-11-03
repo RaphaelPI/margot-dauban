@@ -41,6 +41,8 @@ export const getPageIdBySlug = async (slug: string) =>
 
 export const getClientIds = () => findIds('clients', { sort: '_order' })
 
+export const getServiceIds = () => findIds('services', { sort: '_order' })
+
 export const getHomeServiceIds = () =>
   findIds('services', { where: { showOnHome: { equals: true } }, sort: '_order' })
 

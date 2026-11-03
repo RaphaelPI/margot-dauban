@@ -14,6 +14,7 @@ import { Projects } from './collections/Projects'
 import { Services } from './collections/Services'
 import { Users } from './collections/Users'
 import { Home } from './globals/Home'
+import { ServicesPage } from './globals/ServicesPage'
 import { Settings } from './globals/Settings'
 import { withGlobalRevalidation, withRevalidation } from './lib/cache'
 import { parseEnv } from './lib/env'
@@ -28,7 +29,7 @@ export default buildConfig({
   },
   i18n: { supportedLanguages: { fr }, fallbackLanguage: 'fr' },
   collections: [Projects, Clients, Services, Faqs, Pages, Media, Users].map(withRevalidation),
-  globals: [Home, Settings].map(withGlobalRevalidation),
+  globals: [Home, ServicesPage, Settings].map(withGlobalRevalidation),
   editor: lexicalEditor(),
   secret: env.PAYLOAD_SECRET,
   graphQL: { disable: true },
