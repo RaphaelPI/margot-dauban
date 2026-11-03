@@ -102,11 +102,13 @@ export interface Config {
   globals: {
     home: Home;
     'projects-page': ProjectsPage;
+    'services-page': ServicesPage;
     settings: Setting;
   };
   globalsSelect: {
     home: HomeSelect<false> | HomeSelect<true>;
     'projects-page': ProjectsPageSelect<false> | ProjectsPageSelect<true>;
+    'services-page': ServicesPageSelect<false> | ServicesPageSelect<true>;
     settings: SettingsSelect<false> | SettingsSelect<true>;
   };
   locale: null;
@@ -570,7 +572,7 @@ export interface Service {
   title: string;
   summary?: string | null;
   /**
-   * Liste complète (page Services).
+   * Liste complète (page Prestations).
    */
   items: string[];
   /**
@@ -578,7 +580,7 @@ export interface Service {
    */
   homeItems?: string[] | null;
   /**
-   * Fichier d'animation Lottie (.json), affiché au-dessus du titre sur l'accueil. Facultatif.
+   * Image ou animation Lottie (.json), affichée au-dessus du titre (accueil et page Prestations). Facultatif.
    */
   animation?: (string | null) | Media;
   showOnHome?: boolean | null;
@@ -1147,6 +1149,132 @@ export interface ProjectsPage {
   createdAt?: string | null;
 }
 /**
+ * Textes de la page Prestations (/prestations). Les expertises se gèrent dans « Expertises ».
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "services-page".
+ */
+export interface ServicesPage {
+  id: string;
+  hero: {
+    title: string;
+    highlight?: string | null;
+    lead?: string | null;
+    body?: {
+      root: {
+        type: string;
+        children: {
+          type: any;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    } | null;
+    callout?: {
+      root: {
+        type: string;
+        children: {
+          type: any;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    } | null;
+    portrait?: (string | null) | Media;
+  };
+  /**
+   * Les expertises elles-mêmes se gèrent dans « Expertises ».
+   */
+  expertisesTitle?: string | null;
+  process?: {
+    eyebrow?: string | null;
+    title?: string | null;
+    intro?: string | null;
+    /**
+     * Quatre étapes au plus : chacune a son illustration animée (dans cet ordre).
+     */
+    steps?:
+      | {
+          title: string;
+          text?: string | null;
+          /**
+           * Affiché dans la barre d’adresse de l’écran animé.
+           */
+          screenLabel?: string | null;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  team?: {
+    title?: string | null;
+    text?: {
+      root: {
+        type: string;
+        children: {
+          type: any;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    } | null;
+    /**
+     * Avec un lien, l’étiquette est cliquable (ouvre le site dans un nouvel onglet).
+     */
+    links?:
+      | {
+          label: string;
+          url?: string | null;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  cta?: {
+    title?: string | null;
+    text?: {
+      root: {
+        type: string;
+        children: {
+          type: any;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    } | null;
+    buttonLabel?: string | null;
+    buttonHref?: string | null;
+  };
+  /**
+   * Laisser vide pour utiliser le titre et le résumé.
+   */
+  seo?: {
+    title?: string | null;
+    description?: string | null;
+    image?: (string | null) | Media;
+  };
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "settings".
  */
@@ -1254,6 +1382,69 @@ export interface ProjectsPageSelect<T extends boolean = true> {
   title?: T;
   highlight?: T;
   intro?: T;
+  cta?:
+    | T
+    | {
+        title?: T;
+        text?: T;
+        buttonLabel?: T;
+        buttonHref?: T;
+      };
+  seo?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        image?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "services-page_select".
+ */
+export interface ServicesPageSelect<T extends boolean = true> {
+  hero?:
+    | T
+    | {
+        title?: T;
+        highlight?: T;
+        lead?: T;
+        body?: T;
+        callout?: T;
+        portrait?: T;
+      };
+  expertisesTitle?: T;
+  process?:
+    | T
+    | {
+        eyebrow?: T;
+        title?: T;
+        intro?: T;
+        steps?:
+          | T
+          | {
+              title?: T;
+              text?: T;
+              screenLabel?: T;
+              id?: T;
+            };
+      };
+  team?:
+    | T
+    | {
+        title?: T;
+        text?: T;
+        links?:
+          | T
+          | {
+              label?: T;
+              url?: T;
+              id?: T;
+            };
+      };
   cta?:
     | T
     | {
