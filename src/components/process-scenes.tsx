@@ -225,7 +225,7 @@ function Design() {
             className="animate-appear font-heading text-base leading-tight font-semibold"
             style={delay(1.2)}
           >
-            Vase Céramique Lin
+            Vase Céramique
           </strong>
           <span className="animate-appear text-[0.6875rem] text-decor-muted" style={delay(1.3)}>
             <span className="tracking-[1px] text-primary">★★★★★</span> 128 avis
