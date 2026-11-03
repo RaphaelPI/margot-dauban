@@ -1,0 +1,223 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Filtres Projets — 4 propositions</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Albert+Sans:wght@400;500;600;700&amp;family=Unbounded:wght@500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#F7F7FA}
+button{font:inherit}
+button:focus-visible{outline:3px solid #4F46E5;outline-offset:3px}
+.defile{overflow-x:auto;scrollbar-width:none;max-width:100%}
+.defile::-webkit-scrollbar{display:none}
+.glisse{transition:left .45s cubic-bezier(.65,0,.35,1),width .45s cubic-bezier(.65,0,.35,1)}
+.tuile{transition:transform .25s ease,border-color .25s ease,box-shadow .25s ease,background .3s ease,color .3s ease}
+.tuile:hover{transform:translateY(-2px);border-color:#CFCCF7}
+.pastille{transition:background .25s ease,border-color .25s ease}
+.pastille:hover{border-color:#A9A6C9}
+.pop{animation:pop .4s cubic-bezier(.34,1.56,.64,1) both}
+@keyframes pop{from{opacity:0;transform:scale(.85)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion: reduce){.glisse,.tuile,.pastille{transition:none}.pop{animation:none}}
+</style>
+</helmet>
+<div style="font-family: 'Albert Sans', system-ui, sans-serif; color: #121814; background: #F7F7FA">
+  <div style="max-width: 1240px; margin: 0 auto; padding: 72px 32px 96px; display: flex; flex-direction: column; gap: 40px">
+    <div style="display: flex; flex-direction: column; gap: 10px; max-width: 760px">
+      <span style="font-size: 13px; font-weight: 700; color: #4F46E5; text-transform: uppercase; letter-spacing: 0.08em">Page Projets</span>
+      <h1 style="margin: 0; font-family: Unbounded, system-ui, sans-serif; font-weight: 600; font-size: 34px; letter-spacing: -0.02em">Filtres — 4 propositions</h1>
+      <p style="margin: 0; font-size: 17px; line-height: 1.6; color: #4A544D">Chaque proposition est cliquable : la liste en dessous montre le résultat du filtre.</p>
+    </div>
+
+    <!-- A -->
+    <section style="background: radial-gradient(600px 300px at 10% 0, #DAD8FA, rgba(247,247,250,0) 70%), radial-gradient(600px 300px at 90% 0, #FCE1D3, rgba(247,247,250,0) 70%), #F3EEF1; border-radius: 28px; padding: 36px; display: flex; flex-direction: column; gap: 24px">
+      <div style="display: flex; flex-direction: column; gap: 4px"><strong style="font-family: Unbounded, system-ui, sans-serif; font-weight: 600; font-size: 18px">A — Contrôle segmenté glissant</strong><span style="font-size: 15px; color: #4A544D">Un seul conteneur blanc ; la pastille indigo glisse d’un onglet à l’autre. Défilement horizontal sur mobile.</span></div>
+      <div style="display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap">
+        <div class="defile" style="background: #FFFFFF; border: 1px solid #E1E5DF; border-radius: 999px; padding: 6px; box-shadow: 0 10px 26px rgba(40,36,90,0.06)">
+          <div role="group" aria-label="Type de projet" style="position: relative; display: inline-flex; gap: 2px">
+            <span class="glisse" ref="{{ refIndA }}" aria-hidden="true" style="position: absolute; top: 0; bottom: 0; left: 0; width: 0; background: #4F46E5; border-radius: 999px; box-shadow: 0 8px 18px rgba(79,70,229,0.30)"></span>
+            <sc-for list="{{ filtresA }}" as="f" hint-placeholder-count="5">
+              <button type="button" ref="{{ f.ref }}" aria-pressed="{{ f.pressed }}" onClick="{{ f.pick }}" style="{{ f.style }}">{{ f.label }}<span style="{{ f.countStyle }}">{{ f.count }}</span></button>
+            </sc-for>
+          </div>
+        </div>
+        <span style="font-size: 14px; color: #4F5A53">{{ resumeA }}</span>
+      </div>
+      <div style="display: flex; gap: 8px; flex-wrap: wrap"><sc-for list="{{ resA }}" as="p" hint-placeholder-count="6"><span class="pop" style="display: inline-flex; align-items: center; gap: 8px; background: #FFFFFF; border: 1px solid #E1E5DF; border-radius: 12px; padding: 7px 12px 7px 7px; font-size: 13px; font-weight: 600"><span style="width: 22px; height: 22px; border-radius: 6px; background: {{ p.tint }}"></span>{{ p.nom }}</span></sc-for></div>
+    </section>
+
+    <!-- B -->
+    <section style="background: #FFFFFF; border: 1px solid #E1E5DF; border-radius: 28px; padding: 36px; display: flex; flex-direction: column; gap: 24px">
+      <div style="display: flex; flex-direction: column; gap: 4px"><strong style="font-family: Unbounded, system-ui, sans-serif; font-weight: 600; font-size: 18px">B — Onglets éditoriaux soulignés</strong><span style="font-size: 15px; color: #4A544D">Titres en Unbounded, compteur en exposant, soulignement indigo qui se déplace. Sobre, très « magazine ».</span></div>
+      <div style="display: flex; justify-content: space-between; align-items: flex-end; gap: 16px; flex-wrap: wrap; border-bottom: 1px solid #E1E5DF">
+        <div class="defile">
+          <div role="group" aria-label="Type de projet" style="position: relative; display: inline-flex; gap: 34px">
+            <sc-for list="{{ filtresB }}" as="f" hint-placeholder-count="5">
+              <button type="button" ref="{{ f.ref }}" aria-pressed="{{ f.pressed }}" onClick="{{ f.pick }}" style="{{ f.style }}">{{ f.label }}<sup style="font-family: 'Albert Sans', system-ui, sans-serif; font-size: 12px; font-weight: 700; color: #4F46E5; margin-left: 4px">{{ f.count }}</sup></button>
+            </sc-for>
+            <span class="glisse" ref="{{ refIndB }}" aria-hidden="true" style="position: absolute; bottom: 0; left: 0; width: 0; height: 3px; border-radius: 3px; background: #4F46E5"></span>
+          </div>
+        </div>
+        <span style="font-size: 14px; color: #4F5A53; padding-bottom: 16px">{{ resumeB }}</span>
+      </div>
+      <div style="display: flex; gap: 8px; flex-wrap: wrap"><sc-for list="{{ resB }}" as="p" hint-placeholder-count="6"><span class="pop" style="display: inline-flex; align-items: center; gap: 8px; background: #FFFFFF; border: 1px solid #E1E5DF; border-radius: 12px; padding: 7px 12px 7px 7px; font-size: 13px; font-weight: 600"><span style="width: 22px; height: 22px; border-radius: 6px; background: {{ p.tint }}"></span>{{ p.nom }}</span></sc-for></div>
+    </section>
+
+    <!-- C -->
+    <section style="background: #F7F7FA; border: 1px solid #E1E5DF; border-radius: 28px; padding: 36px; display: flex; flex-direction: column; gap: 24px">
+      <div style="display: flex; flex-direction: column; gap: 4px"><strong style="font-family: Unbounded, system-ui, sans-serif; font-weight: 600; font-size: 18px">C — Tuiles illustrées</strong><span style="font-size: 15px; color: #4A544D">Chaque catégorie devient une petite carte avec pictogramme et nombre de projets. Plus visuel, guide le visiteur.</span></div>
+      <div role="group" aria-label="Type de projet" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(180px, 100%), 1fr)); gap: 12px">
+        <sc-for list="{{ filtresC }}" as="f" hint-placeholder-count="5">
+          <button type="button" class="tuile" aria-pressed="{{ f.pressed }}" onClick="{{ f.pick }}" style="{{ f.style }}">
+            <span style="{{ f.iconStyle }}">
+              <sc-if value="{{ f.i0 }}" hint-placeholder-val="{{ true }}"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2.5" y="2.5" width="6" height="6" rx="1.5"></rect><rect x="11.5" y="2.5" width="6" height="6" rx="1.5"></rect><rect x="2.5" y="11.5" width="6" height="6" rx="1.5"></rect><rect x="11.5" y="11.5" width="6" height="6" rx="1.5"></rect></svg></sc-if>
+              <sc-if value="{{ f.i1 }}" hint-placeholder-val="{{ false }}"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="2" y="3" width="16" height="14" rx="2.5"></rect><path d="M2 7h16M6 14v-3M10 14V9.5M14 14v-2"></path></svg></sc-if>
+              <sc-if value="{{ f.i2 }}" hint-placeholder-val="{{ false }}"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="2" y="3" width="16" height="14" rx="2.5"></rect><path d="M2 7h16"></path><circle cx="5" cy="5" r=".6" fill="currentColor"></circle><path d="M5.5 11h5M5.5 13.5h3"></path></svg></sc-if>
+              <sc-if value="{{ f.i3 }}" hint-placeholder-val="{{ false }}"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"><path d="M4 6.5h12l-1 10.5H5z"></path><path d="M7.5 8.5V5.5a2.5 2.5 0 0 1 5 0v3"></path></svg></sc-if>
+              <sc-if value="{{ f.i4 }}" hint-placeholder-val="{{ false }}"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="10" cy="10" r="7.5"></circle><circle cx="10" cy="10" r="4"></circle><circle cx="10" cy="10" r=".8" fill="currentColor"></circle></svg></sc-if>
+            </span>
+            <span style="display: flex; flex-direction: column; gap: 2px"><strong style="font-size: 15px">{{ f.label }}</strong><span style="{{ f.subStyle }}">{{ f.sub }}</span></span>
+          </button>
+        </sc-for>
+      </div>
+      <div style="display: flex; gap: 8px; flex-wrap: wrap"><sc-for list="{{ resC }}" as="p" hint-placeholder-count="6"><span class="pop" style="display: inline-flex; align-items: center; gap: 8px; background: #FFFFFF; border: 1px solid #E1E5DF; border-radius: 12px; padding: 7px 12px 7px 7px; font-size: 13px; font-weight: 600"><span style="width: 22px; height: 22px; border-radius: 6px; background: {{ p.tint }}"></span>{{ p.nom }}</span></sc-for></div>
+    </section>
+
+    <!-- D -->
+    <section style="background: #FFFFFF; border: 1px solid #E1E5DF; border-radius: 28px; padding: 36px; display: flex; flex-direction: column; gap: 24px">
+      <div style="display: flex; flex-direction: column; gap: 4px"><strong style="font-family: Unbounded, system-ui, sans-serif; font-weight: 600; font-size: 18px">D — Pastilles colorées, sélection multiple</strong><span style="font-size: 15px; color: #4A544D">Une couleur par type de projet, réutilisée sur les cartes. On peut cumuler plusieurs filtres ; rien de coché = tout afficher.</span></div>
+      <div style="display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap">
+        <div role="group" aria-label="Type de projet" style="display: flex; gap: 8px; flex-wrap: wrap; align-items: center">
+          <span style="font-size: 14px; font-weight: 600; color: #4F5A53; margin-right: 4px">Filtrer :</span>
+          <sc-for list="{{ filtresD }}" as="f" hint-placeholder-count="4">
+            <button type="button" class="pastille" aria-pressed="{{ f.pressed }}" onClick="{{ f.pick }}" style="{{ f.style }}">
+              <span style="{{ f.dotStyle }}">{{ f.check }}</span>{{ f.label }}<span style="opacity: .6; font-weight: 500">{{ f.count }}</span>
+            </button>
+          </sc-for>
+          <sc-if value="{{ dActif }}" hint-placeholder-val="{{ false }}"><button type="button" onClick="{{ effacerD }}" style="background: none; border: 0; padding: 10px 6px; font-size: 14px; font-weight: 600; color: #3730A3; text-decoration: underline; cursor: pointer; min-height: 44px">Tout effacer</button></sc-if>
+        </div>
+        <span style="font-size: 14px; color: #4F5A53">{{ resumeD }}</span>
+      </div>
+      <div style="display: flex; gap: 8px; flex-wrap: wrap"><sc-for list="{{ resD }}" as="p" hint-placeholder-count="6"><span class="pop" style="display: inline-flex; align-items: center; gap: 8px; background: #FFFFFF; border: 1px solid #E1E5DF; border-radius: 12px; padding: 7px 12px 7px 7px; font-size: 13px; font-weight: 600"><span style="width: 22px; height: 22px; border-radius: 6px; background: {{ p.couleur }}"></span>{{ p.nom }}</span></sc-for></div>
+    </section>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1900}}'>
+class Component extends DCLogic {
+  componentDidMount() {
+    var self = this;
+    this.placer = function () { self.positionner('A'); self.positionner('B'); };
+    window.addEventListener('resize', this.placer);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(this.placer);
+    setTimeout(this.placer, 50);
+    setTimeout(this.placer, 600);
+  }
+  componentDidUpdate() { if (this.placer) this.placer(); }
+  componentWillUnmount() { window.removeEventListener('resize', this.placer); }
+  positionner(k) {
+    var ind = this['ind' + k];
+    var btns = (this.btns && this.btns[k]) || [];
+    var actif = (this.state && this.state[k]) || 'Tous';
+    var i = this.cats.indexOf(actif);
+    var b = btns[i];
+    if (!ind || !b) return;
+    ind.style.left = b.offsetLeft + 'px';
+    ind.style.width = b.offsetWidth + 'px';
+  }
+  renderVals() {
+    var self = this;
+    var st = this.state || {};
+    this.btns = this.btns || { A: [], B: [] };
+    var projets = [
+      { nom: 'Axis Vision', cat: 'SaaS & logiciels métier', tint: '#E7E6FF' },
+      { nom: 'Stafy', cat: 'SaaS & logiciels métier', tint: '#E7E6FF' },
+      { nom: 'Bubo365', cat: 'SaaS & logiciels métier', tint: '#ECEAF4' },
+      { nom: 'Le Bikini', cat: 'Sites vitrine', tint: '#F6E9E2' },
+      { nom: 'Triple Zéro', cat: 'E-commerce', tint: '#E9EEF7' },
+      { nom: 'Cinémas Utopia', cat: 'Sites vitrine', tint: '#F6E9E2' },
+      { nom: 'Ze-Watt', cat: 'Landing pages', tint: '#E9EEF7' },
+      { nom: 'Datashelter', cat: 'Sites vitrine', tint: '#E7E6FF' },
+      { nom: 'PowPow Piau', cat: 'Sites vitrine', tint: '#F6E9E2' },
+      { nom: 'Logiciel de radiologie', cat: 'SaaS & logiciels métier', tint: '#ECEAF4' },
+      { nom: 'Application cartographique', cat: 'SaaS & logiciels métier', tint: '#E9EEF7' }
+    ];
+    var cats = ['Tous', 'SaaS & logiciels métier', 'Sites vitrine', 'E-commerce', 'Landing pages'];
+    this.cats = cats;
+    var nb = function (c) { return c === 'Tous' ? projets.length : projets.filter(function (p) { return p.cat === c; }).length; };
+    var res = function (actif) { return projets.filter(function (p) { return actif === 'Tous' || p.cat === actif; }); };
+    var resume = function (n) { return n + ' projet' + (n > 1 ? 's' : ''); };
+    var choix = function (k, c) { return function () { var o = {}; o[k] = c; self.setState(o); }; };
+
+    var aA = st.A || 'Tous', aB = st.B || 'Tous', aC = st.C || 'Tous';
+
+    var filtresA = cats.map(function (c, i) {
+      var on = c === aA;
+      return {
+        label: c, count: nb(c), pressed: on ? 'true' : 'false', pick: choix('A', c),
+        ref: function (el) { self.btns.A[i] = el; },
+        style: 'position: relative; z-index: 1; display: inline-flex; align-items: center; gap: 8px; white-space: nowrap; background: transparent; border: 0; border-radius: 999px; padding: 11px 18px; min-height: 44px; font-size: 15px; font-weight: 700; cursor: pointer; transition: color .3s; color: ' + (on ? '#FFFFFF' : '#121814'),
+        countStyle: 'font-size: 12px; font-weight: 700; padding: 2px 8px; border-radius: 999px; transition: background .3s, color .3s; ' + (on ? 'background: rgba(255,255,255,0.22); color: #FFFFFF' : 'background: #F1F1F5; color: #4F5A53')
+      };
+    });
+
+    var filtresB = cats.map(function (c, i) {
+      var on = c === aB;
+      return {
+        label: c, count: nb(c), pressed: on ? 'true' : 'false', pick: choix('B', c),
+        ref: function (el) { self.btns.B[i] = el; },
+        style: 'background: none; border: 0; padding: 14px 0 18px; min-height: 44px; white-space: nowrap; cursor: pointer; font-family: Unbounded, system-ui, sans-serif; font-weight: 600; font-size: 17px; transition: color .3s; color: ' + (on ? '#121814' : '#8A8A98')
+      };
+    });
+
+    var subs = ['Tout voir', 'Applications & outils', 'Présenter, informer', 'Vendre en ligne', 'Convertir'];
+    var filtresC = cats.map(function (c, i) {
+      var on = c === aC;
+      var o = {
+        label: c === 'SaaS & logiciels métier' ? 'SaaS & métier' : c, pressed: on ? 'true' : 'false', pick: choix('C', c),
+        sub: nb(c) + ' projet' + (nb(c) > 1 ? 's' : '') + ' · ' + subs[i],
+        style: 'display: flex; flex-direction: column; align-items: flex-start; gap: 16px; text-align: left; padding: 18px; border-radius: 18px; cursor: pointer; min-height: 44px; ' + (on ? 'background: #4F46E5; color: #FFFFFF; border: 1px solid #4F46E5; box-shadow: 0 14px 30px rgba(79,70,229,0.28)' : 'background: #FFFFFF; color: #121814; border: 1px solid #E1E5DF'),
+        iconStyle: 'width: 40px; height: 40px; border-radius: 12px; display: flex; align-items: center; justify-content: center; ' + (on ? 'background: rgba(255,255,255,0.18); color: #FFFFFF' : 'background: #E7E6FF; color: #3730A3'),
+        subStyle: 'font-size: 13px; ' + (on ? 'color: #E4E2FF' : 'color: #5E6660')
+      };
+      for (var j = 0; j < 5; j++) o['i' + j] = j === i;
+      return o;
+    });
+
+    var couleurs = {
+      'SaaS & logiciels métier': { dot: '#4F46E5', bg: '#E7E6FF', txt: '#2E2A7A' },
+      'Sites vitrine': { dot: '#C2683F', bg: '#F2E6DF', txt: '#6B4A3C' },
+      'E-commerce': { dot: '#2F6FB7', bg: '#E1EAF7', txt: '#1E3A6E' },
+      'Landing pages': { dot: '#B5487A', bg: '#F8E3EE', txt: '#6E2849' }
+    };
+    var selD = st.D || [];
+    var filtresD = cats.slice(1).map(function (c) {
+      var on = selD.indexOf(c) !== -1, col = couleurs[c];
+      return {
+        label: c, count: nb(c), pressed: on ? 'true' : 'false', check: on ? '✓' : '',
+        pick: function () { var s = selD.slice(); var k = s.indexOf(c); if (k === -1) s.push(c); else s.splice(k, 1); self.setState({ D: s }); },
+        style: 'display: inline-flex; align-items: center; gap: 8px; padding: 10px 16px 10px 12px; min-height: 44px; border-radius: 999px; cursor: pointer; font-size: 15px; font-weight: 700; ' + (on ? 'background: ' + col.bg + '; color: ' + col.txt + '; border: 1px solid ' + col.dot : 'background: #FFFFFF; color: #121814; border: 1px solid #D9DAE4'),
+        dotStyle: 'width: 18px; height: 18px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 11px; color: #FFFFFF; background: ' + col.dot + '; ' + (on ? '' : 'transform: scale(.55)') + '; transition: transform .25s'
+      };
+    });
+    var resD = projets.filter(function (p) { return !selD.length || selD.indexOf(p.cat) !== -1; }).map(function (p) { return { nom: p.nom, couleur: couleurs[p.cat].bg }; });
+
+    return {
+      refIndA: function (el) { self.indA = el; },
+      refIndB: function (el) { self.indB = el; },
+      filtresA: filtresA, resA: res(aA), resumeA: resume(res(aA).length),
+      filtresB: filtresB, resB: res(aB), resumeB: resume(res(aB).length),
+      filtresC: filtresC, resC: res(aC),
+      filtresD: filtresD, resD: resD, resumeD: 'Afficher ' + resume(resD.length), dActif: selD.length > 0,
+      effacerD: function () { self.setState({ D: [] }); }
+    };
+  }
+}
+</script>
+</body>
+</html>

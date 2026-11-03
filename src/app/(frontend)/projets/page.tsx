@@ -4,8 +4,9 @@ import { Suspense } from 'react'
 import { GlowCard } from '@/components/glow-card'
 import { ProjectCard } from '@/components/models/project-card'
 import { ProjectCategoryFilter } from '@/components/models/project-category-filter'
-import { filterLinkClass } from '@/components/models/project-filter-style'
+import { filterCountClass, filterLinkClass } from '@/components/models/project-filter-style'
 import { RichTextOrPlain } from '@/components/rich-text-or-plain'
+import { SlidingTabs } from '@/components/sliding-tabs'
 import { Button } from '@/components/ui/button'
 import {
   getProjectCategoryIdBySlug,
@@ -115,19 +116,20 @@ async function ProjectList({ categoryId = null }: { categoryId?: string | null }
           aria-label="Filtrer les projets"
           className="flex flex-wrap items-center justify-between gap-4 pt-2 pb-8"
         >
-          <nav aria-label="Catégories de projets" className="flex flex-wrap gap-2">
+          <SlidingTabs aria-label="Catégories de projets">
             <Link
               href="/projets"
               scroll={false}
               aria-current={categoryId ? undefined : 'page'}
               className={filterLinkClass}
             >
-              Tous <span className="font-medium opacity-70">{allIds.length}</span>
+              Tous
+              <span className={filterCountClass}>{allIds.length}</span>
             </Link>
             {categoryIds.map((id) => (
               <ProjectCategoryFilter key={id} id={id} active={id === categoryId} />
             ))}
-          </nav>
+          </SlidingTabs>
           <p aria-live="polite" className="text-base text-muted-foreground">
             {ids.length} projet{ids.length > 1 ? 's' : ''}
           </p>

@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { getProjectIdsInCategory } from '@/data/ids'
 import { tags } from '@/lib/cache'
 import { getPayload } from '@/lib/payload'
-import { filterLinkClass } from './project-filter-style'
+import { filterCountClass, filterLinkClass } from './project-filter-style'
 
 // One filter of the Projects page: category name, its number of projects, link to the filtered list.
 // `active` is UI state (which filter the visitor picked), not data.
@@ -29,7 +29,8 @@ export async function ProjectCategoryFilter({ id, active }: { id: string; active
       aria-current={active ? 'page' : undefined}
       className={filterLinkClass}
     >
-      {category.title} <span className="font-medium opacity-70">{count}</span>
+      {category.title}
+      <span className={filterCountClass}>{count}</span>
     </Link>
   )
 }
