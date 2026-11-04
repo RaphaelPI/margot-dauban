@@ -64,6 +64,7 @@ export async function ProjectView({ id, nextSlot }: { id: string; nextSlot?: Rea
     short: step.shortTitle || step.title,
     shots: images(step.images),
   }))
+  const labels = project.overviewLabels
   const hasOverview = Boolean(
     project.challenge || project.role || project.response || project.interventions?.length,
   )
@@ -138,25 +139,25 @@ export async function ProjectView({ id, nextSlot }: { id: string; nextSlot?: Rea
           <div className="grid grid-cols-[repeat(auto-fit,minmax(min(16.25rem,100%),1fr))] gap-4">
             {project.challenge ? (
               <div className={`${card} gap-2.5`}>
-                <h3 className={`${kicker} text-primary`}>Le problème</h3>
+                <h3 className={`${kicker} text-primary`}>{labels?.challenge || 'Le problème'}</h3>
                 <RichTextOrPlain value={project.challenge} className="leading-relaxed" />
               </div>
             ) : null}
             {project.role ? (
               <div className={`${card} gap-2.5`}>
-                <h3 className={`${kicker} text-primary`}>Mon rôle</h3>
+                <h3 className={`${kicker} text-primary`}>{labels?.role || 'Mon rôle'}</h3>
                 <RichTextOrPlain value={project.role} className="leading-relaxed" />
               </div>
             ) : null}
             {project.response ? (
               <div className={`${card} gap-2.5`}>
-                <h3 className={`${kicker} text-primary`}>La solution</h3>
+                <h3 className={`${kicker} text-primary`}>{labels?.response || 'La solution'}</h3>
                 <RichTextOrPlain value={project.response} className="leading-relaxed" />
               </div>
             ) : null}
             {project.interventions?.length ? (
               <div className={`${card} gap-2.5`}>
-                <h3 className={`${kicker} text-primary`}>Prestations</h3>
+                <h3 className={`${kicker} text-primary`}>{labels?.interventions || 'Prestations'}</h3>
                 <ul className="flex flex-wrap gap-1.5 text-base">
                   {project.interventions.map((item) => (
                     <li key={item} className="rounded-md bg-muted px-2.5 py-1.25">

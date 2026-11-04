@@ -198,6 +198,15 @@ export interface Project {
    */
   hero?: (string | null) | Media;
   overviewTitle?: string | null;
+  /**
+   * Vide : le titre par défaut.
+   */
+  overviewLabels?: {
+    challenge?: string | null;
+    role?: string | null;
+    response?: string | null;
+    interventions?: string | null;
+  };
   challenge?: {
     root: {
       type: string;
@@ -813,6 +822,14 @@ export interface ProjectsSelect<T extends boolean = true> {
       };
   hero?: T;
   overviewTitle?: T;
+  overviewLabels?:
+    | T
+    | {
+        challenge?: T;
+        role?: T;
+        response?: T;
+        interventions?: T;
+      };
   challenge?: T;
   role?: T;
   response?: T;

@@ -127,6 +127,28 @@ export const Projects: CollectionConfig = {
                   defaultValue: 'La prestation en bref',
                 },
                 {
+                  name: 'overviewLabels',
+                  label: 'Titres des cartes',
+                  type: 'group',
+                  admin: { description: 'Vide : le titre par défaut.' },
+                  fields: [
+                    {
+                      type: 'row',
+                      fields: [
+                        { name: 'challenge', label: 'Carte 1', type: 'text', defaultValue: 'Le problème' },
+                        { name: 'role', label: 'Carte 2', type: 'text', defaultValue: 'Mon rôle' },
+                        { name: 'response', label: 'Carte 3', type: 'text', defaultValue: 'La solution' },
+                        {
+                          name: 'interventions',
+                          label: 'Carte 4',
+                          type: 'text',
+                          defaultValue: 'Prestations',
+                        },
+                      ],
+                    },
+                  ],
+                },
+                {
                   type: 'row',
                   fields: [
                     { name: 'challenge', label: 'Le problème', ...lightText },
