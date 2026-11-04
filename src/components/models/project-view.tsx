@@ -236,21 +236,10 @@ export async function ProjectView({ id, nextSlot }: { id: string; nextSlot?: Rea
             <h2 id="en-bref" className={h2Lg}>
               {project.stepsTitle || 'En bref : comment on y est arrivés'}
             </h2>
-            {project.objectives || hasDetail ? (
-              // Framed like the cards (designer's request), with the link to the detailed part.
-              <div className={`${card} items-start gap-4`}>
-                {project.objectives ? (
-                  <RichTextOrPlain
-                    value={project.objectives}
-                    className="text-[1.0625rem] leading-[1.65] text-foreground-soft"
-                  />
-                ) : null}
-                {hasDetail ? (
-                  <a href="#detail" className={linkClass}>
-                    Lire la démarche détaillée ↓
-                  </a>
-                ) : null}
-              </div>
+            {hasDetail ? (
+              <a href="#detail" className={linkClass}>
+                Lire la démarche détaillée ↓
+              </a>
             ) : null}
           </div>
           <ol className="draw-timeline flex min-w-0 flex-[999_1_37.5rem] flex-col">

@@ -230,7 +230,8 @@ export const Projects: CollectionConfig = {
                   name: 'objectives',
                   label: 'Texte à côté des étapes',
                   ...lightText,
-                  admin: { description: 'Ex. « Objectifs : vendre plus en simplifiant le catalogue… »' },
+                  // No longer shown on the site (designer's request, #27): hidden, content kept.
+                  admin: { hidden: true },
                 },
                 {
                   name: 'website',
