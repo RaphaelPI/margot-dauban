@@ -37,7 +37,7 @@ pnpm build                        # local only (reads DATABASE_URL: pages preren
   - takes the doc **id** as its only data prop, starts with `'use cache'`, calls `cacheLife('model')` and `cacheTag(tags.doc('<collection>', id))`;
   - fetches its own doc with the Local API (`getPayload()` from `@/lib/payload`), and also tags every related doc it renders (e.g. `cacheTag(tags.doc('media', cover.id))`).
   - Lists and slug lookups go in `src/data/*`, return **ids only**, are cached with `tags.collection('<collection>')`. Globals: `tags.global('<slug>')`.
-  - Never hand-write a tag string; use `tags` from `src/lib/cache.ts`. Revalidation hooks are added to every collection and global in `payload.config.ts`: new collections/globals go through `withRevalidation` / `withGlobalRevalidation`.
+  - Never hand-write a tag string; use `tags` from `src/lib/cache.ts`. Collections and globals are registered in `src/collections/index.ts` / `src/globals/index.ts` (not `payload.config.ts`), which wrap each one with `withRevalidation` / `withGlobalRevalidation`.
   - Runtime data (`params`, `searchParams`, `cookies`) is read inside a `<Suspense>` child, never in a cached scope.
 - **Public reads = published only.** Front-end queries filter `_status: published` (Local API skips access control). Collections with content use `versions: { drafts: true }` and `publishedOrLoggedIn` read access (`src/access`).
 - **Server only.** Payload Local API, env, and secrets stay on the server (`server-only`). The browser never calls Payload for site content. GraphQL is disabled.
