@@ -284,7 +284,7 @@ export async function ProjectView({ id, nextSlot }: { id: string; nextSlot?: Rea
         >
           <TocSpy
             aria-label="Sommaire de la démarche"
-            className="flex flex-[1_1_15rem] flex-col gap-2.5 self-start text-base md:sticky md:top-6"
+            className="flex flex-[1_1_15rem] flex-col gap-2.5 self-start rounded-xl border bg-card p-6.5 text-base md:sticky md:top-6"
           >
             <span className={`${kicker} text-muted-foreground`}>Sommaire</span>
             <ul className="flex flex-col gap-2.5 font-semibold">
