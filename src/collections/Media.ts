@@ -4,6 +4,7 @@ import { loggedIn } from '@/access'
 export const Media: CollectionConfig = {
   slug: 'media',
   labels: { singular: 'Média', plural: 'Médias' },
+  admin: { description: 'Images, vidéos MP4 et animations Lottie (JSON), 30 Mo maximum par fichier.' },
   access: { read: () => true, create: loggedIn, update: loggedIn, delete: loggedIn },
   // application/json: Lottie animations (expertises). Played without expressions (no code runs).
   upload: { mimeTypes: ['image/*', 'video/*', 'application/json'] },

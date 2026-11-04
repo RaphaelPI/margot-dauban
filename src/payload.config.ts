@@ -28,12 +28,17 @@ export default buildConfig({
   typescript: { outputFile: path.resolve(dirname, 'payload-types.ts') },
   db: mongooseAdapter({ url: env.DATABASE_URL }),
   sharp,
+  // 30 MB per file (MP4 in case studies). Also enforced on direct uploads (signed URL).
+  upload: { limits: { fileSize: 30 * 1024 * 1024 } },
   plugins: [
     // Without S3 (local dev), uploads go to ./media. Fields always inserted: same schema
     // and generated types whether S3 is configured or not.
     s3Storage({
       enabled: Boolean(env.S3_BUCKET),
       alwaysInsertFields: true,
+      // The admin sends files straight to the bucket (signed URL): Vercel functions cap request
+      // bodies at 4.5 MB. Needs a CORS rule on the bucket allowing PUT from the site's domains.
+      clientUploads: true,
       collections: { media: { prefix: env.S3_PREFIX } },
       bucket: env.S3_BUCKET ?? '',
       config: {

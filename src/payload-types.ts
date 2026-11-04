@@ -445,7 +445,7 @@ export interface Project {
           [k: string]: unknown;
         } | null;
         /**
-         * Alterne texte et images : bouton « + » de la barre d’outils › Upload, ou tape « / » dans une ligne vide.
+         * Alterne texte et images ou vidéos MP4 (lues en boucle, sans son) : bouton « + » de la barre d’outils › Upload, ou tape « / » dans une ligne vide.
          */
         content?: {
           root: {
@@ -462,6 +462,9 @@ export interface Project {
           };
           [k: string]: unknown;
         } | null;
+        /**
+         * Images ou vidéos MP4 (lues en boucle, sans son).
+         */
         images?: (string | Media)[] | null;
         id?: string | null;
       }[]
@@ -541,6 +544,8 @@ export interface ProjectCategory {
   createdAt: string;
 }
 /**
+ * Images, vidéos MP4 et animations Lottie (JSON), 30 Mo maximum par fichier.
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "media".
  */

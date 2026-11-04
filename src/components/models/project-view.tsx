@@ -1,14 +1,16 @@
-import { RichText } from '@payloadcms/richtext-lexical/react'
+import { type JSXConvertersFunction, RichText } from '@payloadcms/richtext-lexical/react'
 import { cacheLife, cacheTag } from 'next/cache'
 import Link from 'next/link'
 import type { CSSProperties, ReactNode } from 'react'
 import { GlowCard } from '@/components/glow-card'
+import { LoopVideo } from '@/components/loop-video'
 import { PhosphorIcon } from '@/components/phosphor-icon'
 import { RichTextOrPlain } from '@/components/rich-text-or-plain'
 import { TocSpy } from '@/components/toc-spy'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { tagDocs, tags } from '@/lib/cache'
+import { isVideo } from '@/lib/is-video'
 import { getPayload } from '@/lib/payload'
 import { richTextUploads } from '@/lib/rich-text-uploads'
 import { isSafeHref } from '@/lib/safe-href'
@@ -26,6 +28,16 @@ const chip = 'h-auto rounded-md px-3 py-1.5 text-sm font-bold'
 // Rich text from the admin: paragraphs, lists, links, bold (no typography plugin installed).
 const body =
   'text-lg leading-[1.7] text-foreground-soft [&_*+*]:mt-4 [&_a]:font-bold [&_a]:underline [&_a]:underline-offset-4 [&_li+li]:mt-1.5 [&_ol]:list-decimal [&_ol]:pl-6 [&_strong]:font-bold [&_strong]:text-foreground [&_ul]:list-disc [&_ul]:pl-6'
+// Videos dropped in a step's text play like a GIF; other uploads keep the default rendering.
+const stepConverters: JSXConvertersFunction = ({ defaultConverters }) => ({
+  ...defaultConverters,
+  upload: (args) =>
+    isVideo(args.node.value) ? (
+      <LoopVideo media={args.node.value as Media} className="mt-6 rounded-[1.125rem]" />
+    ) : typeof defaultConverters.upload === 'function' ? (
+      defaultConverters.upload(args)
+    ) : null,
+})
 // One line drawn 1 → 2 → 3… while the list scrolls by: segment `index` of `count` takes its
 // share of the list's scroll range (see `draw-on-scroll` in globals.css).
 const drawRange = (index: number, count: number) => {
@@ -386,17 +398,22 @@ export async function ProjectView({ id, nextSlot }: { id: string; nextSlot?: Rea
                 {step.content ? (
                   <RichText
                     data={step.content}
+                    converters={stepConverters}
                     className={`${body} [&_img]:h-auto [&_img]:w-full [&_img]:rounded-[1.125rem] [&_picture]:mt-6 [&_picture]:block [&_picture+*]:mt-6`}
                   />
                 ) : null}
-                {step.shots.map((image) => (
-                  <MediaImage
-                    key={image.id}
-                    media={image}
-                    sizes="(min-width: 1024px) 780px, 100vw"
-                    className="w-full rounded-[1.125rem]"
-                  />
-                ))}
+                {step.shots.map((image) =>
+                  isVideo(image) ? (
+                    <LoopVideo key={image.id} media={image} className="rounded-[1.125rem]" />
+                  ) : (
+                    <MediaImage
+                      key={image.id}
+                      media={image}
+                      sizes="(min-width: 1024px) 780px, 100vw"
+                      className="w-full rounded-[1.125rem]"
+                    />
+                  ),
+                )}
               </section>
             ))}
           </div>

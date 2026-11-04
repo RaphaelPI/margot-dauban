@@ -378,10 +378,17 @@ export const Projects: CollectionConfig = {
                       editor: articleEditor,
                       admin: {
                         description:
-                          'Alterne texte et images : bouton « + » de la barre d’outils › Upload, ou tape « / » dans une ligne vide.',
+                          'Alterne texte et images ou vidéos MP4 (lues en boucle, sans son) : bouton « + » de la barre d’outils › Upload, ou tape « / » dans une ligne vide.',
                       },
                     },
-                    { name: 'images', label: 'Captures', type: 'upload', relationTo: 'media', hasMany: true },
+                    {
+                      name: 'images',
+                      label: 'Captures',
+                      type: 'upload',
+                      relationTo: 'media',
+                      hasMany: true,
+                      admin: { description: 'Images ou vidéos MP4 (lues en boucle, sans son).' },
+                    },
                   ],
                 },
               ],
