@@ -343,7 +343,7 @@ export async function ProjectView({ id, nextSlot }: { id: string; nextSlot?: Rea
                 <ul className="grid grid-cols-[repeat(auto-fit,minmax(min(16.25rem,100%),1fr))] gap-4">
                   {section.items.map((item) => (
                     <li key={item.id ?? item.title} className={`${card} gap-2.5`}>
-                      <h4 className={`${kicker} flex items-center gap-2.5 text-primary`}>
+                      <h4 className={`${kicker} flex items-start gap-2.5 text-primary`}>
                         <PhosphorIcon name={item.icon} className="shrink-0" />
                         {item.title}
                       </h4>
