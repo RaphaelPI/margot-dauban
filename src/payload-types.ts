@@ -261,7 +261,7 @@ export interface Project {
    */
   resultsTitle?: string | null;
   /**
-   * Le premier est mis en avant sur fond indigo.
+   * Choisis le style de chaque carte. Sans choix : la première en bleu, les autres en blanc.
    */
   metrics?:
     | {
@@ -270,6 +270,7 @@ export interface Project {
          */
         value: string;
         label: string;
+        style?: ('highlight' | 'plain') | null;
         id?: string | null;
       }[]
     | null;
@@ -840,6 +841,7 @@ export interface ProjectsSelect<T extends boolean = true> {
     | {
         value?: T;
         label?: T;
+        style?: T;
         id?: T;
       };
   results?: T;

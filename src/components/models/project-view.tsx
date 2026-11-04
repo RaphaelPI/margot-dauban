@@ -186,19 +186,23 @@ export async function ProjectView({ id, nextSlot }: { id: string; nextSlot?: Rea
           {project.metrics?.length ? (
             // auto-fit: 1 to 4 figures share the full width, wrapping when too narrow.
             <dl className="grid grid-cols-[repeat(auto-fit,minmax(min(16.25rem,100%),1fr))] gap-4">
-              {project.metrics.map((metric, index) => (
-                <div
-                  key={metric.id ?? metric.label}
-                  className={`${card} flex-col-reverse justify-end gap-2 ${index === 0 ? 'border-primary bg-primary text-primary-foreground' : ''}`}
-                >
-                  <dt className="text-base">{metric.label}</dt>
-                  <dd
-                    className={`font-heading leading-[1.2] font-bold ${metric.value.length > 8 ? 'text-2xl' : 'text-[2.5rem] leading-none'} ${index === 0 ? '' : 'text-primary'}`}
+              {project.metrics.map((metric, index) => {
+                // Style chosen in the admin; without a choice the first card is highlighted.
+                const highlight = metric.style ? metric.style === 'highlight' : index === 0
+                return (
+                  <div
+                    key={metric.id ?? metric.label}
+                    className={`${card} flex-col-reverse justify-end gap-2 ${highlight ? 'border-primary bg-primary text-primary-foreground' : ''}`}
                   >
-                    {metric.value}
-                  </dd>
-                </div>
-              ))}
+                    <dt className="text-base">{metric.label}</dt>
+                    <dd
+                      className={`font-heading leading-[1.2] font-bold ${metric.value.length > 8 ? 'text-2xl' : 'text-[2.5rem] leading-none'} ${highlight ? '' : 'text-foreground'}`}
+                    >
+                      {metric.value}
+                    </dd>
+                  </div>
+                )
+              })}
             </dl>
           ) : null}
           {project.results ? <RichText data={project.results} className={body} /> : null}

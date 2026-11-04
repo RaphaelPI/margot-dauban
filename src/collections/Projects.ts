@@ -176,7 +176,10 @@ export const Projects: CollectionConfig = {
                   labels: { singular: 'Chiffre', plural: 'Chiffres' },
                   type: 'array',
                   maxRows: 4,
-                  admin: { description: 'Le premier est mis en avant sur fond indigo.' },
+                  admin: {
+                    description:
+                      'Choisis le style de chaque carte. Sans choix : la première en bleu, les autres en blanc.',
+                  },
                   fields: [
                     {
                       type: 'row',
@@ -189,6 +192,15 @@ export const Projects: CollectionConfig = {
                           admin: { description: 'Ex. +10 %, 13 → 10, Moins d’appels' },
                         },
                         { name: 'label', label: 'Libellé', type: 'text', required: true },
+                        {
+                          name: 'style',
+                          label: 'Style',
+                          type: 'select',
+                          options: [
+                            { label: 'Fond bleu, texte blanc', value: 'highlight' },
+                            { label: 'Fond blanc, texte noir', value: 'plain' },
+                          ],
+                        },
                       ],
                     },
                   ],
