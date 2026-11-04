@@ -1,4 +1,4 @@
-import { RichText } from '@payloadcms/richtext-lexical/react'
+import { type JSXConvertersFunction, RichText } from '@payloadcms/richtext-lexical/react'
 import { cacheLife, cacheTag } from 'next/cache'
 import Link from 'next/link'
 import type { CSSProperties, ReactNode } from 'react'
@@ -8,6 +8,7 @@ import { RichTextOrPlain } from '@/components/rich-text-or-plain'
 import { TocSpy } from '@/components/toc-spy'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
+import { ZoomableImage } from '@/components/zoomable-image'
 import { tagDocs, tags } from '@/lib/cache'
 import { getPayload } from '@/lib/payload'
 import { richTextUploads } from '@/lib/rich-text-uploads'
@@ -26,6 +27,26 @@ const chip = 'h-auto rounded-md px-3 py-1.5 text-sm font-bold'
 // Rich text from the admin: paragraphs, lists, links, bold (no typography plugin installed).
 const body =
   'text-lg leading-[1.7] text-foreground-soft [&_*+*]:mt-4 [&_a]:font-bold [&_a]:underline [&_a]:underline-offset-4 [&_li+li]:mt-1.5 [&_ol]:list-decimal [&_ol]:pl-6 [&_strong]:font-bold [&_strong]:text-foreground [&_ul]:list-disc [&_ul]:pl-6'
+// Images in a step's text open full screen on click; other uploads keep the default rendering.
+const stepConverters: JSXConvertersFunction = ({ defaultConverters }) => ({
+  ...defaultConverters,
+  upload: (args) => {
+    const rendered = typeof defaultConverters.upload === 'function' ? defaultConverters.upload(args) : null
+    const media = args.node.value as Media | string
+    if (typeof media !== 'object' || !media?.url || !media.mimeType?.startsWith('image/')) return rendered
+    return (
+      <ZoomableImage
+        src={media.url}
+        alt={media.alt}
+        width={media.width}
+        height={media.height}
+        className="zoomable"
+      >
+        {rendered}
+      </ZoomableImage>
+    )
+  },
+})
 // One line drawn 1 → 2 → 3… while the list scrolls by: segment `index` of `count` takes its
 // share of the list's scroll range (see `draw-on-scroll` in globals.css).
 const drawRange = (index: number, count: number) => {
@@ -37,6 +58,22 @@ const drawRange = (index: number, count: number) => {
 }
 
 const linkClass = 'font-bold underline underline-offset-4 hover:text-primary-strong'
+
+// Images open full screen on click; anything else (videos…) is rendered as is.
+const Zoom = ({ image, className, children }: { image: Media; className?: string; children: ReactNode }) =>
+  image.url && image.mimeType?.startsWith('image/') ? (
+    <ZoomableImage
+      src={image.url}
+      alt={image.alt}
+      width={image.width}
+      height={image.height}
+      className={className}
+    >
+      {children}
+    </ZoomableImage>
+  ) : (
+    children
+  )
 
 const images = (list: (Media | string)[] | null | undefined) =>
   (list ?? []).filter((item): item is Media => typeof item === 'object' && Boolean(item.url))
@@ -226,11 +263,13 @@ export async function ProjectView({ id, nextSlot }: { id: string; nextSlot?: Rea
           <div className="grid gap-5 md:grid-cols-2">
             {gallery.map((image) => (
               <div key={image.id} className="overflow-hidden rounded-xl bg-muted">
-                <MediaImage
-                  media={image}
-                  sizes="(min-width: 768px) 580px, 100vw"
-                  className="aspect-[4/3] w-full object-cover"
-                />
+                <Zoom image={image}>
+                  <MediaImage
+                    media={image}
+                    sizes="(min-width: 768px) 580px, 100vw"
+                    className="aspect-[4/3] w-full object-cover"
+                  />
+                </Zoom>
               </div>
             ))}
           </div>
@@ -382,16 +421,18 @@ export async function ProjectView({ id, nextSlot }: { id: string; nextSlot?: Rea
                 {step.content ? (
                   <RichText
                     data={step.content}
-                    className={`${body} [&_img]:h-auto [&_img]:w-full [&_img]:rounded-[1.125rem] [&_picture]:mt-6 [&_picture]:block [&_picture+*]:mt-6`}
+                    converters={stepConverters}
+                    className={`${body} [&_img]:h-auto [&_img]:w-full [&_img]:rounded-[1.125rem] [&_.zoomable]:mt-6 [&_.zoomable+*]:mt-6 [&_picture]:block`}
                   />
                 ) : null}
                 {step.shots.map((image) => (
-                  <MediaImage
-                    key={image.id}
-                    media={image}
-                    sizes="(min-width: 1024px) 780px, 100vw"
-                    className="w-full rounded-[1.125rem]"
-                  />
+                  <Zoom key={image.id} image={image} className="rounded-[1.125rem]">
+                    <MediaImage
+                      media={image}
+                      sizes="(min-width: 1024px) 780px, 100vw"
+                      className="w-full rounded-[1.125rem]"
+                    />
+                  </Zoom>
                 ))}
               </section>
             ))}
