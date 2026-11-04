@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { MediaImage } from '@/components/models/media-image'
+import { StickyHeader } from '@/components/sticky-header'
 import { Button } from '@/components/ui/button'
 import { getSettings } from '@/data/settings'
 
@@ -13,7 +14,7 @@ export async function SiteHeader() {
 
   return (
     // Stays visible while scrolling from tablet up; scrolls away on phones (where it is tall).
-    <header className="header-fade z-40 md:sticky md:top-0 md:border-b md:bg-background/85 md:backdrop-blur-md">
+    <StickyHeader className="header-fade z-40 md:sticky md:top-0 md:border-b md:bg-background/85 md:backdrop-blur-md">
       <div className="mx-auto flex w-full max-w-page flex-wrap items-center justify-between gap-x-6 gap-y-4 px-5 py-5.5 md:px-8">
         <div className="flex flex-wrap items-center gap-x-5 gap-y-3">
           <Link href="/" className="flex items-center gap-3 rounded-full">
@@ -64,6 +65,6 @@ export async function SiteHeader() {
           ) : null}
         </nav>
       </div>
-    </header>
+    </StickyHeader>
   )
 }

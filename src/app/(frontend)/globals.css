@@ -215,12 +215,15 @@
 }
 
 /* Sticky header: see-through over the hero glow at the top of the page, turns into a frosted
-   bar over the first 80px of scroll. Without scroll-driven animations it is frosted at once. */
+   bar over the first 80px of scroll. Without scroll-driven animations, or with reduced motion,
+   it is frosted at once. */
 @utility header-fade {
-  @supports (animation-timeline: scroll()) {
-    animation: header-fade linear both;
-    animation-timeline: scroll(root);
-    animation-range: 0 80px;
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: scroll()) {
+      animation: header-fade linear both;
+      animation-timeline: scroll(root);
+      animation-range: 0 80px;
+    }
   }
 }
 
