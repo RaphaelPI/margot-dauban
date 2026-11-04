@@ -70,7 +70,15 @@ export async function ProjectView({ id, nextSlot }: { id: string; nextSlot?: Rea
   const hasOverview = Boolean(
     project.challenge || project.role || project.response || project.interventions?.length,
   )
-  const hasResults = Boolean(project.metrics?.length || project.results || project.website?.url)
+  // « Voir le site » sits next to the gallery heading, or the results heading without gallery.
+  const siteLink =
+    project.website?.url && isSafeHref(project.website.url) ? (
+      <a href={project.website.url} target="_blank" rel="noopener noreferrer" className={linkClass}>
+        {project.website.label || 'Voir le site'} ↗<span className="sr-only"> (nouvel onglet)</span>
+      </a>
+    ) : null
+  const siteLinkInResults = gallery.length ? null : siteLink
+  const hasResults = Boolean(project.metrics?.length || project.results || siteLinkInResults)
   const hasContext = Boolean(project.context)
   // Card sections under the context, in the table of contents too.
   const cardSections = [
@@ -179,11 +187,7 @@ export async function ProjectView({ id, nextSlot }: { id: string; nextSlot?: Rea
             <h2 id="resultats" className={h2}>
               {project.resultsTitle || 'Les résultats'}
             </h2>
-            {project.website?.url && isSafeHref(project.website.url) ? (
-              <a href={project.website.url} target="_blank" rel="noopener noreferrer" className={linkClass}>
-                {project.website.label || 'Voir le site'} ↗<span className="sr-only"> (nouvel onglet)</span>
-              </a>
-            ) : null}
+            {siteLinkInResults}
           </div>
           {project.metrics?.length ? (
             // auto-fit: 1 to 4 figures share the full width, wrapping when too narrow.
@@ -213,9 +217,12 @@ export async function ProjectView({ id, nextSlot }: { id: string; nextSlot?: Rea
 
       {gallery.length ? (
         <section aria-labelledby="captures" className="flex flex-col gap-5 pb-16 md:pb-26">
-          <h2 id="captures" className={h2}>
-            {project.galleryTitle || 'Le résultat en images'}
-          </h2>
+          <div className="flex flex-wrap items-end justify-between gap-4">
+            <h2 id="captures" className={h2}>
+              {project.galleryTitle || 'Le résultat en images'}
+            </h2>
+            {siteLink}
+          </div>
           <div className="grid gap-5 md:grid-cols-2">
             {gallery.map((image) => (
               <div key={image.id} className="overflow-hidden rounded-xl bg-muted">
