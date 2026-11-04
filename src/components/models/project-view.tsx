@@ -10,6 +10,7 @@ import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { tagDocs, tags } from '@/lib/cache'
 import { getPayload } from '@/lib/payload'
+import { richTextUploads } from '@/lib/rich-text-uploads'
 import { isSafeHref } from '@/lib/safe-href'
 import type { Media } from '@/payload-types'
 import { MediaImage } from './media-image'
@@ -53,6 +54,7 @@ export async function ProjectView({ id, nextSlot }: { id: string; nextSlot?: Rea
     project.hero,
     project.gallery,
     project.approach?.map((step) => step.images),
+    project.approach?.map((step) => richTextUploads(step.content)),
   )
 
   const headline = project.headline?.highlight || project.headline?.text ? project.headline : null
@@ -381,7 +383,12 @@ export async function ProjectView({ id, nextSlot }: { id: string; nextSlot?: Rea
                     {step.title}
                   </h3>
                 </div>
-                {step.content ? <RichText data={step.content} className={body} /> : null}
+                {step.content ? (
+                  <RichText
+                    data={step.content}
+                    className={`${body} [&_img]:h-auto [&_img]:w-full [&_img]:rounded-[1.125rem] [&_picture]:mt-6 [&_picture]:block [&_picture+*]:mt-6`}
+                  />
+                ) : null}
                 {step.shots.map((image) => (
                   <MediaImage
                     key={image.id}

@@ -444,6 +444,9 @@ export interface Project {
           };
           [k: string]: unknown;
         } | null;
+        /**
+         * Alterne texte et images : bouton « + » de la barre d’outils › Upload, ou tape « / » dans une ligne vide.
+         */
         content?: {
           root: {
             type: string;

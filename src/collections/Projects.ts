@@ -1,6 +1,6 @@
 import { type CollectionConfig, slugField } from 'payload'
 import { loggedIn, publishedOrLoggedIn } from '@/access'
-import { lightText, richTextFrom } from '@/fields/light-editor'
+import { articleEditor, lightText, richTextFrom } from '@/fields/light-editor'
 import { seoField } from '@/fields/seo'
 import { validateHref } from '@/lib/safe-href'
 
@@ -371,7 +371,16 @@ export const Projects: CollectionConfig = {
                       label: 'Résumé en une phrase (en bref)',
                       ...lightText,
                     },
-                    { name: 'content', label: 'Texte détaillé', type: 'richText' },
+                    {
+                      name: 'content',
+                      label: 'Texte détaillé',
+                      type: 'richText',
+                      editor: articleEditor,
+                      admin: {
+                        description:
+                          'Alterne texte et images : bouton « + » de la barre d’outils › Upload, ou tape « / » dans une ligne vide.',
+                      },
+                    },
                     { name: 'images', label: 'Captures', type: 'upload', relationTo: 'media', hasMany: true },
                   ],
                 },

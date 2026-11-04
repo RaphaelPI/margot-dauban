@@ -35,6 +35,12 @@ const paragraph = (text: string) => ({
   children: text ? [{ type: 'text', text, format: 0, detail: 0, mode: 'normal', style: '', version: 1 }] : [],
 })
 
+// Long texts that alternate paragraphs and images: the default features (headings, lists,
+// links, images from Médias…) with a visible toolbar, so « insert an image » is easy to find.
+export const articleEditor = lexicalEditor({
+  features: ({ defaultFeatures }) => [...defaultFeatures, FixedToolbarFeature()],
+})
+
 // Rich text value from plain text, one paragraph per line (field defaults, older plain values).
 export const richTextFrom = (text: string) => ({
   root: {
