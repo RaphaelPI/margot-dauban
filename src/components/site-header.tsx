@@ -48,7 +48,7 @@ export async function SiteHeader() {
       </div>
       <nav
         aria-label="Navigation principale"
-        className="flex flex-wrap items-center gap-x-7 gap-y-3 text-[0.9375rem] font-medium"
+        className="flex flex-wrap items-center gap-x-7 gap-y-3 text-base font-medium"
       >
         {settings.headerNav?.map((link) => (
           <Link key={link.id ?? link.href} href={link.href} className="hover:text-primary-strong">
@@ -56,7 +56,7 @@ export async function SiteHeader() {
           </Link>
         ))}
         {settings.headerCta?.label && settings.headerCta.href ? (
-          <Button asChild className="h-auto rounded-full px-5 py-3 text-[0.9375rem] font-bold">
+          <Button asChild className="h-auto rounded-full px-5 py-3 text-base font-bold">
             <Link href={settings.headerCta.href}>{settings.headerCta.label}</Link>
           </Button>
         ) : null}
