@@ -172,7 +172,14 @@ export interface Project {
    * Une phrase sur le résultat. Ex. « Moins de rebond, plus de billets vendus. »
    */
   summary: string;
+  /**
+   * Page Projets et carte « Projet suivant ».
+   */
   cover: string | Media;
+  /**
+   * Facultatif. Vide : l'image de la carte.
+   */
+  homeCover?: (string | null) | Media;
   /**
    * Vide : l’accroche de la carte est utilisée.
    */
@@ -797,6 +804,7 @@ export interface ProjectsSelect<T extends boolean = true> {
   sector?: T;
   summary?: T;
   cover?: T;
+  homeCover?: T;
   headline?:
     | T
     | {

@@ -8,20 +8,22 @@ import { MediaImage } from './media-image'
 
 const tag = 'h-auto rounded-md px-2.5 py-1.25 text-xs font-bold'
 
-export async function ProjectCard({ id }: { id: string }) {
+// `home`: on the homepage, the card shows the project's homepage image when it has one.
+export async function ProjectCard({ id, home = false }: { id: string; home?: boolean }) {
   'use cache'
   cacheLife('model')
   cacheTag(tags.doc('projects', id))
   const payload = await getPayload()
   const project = await payload.findByID({ collection: 'projects', id, depth: 1, disableErrors: true })
   if (!project) return null
-  tagDocs('media', project.cover)
+  tagDocs('media', project.cover, project.homeCover)
+  const cover = (home && project.homeCover) || project.cover
 
   return (
     <GlowCard className="flex flex-col gap-4.5 rounded-xl border border-border/50 bg-card p-3.5 hover:border-accent hover:shadow-[0_16px_36px_rgb(79_70_229/0.06)] has-[a:focus-visible]:outline-3 has-[a:focus-visible]:outline-offset-3 has-[a:focus-visible]:outline-primary">
       <div className="overflow-hidden rounded-[0.875rem] bg-muted">
         <MediaImage
-          media={project.cover}
+          media={cover}
           sizes="(min-width: 1024px) 400px, (min-width: 768px) 50vw, 100vw"
           className="aspect-[3/2] w-full object-cover"
         />

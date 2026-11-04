@@ -68,9 +68,17 @@ export const Projects: CollectionConfig = {
             {
               name: 'cover',
               label: 'Image de la carte',
+              admin: { description: 'Page Projets et carte « Projet suivant ».' },
               type: 'upload',
               relationTo: 'media',
               required: true,
+            },
+            {
+              name: 'homeCover',
+              label: "Image de la carte sur l'accueil",
+              type: 'upload',
+              relationTo: 'media',
+              admin: { description: "Facultatif. Vide : l'image de la carte." },
             },
           ],
         },
