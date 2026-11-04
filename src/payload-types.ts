@@ -295,9 +295,6 @@ export interface Project {
    */
   gallery?: (string | Media)[] | null;
   stepsTitle?: string | null;
-  /**
-   * Ex. « Objectifs : vendre plus en simplifiant le catalogue… »
-   */
   objectives?: {
     root: {
       type: string;

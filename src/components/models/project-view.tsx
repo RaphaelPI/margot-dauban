@@ -9,6 +9,7 @@ import { RichTextOrPlain } from '@/components/rich-text-or-plain'
 import { TocSpy } from '@/components/toc-spy'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
+import { ZoomableImage } from '@/components/zoomable-image'
 import { tagDocs, tags } from '@/lib/cache'
 import { isVideo } from '@/lib/is-video'
 import { getPayload } from '@/lib/payload'
@@ -28,15 +29,27 @@ const chip = 'h-auto rounded-md px-3 py-1.5 text-sm font-bold'
 // Rich text from the admin: paragraphs, lists, links, bold (no typography plugin installed).
 const body =
   'text-lg leading-[1.7] text-foreground-soft [&_*+*]:mt-4 [&_a]:font-bold [&_a]:underline [&_a]:underline-offset-4 [&_li+li]:mt-1.5 [&_ol]:list-decimal [&_ol]:pl-6 [&_strong]:font-bold [&_strong]:text-foreground [&_ul]:list-disc [&_ul]:pl-6'
-// Videos dropped in a step's text play like a GIF; other uploads keep the default rendering.
+// Videos dropped in a step's text play like a GIF; images open full screen on click; other
+// uploads keep the default rendering. `zoomable` spaces both from the surrounding text.
 const stepConverters: JSXConvertersFunction = ({ defaultConverters }) => ({
   ...defaultConverters,
-  upload: (args) =>
-    isVideo(args.node.value) ? (
-      <LoopVideo media={args.node.value as Media} className="mt-6 rounded-[1.125rem]" />
-    ) : typeof defaultConverters.upload === 'function' ? (
-      defaultConverters.upload(args)
-    ) : null,
+  upload: (args) => {
+    const rendered = typeof defaultConverters.upload === 'function' ? defaultConverters.upload(args) : null
+    const media = args.node.value as Media | string
+    if (isVideo(media)) return <LoopVideo media={media as Media} className="zoomable rounded-[1.125rem]" />
+    if (typeof media !== 'object' || !media?.url || !media.mimeType?.startsWith('image/')) return rendered
+    return (
+      <ZoomableImage
+        src={media.url}
+        alt={media.alt}
+        width={media.width}
+        height={media.height}
+        className="zoomable"
+      >
+        {rendered}
+      </ZoomableImage>
+    )
+  },
 })
 // One line drawn 1 → 2 → 3… while the list scrolls by: segment `index` of `count` takes its
 // share of the list's scroll range (see `draw-on-scroll` in globals.css).
@@ -49,6 +62,22 @@ const drawRange = (index: number, count: number) => {
 }
 
 const linkClass = 'font-bold underline underline-offset-4 hover:text-primary-strong'
+
+// Images open full screen on click; anything else (videos…) is rendered as is.
+const Zoom = ({ image, className, children }: { image: Media; className?: string; children: ReactNode }) =>
+  image.url && image.mimeType?.startsWith('image/') ? (
+    <ZoomableImage
+      src={image.url}
+      alt={image.alt}
+      width={image.width}
+      height={image.height}
+      className={className}
+    >
+      {children}
+    </ZoomableImage>
+  ) : (
+    children
+  )
 
 const images = (list: (Media | string)[] | null | undefined) =>
   (list ?? []).filter((item): item is Media => typeof item === 'object' && Boolean(item.url))
@@ -82,7 +111,15 @@ export async function ProjectView({ id, nextSlot }: { id: string; nextSlot?: Rea
   const hasOverview = Boolean(
     project.challenge || project.role || project.response || project.interventions?.length,
   )
-  const hasResults = Boolean(project.metrics?.length || project.results || project.website?.url)
+  // « Voir le site » sits next to the gallery heading, or the results heading without gallery.
+  const siteLink =
+    project.website?.url && isSafeHref(project.website.url) ? (
+      <a href={project.website.url} target="_blank" rel="noopener noreferrer" className={linkClass}>
+        {project.website.label || 'Voir le site'} ↗<span className="sr-only"> (nouvel onglet)</span>
+      </a>
+    ) : null
+  const siteLinkInResults = gallery.length ? null : siteLink
+  const hasResults = Boolean(project.metrics?.length || project.results || siteLinkInResults)
   const hasContext = Boolean(project.context)
   // Card sections under the context, in the table of contents too.
   const cardSections = [
@@ -191,11 +228,7 @@ export async function ProjectView({ id, nextSlot }: { id: string; nextSlot?: Rea
             <h2 id="resultats" className={h2}>
               {project.resultsTitle || 'Les résultats'}
             </h2>
-            {project.website?.url && isSafeHref(project.website.url) ? (
-              <a href={project.website.url} target="_blank" rel="noopener noreferrer" className={linkClass}>
-                {project.website.label || 'Voir le site'} ↗<span className="sr-only"> (nouvel onglet)</span>
-              </a>
-            ) : null}
+            {siteLinkInResults}
           </div>
           {project.metrics?.length ? (
             // auto-fit: 1 to 4 figures share the full width, wrapping when too narrow.
@@ -225,17 +258,22 @@ export async function ProjectView({ id, nextSlot }: { id: string; nextSlot?: Rea
 
       {gallery.length ? (
         <section aria-labelledby="captures" className="flex flex-col gap-5 pb-16 md:pb-26">
-          <h2 id="captures" className={h2}>
-            {project.galleryTitle || 'Le résultat en images'}
-          </h2>
+          <div className="flex flex-wrap items-end justify-between gap-4">
+            <h2 id="captures" className={h2}>
+              {project.galleryTitle || 'Le résultat en images'}
+            </h2>
+            {siteLink}
+          </div>
           <div className="grid gap-5 md:grid-cols-2">
             {gallery.map((image) => (
               <div key={image.id} className="overflow-hidden rounded-xl bg-muted">
-                <MediaImage
-                  media={image}
-                  sizes="(min-width: 768px) 580px, 100vw"
-                  className="aspect-[4/3] w-full object-cover"
-                />
+                <Zoom image={image}>
+                  <MediaImage
+                    media={image}
+                    sizes="(min-width: 768px) 580px, 100vw"
+                    className="aspect-[4/3] w-full object-cover"
+                  />
+                </Zoom>
               </div>
             ))}
           </div>
@@ -248,21 +286,10 @@ export async function ProjectView({ id, nextSlot }: { id: string; nextSlot?: Rea
             <h2 id="en-bref" className={h2Lg}>
               {project.stepsTitle || 'En bref : comment on y est arrivés'}
             </h2>
-            {project.objectives || hasDetail ? (
-              // Framed like the cards (designer's request), with the link to the detailed part.
-              <div className={`${card} items-start gap-4`}>
-                {project.objectives ? (
-                  <RichTextOrPlain
-                    value={project.objectives}
-                    className="text-[1.0625rem] leading-[1.65] text-foreground-soft"
-                  />
-                ) : null}
-                {hasDetail ? (
-                  <a href="#detail" className={linkClass}>
-                    Lire la démarche détaillée ↓
-                  </a>
-                ) : null}
-              </div>
+            {hasDetail ? (
+              <a href="#detail" className={linkClass}>
+                Lire la démarche détaillée ↓
+              </a>
             ) : null}
           </div>
           <ol className="draw-timeline flex min-w-0 flex-[999_1_37.5rem] flex-col">
@@ -399,19 +426,20 @@ export async function ProjectView({ id, nextSlot }: { id: string; nextSlot?: Rea
                   <RichText
                     data={step.content}
                     converters={stepConverters}
-                    className={`${body} [&_img]:h-auto [&_img]:w-full [&_img]:rounded-[1.125rem] [&_picture]:mt-6 [&_picture]:block [&_picture+*]:mt-6`}
+                    className={`${body} [&_img]:h-auto [&_img]:w-full [&_img]:rounded-[1.125rem] [&_.zoomable]:mt-6 [&_.zoomable+*]:mt-6 [&_picture]:block`}
                   />
                 ) : null}
                 {step.shots.map((image) =>
                   isVideo(image) ? (
                     <LoopVideo key={image.id} media={image} className="rounded-[1.125rem]" />
                   ) : (
-                    <MediaImage
-                      key={image.id}
-                      media={image}
-                      sizes="(min-width: 1024px) 780px, 100vw"
-                      className="w-full rounded-[1.125rem]"
-                    />
+                    <Zoom key={image.id} image={image} className="rounded-[1.125rem]">
+                      <MediaImage
+                        media={image}
+                        sizes="(min-width: 1024px) 780px, 100vw"
+                        className="w-full rounded-[1.125rem]"
+                      />
+                    </Zoom>
                   ),
                 )}
               </section>
