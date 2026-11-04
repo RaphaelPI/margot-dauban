@@ -67,10 +67,10 @@ export default async function FaqPageView() {
               key={theme.value}
               id={theme.value}
               aria-labelledby={`${theme.value}-titre`}
-              className="flex scroll-mt-6 flex-wrap gap-x-16 gap-y-8 border-t border-[#dcdce5] py-12"
+              className="flex scroll-mt-6 md:scroll-mt-44 lg:scroll-mt-30 flex-wrap gap-x-16 gap-y-8 border-t border-[#dcdce5] py-12"
             >
               {/* Number and theme stay in view while its questions scroll (wide screens, side by side). */}
-              <div className="flex flex-[1_1_16.25rem] flex-col gap-2.5 self-start md:sticky md:top-6">
+              <div className="flex flex-[1_1_16.25rem] flex-col gap-2.5 self-start md:sticky md:top-44 lg:top-30">
                 <span
                   aria-hidden="true"
                   className="font-heading text-[2.75rem] leading-none font-bold text-[#dad8fa]"
