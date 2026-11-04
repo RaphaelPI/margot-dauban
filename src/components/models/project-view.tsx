@@ -387,10 +387,8 @@ export async function ProjectView({ id, nextSlot }: { id: string; nextSlot?: Rea
         </section>
       ) : null}
 
-      {nextSlot}
-
       {cta?.title ? (
-        <section className="pb-4">
+        <section className="pb-10 md:pb-14">
           <GlowCard
             as="div"
             className="flex flex-wrap items-center justify-between gap-8 rounded-[2rem] bg-primary px-7 py-12 text-primary-foreground [--glow-from:rgb(140_133_255/0.85)] [--glow-mid:rgb(120_112_250/0.35)] [--glow-size:520px] hover:shadow-[0_20px_44px_rgb(79_70_229/0.22)] md:px-12 md:py-18"
@@ -412,6 +410,8 @@ export async function ProjectView({ id, nextSlot }: { id: string; nextSlot?: Rea
           </GlowCard>
         </section>
       ) : null}
+
+      {nextSlot}
     </article>
   )
 }
