@@ -10,6 +10,7 @@ import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { tagDocs, tags } from '@/lib/cache'
 import { getPayload } from '@/lib/payload'
+import { richTextUploads } from '@/lib/rich-text-uploads'
 import { isSafeHref } from '@/lib/safe-href'
 import type { Media } from '@/payload-types'
 import { MediaImage } from './media-image'
@@ -21,7 +22,7 @@ const h2 = 'font-heading text-[1.625rem] leading-tight font-semibold md:text-[1.
 const h2Lg = 'font-heading text-[1.75rem] leading-[1.15] font-semibold md:text-[1.875rem]'
 const kicker = 'text-base font-bold tracking-[0.06em] uppercase'
 const card = 'flex flex-col rounded-xl border bg-card p-6.5'
-const chip = 'h-auto rounded-md px-3 py-1.5 text-base font-bold'
+const chip = 'h-auto rounded-md px-3 py-1.5 text-sm font-bold'
 // Rich text from the admin: paragraphs, lists, links, bold (no typography plugin installed).
 const body =
   'text-lg leading-[1.7] text-foreground-soft [&_*+*]:mt-4 [&_a]:font-bold [&_a]:underline [&_a]:underline-offset-4 [&_li+li]:mt-1.5 [&_ol]:list-decimal [&_ol]:pl-6 [&_strong]:font-bold [&_strong]:text-foreground [&_ul]:list-disc [&_ul]:pl-6'
@@ -53,6 +54,7 @@ export async function ProjectView({ id, nextSlot }: { id: string; nextSlot?: Rea
     project.hero,
     project.gallery,
     project.approach?.map((step) => step.images),
+    project.approach?.map((step) => richTextUploads(step.content)),
   )
 
   const headline = project.headline?.highlight || project.headline?.text ? project.headline : null
@@ -64,6 +66,7 @@ export async function ProjectView({ id, nextSlot }: { id: string; nextSlot?: Rea
     short: step.shortTitle || step.title,
     shots: images(step.images),
   }))
+  const labels = project.overviewLabels
   const hasOverview = Boolean(
     project.challenge || project.role || project.response || project.interventions?.length,
   )
@@ -138,25 +141,25 @@ export async function ProjectView({ id, nextSlot }: { id: string; nextSlot?: Rea
           <div className="grid grid-cols-[repeat(auto-fit,minmax(min(16.25rem,100%),1fr))] gap-4">
             {project.challenge ? (
               <div className={`${card} gap-2.5`}>
-                <h3 className={`${kicker} text-primary`}>Le problème</h3>
+                <h3 className={`${kicker} text-primary`}>{labels?.challenge || 'Le problème'}</h3>
                 <RichTextOrPlain value={project.challenge} className="leading-relaxed" />
               </div>
             ) : null}
             {project.role ? (
               <div className={`${card} gap-2.5`}>
-                <h3 className={`${kicker} text-primary`}>Mon rôle</h3>
+                <h3 className={`${kicker} text-primary`}>{labels?.role || 'Mon rôle'}</h3>
                 <RichTextOrPlain value={project.role} className="leading-relaxed" />
               </div>
             ) : null}
             {project.response ? (
               <div className={`${card} gap-2.5`}>
-                <h3 className={`${kicker} text-primary`}>La solution</h3>
+                <h3 className={`${kicker} text-primary`}>{labels?.response || 'La solution'}</h3>
                 <RichTextOrPlain value={project.response} className="leading-relaxed" />
               </div>
             ) : null}
             {project.interventions?.length ? (
               <div className={`${card} gap-2.5`}>
-                <h3 className={`${kicker} text-primary`}>Prestations</h3>
+                <h3 className={`${kicker} text-primary`}>{labels?.interventions || 'Prestations'}</h3>
                 <ul className="flex flex-wrap gap-1.5 text-base">
                   {project.interventions.map((item) => (
                     <li key={item} className="rounded-md bg-muted px-2.5 py-1.25">
@@ -185,19 +188,23 @@ export async function ProjectView({ id, nextSlot }: { id: string; nextSlot?: Rea
           {project.metrics?.length ? (
             // auto-fit: 1 to 4 figures share the full width, wrapping when too narrow.
             <dl className="grid grid-cols-[repeat(auto-fit,minmax(min(16.25rem,100%),1fr))] gap-4">
-              {project.metrics.map((metric, index) => (
-                <div
-                  key={metric.id ?? metric.label}
-                  className={`${card} flex-col-reverse justify-end gap-2 ${index === 0 ? 'border-primary bg-primary text-primary-foreground' : ''}`}
-                >
-                  <dt className="text-base">{metric.label}</dt>
-                  <dd
-                    className={`font-heading leading-[1.2] font-bold ${metric.value.length > 8 ? 'text-2xl' : 'text-[2.5rem] leading-none'} ${index === 0 ? '' : 'text-primary'}`}
+              {project.metrics.map((metric, index) => {
+                // Style chosen in the admin; without a choice the first card is highlighted.
+                const highlight = metric.style ? metric.style === 'highlight' : index === 0
+                return (
+                  <div
+                    key={metric.id ?? metric.label}
+                    className={`${card} flex-col-reverse justify-end gap-2 ${highlight ? 'border-primary bg-primary text-primary-foreground' : ''}`}
                   >
-                    {metric.value}
-                  </dd>
-                </div>
-              ))}
+                    <dt className="text-base">{metric.label}</dt>
+                    <dd
+                      className={`font-heading leading-[1.2] font-bold ${metric.value.length > 8 ? 'text-2xl' : 'text-[2.5rem] leading-none'} ${highlight ? '' : 'text-foreground'}`}
+                    >
+                      {metric.value}
+                    </dd>
+                  </div>
+                )
+              })}
             </dl>
           ) : null}
           {project.results ? <RichText data={project.results} className={body} /> : null}
@@ -229,16 +236,21 @@ export async function ProjectView({ id, nextSlot }: { id: string; nextSlot?: Rea
             <h2 id="en-bref" className={h2Lg}>
               {project.stepsTitle || 'En bref : comment on y est arrivés'}
             </h2>
-            {project.objectives ? (
-              <RichTextOrPlain
-                value={project.objectives}
-                className="text-[1.0625rem] leading-[1.65] text-foreground-soft"
-              />
-            ) : null}
-            {hasDetail ? (
-              <a href="#detail" className={linkClass}>
-                Lire la démarche détaillée ↓
-              </a>
+            {project.objectives || hasDetail ? (
+              // Framed like the cards (designer's request), with the link to the detailed part.
+              <div className={`${card} items-start gap-4`}>
+                {project.objectives ? (
+                  <RichTextOrPlain
+                    value={project.objectives}
+                    className="text-[1.0625rem] leading-[1.65] text-foreground-soft"
+                  />
+                ) : null}
+                {hasDetail ? (
+                  <a href="#detail" className={linkClass}>
+                    Lire la démarche détaillée ↓
+                  </a>
+                ) : null}
+              </div>
             ) : null}
           </div>
           <ol className="draw-timeline flex min-w-0 flex-[999_1_37.5rem] flex-col">
@@ -279,7 +291,7 @@ export async function ProjectView({ id, nextSlot }: { id: string; nextSlot?: Rea
         >
           <TocSpy
             aria-label="Sommaire de la démarche"
-            className="flex flex-[1_1_15rem] flex-col gap-2.5 self-start text-base md:sticky md:top-6"
+            className="flex flex-[1_1_15rem] flex-col gap-2.5 self-start rounded-xl border bg-card p-6.5 text-base md:sticky md:top-6"
           >
             <span className={`${kicker} text-muted-foreground`}>Sommaire</span>
             <ul className="flex flex-col gap-2.5 font-semibold">
@@ -342,7 +354,7 @@ export async function ProjectView({ id, nextSlot }: { id: string; nextSlot?: Rea
                 <ul className="grid grid-cols-[repeat(auto-fit,minmax(min(16.25rem,100%),1fr))] gap-4">
                   {section.items.map((item) => (
                     <li key={item.id ?? item.title} className={`${card} gap-2.5`}>
-                      <h4 className={`${kicker} flex items-center gap-2.5 text-primary`}>
+                      <h4 className={`${kicker} flex items-start gap-2.5 text-primary`}>
                         <PhosphorIcon name={item.icon} className="shrink-0" />
                         {item.title}
                       </h4>
@@ -371,7 +383,12 @@ export async function ProjectView({ id, nextSlot }: { id: string; nextSlot?: Rea
                     {step.title}
                   </h3>
                 </div>
-                {step.content ? <RichText data={step.content} className={body} /> : null}
+                {step.content ? (
+                  <RichText
+                    data={step.content}
+                    className={`${body} [&_img]:h-auto [&_img]:w-full [&_img]:rounded-[1.125rem] [&_picture]:mt-6 [&_picture]:block [&_picture+*]:mt-6`}
+                  />
+                ) : null}
                 {step.shots.map((image) => (
                   <MediaImage
                     key={image.id}
@@ -386,10 +403,8 @@ export async function ProjectView({ id, nextSlot }: { id: string; nextSlot?: Rea
         </section>
       ) : null}
 
-      {nextSlot}
-
       {cta?.title ? (
-        <section className="pb-4">
+        <section className="pb-10 md:pb-14">
           <GlowCard
             as="div"
             className="flex flex-wrap items-center justify-between gap-8 rounded-[2rem] bg-primary px-7 py-12 text-primary-foreground [--glow-from:rgb(140_133_255/0.85)] [--glow-mid:rgb(120_112_250/0.35)] [--glow-size:520px] hover:shadow-[0_20px_44px_rgb(79_70_229/0.22)] md:px-12 md:py-18"
@@ -411,6 +426,8 @@ export async function ProjectView({ id, nextSlot }: { id: string; nextSlot?: Rea
           </GlowCard>
         </section>
       ) : null}
+
+      {nextSlot}
     </article>
   )
 }

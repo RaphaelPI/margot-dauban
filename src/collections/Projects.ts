@@ -1,6 +1,6 @@
 import { type CollectionConfig, slugField } from 'payload'
 import { loggedIn, publishedOrLoggedIn } from '@/access'
-import { lightText, richTextFrom } from '@/fields/light-editor'
+import { articleEditor, lightText, richTextFrom } from '@/fields/light-editor'
 import { seoField } from '@/fields/seo'
 import { validateHref } from '@/lib/safe-href'
 
@@ -68,9 +68,17 @@ export const Projects: CollectionConfig = {
             {
               name: 'cover',
               label: 'Image de la carte',
+              admin: { description: 'Page Projets et carte « Projet suivant ».' },
               type: 'upload',
               relationTo: 'media',
               required: true,
+            },
+            {
+              name: 'homeCover',
+              label: "Image de la carte sur l'accueil",
+              type: 'upload',
+              relationTo: 'media',
+              admin: { description: "Facultatif. Vide : l'image de la carte." },
             },
           ],
         },
@@ -119,6 +127,28 @@ export const Projects: CollectionConfig = {
                   defaultValue: 'La prestation en bref',
                 },
                 {
+                  name: 'overviewLabels',
+                  label: 'Titres des cartes',
+                  type: 'group',
+                  admin: { description: 'Vide : le titre par défaut.' },
+                  fields: [
+                    {
+                      type: 'row',
+                      fields: [
+                        { name: 'challenge', label: 'Carte 1', type: 'text', defaultValue: 'Le problème' },
+                        { name: 'role', label: 'Carte 2', type: 'text', defaultValue: 'Mon rôle' },
+                        { name: 'response', label: 'Carte 3', type: 'text', defaultValue: 'La solution' },
+                        {
+                          name: 'interventions',
+                          label: 'Carte 4',
+                          type: 'text',
+                          defaultValue: 'Prestations',
+                        },
+                      ],
+                    },
+                  ],
+                },
+                {
                   type: 'row',
                   fields: [
                     { name: 'challenge', label: 'Le problème', ...lightText },
@@ -146,7 +176,10 @@ export const Projects: CollectionConfig = {
                   labels: { singular: 'Chiffre', plural: 'Chiffres' },
                   type: 'array',
                   maxRows: 4,
-                  admin: { description: 'Le premier est mis en avant sur fond indigo.' },
+                  admin: {
+                    description:
+                      'Choisis le style de chaque carte. Sans choix : la première en bleu, les autres en blanc.',
+                  },
                   fields: [
                     {
                       type: 'row',
@@ -159,6 +192,15 @@ export const Projects: CollectionConfig = {
                           admin: { description: 'Ex. +10 %, 13 → 10, Moins d’appels' },
                         },
                         { name: 'label', label: 'Libellé', type: 'text', required: true },
+                        {
+                          name: 'style',
+                          label: 'Style',
+                          type: 'select',
+                          options: [
+                            { label: 'Fond bleu, texte blanc', value: 'highlight' },
+                            { label: 'Fond blanc, texte noir', value: 'plain' },
+                          ],
+                        },
                       ],
                     },
                   ],
@@ -329,7 +371,16 @@ export const Projects: CollectionConfig = {
                       label: 'Résumé en une phrase (en bref)',
                       ...lightText,
                     },
-                    { name: 'content', label: 'Texte détaillé', type: 'richText' },
+                    {
+                      name: 'content',
+                      label: 'Texte détaillé',
+                      type: 'richText',
+                      editor: articleEditor,
+                      admin: {
+                        description:
+                          'Alterne texte et images : bouton « + » de la barre d’outils › Upload, ou tape « / » dans une ligne vide.',
+                      },
+                    },
                     { name: 'images', label: 'Captures', type: 'upload', relationTo: 'media', hasMany: true },
                   ],
                 },

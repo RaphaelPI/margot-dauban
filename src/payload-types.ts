@@ -172,7 +172,14 @@ export interface Project {
    * Une phrase sur le résultat. Ex. « Moins de rebond, plus de billets vendus. »
    */
   summary: string;
+  /**
+   * Page Projets et carte « Projet suivant ».
+   */
   cover: string | Media;
+  /**
+   * Facultatif. Vide : l'image de la carte.
+   */
+  homeCover?: (string | null) | Media;
   /**
    * Vide : l’accroche de la carte est utilisée.
    */
@@ -191,6 +198,15 @@ export interface Project {
    */
   hero?: (string | null) | Media;
   overviewTitle?: string | null;
+  /**
+   * Vide : le titre par défaut.
+   */
+  overviewLabels?: {
+    challenge?: string | null;
+    role?: string | null;
+    response?: string | null;
+    interventions?: string | null;
+  };
   challenge?: {
     root: {
       type: string;
@@ -245,7 +261,7 @@ export interface Project {
    */
   resultsTitle?: string | null;
   /**
-   * Le premier est mis en avant sur fond indigo.
+   * Choisis le style de chaque carte. Sans choix : la première en bleu, les autres en blanc.
    */
   metrics?:
     | {
@@ -254,6 +270,7 @@ export interface Project {
          */
         value: string;
         label: string;
+        style?: ('highlight' | 'plain') | null;
         id?: string | null;
       }[]
     | null;
@@ -427,6 +444,9 @@ export interface Project {
           };
           [k: string]: unknown;
         } | null;
+        /**
+         * Alterne texte et images : bouton « + » de la barre d’outils › Upload, ou tape « / » dans une ligne vide.
+         */
         content?: {
           root: {
             type: string;
@@ -797,6 +817,7 @@ export interface ProjectsSelect<T extends boolean = true> {
   sector?: T;
   summary?: T;
   cover?: T;
+  homeCover?: T;
   headline?:
     | T
     | {
@@ -805,6 +826,14 @@ export interface ProjectsSelect<T extends boolean = true> {
       };
   hero?: T;
   overviewTitle?: T;
+  overviewLabels?:
+    | T
+    | {
+        challenge?: T;
+        role?: T;
+        response?: T;
+        interventions?: T;
+      };
   challenge?: T;
   role?: T;
   response?: T;
@@ -815,6 +844,7 @@ export interface ProjectsSelect<T extends boolean = true> {
     | {
         value?: T;
         label?: T;
+        style?: T;
         id?: T;
       };
   results?: T;
