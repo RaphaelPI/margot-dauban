@@ -6,20 +6,9 @@ import { s3Storage } from '@payloadcms/storage-s3'
 import { fr } from '@payloadcms/translations/languages/fr'
 import { buildConfig } from 'payload'
 import sharp from 'sharp'
-import { Clients } from './collections/Clients'
-import { Faqs } from './collections/Faqs'
-import { Media } from './collections/Media'
-import { Pages } from './collections/Pages'
-import { ProjectCategories } from './collections/ProjectCategories'
-import { Projects } from './collections/Projects'
-import { Services } from './collections/Services'
+import { collections } from './collections'
 import { Users } from './collections/Users'
-import { FaqPage } from './globals/FaqPage'
-import { Home } from './globals/Home'
-import { ProjectsPage } from './globals/ProjectsPage'
-import { ServicesPage } from './globals/ServicesPage'
-import { Settings } from './globals/Settings'
-import { withGlobalRevalidation, withRevalidation } from './lib/cache'
+import { globals } from './globals'
 import { parseEnv } from './lib/env'
 
 const dirname = path.dirname(fileURLToPath(import.meta.url))
@@ -31,10 +20,8 @@ export default buildConfig({
     importMap: { baseDir: path.resolve(dirname) },
   },
   i18n: { supportedLanguages: { fr }, fallbackLanguage: 'fr' },
-  collections: [Projects, ProjectCategories, Clients, Services, Faqs, Pages, Media, Users].map(
-    withRevalidation,
-  ),
-  globals: [Home, ProjectsPage, ServicesPage, FaqPage, Settings].map(withGlobalRevalidation),
+  collections,
+  globals,
   editor: lexicalEditor(),
   secret: env.PAYLOAD_SECRET,
   graphQL: { disable: true },

@@ -95,8 +95,8 @@ The designer can attach a design (zip exported from a design tool or Claude, HTM
 1. **Reset** on each push: removes `pr:*` labels (incl. a previous designer approval), disables auto-merge.
 2. **Gate** (`.github/scripts/pr-gate.sh`, deterministic) prints a tier:
    - `eligible`: small (≤ 80 lines, ≤ 8 files, `designs/` not counted), no content model change, nothing critical;
-   - `designer: …`: bigger, or content model change (`src/collections`, `src/globals`, `src/fields`);
-   - `blocked: …`: critical paths (access, Payload config/admin, cache/env/payload libs, migrations, `scripts/`, `.github/`, `.claude/`, deps, config), `security`/`breaking-change` label, `!` in title.
+   - `designer: …`: bigger, content model change (`src/collections`, `src/globals`, `src/fields`, incl. registering a new one in their `index.ts`), generated admin files (`src/app/(payload)`) or dependencies (`package.json`, `pnpm-lock.yaml`);
+   - `blocked: …`: critical paths (access, `Users` collection, `payload.config.ts`, cache/env/payload libs, migrations, `scripts/`, `.github/`, `.claude/`, tooling config, `.env`), `security`/`breaking-change` label, `!` in title.
 3. **Reviewer agent** (`.claude/agents/pr-reviewer.md`) posts one review comment and labels:
    - `pr:auto-merge`: gate `eligible`, no finding, obviously safe → merges alone when checks are green;
    - `pr:designer-review`: everything else (also the fallback if the agent fails) → merges when the designer validates. Blocking findings are fixed by `/build` before validating. No human-review tier.
