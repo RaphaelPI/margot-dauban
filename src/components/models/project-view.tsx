@@ -21,7 +21,7 @@ const h2 = 'font-heading text-[1.625rem] leading-tight font-semibold md:text-[1.
 const h2Lg = 'font-heading text-[1.75rem] leading-[1.15] font-semibold md:text-[1.875rem]'
 const kicker = 'text-base font-bold tracking-[0.06em] uppercase'
 const card = 'flex flex-col rounded-xl border bg-card p-6.5'
-const chip = 'h-auto rounded-md px-3 py-1.5 text-base font-bold'
+const chip = 'h-auto rounded-md px-3 py-1.5 text-sm font-bold'
 // Rich text from the admin: paragraphs, lists, links, bold (no typography plugin installed).
 const body =
   'text-lg leading-[1.7] text-foreground-soft [&_*+*]:mt-4 [&_a]:font-bold [&_a]:underline [&_a]:underline-offset-4 [&_li+li]:mt-1.5 [&_ol]:list-decimal [&_ol]:pl-6 [&_strong]:font-bold [&_strong]:text-foreground [&_ul]:list-disc [&_ul]:pl-6'
