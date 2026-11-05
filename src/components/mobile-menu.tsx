@@ -64,7 +64,7 @@ export function MobileMenu({
         aria-controls="menu-mobile"
         aria-label={open ? 'Fermer le menu' : 'Ouvrir le menu'}
         onClick={() => setOpen((value) => !value)}
-        className="burger relative z-10 size-11 rounded-[0.875rem] border bg-card"
+        className="burger relative z-10 size-11 rounded-[0.875rem] border"
         data-open={open}
       >
         <span aria-hidden="true" />
