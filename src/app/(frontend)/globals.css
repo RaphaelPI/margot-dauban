@@ -202,8 +202,8 @@
     opacity: 0;
     background: radial-gradient(
       var(--glow-size, 380px) circle at var(--mx, 50%) var(--my, 50%),
-      var(--glow-from, rgb(226 224 252 / 0.45)),
-      var(--glow-mid, rgb(232 230 253 / 0.18)) 45%,
+      var(--glow-from, rgb(226 224 252 / 0.6)),
+      var(--glow-mid, rgb(232 230 253 / 0.26)) 45%,
       transparent 75%
     );
     transition: opacity 0.7s cubic-bezier(0.22, 0.61, 0.36, 1);
