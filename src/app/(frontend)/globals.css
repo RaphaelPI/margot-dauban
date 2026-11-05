@@ -361,8 +361,9 @@
   }
 }
 
-/* Secondary link « souligné à pastille » (ArrowLink): underline drawn on hover, lilac round
-   turning indigo, pictogram gesture per `data-icon`. Reduced motion: colours only. */
+/* Secondary link with a round pictogram (ArrowLink): no underline (designer's choice); on hover
+   the lilac round turns indigo and the pictogram makes a gentle gesture per `data-icon`.
+   Reduced motion: colours only. */
 @utility arrow-link {
   display: inline-flex;
   align-items: center;
@@ -370,12 +371,7 @@
   font-size: 1.125rem;
   font-weight: 700;
   color: var(--foreground);
-  transition: color 0.3s;
-  & .arrow-link-text {
-    padding-bottom: 2px;
-    background: linear-gradient(currentColor, currentColor) left bottom / 0 2px no-repeat;
-    transition: background-size 0.35s cubic-bezier(0.65, 0, 0.35, 1);
-  }
+  transition: color 0.4s ease;
   & .arrow-link-icon {
     display: flex;
     flex-shrink: 0;
@@ -399,10 +395,6 @@
   &:focus-visible {
     color: var(--primary-strong);
   }
-  &:hover .arrow-link-text,
-  &:focus-visible .arrow-link-text {
-    background-size: 100% 2px;
-  }
   &:hover .arrow-link-icon,
   &:focus-visible .arrow-link-icon {
     background: var(--primary);
@@ -418,21 +410,20 @@
       transform: rotate(-45deg);
     }
     &[data-icon="external"]:hover svg {
-      animation: arrow-link-fly 0.45s cubic-bezier(0.65, 0, 0.35, 1);
+      animation: arrow-link-fly 0.7s cubic-bezier(0.45, 0, 0.55, 1);
     }
     &[data-icon="down"]:hover svg {
-      animation: arrow-link-drop 0.5s cubic-bezier(0.65, 0, 0.35, 1);
+      animation: arrow-link-drop 0.7s cubic-bezier(0.45, 0, 0.55, 1);
     }
     &[data-icon="mail"]:hover svg {
-      animation: arrow-link-tilt 0.5s ease;
+      animation: arrow-link-tilt 0.7s ease-in-out;
     }
     &[data-icon="phone"]:hover svg {
-      animation: arrow-link-ring 0.6s ease;
+      animation: arrow-link-ring 0.8s ease-in-out;
     }
   }
   @media (prefers-reduced-motion: reduce) {
     &,
-    & .arrow-link-text,
     & .arrow-link-icon {
       transition: none;
     }
