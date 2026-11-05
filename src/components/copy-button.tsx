@@ -28,7 +28,7 @@ export function CopyButton({ value, label }: { value: string; label: string }) {
         }
         aria-label={label}
         title={copied ? 'Copié !' : label}
-        className="relative z-10 inline-flex size-7 shrink-0 items-center justify-center rounded-full border-[1.5px] border-[#d4d9d6] bg-card text-foreground transition-colors before:absolute before:-inset-2 before:content-[''] hover:border-primary hover:bg-primary hover:text-primary-foreground focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-none"
+        className="relative z-10 inline-flex size-7 shrink-0 items-center justify-center rounded-full border border-[#d4d9d6] bg-card text-foreground transition-colors before:absolute before:-inset-2 before:content-[''] hover:border-primary hover:bg-primary hover:text-primary-foreground focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-none"
       >
         {copied ? <Check aria-hidden="true" size={14} /> : <CopySimple aria-hidden="true" size={14} />}
       </button>
