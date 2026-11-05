@@ -1133,7 +1133,7 @@ export interface Home {
     items?: (string | Project)[] | null;
   };
   /**
-   * Bloc sombre après les projets. Vide = bloc masqué.
+   * Citation client sur fond dégradé. Vide = bloc masqué.
    */
   testimonial?: {
     /**
@@ -1147,6 +1147,12 @@ export interface Home {
     author?: string | null;
     role?: string | null;
     company?: string | null;
+    photo?: (string | null) | Media;
+    /**
+     * Facultatif : le lien mène à sa page.
+     */
+    project?: (string | null) | Project;
+    linkLabel?: string | null;
   };
   expertise?: {
     title?: string | null;
@@ -1536,6 +1542,9 @@ export interface HomeSelect<T extends boolean = true> {
         author?: T;
         role?: T;
         company?: T;
+        photo?: T;
+        project?: T;
+        linkLabel?: T;
       };
   expertise?:
     | T

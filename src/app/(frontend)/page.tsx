@@ -3,7 +3,9 @@ import { CtaLink } from '@/components/cta-link'
 import { GlowCard } from '@/components/glow-card'
 import { HeroDecor } from '@/components/hero-decor'
 import { ClientName } from '@/components/models/client-name'
+import { MediaById } from '@/components/models/media-by-id'
 import { ProjectCard } from '@/components/models/project-card'
+import { ProjectLink } from '@/components/models/project-link'
 import { ServiceCard } from '@/components/models/service-card'
 import { getClientIds, getFeaturedProjectIds, getHomeServiceIds } from '@/data/ids'
 import { getHome } from '@/data/settings'
@@ -113,20 +115,55 @@ export default async function HomePage() {
       </section>
 
       {testimonial ? (
+        // Variant A of designs/42-temoignage-accueil: the quote on the hero's gradient.
         <section id="temoignages" aria-label="Témoignage" className="pt-16 pb-10 md:pt-24">
-          <figure className="flex flex-col gap-7 rounded-[2rem] bg-ink p-8 text-ink-foreground md:p-14">
-            <blockquote className="max-w-240 font-heading text-[clamp(1.375rem,2.6vw,2rem)] leading-[1.35] font-medium">
+          <figure className="relative flex flex-col gap-9 overflow-hidden rounded-[2.25rem] bg-[radial-gradient(520px_360px_at_8%_0,#dad8fa,rgb(243_238_241/0)_70%),radial-gradient(520px_380px_at_96%_100%,var(--peach),rgb(243_238_241/0)_70%),#f3eef1] p-[clamp(2.25rem,6vw,5rem)]">
+            <span
+              aria-hidden="true"
+              className="pointer-events-none absolute -top-10 right-[clamp(1.25rem,5vw,4rem)] font-heading text-[17.5rem] leading-none font-bold text-primary opacity-10"
+            >
+              ”
+            </span>
+            <blockquote className="relative max-w-240 font-heading text-[clamp(1.5rem,3vw,2.375rem)] leading-[1.3] font-medium tracking-[-0.01em]">
               « {testimonial.quote}
-              {testimonial.highlight ? <span className="text-lilac"> {testimonial.highlight}</span> : null} »
+              {testimonial.highlight ? (
+                <>
+                  {' '}
+                  <span className="rounded-xl bg-card px-2.5 text-primary-strong [box-decoration-break:clone]">
+                    {testimonial.highlight}
+                  </span>
+                </>
+              ) : null}{' '}
+              »
             </blockquote>
-            {testimonial.author || testimonial.company ? (
-              <figcaption className="flex flex-wrap justify-between gap-4 border-t border-ink-border pt-4 text-[0.9375rem]">
-                <span>
-                  {testimonial.author ? <strong>{testimonial.author}</strong> : null}
-                  {testimonial.role ? <span className="block text-ink-muted">{testimonial.role}</span> : null}
+            {testimonial.author || testimonial.company || testimonial.project ? (
+              <figcaption className="relative flex flex-wrap items-center justify-between gap-6">
+                <span className="flex items-center gap-4">
+                  {testimonial.photo ? (
+                    <span className="size-16 shrink-0 overflow-hidden rounded-full border-3 border-card bg-card shadow-[0_8px_20px_rgb(40_36_90/0.12)]">
+                      <MediaById
+                        id={asId(testimonial.photo)}
+                        sizes="64px"
+                        className="size-full object-cover"
+                      />
+                    </span>
+                  ) : null}
+                  <span className="flex flex-col gap-0.5">
+                    {testimonial.author ? (
+                      <strong className="text-[1.0625rem]">{testimonial.author}</strong>
+                    ) : null}
+                    {testimonial.role || testimonial.company ? (
+                      <span className="text-base text-foreground-soft">
+                        {[testimonial.role, testimonial.company].filter(Boolean).join(' · ')}
+                      </span>
+                    ) : null}
+                  </span>
                 </span>
-                {testimonial.company ? (
-                  <span className="font-bold text-ink-muted">{testimonial.company}</span>
+                {testimonial.project ? (
+                  <ProjectLink
+                    id={asId(testimonial.project)}
+                    label={testimonial.linkLabel || 'Lire le cas client'}
+                  />
                 ) : null}
               </figcaption>
             ) : null}
