@@ -4,6 +4,7 @@ import { CopyButton } from '@/components/copy-button'
 import { GlowCard } from '@/components/glow-card'
 import { PhosphorIcon } from '@/components/phosphor-icon'
 import { getContactPage } from '@/data/settings'
+import { mailtoAddress } from '@/lib/mailto'
 import { isSafeHref } from '@/lib/safe-href'
 
 // Page « Contact » (designs/31-page-contact): title, intro and contact cards on the left, the
@@ -54,9 +55,7 @@ export default async function ContactPageView() {
                 const href = card.href && isSafeHref(card.href) ? card.href : null
                 const external = href?.startsWith('http')
                 // mailto: link → a button copies the bare address next to it.
-                const email = href?.toLowerCase().startsWith('mailto:')
-                  ? decodeURIComponent(href.slice(7).split('?')[0])
-                  : null
+                const email = mailtoAddress(href)
                 return (
                   <li key={card.id ?? card.value}>
                     <GlowCard
