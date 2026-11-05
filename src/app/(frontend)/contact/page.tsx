@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { ContactForm } from '@/components/contact-form'
+import { CopyButton } from '@/components/copy-button'
 import { GlowCard } from '@/components/glow-card'
 import { PhosphorIcon } from '@/components/phosphor-icon'
 import { getContactPage } from '@/data/settings'
@@ -52,6 +53,10 @@ export default async function ContactPageView() {
               {cards.map((card) => {
                 const href = card.href && isSafeHref(card.href) ? card.href : null
                 const external = href?.startsWith('http')
+                // mailto: link → a button copies the bare address next to it.
+                const email = href?.toLowerCase().startsWith('mailto:')
+                  ? decodeURIComponent(href.slice(7).split('?')[0])
+                  : null
                 return (
                   <li key={card.id ?? card.value}>
                     <GlowCard
@@ -81,6 +86,11 @@ export default async function ContactPageView() {
                           <strong className="break-words">{card.value}</strong>
                         )}
                       </span>
+                      {email ? (
+                        <span className="flex items-center gap-2">
+                          <CopyButton value={email} label={`Copier l’adresse ${email}`} />
+                        </span>
+                      ) : null}
                     </GlowCard>
                   </li>
                 )
