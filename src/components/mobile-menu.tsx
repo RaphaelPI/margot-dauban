@@ -1,7 +1,6 @@
 'use client'
 
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
 import { type CSSProperties, useEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { isSafeHref } from '@/lib/safe-href'
@@ -25,11 +24,7 @@ export function MobileMenu({
   const [mounted, setMounted] = useState(false)
   useEffect(() => setMounted(true), [])
   const button = useRef<HTMLButtonElement>(null)
-  const pathname = usePathname()
-
-  // A link to the current page doesn't navigate: close on any route change and on clicks.
-  // biome-ignore lint/correctness/useExhaustiveDependencies: closes when the route changes
-  useEffect(() => setOpen(false), [pathname])
+  // Every link in the panel closes it on click (also when it points to the current page).
 
   useEffect(() => {
     const root = document.documentElement
