@@ -159,7 +159,7 @@ export default async function HomePage() {
           </div>
           {aboutImage ? (
             <div
-              className={`aspect-[4/5] overflow-hidden rounded-[2rem] border bg-[radial-gradient(420px_circle_at_20%_15%,#dad8fa,rgb(218_216_250/0)_70%),radial-gradient(420px_circle_at_85%_90%,#fce1d3,rgb(252_225_211/0)_70%),#f3f1f7] ${about.imagePosition === 'right' ? '' : 'md:order-first'}`}
+              className={`aspect-[4/5] overflow-hidden rounded-[2rem] border bg-[#f3f1f7] bg-[image:radial-gradient(420px_circle_at_20%_15%,#dad8fa,rgb(218_216_250/0)_70%),radial-gradient(420px_circle_at_85%_90%,#fce1d3,rgb(252_225_211/0)_70%)] ${about.imagePosition === 'right' ? '' : 'md:order-first'}`}
             >
               <MediaById
                 id={aboutImage}
