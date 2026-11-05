@@ -108,9 +108,9 @@ export function HeroDecor() {
             width="22"
             height="22"
             viewBox="0 0 24 24"
-            className="fill-accent"
-            stroke="#fff"
-            strokeWidth="1.5"
+            className="fill-accent stroke-foreground"
+            strokeWidth="1"
+            strokeLinejoin="round"
           >
             <path d="M4 3l16 7-7 2-2 7z" />
           </svg>
