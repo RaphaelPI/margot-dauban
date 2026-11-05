@@ -185,7 +185,7 @@
     linear-gradient(180deg, #f3eef1 0, #f6f4f6 800px, var(--background) 1400px);
 }
 
-/* Glow that follows the pointer on cards (--mx/--my set by GlowCard). */
+/* Glow that follows the pointer on cards (--mx/--my set by GlowCard); kept subtle (designer). */
 @utility glow {
   position: relative;
   isolation: isolate;
@@ -202,8 +202,8 @@
     opacity: 0;
     background: radial-gradient(
       var(--glow-size, 380px) circle at var(--mx, 50%) var(--my, 50%),
-      var(--glow-from, rgb(226 224 252 / 0.75)),
-      var(--glow-mid, rgb(232 230 253 / 0.35)) 45%,
+      var(--glow-from, rgb(226 224 252 / 0.6)),
+      var(--glow-mid, rgb(232 230 253 / 0.26)) 45%,
       transparent 75%
     );
     transition: opacity 0.7s cubic-bezier(0.22, 0.61, 0.36, 1);
@@ -237,6 +237,50 @@
     background-color: transparent;
     border-color: transparent;
     backdrop-filter: none;
+  }
+}
+
+/* Header (StickyHeader): roomy at the top of the page; once scrolled (`data-scrolled`) it gets
+   shorter and the name, job title and availability badge fold away (fade + collapse), the logo
+   stays. Reduced motion: instant. */
+@utility header-bar {
+  padding-block: 0.875rem;
+  transition: padding-block 0.45s cubic-bezier(0.22, 0.61, 0.36, 1);
+  @media (width >= 48rem) {
+    padding-block: 1.375rem;
+  }
+  [data-scrolled] & {
+    padding-block: 0.5rem;
+    @media (width >= 48rem) {
+      padding-block: 0.625rem;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+}
+
+@utility header-fold {
+  max-width: 13rem;
+  overflow: hidden;
+  white-space: nowrap;
+  transition:
+    max-width 0.5s cubic-bezier(0.22, 0.61, 0.36, 1),
+    opacity 0.3s ease,
+    margin 0.5s cubic-bezier(0.22, 0.61, 0.36, 1),
+    padding 0.5s cubic-bezier(0.22, 0.61, 0.36, 1),
+    border-width 0.5s;
+  [data-scrolled] & {
+    max-width: 0;
+    opacity: 0;
+    margin-left: 0;
+    padding-left: 0;
+    padding-right: 0;
+    border-width: 0;
+    pointer-events: none;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
   }
 }
 

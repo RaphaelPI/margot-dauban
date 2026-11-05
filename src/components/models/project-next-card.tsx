@@ -17,7 +17,7 @@ export async function ProjectNextCard({ id }: { id: string }) {
 
   return (
     <section aria-labelledby="projet-suivant" className="pb-18">
-      <GlowCard className="grid items-center gap-7 rounded-[1.75rem] border bg-card p-5 hover:border-accent hover:shadow-[0_16px_36px_rgb(79_70_229/0.06)] has-[a:focus-visible]:outline-3 has-[a:focus-visible]:outline-offset-3 has-[a:focus-visible]:outline-primary md:grid-cols-2">
+      <GlowCard className="grid items-center gap-7 rounded-[1.75rem] border bg-card p-5 hover:border-accent hover:shadow-[0_12px_28px_rgb(79_70_229/0.04)] has-[a:focus-visible]:outline-3 has-[a:focus-visible]:outline-offset-3 has-[a:focus-visible]:outline-primary md:grid-cols-2">
         <div className="flex flex-col gap-2.5 p-3">
           <h2
             id="projet-suivant"

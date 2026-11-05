@@ -20,7 +20,7 @@ export async function ProjectCard({ id, home = false }: { id: string; home?: boo
   const cover = (home && project.homeCover) || project.cover
 
   return (
-    <GlowCard className="flex flex-col gap-4.5 rounded-xl border border-border/50 bg-card p-3.5 hover:border-accent hover:shadow-[0_16px_36px_rgb(79_70_229/0.06)] has-[a:focus-visible]:outline-3 has-[a:focus-visible]:outline-offset-3 has-[a:focus-visible]:outline-primary">
+    <GlowCard className="flex flex-col gap-4.5 rounded-xl border border-border/50 bg-card p-3.5 hover:border-accent hover:shadow-[0_12px_28px_rgb(79_70_229/0.04)] has-[a:focus-visible]:outline-3 has-[a:focus-visible]:outline-offset-3 has-[a:focus-visible]:outline-primary">
       <div className="overflow-hidden rounded-[0.875rem] bg-muted">
         <MediaImage
           media={cover}

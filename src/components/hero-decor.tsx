@@ -103,15 +103,7 @@ export function HeroDecor() {
 
       <div className="absolute top-110 right-[24%] hidden xl:block">
         <div className="flex animate-float flex-col items-start gap-0.5 motion-reduce:animate-none">
-          <svg
-            aria-hidden="true"
-            width="22"
-            height="22"
-            viewBox="0 0 24 24"
-            className="fill-accent"
-            stroke="#fff"
-            strokeWidth="1.5"
-          >
+          <svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" className="fill-accent">
             <path d="M4 3l16 7-7 2-2 7z" />
           </svg>
           {/* Light indigo cursor (designer's colour #E2E1FF), dark text. */}
