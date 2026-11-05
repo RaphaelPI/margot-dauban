@@ -235,7 +235,7 @@
   }
 }
 
-/* Phone menu (designs/34-menu-mobile). Burger: three lines, the middle one shorter, turning
+/* Phone menu (designs/34-menu-mobile). Burger: three equal lines (like Lucide « menu »), turning
    into a cross. Panel: full-screen indigo dropping from the top, links appearing one by one
    (each item sets --i). Reduced motion: no movement. */
 @utility burger {
@@ -245,8 +245,8 @@
     border-color 0.3s;
   & span {
     position: absolute;
-    left: 12px;
-    width: 18px;
+    left: 13px;
+    width: 16px;
     height: 2px;
     border-radius: 2px;
     background: var(--foreground);
@@ -256,14 +256,13 @@
       background-color 0.3s;
   }
   & span:nth-child(1) {
-    top: 14px;
+    top: 13px;
   }
   & span:nth-child(2) {
     top: 20px;
-    width: 12px;
   }
   & span:nth-child(3) {
-    top: 26px;
+    top: 27px;
   }
   &[data-open="true"] {
     background: rgb(255 255 255 / 0.14);
@@ -273,13 +272,13 @@
     background: #fff;
   }
   &[data-open="true"] span:nth-child(1) {
-    transform: translateY(6px) rotate(45deg);
+    transform: translateY(7px) rotate(45deg);
   }
   &[data-open="true"] span:nth-child(2) {
     opacity: 0;
   }
   &[data-open="true"] span:nth-child(3) {
-    transform: translateY(-6px) rotate(-45deg);
+    transform: translateY(-7px) rotate(-45deg);
   }
   &:focus-visible {
     outline: 3px solid var(--primary);
