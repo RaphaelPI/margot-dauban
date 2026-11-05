@@ -129,7 +129,7 @@ export const Home: GlobalConfig = {
       name: 'testimonial',
       label: 'Témoignage',
       type: 'group',
-      admin: { description: 'Bloc sombre après les projets. Vide = bloc masqué.' },
+      admin: { description: 'Citation client sur fond dégradé. Vide = bloc masqué.' },
       fields: [
         {
           name: 'quote',
@@ -149,6 +149,20 @@ export const Home: GlobalConfig = {
             { name: 'author', label: 'Prénom Nom', type: 'text' },
             { name: 'role', label: 'Poste', type: 'text' },
             { name: 'company', label: 'Entreprise', type: 'text' },
+          ],
+        },
+        { name: 'photo', label: 'Photo', type: 'upload', relationTo: 'media' },
+        {
+          type: 'row',
+          fields: [
+            {
+              name: 'project',
+              label: 'Projet lié',
+              type: 'relationship',
+              relationTo: 'projects',
+              admin: { description: 'Facultatif : le lien mène à sa page.' },
+            },
+            { name: 'linkLabel', label: 'Libellé du lien', type: 'text', defaultValue: 'Lire le cas client' },
           ],
         },
       ],
