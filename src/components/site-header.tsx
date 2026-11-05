@@ -63,9 +63,7 @@ export async function SiteHeader() {
             </Link>
           ))}
           {settings.headerCta?.label && settings.headerCta.href ? (
-            <CtaLink href={settings.headerCta.href} compact>
-              {settings.headerCta.label}
-            </CtaLink>
+            <CtaLink href={settings.headerCta.href}>{settings.headerCta.label}</CtaLink>
           ) : null}
         </nav>
         <MobileMenu

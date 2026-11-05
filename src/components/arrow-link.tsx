@@ -7,7 +7,8 @@ import type { ReactNode } from 'react'
 // External links (http…) open in a new tab.
 
 const icons = {
-  arrow: <path d="M3 8h10M9 4l4 4-4 4" />,
+  // Lucide « arrow-right », scaled to the 16px box.
+  arrow: <path d="M3.33 8h9.34M8 3.33 12.67 8 8 12.67" />,
   external: <path d="M5 11l6-6M6 5h5v5" />,
   down: <path d="M8 3v10M4 9l4 4 4-4" />,
   mail: (

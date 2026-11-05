@@ -242,12 +242,12 @@
 
 /* Main call to action (designs/38-boutons-liens « CTA principal », CtaLink). The capsule and
    its round are drawn in .cta-bg through the #cta-goo filter; at rest the round sits inside the
-   capsule's right end, on hover / focus it slides out (--shift) with a bounce and the arrow
+   capsule's right end, on hover / focus it slides out (--shift) with a soft bounce and the arrow
    turns. The link reserves the round's free space on the right. Touch screens: plain capsule,
    pressed on tap. Reduced motion: only the colour changes. */
 @utility cta {
-  --h: 60px;
-  --shift: 78px;
+  --h: 48px;
+  --shift: 60px;
   --fill: var(--primary);
   --fill-hover: #4338ca;
   --cta-ink: #fff;
@@ -256,18 +256,12 @@
   display: inline-flex;
   align-items: center;
   height: var(--h);
-  padding: 0 calc(var(--shift) + var(--h) + 8px) 0 32px;
+  padding: 0 calc(var(--shift) + var(--h) + 4px) 0 22px;
   border-radius: 999px;
   color: var(--cta-ink);
-  font-size: 1.0625rem;
+  font-size: 1rem;
   font-weight: 700;
   white-space: nowrap;
-  &[data-compact] {
-    --h: 48px;
-    --shift: 62px;
-    padding-left: 24px;
-    font-size: 1rem;
-  }
   &[data-tone="black"] {
     --fill: #121814;
     --fill-hover: #2b312d;
@@ -305,7 +299,7 @@
     top: 12px;
     right: 12px;
     transition:
-      transform 0.6s cubic-bezier(0.34, 1.45, 0.64, 1),
+      transform 0.7s cubic-bezier(0.3, 1.2, 0.5, 1),
       background-color 0.3s;
   }
   & .cta-arrow {
@@ -314,12 +308,11 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.375rem;
-    transition: transform 0.6s cubic-bezier(0.34, 1.45, 0.64, 1);
+    transition: transform 0.7s cubic-bezier(0.3, 1.2, 0.5, 1);
   }
   & .cta-glyph {
-    display: inline-block;
-    transition: transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+    display: block;
+    transition: transform 0.5s cubic-bezier(0.3, 1.2, 0.5, 1);
   }
   &:hover .cta-pill,
   &:hover .cta-dot,
@@ -397,7 +390,7 @@
     transition:
       background-color 0.3s,
       color 0.3s,
-      transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+      transform 0.5s cubic-bezier(0.3, 1.2, 0.5, 1);
   }
   & svg {
     display: block;
