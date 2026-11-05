@@ -13,7 +13,9 @@ export function StickyHeader(props: ComponentProps<'header'>) {
     let frame = 0
     const update = () => {
       frame = 0
-      setScrolled(window.scrollY > 24)
+      // Two thresholds: the header's own shrinking moves the page, a single one could flicker.
+      const y = window.scrollY
+      setScrolled((was) => (was ? y > 8 : y > 48))
     }
     const onScroll = () => {
       if (!frame) frame = requestAnimationFrame(update)
