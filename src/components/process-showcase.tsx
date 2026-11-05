@@ -8,13 +8,16 @@ const [sceneWidth, sceneHeight] = [620, 460]
 type Step = { id?: string | null; title: string; text?: string | null; screenLabel?: string | null }
 
 // « Comment se déroule une mission »: steps as tabs, a screen that builds itself for the
-// selected step. Plays by itself; stops for good once the visitor picks a step, pauses while
-// hovered or focused, never plays with reduced motion.
+// selected step. Plays by itself while on screen; stops for good once the visitor picks a step,
+// pauses while a tab has keyboard focus, never plays with reduced motion. The progress bar's
+// own animation moves to the next step when it ends, so bar and steps never drift apart.
 export function ProcessShowcase({ steps }: { steps: Step[] }) {
   const shown = steps.slice(0, processScenes.length)
   const [current, setCurrent] = useState(0)
   const [auto, setAuto] = useState(false)
-  const [paused, setPaused] = useState(false)
+  const [focused, setFocused] = useState(false)
+  const [visible, setVisible] = useState(false)
+  const root = useRef<HTMLDivElement>(null)
   const tabs = useRef<(HTMLButtonElement | null)[]>([])
 
   // The screen fills the panel; below 620px wide it is drawn at 620 and scaled down (phones).
@@ -33,11 +36,18 @@ export function ProcessShowcase({ steps }: { steps: Step[] }) {
     setAuto(!window.matchMedia('(prefers-reduced-motion: reduce)').matches)
   }, [])
 
+  // Plays only while the block is on screen (otherwise it would be mid-way when reached).
   useEffect(() => {
-    if (!auto || paused || shown.length < 2) return
-    const timer = setTimeout(() => setCurrent((i) => (i + 1) % shown.length), processDurations[current])
-    return () => clearTimeout(timer)
-  }, [auto, paused, current, shown.length])
+    const el = root.current
+    if (!el) return
+    const observer = new IntersectionObserver(([entry]) => setVisible(entry.isIntersecting), {
+      threshold: 0.35,
+    })
+    observer.observe(el)
+    return () => observer.disconnect()
+  }, [])
+  const playing = auto && visible && !focused && shown.length > 1
+  const next = () => setCurrent((i) => (i + 1) % shown.length)
 
   const pick = (index: number, focus = false) => {
     setAuto(false)
@@ -65,14 +75,7 @@ export function ProcessShowcase({ steps }: { steps: Step[] }) {
   const Scene = processScenes[current]
 
   return (
-    // biome-ignore lint/a11y/noStaticElementInteractions: pauses the self-playing animation on hover
-    <div
-      className="flex flex-wrap items-stretch gap-8"
-      onMouseEnter={() => setPaused(true)}
-      onMouseLeave={() => setPaused(false)}
-      onFocus={() => setPaused(true)}
-      onBlur={() => setPaused(false)}
-    >
+    <div ref={root} className="flex flex-wrap items-stretch gap-8">
       <div
         role="tablist"
         aria-label="Étapes de la mission"
@@ -95,6 +98,8 @@ export function ProcessShowcase({ steps }: { steps: Step[] }) {
               tabIndex={selected ? 0 : -1}
               onClick={() => pick(index)}
               onKeyDown={onKeyDown}
+              onFocus={() => setFocused(true)}
+              onBlur={() => setFocused(false)}
               className={`relative min-h-11 overflow-hidden rounded-[1.125rem] border px-5.5 py-5 text-left transition-[background,border-color] duration-300 ${selected ? 'border-[#cfccf7] bg-card shadow-[0_12px_28px_rgb(79_70_229/0.1)]' : 'border-transparent hover:bg-card/60'}`}
             >
               <span className="flex items-center gap-3.5">
@@ -110,14 +115,15 @@ export function ProcessShowcase({ steps }: { steps: Step[] }) {
                   ) : null}
                 </span>
               </span>
-              {selected && auto ? (
+              {selected && auto && shown.length > 1 ? (
                 <span aria-hidden="true" className="absolute inset-x-0 bottom-0 h-0.75 bg-[#eeedfb]">
                   <span
                     key={current}
                     className="block h-full animate-fill bg-primary"
+                    onAnimationEnd={next}
                     style={{
                       animationDuration: `${processDurations[current]}ms`,
-                      animationPlayState: paused ? 'paused' : 'running',
+                      animationPlayState: playing ? 'running' : 'paused',
                     }}
                   />
                 </span>
