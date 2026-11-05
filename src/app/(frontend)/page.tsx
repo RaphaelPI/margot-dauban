@@ -7,10 +7,15 @@ import { MediaById } from '@/components/models/media-by-id'
 import { ProjectCard } from '@/components/models/project-card'
 import { ProjectLink } from '@/components/models/project-link'
 import { ServiceCard } from '@/components/models/service-card'
+import { RichTextOrPlain } from '@/components/rich-text-or-plain'
 import { getClientIds, getFeaturedProjectIds, getHomeServiceIds } from '@/data/ids'
 import { getHome } from '@/data/settings'
 
 const asId = (value: string | { id: string }) => (typeof value === 'string' ? value : value.id)
+
+// Rich text of the « À propos » section: paragraphs, lists, bold indigo underlined links.
+const aboutText =
+  'text-base leading-[1.75] [&_*+*]:mt-4 [&_a]:font-bold [&_a]:text-primary-strong [&_a]:underline [&_a]:decoration-2 [&_a]:underline-offset-4 [&_li+li]:mt-1.5 [&_ol]:list-decimal [&_ol]:pl-6 [&_strong]:font-bold [&_ul]:list-disc [&_ul]:pl-6'
 
 const h2 = 'font-heading text-[1.875rem] leading-tight font-semibold tracking-[-0.02em] md:text-[2.375rem]'
 
@@ -23,6 +28,8 @@ export default async function HomePage() {
   ])
   const projectIds = home.projects?.items?.length ? home.projects.items.map(asId) : featuredIds
   const testimonial = home.testimonial?.quote ? home.testimonial : null
+  const about = home.about?.title ? home.about : null
+  const aboutImage = about?.image ? asId(about.image) : null
 
   return (
     <>
@@ -70,7 +77,7 @@ export default async function HomePage() {
           ) : null}
           {clientIds.length ? (
             <div className="min-w-0 flex-[1_1_26rem] overflow-hidden [mask-image:linear-gradient(90deg,transparent,#000_12%,#000_88%,transparent)]">
-              <div className="flex w-max animate-marquee text-muted-foreground motion-reduce:animate-none">
+              <div className="flex w-max animate-marquee text-muted-foreground hover:[animation-play-state:paused] motion-reduce:animate-none">
                 <ul className="flex items-center gap-13 pr-13">
                   {clientIds.map((id) => (
                     <li key={id}>
@@ -113,6 +120,57 @@ export default async function HomePage() {
           <p className="text-muted-foreground">Aucun projet publié pour le moment.</p>
         )}
       </section>
+
+      {about ? (
+        // « À propos » (designs/40-a-propos-accueil): image on the side chosen in the admin, text
+        // first on phones.
+        <section
+          aria-labelledby="a-propos-titre"
+          className="grid items-center gap-12 pt-16 pb-10 md:grid-cols-2 md:gap-12 md:pt-24 lg:gap-16"
+        >
+          <div className="flex flex-col gap-5">
+            {about.eyebrow ? (
+              <span className="self-start rounded-full border border-border/50 bg-card px-4 py-1.5 text-base font-semibold">
+                {about.eyebrow}
+              </span>
+            ) : null}
+            <h2 id="a-propos-titre" className={`${h2} text-balance`}>
+              {about.title}{' '}
+              {about.highlight ? (
+                <span className="rounded-[0.75rem] bg-[#e2e1ff] px-2.5 [box-decoration-break:clone]">
+                  {about.highlight}
+                </span>
+              ) : null}
+            </h2>
+            {about.lead ? (
+              <RichTextOrPlain
+                value={about.lead}
+                className={`${aboutText} text-lg font-semibold text-foreground`}
+              />
+            ) : null}
+            {about.body ? (
+              <RichTextOrPlain value={about.body} className={`${aboutText} text-foreground-soft`} />
+            ) : null}
+            {about.callout ? (
+              <RichTextOrPlain
+                value={about.callout}
+                className={`${aboutText} border-t border-[#e3e4ec] pt-5 text-foreground-soft`}
+              />
+            ) : null}
+          </div>
+          {aboutImage ? (
+            <div
+              className={`aspect-[4/5] overflow-hidden rounded-[2rem] border bg-[#f3f1f7] bg-[image:radial-gradient(420px_circle_at_20%_15%,#dad8fa,rgb(218_216_250/0)_70%),radial-gradient(420px_circle_at_85%_90%,#fce1d3,rgb(252_225_211/0)_70%)] ${about.imagePosition === 'right' ? '' : 'md:order-first'}`}
+            >
+              <MediaById
+                id={aboutImage}
+                sizes="(min-width: 1024px) 560px, 100vw"
+                className="size-full object-cover"
+              />
+            </div>
+          ) : null}
+        </section>
+      ) : null}
 
       {testimonial ? (
         // Variant A of designs/42-temoignage-accueil: the quote on the hero's colours (lilac top left,

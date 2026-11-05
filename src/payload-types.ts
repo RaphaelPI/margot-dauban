@@ -1133,6 +1133,64 @@ export interface Home {
     items?: (string | Project)[] | null;
   };
   /**
+   * Section après les projets : une image d’un côté, le texte de l’autre. Masquée sans titre.
+   */
+  about?: {
+    eyebrow?: string | null;
+    title?: string | null;
+    highlight?: string | null;
+    lead?: {
+      root: {
+        type: string;
+        children: {
+          type: any;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    } | null;
+    body?: {
+      root: {
+        type: string;
+        children: {
+          type: any;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    } | null;
+    callout?: {
+      root: {
+        type: string;
+        children: {
+          type: any;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    } | null;
+    image?: (string | null) | Media;
+    /**
+     * Sur téléphone, l’image passe toujours sous le texte.
+     */
+    imagePosition?: ('left' | 'right') | null;
+  };
+  /**
    * Citation client sur fond dégradé. Vide = bloc masqué.
    */
   testimonial?: {
@@ -1533,6 +1591,18 @@ export interface HomeSelect<T extends boolean = true> {
         title?: T;
         linkLabel?: T;
         items?: T;
+      };
+  about?:
+    | T
+    | {
+        eyebrow?: T;
+        title?: T;
+        highlight?: T;
+        lead?: T;
+        body?: T;
+        callout?: T;
+        image?: T;
+        imagePosition?: T;
       };
   testimonial?:
     | T
