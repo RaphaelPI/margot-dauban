@@ -23,16 +23,26 @@ export function NavLinks({ links }: { links: NavLink[] }) {
   const items = useRef<(HTMLAnchorElement | null)[]>([])
   const [dot, setDot] = useState<{ x: number; animate: boolean } | null>(null)
 
+  const list = useRef<HTMLSpanElement>(null)
   useLayoutEffect(() => {
     const el = active >= 0 ? items.current[active] : null
     if (!el) return setDot(null)
-    const x = el.offsetLeft + el.offsetWidth / 2 - 3
+    const place = (animate: boolean) =>
+      setDot((previous) => ({
+        x: el.offsetLeft + el.offsetWidth / 2 - 3,
+        animate: animate && previous !== null,
+      }))
     // No slide on the first placement, only from one entry to another.
-    setDot((previous) => ({ x, animate: previous !== null }))
+    place(true)
+    // Re-centre without sliding when the menu's size changes (window resize, fonts loading).
+    const observer = new ResizeObserver(() => place(false))
+    if (list.current) observer.observe(list.current)
+    observer.observe(el)
+    return () => observer.disconnect()
   }, [active])
 
   return (
-    <span className="relative flex flex-wrap items-center gap-x-7 gap-y-3">
+    <span ref={list} className="relative flex flex-wrap items-center gap-x-7 gap-y-3">
       {links.map((link, index) => {
         const current = index === active
         return (
