@@ -240,6 +240,50 @@
   }
 }
 
+/* Header (StickyHeader): roomy at the top of the page; once scrolled (`data-scrolled`) it gets
+   shorter and the name, job title and availability badge fold away (fade + collapse), the logo
+   stays. Reduced motion: instant. */
+@utility header-bar {
+  padding-block: 0.875rem;
+  transition: padding-block 0.45s cubic-bezier(0.22, 0.61, 0.36, 1);
+  @media (width >= 48rem) {
+    padding-block: 1.375rem;
+  }
+  [data-scrolled] & {
+    padding-block: 0.5rem;
+    @media (width >= 48rem) {
+      padding-block: 0.625rem;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+}
+
+@utility header-fold {
+  max-width: 13rem;
+  overflow: hidden;
+  white-space: nowrap;
+  transition:
+    max-width 0.5s cubic-bezier(0.22, 0.61, 0.36, 1),
+    opacity 0.3s ease,
+    margin 0.5s cubic-bezier(0.22, 0.61, 0.36, 1),
+    padding 0.5s cubic-bezier(0.22, 0.61, 0.36, 1),
+    border-width 0.5s;
+  [data-scrolled] & {
+    max-width: 0;
+    opacity: 0;
+    margin-left: 0;
+    padding-left: 0;
+    padding-right: 0;
+    border-width: 0;
+    pointer-events: none;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+}
+
 /* Main call to action (designs/38-boutons-liens « CTA principal », CtaLink). The capsule and
    its round are drawn in .cta-bg through the #cta-goo filter; at rest the round sits inside the
    capsule's right end, on hover / focus it slides out (--shift) with a soft bounce and the arrow
