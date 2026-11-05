@@ -1108,9 +1108,40 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
 export interface Home {
   id: string;
   hero: {
-    title: string;
+    /**
+     * Le texte en gras s’affiche surligné en lilas.
+     */
+    title: {
+      root: {
+        type: string;
+        children: {
+          type: any;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    };
     highlight?: string | null;
-    intro?: string | null;
+    intro?: {
+      root: {
+        type: string;
+        children: {
+          type: any;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    } | null;
     ctaLabel?: string | null;
     ctaHref?: string | null;
   };
@@ -1137,7 +1168,24 @@ export interface Home {
    */
   about?: {
     eyebrow?: string | null;
-    title?: string | null;
+    /**
+     * Le texte en gras s’affiche surligné en lilas.
+     */
+    title?: {
+      root: {
+        type: string;
+        children: {
+          type: any;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    } | null;
     highlight?: string | null;
     lead?: {
       root: {
@@ -1195,12 +1243,23 @@ export interface Home {
    */
   testimonial?: {
     /**
-     * Sans guillemets : ils sont ajoutés automatiquement.
+     * Sans guillemets : ils sont ajoutés automatiquement. Le texte en gras (ex. la phrase qui parle du résultat) s’affiche surligné en lilas.
      */
-    quote?: string | null;
-    /**
-     * Ex. la phrase qui parle du résultat. Affichée en lilas après la citation.
-     */
+    quote?: {
+      root: {
+        type: string;
+        children: {
+          type: any;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    } | null;
     highlight?: string | null;
     author?: string | null;
     role?: string | null;
@@ -1233,7 +1292,24 @@ export interface Home {
  */
 export interface ProjectsPage {
   id: string;
-  title: string;
+  /**
+   * Le texte en gras s’affiche surligné en lilas.
+   */
+  title: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
   highlight?: string | null;
   intro?: {
     root: {
@@ -1290,7 +1366,24 @@ export interface ProjectsPage {
 export interface ServicesPage {
   id: string;
   hero: {
-    title: string;
+    /**
+     * Le texte en gras s’affiche surligné en lilas.
+     */
+    title: {
+      root: {
+        type: string;
+        children: {
+          type: any;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    };
     highlight?: string | null;
     lead?: string | null;
     body?: {
@@ -1460,7 +1553,24 @@ export interface FaqPage {
  */
 export interface ContactPage {
   id: string;
-  title: string;
+  /**
+   * Le texte en gras s’affiche surligné en lilas.
+   */
+  title: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
   highlight?: string | null;
   intro?: string | null;
   cards?:

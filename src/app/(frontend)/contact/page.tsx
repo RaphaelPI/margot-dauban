@@ -4,6 +4,7 @@ import { ContactForm } from '@/components/contact-form'
 import { CopyButton } from '@/components/copy-button'
 import { GlowCard } from '@/components/glow-card'
 import { PhosphorIcon } from '@/components/phosphor-icon'
+import { RichTitle } from '@/components/rich-title'
 import { getContactPage } from '@/data/settings'
 import { mailtoAddress } from '@/lib/mailto'
 import { isSafeHref } from '@/lib/safe-href'
@@ -38,12 +39,7 @@ export default async function ContactPageView() {
         <div className="flex flex-col gap-8">
           <div className="flex flex-col gap-4.5">
             <h1 className="font-heading text-[clamp(2rem,4vw,3.125rem)] leading-[1.12] font-semibold tracking-[-0.02em] text-balance">
-              {page.title}{' '}
-              {page.highlight ? (
-                <span className="rounded-[0.875rem] bg-[#e2e1ff] px-3 md:whitespace-nowrap">
-                  {page.highlight}
-                </span>
-              ) : null}
+              <RichTitle value={page.title} />
             </h1>
             {page.intro ? (
               <p className="text-[1.1875rem] leading-[1.55] text-foreground-soft">{page.intro}</p>

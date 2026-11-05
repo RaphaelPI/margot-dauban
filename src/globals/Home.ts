@@ -1,6 +1,7 @@
 import type { GlobalConfig } from 'payload'
 import { loggedIn } from '@/access'
 import { lightText, richTextFrom } from '@/fields/light-editor'
+import { legacyHighlight, titleFrom, titleText } from '@/fields/title-text'
 
 export const Home: GlobalConfig = {
   slug: 'home',
@@ -15,12 +16,13 @@ export const Home: GlobalConfig = {
         {
           name: 'title',
           label: 'Titre',
-          type: 'text',
+          ...titleText('highlight'),
           required: true,
-          defaultValue: 'Webdesigner UI / UX freelance',
+          defaultValue: titleFrom('Webdesigner UI / UX freelance', 'à Toulouse'),
+          admin: { description: 'Le texte en gras s’affiche surligné en lilas.' },
         },
-        { name: 'highlight', label: 'Fin du titre en accent', type: 'text', defaultValue: 'à Toulouse' },
-        { name: 'intro', label: 'Introduction', type: 'textarea' },
+        { name: 'highlight', label: 'Fin du titre en accent (ancien)', ...legacyHighlight },
+        { name: 'intro', label: 'Introduction', ...lightText },
         {
           type: 'row',
           fields: [
@@ -87,13 +89,14 @@ export const Home: GlobalConfig = {
         {
           type: 'row',
           fields: [
-            { name: 'title', label: 'Titre', type: 'text', defaultValue: 'UI / UX Designer freelance' },
             {
-              name: 'highlight',
-              label: 'Fin du titre surlignée',
-              type: 'text',
-              defaultValue: 'basée à Toulouse',
+              name: 'title',
+              label: 'Titre',
+              ...titleText('highlight'),
+              defaultValue: titleFrom('UI / UX Designer freelance', 'basée à Toulouse'),
+              admin: { description: 'Le texte en gras s’affiche surligné en lilas.' },
             },
+            { name: 'highlight', label: 'Fin du titre surlignée (ancien)', ...legacyHighlight },
           ],
         },
         {
@@ -134,15 +137,13 @@ export const Home: GlobalConfig = {
         {
           name: 'quote',
           label: 'Citation',
-          type: 'textarea',
-          admin: { description: 'Sans guillemets : ils sont ajoutés automatiquement.' },
+          ...titleText('highlight'),
+          admin: {
+            description:
+              'Sans guillemets : ils sont ajoutés automatiquement. Le texte en gras (ex. la phrase qui parle du résultat) s’affiche surligné en lilas.',
+          },
         },
-        {
-          name: 'highlight',
-          label: 'Fin de la citation en accent',
-          type: 'text',
-          admin: { description: 'Ex. la phrase qui parle du résultat. Affichée en lilas après la citation.' },
-        },
+        { name: 'highlight', label: 'Fin de la citation en accent (ancien)', ...legacyHighlight },
         {
           type: 'row',
           fields: [

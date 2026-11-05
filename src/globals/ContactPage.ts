@@ -1,6 +1,7 @@
 import type { GlobalConfig } from 'payload'
 import { loggedIn } from '@/access'
 import { seoField } from '@/fields/seo'
+import { legacyHighlight, titleFrom, titleText } from '@/fields/title-text'
 import { validateHref } from '@/lib/safe-href'
 
 // Page « Contact » (/contact, designs/31-page-contact). Messages sent from the form are stored
@@ -12,17 +13,14 @@ export const ContactPage: GlobalConfig = {
   access: { read: () => true, update: loggedIn },
   fields: [
     {
-      type: 'row',
-      fields: [
-        { name: 'title', label: 'Titre', type: 'text', required: true, defaultValue: 'Parlons de votre' },
-        {
-          name: 'highlight',
-          label: 'Fin du titre surlignée',
-          type: 'text',
-          defaultValue: 'projet web',
-        },
-      ],
+      name: 'title',
+      label: 'Titre',
+      ...titleText('highlight'),
+      required: true,
+      defaultValue: titleFrom('Parlons de votre', 'projet web'),
+      admin: { description: 'Le texte en gras s’affiche surligné en lilas.' },
     },
+    { name: 'highlight', label: 'Fin du titre surlignée (ancien)', ...legacyHighlight },
     {
       name: 'intro',
       label: 'Introduction',
