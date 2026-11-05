@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { ArrowLink } from '@/components/arrow-link'
 import { ContactForm } from '@/components/contact-form'
 import { CopyButton } from '@/components/copy-button'
 import { GlowCard } from '@/components/glow-card'
@@ -53,7 +54,7 @@ export default async function ContactPageView() {
             <ul className="flex flex-col gap-2.5">
               {cards.map((card) => {
                 const href = card.href && isSafeHref(card.href) ? card.href : null
-                const external = href?.startsWith('http')
+                const _external = href?.startsWith('http')
                 // mailto: link → a button copies the bare address next to it.
                 const email = mailtoAddress(href)
                 return (
@@ -74,14 +75,13 @@ export default async function ContactPageView() {
                         ) : null}
                         {href ? (
                           <span className="flex flex-wrap items-center gap-x-2 gap-y-1">
-                            <a
+                            <ArrowLink
                               href={href}
-                              {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-                              className="font-bold break-words hover:text-primary-strong"
+                              className="max-w-full text-base [&_.arrow-link-text]:min-w-0 [&_.arrow-link-text]:break-words"
                             >
-                              {card.value}
-                              {external ? <span className="sr-only"> (nouvel onglet)</span> : null}
-                            </a>
+                              {/* The round's pictogram replaces a typed arrow. */}
+                              {card.value.replace(/\s*[→↗]\s*$/, '')}
+                            </ArrowLink>
                             {email ? <CopyButton value={email} label={`Copier l’adresse ${email}`} /> : null}
                           </span>
                         ) : (

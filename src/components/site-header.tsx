@@ -1,8 +1,8 @@
 import Link from 'next/link'
+import { CtaLink } from '@/components/cta-link'
 import { MobileMenu } from '@/components/mobile-menu'
 import { MediaImage } from '@/components/models/media-image'
 import { StickyHeader } from '@/components/sticky-header'
-import { Button } from '@/components/ui/button'
 import { getSettings } from '@/data/settings'
 
 export async function SiteHeader() {
@@ -63,9 +63,7 @@ export async function SiteHeader() {
             </Link>
           ))}
           {settings.headerCta?.label && settings.headerCta.href ? (
-            <Button asChild className="h-auto rounded-full px-5 py-3 text-base font-bold">
-              <Link href={settings.headerCta.href}>{settings.headerCta.label}</Link>
-            </Button>
+            <CtaLink href={settings.headerCta.href}>{settings.headerCta.label}</CtaLink>
           ) : null}
         </nav>
         <MobileMenu

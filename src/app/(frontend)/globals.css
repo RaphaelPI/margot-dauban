@@ -240,6 +240,236 @@
   }
 }
 
+/* Main call to action (designs/38-boutons-liens « CTA principal », CtaLink). The capsule and
+   its round are drawn in .cta-bg through the #cta-goo filter; at rest the round sits inside the
+   capsule's right end, on hover / focus it slides out (--shift) with a soft bounce and the arrow
+   turns. The link reserves the round's free space on the right. Touch screens: plain capsule,
+   pressed on tap. Reduced motion: only the colour changes. */
+@utility cta {
+  --h: 48px;
+  --shift: 60px;
+  --fill: var(--primary);
+  --fill-hover: #4338ca;
+  --cta-ink: #fff;
+  position: relative;
+  isolation: isolate;
+  display: inline-flex;
+  align-items: center;
+  height: var(--h);
+  padding: 0 calc(var(--shift) + var(--h) + 4px) 0 22px;
+  border-radius: 999px;
+  color: var(--cta-ink);
+  font-size: 1rem;
+  font-weight: 700;
+  white-space: nowrap;
+  &[data-tone="black"] {
+    --fill: #121814;
+    --fill-hover: #2b312d;
+  }
+  &[data-tone="white"] {
+    --fill: #fff;
+    --fill-hover: #eeedff;
+    --cta-ink: var(--primary-strong);
+  }
+  & .cta-bg {
+    position: absolute;
+    inset: -12px;
+    z-index: -1;
+    filter: url(#cta-goo);
+    pointer-events: none;
+  }
+  & .cta-pill,
+  & .cta-dot {
+    position: absolute;
+    background: var(--fill);
+    border-radius: 999px;
+    transition: background-color 0.3s;
+  }
+  & .cta-pill {
+    inset: 12px calc(12px + var(--shift)) 12px 12px;
+  }
+  & .cta-dot,
+  & .cta-arrow {
+    position: absolute;
+    width: var(--h);
+    height: var(--h);
+    transform: translateX(calc(var(--shift) * -1));
+  }
+  & .cta-dot {
+    top: 12px;
+    right: 12px;
+    transition:
+      transform 0.7s cubic-bezier(0.3, 1.2, 0.5, 1),
+      background-color 0.3s;
+  }
+  & .cta-arrow {
+    top: 0;
+    right: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.7s cubic-bezier(0.3, 1.2, 0.5, 1);
+  }
+  & .cta-glyph {
+    display: block;
+    transition: transform 0.5s cubic-bezier(0.3, 1.2, 0.5, 1);
+  }
+  &:hover .cta-pill,
+  &:hover .cta-dot,
+  &:focus-visible .cta-pill,
+  &:focus-visible .cta-dot {
+    background: var(--fill-hover);
+  }
+  &:focus-visible {
+    outline: 3px solid var(--primary);
+    outline-offset: 4px;
+  }
+  &[data-tone="white"]:focus-visible {
+    outline-color: #fff;
+  }
+  @media (hover: hover) and (prefers-reduced-motion: no-preference) {
+    &:hover .cta-dot,
+    &:hover .cta-arrow,
+    &:focus-visible .cta-dot,
+    &:focus-visible .cta-arrow {
+      transform: none;
+    }
+    &:hover .cta-glyph,
+    &:focus-visible .cta-glyph {
+      transform: rotate(-45deg);
+    }
+  }
+  /* Touch: no free space to reserve, the arrow stays in the capsule; pressed on tap. */
+  @media (hover: none) {
+    --shift: 0px;
+    padding-right: calc(var(--h) + 4px);
+    transition: transform 0.15s;
+    &:active {
+      transform: scale(0.97);
+    }
+    & .cta-pill {
+      inset: 12px;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    &,
+    & .cta-dot,
+    & .cta-arrow,
+    & .cta-glyph {
+      transition: none;
+    }
+  }
+}
+
+/* Secondary link with a round pictogram (ArrowLink): no underline (designer's choice); on hover
+   the lilac round turns indigo and the pictogram makes a gentle gesture per `data-icon`.
+   Reduced motion: colours only. */
+@utility arrow-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.625rem;
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--foreground);
+  transition: color 0.4s ease;
+  & .arrow-link-icon {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    overflow: hidden;
+    border-radius: 50%;
+    background: #e7e6ff;
+    color: var(--primary-strong);
+    transition:
+      background-color 0.3s,
+      color 0.3s,
+      transform 0.5s cubic-bezier(0.3, 1.2, 0.5, 1);
+  }
+  & svg {
+    display: block;
+  }
+  &:hover,
+  &:focus-visible {
+    color: var(--primary-strong);
+  }
+  &:hover .arrow-link-icon,
+  &:focus-visible .arrow-link-icon {
+    background: var(--primary);
+    color: #fff;
+  }
+  &:focus-visible {
+    outline: 3px solid var(--primary);
+    outline-offset: 4px;
+    border-radius: 999px;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    &[data-icon="arrow"]:hover .arrow-link-icon {
+      transform: rotate(-45deg);
+    }
+    &[data-icon="external"]:hover svg {
+      animation: arrow-link-fly 0.7s cubic-bezier(0.45, 0, 0.55, 1);
+    }
+    &[data-icon="down"]:hover svg {
+      animation: arrow-link-drop 0.7s cubic-bezier(0.45, 0, 0.55, 1);
+    }
+    &[data-icon="mail"]:hover svg {
+      animation: arrow-link-tilt 0.7s ease-in-out;
+    }
+    &[data-icon="phone"]:hover svg {
+      animation: arrow-link-ring 0.8s ease-in-out;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    &,
+    & .arrow-link-icon {
+      transition: none;
+    }
+  }
+}
+
+@keyframes arrow-link-fly {
+  49% {
+    transform: translate(14px, -14px);
+  }
+  50% {
+    transform: translate(-14px, 14px);
+  }
+}
+
+@keyframes arrow-link-drop {
+  49% {
+    transform: translateY(16px);
+  }
+  50% {
+    transform: translateY(-16px);
+  }
+}
+
+@keyframes arrow-link-tilt {
+  30% {
+    transform: rotate(-12deg) scale(1.1);
+  }
+  60% {
+    transform: rotate(8deg);
+  }
+}
+
+@keyframes arrow-link-ring {
+  15%,
+  45%,
+  75% {
+    transform: rotate(-14deg);
+  }
+  30%,
+  60%,
+  90% {
+    transform: rotate(14deg);
+  }
+}
+
 /* Phone menu (designs/34-menu-mobile). Burger: three equal lines (like Lucide « menu »), turning
    into a cross. Panel: full-screen indigo dropping from the top, links appearing one by one
    (each item sets --i). Reduced motion: no movement. */
