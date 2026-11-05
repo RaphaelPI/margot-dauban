@@ -26,14 +26,15 @@ export function MobileMenu({
   const button = useRef<HTMLButtonElement>(null)
   // Every link in the panel closes it on click (also when it points to the current page).
 
+  // Only while open: lock the page behind, and undo it all on close or unmount.
   useEffect(() => {
+    if (!open) return
     const root = document.documentElement
     const behind = [...document.querySelectorAll<HTMLElement>('body > main, body > footer')]
-    if (open) root.dataset.menu = 'open'
-    else delete root.dataset.menu
-    root.style.overflow = open ? 'hidden' : ''
-    for (const el of behind) el.inert = open
-    if (!open) return
+    const overflow = root.style.overflow
+    root.dataset.menu = 'open'
+    root.style.overflow = 'hidden'
+    for (const el of behind) el.inert = true
     const onKey = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
         setOpen(false)
@@ -41,7 +42,12 @@ export function MobileMenu({
       }
     }
     document.addEventListener('keydown', onKey)
-    return () => document.removeEventListener('keydown', onKey)
+    return () => {
+      document.removeEventListener('keydown', onKey)
+      delete root.dataset.menu
+      root.style.overflow = overflow
+      for (const el of behind) el.inert = false
+    }
   }, [open])
 
   // Leaving the phone layout (rotation, resize) closes it.
@@ -113,15 +119,26 @@ export function MobileMenu({
                       const external = link.href.startsWith('http')
                       return (
                         <li key={link.id ?? link.href}>
-                          <a
-                            href={link.href}
-                            onClick={close}
-                            {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-                            className="underline-offset-4 hover:underline"
-                          >
-                            {link.label}
-                            {external ? <span className="sr-only"> (nouvel onglet)</span> : null}
-                          </a>
+                          {external ? (
+                            <a
+                              href={link.href}
+                              onClick={close}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="underline-offset-4 hover:underline"
+                            >
+                              {link.label}
+                              <span className="sr-only"> (nouvel onglet)</span>
+                            </a>
+                          ) : (
+                            <Link
+                              href={link.href}
+                              onClick={close}
+                              className="underline-offset-4 hover:underline"
+                            >
+                              {link.label}
+                            </Link>
+                          )}
                         </li>
                       )
                     })}
