@@ -1,5 +1,6 @@
 import type { GlobalConfig } from 'payload'
 import { loggedIn } from '@/access'
+import { lightText, richTextFrom } from '@/fields/light-editor'
 
 export const Home: GlobalConfig = {
   slug: 'home',
@@ -70,6 +71,57 @@ export const Home: GlobalConfig = {
           relationTo: 'projects',
           hasMany: true,
           admin: { description: 'Vide = les projets « mis en avant », du plus récent au plus ancien.' },
+        },
+      ],
+    },
+    {
+      name: 'about',
+      label: 'À propos',
+      type: 'group',
+      admin: {
+        description:
+          'Section après les projets : une image d’un côté, le texte de l’autre. Masquée sans titre.',
+      },
+      fields: [
+        { name: 'eyebrow', label: 'Étiquette', type: 'text', defaultValue: 'Bonjour, moi c’est Margot' },
+        {
+          type: 'row',
+          fields: [
+            { name: 'title', label: 'Titre', type: 'text', defaultValue: 'UI / UX Designer freelance' },
+            {
+              name: 'highlight',
+              label: 'Fin du titre surlignée',
+              type: 'text',
+              defaultValue: 'basée à Toulouse',
+            },
+          ],
+        },
+        {
+          name: 'lead',
+          label: 'Accroche (en gras)',
+          ...lightText,
+          defaultValue: richTextFrom(
+            'UI/UX et product designer freelance à Toulouse, je conçois des interfaces pour des applications métier, des plateformes SaaS et des sites web.',
+          ),
+        },
+        { name: 'body', label: 'Paragraphes', ...lightText },
+        { name: 'callout', label: 'Phrase sous le trait', ...lightText },
+        {
+          type: 'row',
+          fields: [
+            { name: 'image', label: 'Image', type: 'upload', relationTo: 'media' },
+            {
+              name: 'imagePosition',
+              label: 'Position de l’image',
+              type: 'radio',
+              defaultValue: 'left',
+              options: [
+                { label: 'À gauche', value: 'left' },
+                { label: 'À droite', value: 'right' },
+              ],
+              admin: { description: 'Sur téléphone, l’image passe toujours sous le texte.' },
+            },
+          ],
         },
       ],
     },
