@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Menu mobile — Plein écran indigo</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Albert+Sans:wght@400;500;600;700&amp;family=Unbounded:wght@500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#F7F7FA}
+button{font:inherit;color:inherit}
+a{color:inherit;text-decoration:none}
+ul{margin:0;padding:0;list-style:none}
+button:focus-visible,a:focus-visible{outline:3px solid #4F46E5;outline-offset:2px}
+.tel{position:relative;width:350px;height:720px;border-radius:46px;border:10px solid #121814;overflow:hidden;box-sizing:border-box;background:radial-gradient(260px 220px at 10% 0, #DAD8FA, rgba(247,247,250,0) 70%),radial-gradient(260px 220px at 95% 60px, #FCE1D3, rgba(247,247,250,0) 70%),#F7F7FA;box-shadow:0 30px 60px rgba(40,36,90,.18);font-size:15px;color:#121814}
+.tel::before{content:"";position:absolute;top:8px;left:50%;width:96px;height:26px;margin-left:-48px;border-radius:999px;background:#121814;z-index:20}
+.m-header{position:relative;z-index:15;display:flex;justify-content:space-between;align-items:center;padding:46px 18px 12px}
+.m-marque{display:flex;align-items:center;gap:10px;transition:color .3s}
+.m-avatar{width:36px;height:36px;border-radius:50%;background:#E2E1FF;border:2px solid #FFFFFF;display:flex;align-items:center;justify-content:center;font-family:Unbounded,system-ui,sans-serif;font-weight:700;font-size:12px;color:#3730A3}
+.m-page{display:flex;flex-direction:column;gap:14px;padding:18px 20px}
+.m-dispo{display:inline-flex;align-self:flex-start;align-items:center;gap:7px;background:#FFFFFF;border:1px solid #E3E4EC;border-radius:999px;padding:6px 12px;font-size:12px;font-weight:600;color:#1D6B3E}
+.m-dispo i{width:7px;height:7px;border-radius:50%;background:#1F9D55;animation:clignote 1.8s ease-in-out infinite}
+@keyframes clignote{0%,100%{opacity:1}50%{opacity:.4}}
+
+.burger{position:relative;width:44px;height:44px;border-radius:14px;border:1px solid #E1E5DF;background:#FFFFFF;cursor:pointer;padding:0}
+.burger span{position:absolute;left:12px;width:18px;height:2px;border-radius:2px;background:#121814;transition:transform .35s cubic-bezier(.65,0,.35,1),opacity .2s,background .3s,width .3s}
+.burger span:nth-child(1){top:15px}.burger span:nth-child(2){top:21px;width:12px}.burger span:nth-child(3){top:27px}
+.ouvert .burger span:nth-child(1){transform:translateY(6px) rotate(45deg)}
+.ouvert .burger span:nth-child(2){opacity:0}
+.ouvert .burger span:nth-child(3){transform:translateY(-6px) rotate(-45deg)}
+
+/* A */
+.a-panneau{position:absolute;inset:0;z-index:10;background:radial-gradient(70% 50% at 100% 0,#6C64F0,rgba(108,100,240,0) 70%),#4F46E5;color:#FFFFFF;padding:120px 26px 34px;display:flex;flex-direction:column;justify-content:space-between;transform:translateY(-100%);transition:transform .55s cubic-bezier(.65,0,.35,1)}
+.a.ouvert .a-panneau{transform:none}
+.a.ouvert .m-marque{color:#FFFFFF}
+.a.ouvert .burger-a{background:rgba(255,255,255,.14);border-color:rgba(255,255,255,.25)}
+.a.ouvert .burger-a span{background:#FFFFFF}
+.a-panneau ul{display:flex;flex-direction:column;gap:6px}
+.a-panneau li,.a-bas{opacity:0;transform:translateY(16px);transition:opacity .4s,transform .4s;transition-delay:0s}
+.a.ouvert .a-panneau li,.a.ouvert .a-bas{opacity:1;transform:none;transition-delay:calc(.3s + var(--i) * .07s)}
+.a-panneau li a{display:flex;align-items:baseline;gap:14px;font-family:Unbounded,system-ui,sans-serif;font-weight:600;font-size:30px;letter-spacing:-.02em;padding:8px 0}
+.a-num{font-family:'Albert Sans',system-ui,sans-serif;font-size:12px;font-weight:700;color:#B9B4F5}
+.a-bas{display:flex;flex-direction:column;gap:20px}
+.a-cta{display:flex;justify-content:center;background:#FFFFFF;color:#3730A3;font-weight:700;padding:16px;border-radius:999px}
+
+/* B */
+.b-voile{position:absolute;inset:0;z-index:16;background:rgba(18,24,20,.32);backdrop-filter:blur(3px);opacity:0;pointer-events:none;transition:opacity .35s}
+.b.ouvert .b-voile{opacity:1;pointer-events:auto}
+.b-feuille{position:absolute;left:0;right:0;bottom:0;z-index:17;background:#FFFFFF;border-radius:28px 28px 0 0;padding:12px 20px 28px;display:flex;flex-direction:column;gap:16px;box-shadow:0 -20px 40px rgba(40,36,90,.18);transform:translateY(105%);transition:transform .5s cubic-bezier(.22,1.2,.36,1)}
+.b.ouvert .b-feuille{transform:none}
+.b-poignee{align-self:center;width:40px;height:5px;border-radius:5px;background:#DCDCE5}
+.b-fermer{width:36px;height:36px;border-radius:50%;border:0;background:#F1F1F5;font-size:20px;cursor:pointer}
+.b-feuille ul{display:flex;flex-direction:column}
+.b-feuille li{opacity:0;transform:translateY(10px);transition:opacity .3s,transform .3s}
+.b.ouvert .b-feuille li{opacity:1;transform:none;transition-delay:calc(.2s + var(--i) * .05s)}
+.b-feuille li a{display:flex;align-items:center;gap:14px;padding:14px 4px;border-bottom:1px solid #F1F1F5;font-weight:700;font-size:16px}
+.b-ico{width:38px;height:38px;border-radius:12px;background:#E7E6FF;color:#3730A3;display:flex;align-items:center;justify-content:center}
+.b-chev{margin-left:auto;font-size:22px;color:#A9A6C9}
+.b-cta{display:flex;justify-content:center;background:#4F46E5;color:#FFFFFF;font-weight:700;padding:16px;border-radius:999px;box-shadow:0 12px 26px rgba(79,70,229,.3)}
+
+/* C */
+.c-carte{position:absolute;top:106px;left:14px;right:14px;z-index:12;background:#FFFFFF;border:1px solid #E1E5DF;border-radius:26px;padding:14px;display:flex;flex-direction:column;gap:12px;box-shadow:0 30px 60px rgba(40,36,90,.2);transform-origin:calc(100% - 26px) -10px;transform:scale(.4);opacity:0;pointer-events:none;transition:transform .45s cubic-bezier(.34,1.4,.64,1),opacity .25s}
+.c.ouvert .c-carte{transform:none;opacity:1;pointer-events:auto}
+.c.ouvert .burger-c{background:#4F46E5;border-color:#4F46E5}
+.c.ouvert .burger-c span{background:#FFFFFF}
+.c-carte ul{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.c-carte li{opacity:0;transform:scale(.9);transition:opacity .3s,transform .3s}
+.c.ouvert .c-carte li{opacity:1;transform:none;transition-delay:calc(.15s + var(--i) * .05s)}
+.c-carte li a{display:flex;flex-direction:column;gap:4px;padding:14px;border-radius:18px;min-height:100px;box-sizing:border-box}
+.c-carte li a strong{font-size:15px;margin-top:auto}
+.c-ico{width:32px;height:32px;border-radius:10px;background:rgba(255,255,255,.7);display:flex;align-items:center;justify-content:center}
+.c-cta{display:flex;justify-content:space-between;align-items:center;background:#121814;color:#FFFFFF;font-weight:700;padding:16px 20px;border-radius:16px}
+
+/* D */
+.d-rideau{position:absolute;inset:0;z-index:10;background:radial-gradient(320px 260px at 0 10%, #DAD8FA, rgba(243,238,241,0) 70%),radial-gradient(320px 300px at 100% 90%, #FCE1D3, rgba(243,238,241,0) 70%),#F3EEF1;padding:126px 24px 32px;display:flex;flex-direction:column;justify-content:space-between;clip-path:circle(0 at calc(100% - 40px) 68px);transition:clip-path .6s cubic-bezier(.65,0,.35,1)}
+.d.ouvert .d-rideau{clip-path:circle(150% at calc(100% - 40px) 68px)}
+.d.ouvert .burger-d{background:#4F46E5;border-color:#4F46E5;border-radius:50%}
+.d.ouvert .burger-d span{background:#FFFFFF}
+.d-rideau ul{display:flex;flex-direction:column;gap:4px}
+.d-rideau li,.d-bas{opacity:0;transform:translateX(-16px);transition:opacity .35s,transform .35s}
+.d.ouvert .d-rideau li,.d.ouvert .d-bas{opacity:1;transform:none;transition-delay:calc(.3s + var(--i) * .07s)}
+.d-rideau li a{display:flex;align-items:center;justify-content:space-between;font-family:Unbounded,system-ui,sans-serif;font-weight:600;font-size:28px;letter-spacing:-.02em;padding:10px 14px;margin:0 -14px;border-radius:16px}
+.d-rideau li a.actif{background:#E2E1FF;color:#3730A3}
+.d-fleche{font-family:'Albert Sans',system-ui,sans-serif;font-size:20px;color:#4F46E5;opacity:0;transform:translateX(-8px);transition:opacity .2s,transform .2s}
+.d-rideau li a.actif .d-fleche,.d-rideau li a:hover .d-fleche{opacity:1;transform:none}
+.d-bas{display:flex;flex-direction:column;gap:14px}
+.d-cta{display:flex;justify-content:center;background:#4F46E5;color:#FFFFFF;font-weight:700;padding:16px;border-radius:999px}
+@media (prefers-reduced-motion: reduce){*{transition-duration:.01s !important;animation:none !important}}
+</style>
+</helmet>
+<div style="font-family: 'Albert Sans', system-ui, sans-serif; color: #121814; background: #F7F7FA">
+  <div style="max-width: 1240px; margin: 0 auto; padding: 72px 32px 96px; display: flex; flex-direction: column; gap: 44px">
+    <div style="display: flex; justify-content: space-between; align-items: flex-end; gap: 24px; flex-wrap: wrap">
+      <div style="display: flex; flex-direction: column; gap: 10px; max-width: 760px">
+        <span style="font-size: 13px; font-weight: 700; color: #4F46E5; text-transform: uppercase; letter-spacing: 0.08em">Navigation mobile</span>
+        <h1 style="margin: 0; font-family: Unbounded, system-ui, sans-serif; font-weight: 600; font-size: 34px; letter-spacing: -0.02em">Menu mobile — plein écran indigo</h1>
+        <p style="margin: 0; font-size: 17px; line-height: 1.6; color: #4A544D">État fermé et état ouvert. Touchez le burger ou la croix pour jouer l’animation.</p>
+      </div>
+    </div>
+    <div style="display: flex; gap: 40px; flex-wrap: wrap; justify-content: center">
+      <article style="display: flex; flex-direction: column; gap: 14px; align-items: center">
+        <div class="{{ a.cls }}">
+          <div class="m-header "><span class="m-marque"><span class="m-avatar">M</span><span style="display: flex; flex-direction: column; line-height: 1.2"><strong style="font-family: Unbounded, system-ui, sans-serif; font-size: 13px">Margot Dauban</strong><span style="font-size: 11px; opacity: .75">Webdesigner UI / UX</span></span></span><button type="button" class="burger burger-a" aria-label="{{ a.aria }}" aria-expanded="{{ a.exp }}" onClick="{{ a.toggle }}"><span></span><span></span><span></span></button></div>
+          <div class="m-page" aria-hidden="true">
+            <span class="m-dispo"><i></i>Disponible</span>
+            <strong style="font-family: Unbounded, system-ui, sans-serif; font-weight: 600; font-size: 25px; line-height: 1.15; letter-spacing: -0.02em">Webdesigner UI / UX freelance à Toulouse</strong>
+            <span style="font-size: 14px; line-height: 1.5; color: #4A544D">Des interfaces claires pour vos sites, SaaS et logiciels métier.</span>
+            <span style="align-self: flex-start; background: #4F46E5; color: #FFFFFF; font-size: 14px; font-weight: 700; padding: 12px 18px; border-radius: 999px">Voir mes projets ↓</span>
+            <span style="height: 170px; border-radius: 18px; background: #FFFFFF; border: 1px solid #E1E5DF; margin-top: 8px"></span>
+          </div>
+          <nav class="a-panneau" aria-label="Menu principal">
+            <ul>
+              <li style="--i: 0"><a href="#"><span class="a-num">01</span>Projets</a></li><li style="--i: 1"><a href="#"><span class="a-num">02</span>Témoignages</a></li><li style="--i: 2"><a href="#"><span class="a-num">03</span>Services</a></li><li style="--i: 3"><a href="#"><span class="a-num">04</span>À propos</a></li>
+            </ul>
+            <div class="a-bas" style="--i: 5">
+              <a href="#" class="a-cta">Me contacter →</a>
+              <div style="display: flex; gap: 16px; font-size: 13px; font-weight: 600"><a href="#" style="color: #E4E2FF">Malt</a><a href="#" style="color: #E4E2FF">LinkedIn</a><a href="#" style="color: #E4E2FF">FAQ</a></div>
+            </div>
+          </nav>
+        </div>
+        <span style="font-size: 14px; font-weight: 700; color: #4A544D">Fermé</span>
+      </article>
+      <article style="display: flex; flex-direction: column; gap: 14px; align-items: center">
+        <div class="{{ e.cls }}">
+          <div class="m-header "><span class="m-marque"><span class="m-avatar">M</span><span style="display: flex; flex-direction: column; line-height: 1.2"><strong style="font-family: Unbounded, system-ui, sans-serif; font-size: 13px">Margot Dauban</strong><span style="font-size: 11px; opacity: .75">Webdesigner UI / UX</span></span></span><button type="button" class="burger burger-a" aria-label="{{ e.aria }}" aria-expanded="{{ e.exp }}" onClick="{{ e.toggle }}"><span></span><span></span><span></span></button></div>
+          <div class="m-page" aria-hidden="true">
+            <span class="m-dispo"><i></i>Disponible</span>
+            <strong style="font-family: Unbounded, system-ui, sans-serif; font-weight: 600; font-size: 25px; line-height: 1.15; letter-spacing: -0.02em">Webdesigner UI / UX freelance à Toulouse</strong>
+            <span style="font-size: 14px; line-height: 1.5; color: #4A544D">Des interfaces claires pour vos sites, SaaS et logiciels métier.</span>
+            <span style="align-self: flex-start; background: #4F46E5; color: #FFFFFF; font-size: 14px; font-weight: 700; padding: 12px 18px; border-radius: 999px">Voir mes projets ↓</span>
+            <span style="height: 170px; border-radius: 18px; background: #FFFFFF; border: 1px solid #E1E5DF; margin-top: 8px"></span>
+          </div>
+          <nav class="a-panneau" aria-label="Menu principal">
+            <ul>
+              <li style="--i: 0"><a href="#"><span class="a-num">01</span>Projets</a></li><li style="--i: 1"><a href="#"><span class="a-num">02</span>Témoignages</a></li><li style="--i: 2"><a href="#"><span class="a-num">03</span>Services</a></li><li style="--i: 3"><a href="#"><span class="a-num">04</span>À propos</a></li>
+            </ul>
+            <div class="a-bas" style="--i: 5">
+              <a href="#" class="a-cta">Me contacter →</a>
+              <div style="display: flex; gap: 16px; font-size: 13px; font-weight: 600"><a href="#" style="color: #E4E2FF">Malt</a><a href="#" style="color: #E4E2FF">LinkedIn</a><a href="#" style="color: #E4E2FF">FAQ</a></div>
+            </div>
+          </nav>
+        </div>
+        <span style="font-size: 14px; font-weight: 700; color: #4A544D">Ouvert</span>
+      </article>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1100}}'>
+class Component extends DCLogic {
+  renderVals() {
+    var self = this; var st = this.state || {};
+    var v = function (k, def) {
+      var o = st[k] === undefined ? def : st[k];
+      return { cls: 'tel a' + (o ? ' ouvert' : ''), exp: o ? 'true' : 'false', aria: o ? 'Fermer le menu' : 'Ouvrir le menu',
+        toggle: function () { var x = {}; x[k] = !o; self.setState(x); } };
+    };
+    return { a: v('a', false), e: v('e', true) };
+  }
+}
+</script>
+</body>
+</html>
