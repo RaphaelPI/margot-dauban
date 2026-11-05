@@ -21,15 +21,11 @@ export async function SiteHeader() {
         <div className="flex flex-wrap items-center gap-x-5 gap-y-3">
           <Link href="/" className="flex items-center gap-3 rounded-full">
             {typeof settings.photo === 'object' && settings.photo ? (
-              <MediaImage
-                media={settings.photo}
-                sizes="44px"
-                className="size-11 rounded-full border-2 border-card object-cover"
-              />
+              <MediaImage media={settings.photo} sizes="52px" className="size-13 rounded-full object-cover" />
             ) : (
               <span
                 aria-hidden="true"
-                className="flex size-11 items-center justify-center rounded-full border-2 border-card bg-accent font-heading text-sm font-semibold"
+                className="flex size-13 items-center justify-center rounded-full bg-accent font-heading text-sm font-semibold"
               >
                 {initials}
               </span>
