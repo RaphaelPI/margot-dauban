@@ -1625,6 +1625,10 @@ export interface Setting {
   siteName: string;
   jobTitle?: string | null;
   photo?: (string | null) | Media;
+  /**
+   * Petite icône dans l’onglet du navigateur. Image carrée, PNG ou SVG, au moins 512 × 512 px.
+   */
+  favicon?: (string | null) | Media;
   available?: boolean | null;
   availabilityLabel?: string | null;
   email?: string | null;
@@ -1910,6 +1914,7 @@ export interface SettingsSelect<T extends boolean = true> {
   siteName?: T;
   jobTitle?: T;
   photo?: T;
+  favicon?: T;
   available?: T;
   availabilityLabel?: T;
   email?: T;

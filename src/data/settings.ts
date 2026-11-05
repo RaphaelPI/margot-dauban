@@ -10,6 +10,8 @@ export async function getSettings() {
   const payload = await getPayload()
   const settings = await payload.findGlobal({ slug: 'settings', depth: 1 })
   if (typeof settings.photo === 'object' && settings.photo) cacheTag(tags.doc('media', settings.photo.id))
+  if (typeof settings.favicon === 'object' && settings.favicon)
+    cacheTag(tags.doc('media', settings.favicon.id))
   return settings
 }
 
