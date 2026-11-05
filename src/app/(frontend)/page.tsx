@@ -115,10 +115,10 @@ export default async function HomePage() {
       </section>
 
       {testimonial ? (
-        // Variant A of designs/42-temoignage-accueil: the quote on the hero's own gradient (`bg-hero`),
-        // without the watermark quote mark (designer's tweaks).
+        // Variant A of designs/42-temoignage-accueil: the quote on the hero's colours (lilac top left,
+        // peach bottom right, as in the designer's screenshot), no watermark quote mark.
         <section id="temoignages" aria-label="Témoignage" className="pt-16 pb-10 md:pt-24">
-          <figure className="bg-hero relative flex flex-col gap-9 overflow-hidden rounded-[2.25rem] p-[clamp(2.25rem,6vw,5rem)]">
+          <figure className="relative flex flex-col gap-9 overflow-hidden rounded-[2.25rem] bg-[radial-gradient(520px_360px_at_8%_0,#dad8fa,rgb(243_238_241/0)_70%),radial-gradient(520px_380px_at_96%_100%,var(--peach),rgb(243_238_241/0)_70%),#f3eef1] p-[clamp(2.25rem,6vw,5rem)]">
             <blockquote className="relative max-w-240 font-heading text-[clamp(1.5rem,3vw,2.375rem)] leading-[1.3] font-medium tracking-[-0.01em]">
               « {testimonial.quote}
               {testimonial.highlight ? (
