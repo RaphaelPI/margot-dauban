@@ -235,6 +235,116 @@
   }
 }
 
+/* Phone menu (designs/34-menu-mobile). Burger: three lines, the middle one shorter, turning
+   into a cross. Panel: full-screen indigo dropping from the top, links appearing one by one
+   (each item sets --i). Reduced motion: no movement. */
+@utility burger {
+  cursor: pointer;
+  transition:
+    background-color 0.3s,
+    border-color 0.3s;
+  & span {
+    position: absolute;
+    left: 12px;
+    width: 18px;
+    height: 2px;
+    border-radius: 2px;
+    background: var(--foreground);
+    transition:
+      transform 0.35s cubic-bezier(0.65, 0, 0.35, 1),
+      opacity 0.2s,
+      background-color 0.3s;
+  }
+  & span:nth-child(1) {
+    top: 14px;
+  }
+  & span:nth-child(2) {
+    top: 20px;
+    width: 12px;
+  }
+  & span:nth-child(3) {
+    top: 26px;
+  }
+  &[data-open="true"] {
+    background: rgb(255 255 255 / 0.14);
+    border-color: rgb(255 255 255 / 0.25);
+  }
+  &[data-open="true"] span {
+    background: #fff;
+  }
+  &[data-open="true"] span:nth-child(1) {
+    transform: translateY(6px) rotate(45deg);
+  }
+  &[data-open="true"] span:nth-child(2) {
+    opacity: 0;
+  }
+  &[data-open="true"] span:nth-child(3) {
+    transform: translateY(-6px) rotate(-45deg);
+  }
+  &:focus-visible {
+    outline: 3px solid var(--primary);
+    outline-offset: 2px;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    &,
+    & span {
+      transition: none;
+    }
+  }
+}
+
+@utility menu-panel {
+  position: fixed;
+  inset: 0;
+  z-index: 30;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 2.5rem;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: calc(var(--header-h, 4.5rem) + 2.5rem) 1.625rem 2.125rem;
+  background: radial-gradient(70% 50% at 100% 0, #6c64f0, rgb(108 100 240 / 0) 70%), var(--primary);
+  color: #fff;
+  transform: translateY(-100%);
+  visibility: hidden;
+  transition:
+    transform 0.55s cubic-bezier(0.65, 0, 0.35, 1),
+    visibility 0s 0.55s;
+  & > ul > li,
+  & > div {
+    opacity: 0;
+    transform: translateY(16px);
+    transition:
+      opacity 0.4s,
+      transform 0.4s;
+  }
+  & a:focus-visible {
+    outline: 3px solid #fff;
+    outline-offset: 3px;
+    border-radius: 0.5rem;
+  }
+  &[data-open="true"] {
+    transform: none;
+    visibility: visible;
+    transition: transform 0.55s cubic-bezier(0.65, 0, 0.35, 1);
+  }
+  &[data-open="true"] > ul > li,
+  &[data-open="true"] > div {
+    opacity: 1;
+    transform: none;
+    transition-delay: calc(0.3s + var(--i, 0) * 0.07s);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    &,
+    &[data-open="true"],
+    & > ul > li,
+    & > div {
+      transition: none;
+    }
+  }
+}
+
 /* Contact form send button (designs/31-page-contact): dashed and white while the e-mail is
    incomplete, indigo filling left → right once it is valid (`data-ready`), with a one-off halo
    and a wiggling arrow; the same transition plays backwards. Reduced motion: colours swap at once. */
