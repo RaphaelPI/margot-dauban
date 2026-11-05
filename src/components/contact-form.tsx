@@ -14,7 +14,7 @@ type Texts = {
 }
 
 const field =
-  'min-h-12 w-full rounded-xl border border-[#d9dae4] bg-card px-4 py-3 text-base transition-[border-color,box-shadow] placeholder:text-[#76768a] focus:border-primary focus:shadow-[0_0_0_4px_rgb(79_70_229/0.15)] focus:outline-none aria-invalid:border-destructive motion-reduce:transition-none'
+  'min-h-12 w-full rounded-xl border border-[#d9dae4] bg-card px-4 py-3 text-base font-normal transition-[border-color,box-shadow] placeholder:text-[#9a9aa8] focus:border-primary focus:shadow-[0_0_0_4px_rgb(79_70_229/0.15)] focus:outline-none aria-invalid:border-destructive motion-reduce:transition-none'
 const labelClass = 'flex flex-col gap-2 text-base font-semibold'
 const errorClass = 'text-base font-normal text-destructive'
 
