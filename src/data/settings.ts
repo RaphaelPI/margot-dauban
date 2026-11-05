@@ -47,3 +47,11 @@ export async function getFaqPage() {
   const payload = await getPayload()
   return payload.findGlobal({ slug: 'faq-page', depth: 0 })
 }
+
+export async function getContactPage() {
+  'use cache'
+  cacheLife('model')
+  cacheTag(tags.global('contact-page'))
+  const payload = await getPayload()
+  return payload.findGlobal({ slug: 'contact-page', depth: 0 })
+}
