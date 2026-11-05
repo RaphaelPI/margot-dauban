@@ -2,12 +2,12 @@
 
 import { useActionState, useEffect, useRef, useState } from 'react'
 import { type ContactState, sendContact } from '@/app/(frontend)/contact/actions'
-import { Button } from '@/components/ui/button'
 
 type Texts = {
   title?: string | null
   messagePlaceholder?: string | null
   note?: string | null
+  buttonWaitingLabel?: string | null
   buttonLabel?: string | null
   successTitle?: string | null
   successText?: string | null
@@ -17,6 +17,9 @@ const field =
   'min-h-12 w-full rounded-xl border border-[#d9dae4] bg-card px-4 py-3 text-base font-normal transition-[border-color,box-shadow] placeholder:text-[#9a9aa8] focus:border-primary focus:shadow-[0_0_0_4px_rgb(79_70_229/0.15)] focus:outline-none aria-invalid:border-destructive motion-reduce:transition-none'
 const labelClass = 'flex flex-col gap-2 text-base font-semibold'
 const errorClass = 'text-base font-normal text-destructive'
+// « Ready » as soon as the e-mail looks complete (designer's micro-interaction spec).
+const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/
+const emailHint = 'Indiquez une adresse e-mail complète, par ex. camille@entreprise.fr.'
 
 // Contact form: « Envoyer un autre message » starts a fresh form (new key = empty state).
 export function ContactForm({ texts }: { texts: Texts }) {
@@ -27,6 +30,14 @@ export function ContactForm({ texts }: { texts: Texts }) {
 function Form({ texts, onReset }: { texts: Texts; onReset: () => void }) {
   const [state, action, pending] = useActionState<ContactState, FormData>(sendContact, { status: 'idle' })
   const thanks = useRef<HTMLHeadingElement>(null)
+  const email = useRef<HTMLInputElement>(null)
+  const [ready, setReady] = useState(() => emailPattern.test(state.values?.email ?? ''))
+  // Live check on each keystroke; the browser's own message explains an incomplete address.
+  const checkEmail = (input: HTMLInputElement) => {
+    const ok = emailPattern.test(input.value.trim())
+    input.setCustomValidity(ok || !input.value ? '' : emailHint)
+    setReady(ok)
+  }
   useEffect(() => {
     if (state.status === 'sent') thanks.current?.focus()
   }, [state.status])
@@ -94,10 +105,12 @@ function Form({ texts, onReset }: { texts: Texts; onReset: () => void }) {
           </span>
         </span>
         <input
+          ref={email}
           name="email"
           type="email"
           autoComplete="email"
           required
+          onInput={(event) => checkEmail(event.currentTarget)}
           defaultValue={values.email}
           placeholder="camille.dupont@entreprise.fr"
           className={field}
@@ -168,13 +181,32 @@ function Form({ texts, onReset }: { texts: Texts; onReset: () => void }) {
           {errors.form}
         </p>
       ) : null}
-      <Button
+      {/* Never disabled: waiting (dashed) until the e-mail is valid, then filled to invite sending.
+          A click while waiting focuses the e-mail field and shows why instead of sending. */}
+      <button
         type="submit"
-        disabled={pending}
-        className="h-auto min-h-12 self-start rounded-full px-6.5 py-4 text-base font-bold"
+        aria-disabled={!ready}
+        data-ready={ready}
+        onClick={(event) => {
+          if (pending) event.preventDefault()
+          else if (!ready && email.current) {
+            event.preventDefault()
+            checkEmail(email.current)
+            email.current.focus()
+            email.current.reportValidity()
+          }
+        }}
+        className="send-button self-start"
       >
-        {pending ? 'Envoi…' : `${texts.buttonLabel || 'Envoyer ma demande'} →`}
-      </Button>
+        {pending
+          ? 'Envoi…'
+          : ready
+            ? texts.buttonLabel || 'Démarrons votre projet'
+            : texts.buttonWaitingLabel || 'On y est presque'}{' '}
+        <span aria-hidden="true" className="send-arrow">
+          →
+        </span>
+      </button>
     </form>
   )
 }

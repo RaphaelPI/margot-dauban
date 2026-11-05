@@ -1426,6 +1426,7 @@ export interface ContactPage {
     title?: string | null;
     messagePlaceholder?: string | null;
     note?: string | null;
+    buttonWaitingLabel?: string | null;
     buttonLabel?: string | null;
     successTitle?: string | null;
     successText?: string | null;
@@ -1683,6 +1684,7 @@ export interface ContactPageSelect<T extends boolean = true> {
         title?: T;
         messagePlaceholder?: T;
         note?: T;
+        buttonWaitingLabel?: T;
         buttonLabel?: T;
         successTitle?: T;
         successText?: T;

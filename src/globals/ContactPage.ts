@@ -121,7 +121,23 @@ export const ContactPage: GlobalConfig = {
           type: 'textarea',
           defaultValue: 'Votre message m’arrive par e-mail. Il sert uniquement à vous répondre.',
         },
-        { name: 'buttonLabel', label: 'Libellé du bouton', type: 'text', defaultValue: 'Envoyer ma demande' },
+        {
+          type: 'row',
+          fields: [
+            {
+              name: 'buttonWaitingLabel',
+              label: 'Bouton tant que l’e-mail est incomplet',
+              type: 'text',
+              defaultValue: 'On y est presque',
+            },
+            {
+              name: 'buttonLabel',
+              label: 'Bouton quand l’e-mail est valide',
+              type: 'text',
+              defaultValue: 'Démarrons votre projet',
+            },
+          ],
+        },
         {
           name: 'successTitle',
           label: 'Titre après envoi',
