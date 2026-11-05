@@ -68,7 +68,7 @@ export default async function HomePage() {
           ) : null}
           {clientIds.length ? (
             <div className="min-w-0 flex-[1_1_26rem] overflow-hidden [mask-image:linear-gradient(90deg,transparent,#000_12%,#000_88%,transparent)]">
-              <div className="flex w-max animate-marquee text-muted-foreground motion-reduce:animate-none">
+              <div className="flex w-max animate-marquee text-muted-foreground hover:[animation-play-state:paused] motion-reduce:animate-none">
                 <ul className="flex items-center gap-13 pr-13">
                   {clientIds.map((id) => (
                     <li key={id}>
