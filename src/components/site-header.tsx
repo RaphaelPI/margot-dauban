@@ -1,7 +1,9 @@
 import Link from 'next/link'
+import { Suspense } from 'react'
 import { CtaLink } from '@/components/cta-link'
 import { MobileMenu } from '@/components/mobile-menu'
 import { MediaImage } from '@/components/models/media-image'
+import { NavLinks } from '@/components/nav-links'
 import { StickyHeader } from '@/components/sticky-header'
 import { getSettings } from '@/data/settings'
 
@@ -53,11 +55,16 @@ export async function SiteHeader() {
           aria-label="Navigation principale"
           className="hidden flex-wrap items-center gap-x-7 gap-y-3 text-base font-medium md:flex"
         >
-          {settings.headerNav?.map((link) => (
-            <Link key={link.id ?? link.href} href={link.href} className="hover:text-primary-strong">
-              {link.label}
-            </Link>
-          ))}
+          {/* The current page is only known per request: static links meanwhile. */}
+          <Suspense
+            fallback={settings.headerNav?.map((link) => (
+              <Link key={link.id ?? link.href} href={link.href} className="hover:text-primary-strong">
+                {link.label}
+              </Link>
+            ))}
+          >
+            <NavLinks links={settings.headerNav ?? []} />
+          </Suspense>
           {settings.headerCta?.label && settings.headerCta.href ? (
             <CtaLink href={settings.headerCta.href}>{settings.headerCta.label}</CtaLink>
           ) : null}
