@@ -15,7 +15,7 @@ export const isActive = (href: string, pathname: string) => {
   return pathname === path || pathname.startsWith(`${path}/`)
 }
 
-// Desktop menu links: the current page's entry is indigo and bold, with a 6px indigo dot
+// Desktop menu links: the current page's entry is bold (dark text), with a 6px indigo dot
 // centred under it that slides to the new entry when the page changes.
 export function NavLinks({ links }: { links: NavLink[] }) {
   const pathname = usePathname()
@@ -43,7 +43,7 @@ export function NavLinks({ links }: { links: NavLink[] }) {
             }}
             href={link.href}
             aria-current={current ? 'page' : undefined}
-            className={`grid hover:text-primary-strong ${current ? 'font-bold text-primary' : ''}`}
+            className={`grid hover:text-primary-strong ${current ? 'font-bold' : ''}`}
           >
             {/* The bold copy keeps the width steady when the entry becomes active. */}
             <span aria-hidden="true" className="invisible col-start-1 row-start-1 font-bold">
