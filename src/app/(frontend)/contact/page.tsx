@@ -20,11 +20,14 @@ export async function generateMetadata(): Promise<Metadata> {
   }
 }
 
-const tones = {
-  indigo: 'bg-[#e7e6ff] text-primary-strong',
-  peach: 'bg-[#f2e6df] text-[#6b4a3c]',
-  blue: 'bg-[#e1eaf7] text-[#1e3a6e]',
-} as const
+// Icon rounds follow the hero gradient from lilac to peach, card after card (designer's
+// colours); beyond four cards the steps repeat.
+const tones = [
+  'bg-[#e8e4f6] text-primary-strong',
+  'bg-[#ede9f2] text-primary-strong',
+  'bg-[#f7e7e2] text-[#6b4a3c]',
+  'bg-[#f8e6df] text-[#6b4a3c]',
+]
 
 export default async function ContactPageView() {
   const page = await getContactPage()
@@ -48,7 +51,7 @@ export default async function ContactPageView() {
 
           {cards.length ? (
             <ul className="flex flex-col gap-2.5">
-              {cards.map((card) => {
+              {cards.map((card, index) => {
                 const href = card.href && isSafeHref(card.href) ? card.href : null
                 const _external = href?.startsWith('http')
                 // mailto: link → a button copies the bare address next to it.
@@ -61,7 +64,7 @@ export default async function ContactPageView() {
                     >
                       <span
                         aria-hidden="true"
-                        className={`flex size-11 shrink-0 items-center justify-center rounded-xl text-base font-extrabold ${tones[card.tone ?? 'indigo']}`}
+                        className={`flex size-11 shrink-0 items-center justify-center rounded-xl text-base font-extrabold ${tones[index % tones.length]}`}
                       >
                         {card.monogram || <PhosphorIcon name={card.icon} />}
                       </span>

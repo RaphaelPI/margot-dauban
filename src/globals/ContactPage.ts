@@ -70,6 +70,7 @@ export const ContactPage: GlobalConfig = {
               admin: { description: 'À la place de l’icône, ex. « M » pour Malt, « in » pour LinkedIn.' },
             },
             {
+              // No longer used: the rounds follow the hero gradient card after card. Hidden, kept.
               name: 'tone',
               label: 'Couleur',
               type: 'select',
@@ -79,6 +80,7 @@ export const ContactPage: GlobalConfig = {
                 { label: 'Pêche', value: 'peach' },
                 { label: 'Bleu', value: 'blue' },
               ],
+              admin: { hidden: true },
             },
           ],
         },
