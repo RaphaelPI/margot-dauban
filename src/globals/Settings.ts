@@ -57,6 +57,15 @@ export const Settings: GlobalConfig = {
           fields: [
             { name: 'headerNav', label: 'Menu', type: 'array', fields: linkFields },
             {
+              name: 'mobileNavLinks',
+              label: 'Liens du menu mobile',
+              labels: { singular: 'Lien', plural: 'Liens' },
+              type: 'array',
+              fields: linkFields,
+              admin: { description: 'Petits liens en bas du menu sur téléphone (ex. Malt, LinkedIn, FAQ).' },
+              defaultValue: [{ label: 'FAQ', href: '/faq' }],
+            },
+            {
               name: 'headerCta',
               label: 'Bouton du menu',
               type: 'group',

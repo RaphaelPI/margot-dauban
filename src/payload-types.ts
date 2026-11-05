@@ -1464,6 +1464,19 @@ export interface Setting {
         id?: string | null;
       }[]
     | null;
+  /**
+   * Petits liens en bas du menu sur téléphone (ex. Malt, LinkedIn, FAQ).
+   */
+  mobileNavLinks?:
+    | {
+        label: string;
+        /**
+         * /projets, https://…, mailto:…
+         */
+        href: string;
+        id?: string | null;
+      }[]
+    | null;
   headerCta?: {
     label?: string | null;
     href?: string | null;
@@ -1712,6 +1725,13 @@ export interface SettingsSelect<T extends boolean = true> {
   availabilityLabel?: T;
   email?: T;
   headerNav?:
+    | T
+    | {
+        label?: T;
+        href?: T;
+        id?: T;
+      };
+  mobileNavLinks?:
     | T
     | {
         label?: T;

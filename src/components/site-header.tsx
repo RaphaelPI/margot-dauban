@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { MobileMenu } from '@/components/mobile-menu'
 import { MediaImage } from '@/components/models/media-image'
 import { StickyHeader } from '@/components/sticky-header'
 import { Button } from '@/components/ui/button'
@@ -13,9 +14,10 @@ export async function SiteHeader() {
     .slice(0, 2)
 
   return (
-    // Stays visible while scrolling from tablet up; scrolls away on phones (where it is tall).
-    <StickyHeader className="header-fade z-40 md:sticky md:top-0 md:border-b md:bg-background/85 md:backdrop-blur-md">
-      <div className="mx-auto flex w-full max-w-page flex-wrap items-center justify-between gap-x-6 gap-y-4 px-5 py-5.5 md:px-8">
+    // Stays visible while scrolling. Phones get the logo and a burger (MobileMenu); over the open
+    // menu the header turns see-through and white (`data-menu` on <html>, beats the scroll fade).
+    <StickyHeader className="header-fade sticky top-0 z-40 border-b bg-background/85 backdrop-blur-md transition-colors [html[data-menu=open]_&]:border-transparent! [html[data-menu=open]_&]:bg-transparent! [html[data-menu=open]_&]:text-white [html[data-menu=open]_&]:backdrop-blur-none!">
+      <div className="mx-auto flex w-full max-w-page flex-wrap items-center justify-between gap-x-6 gap-y-4 px-5 py-3.5 md:px-8 md:py-5.5">
         <div className="flex flex-wrap items-center gap-x-5 gap-y-3">
           <Link href="/" className="flex items-center gap-3 rounded-full">
             {typeof settings.photo === 'object' && settings.photo ? (
@@ -35,12 +37,14 @@ export async function SiteHeader() {
             <span className="flex flex-col">
               <strong className="font-heading text-[0.9375rem] font-semibold">{settings.siteName}</strong>
               {settings.jobTitle ? (
-                <span className="text-sm text-muted-foreground">{settings.jobTitle}</span>
+                <span className="text-sm text-muted-foreground [html[data-menu=open]_&]:text-white/75">
+                  {settings.jobTitle}
+                </span>
               ) : null}
             </span>
           </Link>
           {settings.available ? (
-            <span className="inline-flex items-center gap-2 rounded-full border border-decor-border bg-card px-3.5 py-1.5 text-sm font-semibold text-success-foreground">
+            <span className="hidden items-center gap-2 rounded-full md:inline-flex border border-decor-border bg-card px-3.5 py-1.5 text-sm font-semibold text-success-foreground">
               <span
                 aria-hidden="true"
                 className="size-2 animate-blink rounded-full bg-success motion-reduce:animate-none"
@@ -51,7 +55,7 @@ export async function SiteHeader() {
         </div>
         <nav
           aria-label="Navigation principale"
-          className="flex flex-wrap items-center gap-x-7 gap-y-3 text-base font-medium"
+          className="hidden flex-wrap items-center gap-x-7 gap-y-3 text-base font-medium md:flex"
         >
           {settings.headerNav?.map((link) => (
             <Link key={link.id ?? link.href} href={link.href} className="hover:text-primary-strong">
@@ -64,6 +68,11 @@ export async function SiteHeader() {
             </Button>
           ) : null}
         </nav>
+        <MobileMenu
+          links={settings.headerNav ?? []}
+          cta={settings.headerCta}
+          smallLinks={settings.mobileNavLinks ?? []}
+        />
       </div>
     </StickyHeader>
   )

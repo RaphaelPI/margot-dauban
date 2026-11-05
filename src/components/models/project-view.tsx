@@ -322,7 +322,7 @@ export async function ProjectView({ id, nextSlot }: { id: string; nextSlot?: Rea
         <section
           id="detail"
           aria-labelledby="detail-titre"
-          className="flex scroll-mt-6 md:scroll-mt-[calc(var(--header-h,7rem)+1.5rem)] flex-wrap gap-14 border-t pt-18 pb-16 md:pb-26"
+          className="flex scroll-mt-[calc(var(--header-h,5rem)+1.5rem)] flex-wrap gap-14 border-t pt-18 pb-16 md:pb-26"
         >
           <TocSpy
             aria-label="Sommaire de la démarche"
@@ -368,7 +368,7 @@ export async function ProjectView({ id, nextSlot }: { id: string; nextSlot?: Rea
               <section
                 id="contexte"
                 aria-labelledby="contexte-titre"
-                className="flex scroll-mt-6 md:scroll-mt-[calc(var(--header-h,7rem)+1.5rem)] flex-col gap-4"
+                className="flex scroll-mt-[calc(var(--header-h,5rem)+1.5rem)] flex-col gap-4"
               >
                 <h3 id="contexte-titre" className="font-heading text-[1.375rem] font-semibold">
                   {project.contextTitle || 'Contexte & enjeux'}
@@ -381,7 +381,7 @@ export async function ProjectView({ id, nextSlot }: { id: string; nextSlot?: Rea
                 key={section.anchor}
                 id={section.anchor}
                 aria-labelledby={`${section.anchor}-titre`}
-                className="flex scroll-mt-6 md:scroll-mt-[calc(var(--header-h,7rem)+1.5rem)] flex-col gap-4"
+                className="flex scroll-mt-[calc(var(--header-h,5rem)+1.5rem)] flex-col gap-4"
               >
                 <h3 id={`${section.anchor}-titre`} className="font-heading text-[1.375rem] font-semibold">
                   {section.title}
@@ -404,7 +404,7 @@ export async function ProjectView({ id, nextSlot }: { id: string; nextSlot?: Rea
                 key={step.id ?? step.anchor}
                 id={step.anchor}
                 aria-labelledby={`${step.anchor}-titre`}
-                className="flex scroll-mt-6 md:scroll-mt-[calc(var(--header-h,7rem)+1.5rem)] flex-col gap-3.5"
+                className="flex scroll-mt-[calc(var(--header-h,5rem)+1.5rem)] flex-col gap-3.5"
               >
                 <div className="flex items-center gap-3.5">
                   <span
