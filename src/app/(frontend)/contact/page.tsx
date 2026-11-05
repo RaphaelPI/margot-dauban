@@ -60,7 +60,7 @@ export default async function ContactPageView() {
                   <li key={card.id ?? card.value}>
                     <GlowCard
                       as="div"
-                      className="flex items-center gap-3.5 rounded-[1.125rem] border bg-card px-4.5 py-4 hover:border-[#dcdaf8] hover:shadow-[0_16px_36px_rgb(79_70_229/0.06)]"
+                      className="flex items-center gap-3.5 rounded-[1.125rem] border bg-card px-4.5 py-4 hover:border-[#dcdaf8] hover:shadow-[0_12px_28px_rgb(79_70_229/0.04)]"
                     >
                       <span
                         aria-hidden="true"

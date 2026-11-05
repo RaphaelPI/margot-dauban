@@ -59,7 +59,7 @@ export default async function ProjectsPage({ searchParams }: PageProps<'/projets
         <section className="pb-4">
           <GlowCard
             as="div"
-            className="flex flex-wrap items-center justify-between gap-8 rounded-[2rem] bg-primary px-7 py-12 text-primary-foreground [--glow-from:rgb(140_133_255/0.85)] [--glow-mid:rgb(120_112_250/0.35)] [--glow-size:520px] hover:shadow-[0_20px_44px_rgb(79_70_229/0.22)] md:px-12 md:py-18"
+            className="flex flex-wrap items-center justify-between gap-8 rounded-[2rem] bg-primary px-7 py-12 text-primary-foreground [--glow-from:rgb(140_133_255/0.45)] [--glow-mid:rgb(120_112_250/0.15)] [--glow-size:520px] hover:shadow-[0_16px_36px_rgb(79_70_229/0.12)] md:px-12 md:py-18"
           >
             <div className="flex max-w-180 flex-col gap-2.5">
               <h2 className="font-heading text-[clamp(1.875rem,3.6vw,2.875rem)] leading-[1.08] font-bold tracking-[-0.02em]">
