@@ -27,15 +27,13 @@ export function NavLinks({ links }: { links: NavLink[] }) {
   useLayoutEffect(() => {
     const el = active >= 0 ? items.current[active] : null
     if (!el) return setDot(null)
-    const place = (animate: boolean) =>
-      setDot((previous) => ({
-        x: el.offsetLeft + el.offsetWidth / 2 - 3,
-        animate: animate && previous !== null,
-      }))
+    const x = () => el.offsetLeft + el.offsetWidth / 2 - 3
     // No slide on the first placement, only from one entry to another.
-    place(true)
-    // Re-centre without sliding when the menu's size changes (window resize, fonts loading).
-    const observer = new ResizeObserver(() => place(false))
+    setDot((previous) => ({ x: x(), animate: previous !== null }))
+    // Re-centre when the menu's size changes (window resize, fonts loading).
+    const observer = new ResizeObserver(() =>
+      setDot((previous) => (previous ? { ...previous, x: x() } : previous)),
+    )
     if (list.current) observer.observe(list.current)
     observer.observe(el)
     return () => observer.disconnect()
