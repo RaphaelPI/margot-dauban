@@ -17,7 +17,7 @@ const field =
   'min-h-12 w-full rounded-xl border border-[#d9dae4] bg-card px-4 py-3 text-base font-normal transition-[border-color,box-shadow] placeholder:text-[#9a9aa8] focus:border-primary focus:shadow-[0_0_0_4px_rgb(79_70_229/0.15)] focus:outline-none aria-invalid:border-destructive motion-reduce:transition-none'
 const labelClass = 'flex flex-col gap-2 text-base font-semibold'
 const errorClass = 'text-base font-normal text-destructive'
-// « Ready » as soon as the e-mail looks complete (designer's micro-interaction spec).
+// A complete-looking e-mail (designer's micro-interaction spec).
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/
 const emailHint = 'Indiquez une adresse e-mail complète, par ex. camille@entreprise.fr.'
 
@@ -31,12 +31,16 @@ function Form({ texts, onReset }: { texts: Texts; onReset: () => void }) {
   const [state, action, pending] = useActionState<ContactState, FormData>(sendContact, { status: 'idle' })
   const thanks = useRef<HTMLHeadingElement>(null)
   const email = useRef<HTMLInputElement>(null)
-  const [ready, setReady] = useState(() => emailPattern.test(state.values?.email ?? ''))
+  const message = useRef<HTMLTextAreaElement>(null)
+  const [emailOk, setEmailOk] = useState(() => emailPattern.test(state.values?.email ?? ''))
+  const [hasMessage, setHasMessage] = useState(() => Boolean(state.values?.message?.trim()))
+  // « Ready » once both required fields are filled: valid e-mail and a message.
+  const ready = emailOk && hasMessage
   // Live check on each keystroke; the browser's own message explains an incomplete address.
   const checkEmail = (input: HTMLInputElement) => {
     const ok = emailPattern.test(input.value.trim())
     input.setCustomValidity(ok || !input.value ? '' : emailHint)
-    setReady(ok)
+    setEmailOk(ok)
   }
   useEffect(() => {
     if (state.status === 'sent') thanks.current?.focus()
@@ -148,6 +152,8 @@ function Form({ texts, onReset }: { texts: Texts; onReset: () => void }) {
           </span>
         </span>
         <textarea
+          ref={message}
+          onInput={(event) => setHasMessage(Boolean(event.currentTarget.value.trim()))}
           name="message"
           rows={6}
           required
@@ -181,19 +187,21 @@ function Form({ texts, onReset }: { texts: Texts; onReset: () => void }) {
           {errors.form}
         </p>
       ) : null}
-      {/* Never disabled: waiting (dashed) until the e-mail is valid, then filled to invite sending.
-          A click while waiting focuses the e-mail field and shows why instead of sending. */}
+      {/* Never disabled: waiting (dashed) until e-mail and message are filled, then filled with
+          indigo to invite sending. A click while waiting focuses the missing field instead. */}
       <button
         type="submit"
         aria-disabled={!ready}
         data-ready={ready}
         onClick={(event) => {
           if (pending) event.preventDefault()
-          else if (!ready && email.current) {
+          else if (!ready) {
+            // Focus the first required field still missing and let the browser say why.
             event.preventDefault()
-            checkEmail(email.current)
-            email.current.focus()
-            email.current.reportValidity()
+            if (email.current) checkEmail(email.current)
+            const missing = !emailOk ? email.current : message.current
+            missing?.focus()
+            missing?.reportValidity()
           }
         }}
         className="send-button self-start"

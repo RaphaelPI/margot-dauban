@@ -126,13 +126,13 @@ export const ContactPage: GlobalConfig = {
           fields: [
             {
               name: 'buttonWaitingLabel',
-              label: 'Bouton tant que l’e-mail est incomplet',
+              label: 'Bouton tant que l’e-mail ou le message manque',
               type: 'text',
               defaultValue: 'On y est presque',
             },
             {
               name: 'buttonLabel',
-              label: 'Bouton quand l’e-mail est valide',
+              label: 'Bouton quand e-mail et message sont remplis',
               type: 'text',
               defaultValue: 'Démarrons votre projet',
             },
