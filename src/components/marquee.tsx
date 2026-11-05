@@ -1,6 +1,6 @@
 'use client'
 
-import { type ComponentProps, useRef } from 'react'
+import { type ComponentProps, type PointerEvent, useEffect, useRef } from 'react'
 
 // Scrolling track of the client logos: on hover it slows down smoothly to a stop, and speeds
 // back up when the pointer leaves (eases the CSS animation's playback rate). With reduced
@@ -8,6 +8,7 @@ import { type ComponentProps, useRef } from 'react'
 export function Marquee({ className, ...props }: ComponentProps<'div'>) {
   const ref = useRef<HTMLDivElement>(null)
   const frame = useRef(0)
+  useEffect(() => () => cancelAnimationFrame(frame.current), [])
 
   const easeTo = (target: number) => {
     const animation = ref.current?.getAnimations()[0]
@@ -30,8 +31,9 @@ export function Marquee({ className, ...props }: ComponentProps<'div'>) {
     <div
       ref={ref}
       className={className}
-      onMouseEnter={() => easeTo(0)}
-      onMouseLeave={() => easeTo(1)}
+      // Mouse / pen only: a tap would freeze it on phones (no « leave » follows).
+      onPointerEnter={(event: PointerEvent) => event.pointerType !== 'touch' && easeTo(0)}
+      onPointerLeave={(event: PointerEvent) => event.pointerType !== 'touch' && easeTo(1)}
       {...props}
     />
   )
