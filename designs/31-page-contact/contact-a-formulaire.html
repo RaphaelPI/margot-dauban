@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Contact A — Formulaire + coordonnées</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Albert+Sans:wght@400;500;600;700&amp;family=Unbounded:wght@500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#F7F7FA}
+a{color:#121814}a:hover{color:#3730A3}
+button,input,select,textarea{font:inherit;color:inherit}
+.champ{width:100%;box-sizing:border-box;background:#FFFFFF;border:1px solid #D9DAE4;border-radius:12px;padding:13px 16px;font-size:16px;min-height:48px;transition:border-color .2s,box-shadow .2s}
+.champ:focus{outline:none;border-color:#4F46E5;box-shadow:0 0 0 4px rgba(79,70,229,0.15)}
+.champ::placeholder{color:#8A8A98}
+button:focus-visible,a:focus-visible{outline:3px solid #4F46E5;outline-offset:3px}
+@property --mx{syntax:'<length>';inherits:true;initial-value:0px}
+@property --my{syntax:'<length>';inherits:true;initial-value:0px}
+.carte{position:relative;isolation:isolate;transition:border-color .6s ease,box-shadow .6s ease}
+.carte::before{content:"";position:absolute;inset:0;border-radius:inherit;background:radial-gradient(380px circle at var(--mx) var(--my),rgba(226,224,252,0.75),rgba(232,230,253,0.35) 45%,rgba(232,230,253,0) 75%);opacity:0;transition:opacity .7s cubic-bezier(.22,.61,.36,1);z-index:-1;pointer-events:none}
+.carte:hover{border-color:#DCDAF8;box-shadow:0 16px 36px rgba(79,70,229,0.06)}
+.carte:hover::before{opacity:1}
+.carte-indigo::before{background:radial-gradient(520px circle at var(--mx) var(--my),rgba(140,133,255,0.85),rgba(120,112,250,0.35) 45%,rgba(120,112,250,0) 75%)}
+.carte-indigo:hover{box-shadow:0 20px 44px rgba(79,70,229,0.22)}
+.clignote{animation:clignote 1.8s ease-in-out infinite}
+@keyframes clignote{0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(31,157,85,0.45)}50%{opacity:0.45;box-shadow:0 0 0 6px rgba(31,157,85,0)}}
+.apparait{animation:apparait .5s cubic-bezier(.22,.61,.36,1) both}
+@keyframes apparait{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion: reduce){.clignote,.apparait{animation:none}.carte,.carte::before,.champ{transition:none}}
+</style>
+</helmet>
+<div style="font-family: 'Albert Sans', system-ui, sans-serif; color: #121814; background: radial-gradient(900px 540px at 18% 0px, #DAD8FA, rgba(247,247,250,0) 70%), radial-gradient(900px 540px at 82% 60px, #FCE1D3, rgba(247,247,250,0) 70%), linear-gradient(180deg, #F3EEF1 0px, #F6F4F6 600px, #F7F7FA 1000px, #F7F7FA 100%)">
+  <div style="max-width: 1240px; margin: 0 auto; padding: 0 32px">
+    <header style="display: flex; justify-content: space-between; align-items: center; gap: 24px; padding: 22px 0; flex-wrap: wrap">
+      <a href="#" style="display: flex; align-items: center; gap: 12px; text-decoration: none">
+        <span aria-hidden="true" style="width: 44px; height: 44px; border-radius: 50%; background: #E2E1FF; border: 2px solid #FFFFFF; display: flex; align-items: center; justify-content: center; font-size: 10px">[Photo]</span>
+        <span style="display: flex; flex-direction: column"><strong style="font-family: Unbounded, system-ui, sans-serif; font-weight: 600; font-size: 15px">Margot Dauban</strong><span style="font-size: 14px; color: #4F5A53">Webdesigner UI / UX</span></span>
+      </a>
+      <nav aria-label="Navigation principale" style="display: flex; align-items: center; gap: 28px; flex-wrap: wrap; font-size: 15px; font-weight: 500">
+        <span style="display: inline-flex; align-items: center; gap: 8px; background: #FFFFFF; border: 1px solid #E3E4EC; border-radius: 999px; padding: 7px 14px; font-size: 14px; font-weight: 600; color: #1D6B3E"><span aria-hidden="true" class="clignote" style="width: 8px; height: 8px; border-radius: 50%; background: #1F9D55"></span>Disponible</span>
+        <a href="#" style="text-decoration: none">Projets</a>
+        <a href="#" style="text-decoration: none">Témoignages</a>
+        <a href="#" style="text-decoration: none">Services</a>
+        <a href="#" style="text-decoration: none">À propos</a>
+        <a href="#" aria-current="page" style="text-decoration: none; background: #4F46E5; color: #FFFFFF; padding: 12px 20px; border-radius: 999px; font-weight: 700; box-shadow: 0 0 0 4px rgba(79,70,229,0.18)">Me contacter</a>
+      </nav>
+    </header>
+    <section style="padding: 64px 0 96px; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(420px, 100%), 1fr)); gap: 56px; align-items: start">
+      <div style="display: flex; flex-direction: column; gap: 32px">
+        <div style="display: flex; flex-direction: column; gap: 18px">
+          
+          <h1 style="margin: 0; font-family: Unbounded, system-ui, sans-serif; font-weight: 600; font-size: clamp(32px, 4vw, 50px); line-height: 1.12; letter-spacing: -0.02em; text-wrap: balance">Parlons de votre <span style="background: #E2E1FF; padding: 0 12px; border-radius: 14px; white-space: nowrap">projet web</span></h1>
+          <p style="margin: 0; font-size: 19px; line-height: 1.55; color: #4A544D">Refonte de site, application métier, SaaS ou e-commerce&nbsp;: décrivez votre besoin, je vous réponds sous 48&nbsp;h ouvrées. Webdesigner UI / UX freelance basée à Toulouse.</p>
+        </div>
+        <ul style="margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 10px">
+          <li class="carte" onMouseMove="{{ suivre }}" style="background: #FFFFFF; border: 1px solid #E1E5DF; border-radius: 18px; padding: 16px 18px; display: flex; align-items: center; gap: 14px"><span aria-hidden="true" style="width: 44px; height: 44px; border-radius: 12px; background: #E7E6FF; color: #3730A3; display: flex; align-items: center; justify-content: center"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="4" width="16" height="12" rx="2.5"></rect><path d="M3 5.5l7 5 7-5"></path></svg></span><span style="display: flex; flex-direction: column; gap: 2px"><span style="font-size: 13px; color: #5E6660">E-mail</span><a href="#" style="font-weight: 700; text-decoration: none">[adresse e-mail]</a></span></li>
+          <li class="carte" onMouseMove="{{ suivre }}" style="background: #FFFFFF; border: 1px solid #E1E5DF; border-radius: 18px; padding: 16px 18px; display: flex; align-items: center; gap: 14px"><span aria-hidden="true" style="width: 44px; height: 44px; border-radius: 12px; background: #F2E6DF; color: #6B4A3C; display: flex; align-items: center; justify-content: center"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M10 18s6-5.5 6-10a6 6 0 0 0-12 0c0 4.5 6 10 6 10z"></path><circle cx="10" cy="8" r="2.2"></circle></svg></span><span style="display: flex; flex-direction: column; gap: 2px"><span style="font-size: 13px; color: #5E6660">Basée à Toulouse</span><strong>Missions sur place ou à distance</strong></span></li>
+          <li class="carte" onMouseMove="{{ suivre }}" style="background: #FFFFFF; border: 1px solid #E1E5DF; border-radius: 18px; padding: 16px 18px; display: flex; align-items: center; gap: 14px"><span aria-hidden="true" style="width: 44px; height: 44px; border-radius: 12px; background: #E1EAF7; color: #1E3A6E; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 15px">M</span><span style="display: flex; flex-direction: column; gap: 2px"><span style="font-size: 13px; color: #5E6660">Profil Malt&nbsp;</span><a href="#" style="font-weight: 700; text-decoration: none">Profil Malt →</a></span></li>
+          <li class="carte" onMouseMove="{{ suivre }}" style="background: #FFFFFF; border: 1px solid #E1E5DF; border-radius: 18px; padding: 16px 18px; display: flex; align-items: center; gap: 14px"><span aria-hidden="true" style="width: 44px; height: 44px; border-radius: 12px; background: rgb(231, 230, 255); color: rgb(55, 48, 163); display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 15px">in</span><span style="display: flex; flex-direction: column; gap: 2px"><span style="font-size: 13px; color: rgb(94, 102, 96)">LinkedIn</span><a href="#" style="font-weight: 700; text-decoration: none">Profil Linkedin →</a></span></li>
+        </ul>
+        <div style="display: flex; flex-direction: column; gap: 16px">
+          
+          <ol style="margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 14px">
+            
+            
+            
+          </ol>
+        </div>
+      </div>
+
+      <div style="background: #FFFFFF; border: 1px solid #E1E5DF; border-radius: 28px; padding: 36px; box-shadow: 0 30px 60px rgba(40,36,90,0.08)">
+        <sc-if value="{{ formulaire }}" hint-placeholder-val="{{ true }}">
+          <form onSubmit="{{ envoyer }}" style="display: flex; flex-direction: column; gap: 22px">
+            <h2 style="margin: 0; font-family: Unbounded, system-ui, sans-serif; font-weight: 600; font-size: 22px">Votre demande</h2>
+            <label style="display: flex; flex-direction: column; gap: 8px"><span style="font-size: 14px; font-weight: 600">Nom</span><input class="champ" type="text" autocomplete="name" placeholder="Camille Dupont"></label>
+            <label style="display: flex; flex-direction: column; gap: 8px"><span style="font-size: 14px; font-weight: 600">E-mail <span aria-hidden="true" style="color: #4F46E5">*</span></span><input class="champ" type="email" autocomplete="email" required="" aria-required="true" placeholder="camille.dupont@entreprise.fr"></label>
+            <label style="display: flex; flex-direction: column; gap: 8px"><span style="font-size: 14px; font-weight: 600">Téléphone</span><input class="champ" type="tel" autocomplete="tel" placeholder="06 12 34 56 78"></label>
+            <label style="display: flex; flex-direction: column; gap: 8px"><span style="font-size: 14px; font-weight: 600">Message</span><textarea class="champ" rows="6" placeholder="Votre projet en quelques lignes : contexte, objectifs, échéance…" style="resize: vertical"></textarea></label>
+            <span style="font-size: 13px; line-height: 1.5; color: #5E6660"><span aria-hidden="true" style="color: #4F46E5">*</span> Champ obligatoire. Vos données servent uniquement à répondre à votre demande.</span>
+            <button type="submit" style="background: #4F46E5; color: #FFFFFF; border: 0; border-radius: 999px; padding: 16px 26px; font-size: 16px; font-weight: 700; cursor: pointer; min-height: 48px; align-self: flex-start">Envoyer ma demande →</button>
+          </form>
+        </sc-if>
+        <sc-if value="{{ envoye }}" hint-placeholder-val="{{ false }}">
+            <div class="apparait" role="status" style="display: flex; flex-direction: column; align-items: flex-start; gap: 14px; padding: 12px 0">
+              <span aria-hidden="true" style="width: 56px; height: 56px; border-radius: 50%; background: #E7E6FF; color: #4F46E5; display: flex; align-items: center; justify-content: center; font-size: 26px; font-weight: 700">✓</span>
+              <strong style="font-family: Unbounded, system-ui, sans-serif; font-weight: 600; font-size: 22px">Merci, c’est bien reçu&nbsp;!</strong>
+              <p style="margin: 0; font-size: 16px; line-height: 1.6; color: #414A44">Je reviens vers vous sous 48&nbsp;h ouvrées, en général avec quelques questions pour préparer notre premier échange.</p>
+              <button type="button" onClick="{{ reset }}" style="background: none; border: 0; padding: 0; color: #3730A3; font-weight: 700; text-decoration: underline; cursor: pointer">Envoyer un autre message</button>
+            </div>
+          </sc-if>
+      </div>
+    </section>
+  </div>
+  <footer style="border-top: 1px solid #E1E5DF">
+    <div style="max-width: 1240px; margin: 0 auto; padding: 28px 32px; display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; font-size: 14px; color: #414A44">
+      <span>Margot Dauban — Webdesigner UI / UX freelance à Toulouse</span>
+      <nav aria-label="Liens de pied de page" style="display: flex; gap: 20px; flex-wrap: wrap"><a href="#">Contact</a><a href="#">FAQ</a><a href="#">Profil Malt</a><a href="#">Mentions légales</a><a href="#">Confidentialité</a></nav>
+    </div>
+  </footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1500}}'>
+class Component extends DCLogic {
+  renderVals() {
+    var self = this; var st = this.state || {};
+    var envoyer = function (e) { if (e && e.preventDefault) e.preventDefault(); self.setState({ envoye: true }); };
+    var reset = function () { self.setState({ envoye: false }); };
+    var suivre = function (e) { var el = e.currentTarget; var r = el.getBoundingClientRect(); var k = r.width ? el.offsetWidth / r.width : 1; el.style.setProperty('--mx', ((e.clientX - r.left) * k) + 'px'); el.style.setProperty('--my', ((e.clientY - r.top) * k) + 'px'); };
+    return { envoyer: envoyer, reset: reset, envoye: !!st.envoye, formulaire: !st.envoye, suivre: suivre };
+  }
+}
+</script>
+</body>
+</html>

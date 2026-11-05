@@ -73,6 +73,7 @@ export interface Config {
     services: Service;
     faqs: Faq;
     pages: Page;
+    'contact-messages': ContactMessage;
     media: Media;
     users: User;
     'payload-kv': PayloadKv;
@@ -88,6 +89,7 @@ export interface Config {
     services: ServicesSelect<false> | ServicesSelect<true>;
     faqs: FaqsSelect<false> | FaqsSelect<true>;
     pages: PagesSelect<false> | PagesSelect<true>;
+    'contact-messages': ContactMessagesSelect<false> | ContactMessagesSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
@@ -104,6 +106,7 @@ export interface Config {
     'projects-page': ProjectsPage;
     'services-page': ServicesPage;
     'faq-page': FaqPage;
+    'contact-page': ContactPage;
     settings: Setting;
   };
   globalsSelect: {
@@ -111,6 +114,7 @@ export interface Config {
     'projects-page': ProjectsPageSelect<false> | ProjectsPageSelect<true>;
     'services-page': ServicesPageSelect<false> | ServicesPageSelect<true>;
     'faq-page': FaqPageSelect<false> | FaqPageSelect<true>;
+    'contact-page': ContactPageSelect<false> | ContactPageSelect<true>;
     settings: SettingsSelect<false> | SettingsSelect<true>;
   };
   locale: null;
@@ -675,6 +679,25 @@ export interface Page {
   _status?: ('draft' | 'published') | null;
 }
 /**
+ * Messages envoyés depuis le formulaire de la page Contact.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "contact-messages".
+ */
+export interface ContactMessage {
+  id: string;
+  name?: string | null;
+  email: string;
+  phone?: string | null;
+  message: string;
+  /**
+   * À cocher une fois la réponse envoyée.
+   */
+  handled?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "users".
  */
@@ -747,6 +770,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'pages';
         value: string | Page;
+      } | null)
+    | ({
+        relationTo: 'contact-messages';
+        value: string | ContactMessage;
       } | null)
     | ({
         relationTo: 'media';
@@ -977,6 +1004,19 @@ export interface PagesSelect<T extends boolean = true> {
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "contact-messages_select".
+ */
+export interface ContactMessagesSelect<T extends boolean = true> {
+  name?: T;
+  email?: T;
+  phone?: T;
+  message?: T;
+  handled?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1349,6 +1389,60 @@ export interface FaqPage {
   createdAt?: string | null;
 }
 /**
+ * Textes de la page Contact (/contact). Les messages reçus sont dans « Messages ».
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "contact-page".
+ */
+export interface ContactPage {
+  id: string;
+  title: string;
+  highlight?: string | null;
+  intro?: string | null;
+  cards?:
+    | {
+        /**
+         * Ex. « E-mail »
+         */
+        label?: string | null;
+        value: string;
+        /**
+         * Facultatif. mailto:… pour un e-mail, https://… pour un profil (nouvel onglet).
+         */
+        href?: string | null;
+        /**
+         * Nom d’une icône Phosphor (phosphoricons.com), ex. « envelope-simple ».
+         */
+        icon?: string | null;
+        /**
+         * À la place de l’icône, ex. « M » pour Malt, « in » pour LinkedIn.
+         */
+        monogram?: string | null;
+        tone?: ('indigo' | 'peach' | 'blue') | null;
+        id?: string | null;
+      }[]
+    | null;
+  form?: {
+    title?: string | null;
+    messagePlaceholder?: string | null;
+    note?: string | null;
+    buttonWaitingLabel?: string | null;
+    buttonLabel?: string | null;
+    successTitle?: string | null;
+    successText?: string | null;
+  };
+  /**
+   * Laisser vide pour utiliser le titre et le résumé.
+   */
+  seo?: {
+    title?: string | null;
+    description?: string | null;
+    image?: (string | null) | Media;
+  };
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "settings".
  */
@@ -1553,6 +1647,47 @@ export interface FaqPageSelect<T extends boolean = true> {
         text?: T;
         buttonLabel?: T;
         buttonHref?: T;
+      };
+  seo?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        image?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "contact-page_select".
+ */
+export interface ContactPageSelect<T extends boolean = true> {
+  title?: T;
+  highlight?: T;
+  intro?: T;
+  cards?:
+    | T
+    | {
+        label?: T;
+        value?: T;
+        href?: T;
+        icon?: T;
+        monogram?: T;
+        tone?: T;
+        id?: T;
+      };
+  form?:
+    | T
+    | {
+        title?: T;
+        messagePlaceholder?: T;
+        note?: T;
+        buttonWaitingLabel?: T;
+        buttonLabel?: T;
+        successTitle?: T;
+        successText?: T;
       };
   seo?:
     | T
