@@ -108,13 +108,14 @@ export function HeroDecor() {
             width="22"
             height="22"
             viewBox="0 0 24 24"
-            className="fill-primary"
+            className="fill-peach"
             stroke="#fff"
             strokeWidth="1.5"
           >
             <path d="M4 3l16 7-7 2-2 7z" />
           </svg>
-          <span className="ml-4 rounded-full bg-primary px-2.5 py-1.25 text-[13px] font-bold text-primary-foreground">
+          {/* Peach cursor (designer's colour #FCE1D3), dark text to stay readable on it. */}
+          <span className="ml-4 rounded-full bg-peach px-2.5 py-1.25 text-[13px] font-bold text-foreground">
             Margot
           </span>
         </div>
