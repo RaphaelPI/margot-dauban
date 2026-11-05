@@ -74,23 +74,21 @@ export default async function ContactPageView() {
                           <span className="text-base text-foreground-soft">{card.label}</span>
                         ) : null}
                         {href ? (
-                          <a
-                            href={href}
-                            {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-                            className="font-bold break-words hover:text-primary-strong"
-                          >
-                            {card.value}
-                            {external ? <span className="sr-only"> (nouvel onglet)</span> : null}
-                          </a>
+                          <span className="flex flex-wrap items-center gap-x-2 gap-y-1">
+                            <a
+                              href={href}
+                              {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+                              className="font-bold break-words hover:text-primary-strong"
+                            >
+                              {card.value}
+                              {external ? <span className="sr-only"> (nouvel onglet)</span> : null}
+                            </a>
+                            {email ? <CopyButton value={email} label={`Copier l’adresse ${email}`} /> : null}
+                          </span>
                         ) : (
                           <strong className="break-words">{card.value}</strong>
                         )}
                       </span>
-                      {email ? (
-                        <span className="flex items-center gap-2">
-                          <CopyButton value={email} label={`Copier l’adresse ${email}`} />
-                        </span>
-                      ) : null}
                     </GlowCard>
                   </li>
                 )
