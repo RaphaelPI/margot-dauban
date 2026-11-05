@@ -14,7 +14,7 @@ export async function ServiceCard({ id, short = false }: { id: string; short?: b
   const items = short && service.homeItems?.length ? service.homeItems : service.items
 
   return (
-    <div className="flex flex-col gap-4 rounded-xl border bg-card p-7.5">
+    <div className="flex flex-col gap-4 rounded-xl border border-border/50 bg-card p-7.5">
       <ServiceVisual media={service.animation} className="-mt-2 -ml-3 size-37.5" />
       <h3 className="font-heading text-[1.1875rem] font-semibold">{service.title}</h3>
       {service.summary && !short ? <p className="text-foreground-soft">{service.summary}</p> : null}

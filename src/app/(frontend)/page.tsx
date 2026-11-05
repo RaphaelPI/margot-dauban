@@ -129,7 +129,7 @@ export default async function HomePage() {
         >
           <div className="flex flex-col gap-5">
             {about.eyebrow ? (
-              <span className="self-start rounded-full bg-card px-4 py-1.5 text-base font-semibold">
+              <span className="self-start rounded-full border border-border/50 bg-card px-4 py-1.5 text-base font-semibold">
                 {about.eyebrow}
               </span>
             ) : null}
