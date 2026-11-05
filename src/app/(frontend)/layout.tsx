@@ -26,6 +26,11 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     title: { default: title, template: `%s · ${settings.siteName}` },
     description: settings.seo?.description ?? undefined,
+    // Favicon chosen in Réglages › Identité (none: the browser's default).
+    icons:
+      typeof settings.favicon === 'object' && settings.favicon?.url
+        ? { icon: { url: settings.favicon.url, type: settings.favicon.mimeType ?? undefined } }
+        : undefined,
   }
 }
 

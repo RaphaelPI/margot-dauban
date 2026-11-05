@@ -28,6 +28,17 @@ export const Settings: GlobalConfig = {
             },
             { name: 'photo', label: 'Photo', type: 'upload', relationTo: 'media' },
             {
+              name: 'favicon',
+              label: 'Favicon',
+              type: 'upload',
+              relationTo: 'media',
+              filterOptions: { mimeType: { contains: 'image' } },
+              admin: {
+                description:
+                  'Petite icône dans l’onglet du navigateur. Image carrée, PNG ou SVG, au moins 512 × 512 px.',
+              },
+            },
+            {
               type: 'row',
               fields: [
                 {

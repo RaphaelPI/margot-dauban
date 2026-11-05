@@ -1,7 +1,9 @@
 import Link from 'next/link'
+import { Suspense } from 'react'
 import { CtaLink } from '@/components/cta-link'
 import { MobileMenu } from '@/components/mobile-menu'
 import { MediaImage } from '@/components/models/media-image'
+import { NavLinks } from '@/components/nav-links'
 import { StickyHeader } from '@/components/sticky-header'
 import { getSettings } from '@/data/settings'
 
@@ -21,15 +23,11 @@ export async function SiteHeader() {
         <div className="flex flex-wrap items-center gap-x-5 gap-y-3">
           <Link href="/" className="flex items-center gap-3 rounded-full">
             {typeof settings.photo === 'object' && settings.photo ? (
-              <MediaImage
-                media={settings.photo}
-                sizes="44px"
-                className="size-11 rounded-full border-2 border-card object-cover"
-              />
+              <MediaImage media={settings.photo} sizes="52px" className="size-13 rounded-full object-cover" />
             ) : (
               <span
                 aria-hidden="true"
-                className="flex size-11 items-center justify-center rounded-full border-2 border-card bg-accent font-heading text-sm font-semibold"
+                className="flex size-13 items-center justify-center rounded-full bg-accent font-heading text-sm font-semibold"
               >
                 {initials}
               </span>
@@ -57,11 +55,16 @@ export async function SiteHeader() {
           aria-label="Navigation principale"
           className="hidden flex-wrap items-center gap-x-7 gap-y-3 text-base font-medium md:flex"
         >
-          {settings.headerNav?.map((link) => (
-            <Link key={link.id ?? link.href} href={link.href} className="hover:text-primary-strong">
-              {link.label}
-            </Link>
-          ))}
+          {/* The current page is only known per request: static links meanwhile. */}
+          <Suspense
+            fallback={settings.headerNav?.map((link) => (
+              <Link key={link.id ?? link.href} href={link.href} className="hover:text-primary-strong">
+                {link.label}
+              </Link>
+            ))}
+          >
+            <NavLinks links={settings.headerNav ?? []} />
+          </Suspense>
           {settings.headerCta?.label && settings.headerCta.href ? (
             <CtaLink href={settings.headerCta.href}>{settings.headerCta.label}</CtaLink>
           ) : null}

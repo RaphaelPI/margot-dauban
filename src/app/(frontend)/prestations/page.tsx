@@ -5,6 +5,7 @@ import { MediaImage } from '@/components/models/media-image'
 import { ServiceLine } from '@/components/models/service-line'
 import { ProcessShowcase } from '@/components/process-showcase'
 import { RichTextOrPlain } from '@/components/rich-text-or-plain'
+import { RichTitle } from '@/components/rich-title'
 import { getServiceIds } from '@/data/ids'
 import { getServicesPage } from '@/data/settings'
 import { isSafeHref } from '@/lib/safe-href'
@@ -36,10 +37,7 @@ export default async function ServicesPage() {
       <section className="grid grid-cols-[repeat(auto-fit,minmax(min(26.25rem,100%),1fr))] items-center gap-16 pt-12 pb-20 md:pt-16 md:pb-26">
         <div className="flex flex-col gap-5">
           <h1 className="font-heading text-[clamp(2rem,4vw,3.25rem)] leading-[1.12] font-semibold tracking-[-0.02em] text-balance">
-            {hero?.title}{' '}
-            {hero?.highlight ? (
-              <span className="rounded-[0.875rem] bg-accent px-3 md:whitespace-nowrap">{hero.highlight}</span>
-            ) : null}
+            <RichTitle value={hero?.title} />
           </h1>
           {hero?.lead ? <p className="text-xl leading-[1.55] font-semibold">{hero.lead}</p> : null}
           {hero?.body ? <RichTextOrPlain value={hero.body} className={`${body} [&_p+p]:mt-5`} /> : null}

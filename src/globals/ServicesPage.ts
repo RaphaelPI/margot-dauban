@@ -2,6 +2,7 @@ import type { GlobalConfig } from 'payload'
 import { loggedIn } from '@/access'
 import { lightText, richTextFrom } from '@/fields/light-editor'
 import { seoField } from '@/fields/seo'
+import { legacyHighlight, titleFrom, titleText } from '@/fields/title-text'
 import { validateHref } from '@/lib/safe-href'
 
 const defaultSteps = [
@@ -49,16 +50,12 @@ export const ServicesPage: GlobalConfig = {
                 {
                   name: 'title',
                   label: 'Titre',
-                  type: 'text',
+                  ...titleText('highlight'),
                   required: true,
-                  defaultValue: 'Webdesigner freelance',
+                  defaultValue: titleFrom('Webdesigner freelance', 'à Toulouse'),
+                  admin: { description: 'Le texte en gras s’affiche surligné en lilas.' },
                 },
-                {
-                  name: 'highlight',
-                  label: 'Fin du titre surlignée',
-                  type: 'text',
-                  defaultValue: 'à Toulouse',
-                },
+                { name: 'highlight', label: 'Fin du titre surlignée (ancien)', ...legacyHighlight },
               ],
             },
             {

@@ -7,6 +7,7 @@ import { ProjectCard } from '@/components/models/project-card'
 import { ProjectCategoryFilter } from '@/components/models/project-category-filter'
 import { filterCountClass, filterLinkClass, filterVariant } from '@/components/models/project-filter-style'
 import { RichTextOrPlain } from '@/components/rich-text-or-plain'
+import { RichTitle } from '@/components/rich-title'
 import { SlidingTabs } from '@/components/sliding-tabs'
 import {
   getProjectCategoryIdBySlug,
@@ -15,6 +16,7 @@ import {
   getProjectIdsInCategory,
 } from '@/data/ids'
 import { getProjectsPage } from '@/data/settings'
+import { titlePlain } from '@/lib/rich-title'
 import { isSafeHref } from '@/lib/safe-href'
 
 // Page « Projets » (designs/11-page-projets): all projects, filtered by category through
@@ -23,7 +25,7 @@ import { isSafeHref } from '@/lib/safe-href'
 export async function generateMetadata(): Promise<Metadata> {
   const page = await getProjectsPage()
   return {
-    title: page.seo?.title ?? [page.title, page.highlight].filter(Boolean).join(' '),
+    title: page.seo?.title ?? titlePlain(page.title),
     description: page.seo?.description ?? undefined,
   }
 }
@@ -39,10 +41,7 @@ export default async function ProjectsPage({ searchParams }: PageProps<'/projets
 
       <header className="flex max-w-205 flex-col gap-5 pt-12 pb-10 md:pt-18">
         <h1 className="font-heading text-[clamp(2rem,4vw,3.25rem)] leading-[1.12] font-semibold tracking-[-0.02em] text-balance">
-          {page.title}{' '}
-          {page.highlight ? (
-            <span className="rounded-[0.875rem] bg-accent px-3 md:whitespace-nowrap">{page.highlight}</span>
-          ) : null}
+          <RichTitle value={page.title} />
         </h1>
         {page.intro ? (
           <RichTextOrPlain

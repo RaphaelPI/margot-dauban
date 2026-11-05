@@ -27,7 +27,6 @@ export function Marquee({ className, ...props }: ComponentProps<'div'>) {
   }
 
   return (
-    // biome-ignore lint/a11y/noStaticElementInteractions: slows the decorative scrolling on hover
     <div
       ref={ref}
       className={className}

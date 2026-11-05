@@ -2,6 +2,7 @@ import type { GlobalConfig } from 'payload'
 import { loggedIn } from '@/access'
 import { lightText, richTextFrom } from '@/fields/light-editor'
 import { seoField } from '@/fields/seo'
+import { legacyHighlight, titleFrom, titleText } from '@/fields/title-text'
 import { validateHref } from '@/lib/safe-href'
 
 export const ProjectsPage: GlobalConfig = {
@@ -16,11 +17,12 @@ export const ProjectsPage: GlobalConfig = {
         {
           name: 'title',
           label: 'Titre',
-          type: 'text',
+          ...titleText('highlight'),
           required: true,
-          defaultValue: 'Projets UI / UX et webdesign',
+          defaultValue: titleFrom('Projets UI / UX et webdesign', 'freelance'),
+          admin: { description: 'Le texte en gras s’affiche surligné en lilas.' },
         },
-        { name: 'highlight', label: 'Fin du titre surlignée', type: 'text', defaultValue: 'freelance' },
+        { name: 'highlight', label: 'Fin du titre surlignée (ancien)', ...legacyHighlight },
       ],
     },
     {

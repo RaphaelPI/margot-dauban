@@ -9,8 +9,10 @@ import { ProjectCard } from '@/components/models/project-card'
 import { ProjectLink } from '@/components/models/project-link'
 import { ServiceCard } from '@/components/models/service-card'
 import { RichTextOrPlain } from '@/components/rich-text-or-plain'
+import { RichTitle } from '@/components/rich-title'
 import { getClientIds, getFeaturedProjectIds, getHomeServiceIds } from '@/data/ids'
 import { getHome } from '@/data/settings'
+import { titlePlain } from '@/lib/rich-title'
 
 const asId = (value: string | { id: string }) => (typeof value === 'string' ? value : value.id)
 
@@ -28,8 +30,8 @@ export default async function HomePage() {
     getHomeServiceIds(),
   ])
   const projectIds = home.projects?.items?.length ? home.projects.items.map(asId) : featuredIds
-  const testimonial = home.testimonial?.quote ? home.testimonial : null
-  const about = home.about?.title ? home.about : null
+  const testimonial = titlePlain(home.testimonial?.quote) ? home.testimonial : null
+  const about = titlePlain(home.about?.title) ? home.about : null
   const aboutImage = about?.image ? asId(about.image) : null
 
   return (
@@ -41,17 +43,13 @@ export default async function HomePage() {
         <HeroDecor />
         <div className="relative mx-auto flex max-w-190 flex-col items-center gap-6 text-center">
           <h1 className="font-heading text-[clamp(2.125rem,4.4vw,3.625rem)] leading-[1.12] font-semibold tracking-[-0.02em] text-balance">
-            {home.hero.title}{' '}
-            {home.hero.highlight ? (
-              <span className="rounded-[0.875rem] bg-accent px-3 md:whitespace-nowrap">
-                {home.hero.highlight}
-              </span>
-            ) : null}
+            <RichTitle value={home.hero.title} />
           </h1>
           {home.hero.intro ? (
-            <p className="max-w-140 text-lg leading-normal text-foreground-soft md:text-xl">
-              {home.hero.intro}
-            </p>
+            <RichTextOrPlain
+              value={home.hero.intro}
+              className="max-w-140 text-lg leading-normal text-foreground-soft md:text-xl [&_*+*]:mt-3 [&_a]:font-bold [&_a]:text-primary-strong [&_a]:underline [&_a]:underline-offset-4 [&_li]:list-inside [&_ol]:list-decimal [&_strong]:font-bold [&_strong]:text-foreground [&_ul]:list-disc"
+            />
           ) : null}
           {home.hero.ctaLabel && home.hero.ctaHref ? (
             <CtaLink href={home.hero.ctaHref}>{home.hero.ctaLabel}</CtaLink>
@@ -136,12 +134,10 @@ export default async function HomePage() {
               </span>
             ) : null}
             <h2 id="a-propos-titre" className={`${h2} text-balance`}>
-              {about.title}{' '}
-              {about.highlight ? (
-                <span className="rounded-[0.75rem] bg-[#e2e1ff] px-2.5 [box-decoration-break:clone]">
-                  {about.highlight}
-                </span>
-              ) : null}
+              <RichTitle
+                value={about.title}
+                highlightClassName="rounded-[0.75rem] bg-accent px-2.5 text-foreground [box-decoration-break:clone]"
+              />
             </h2>
             {about.lead ? (
               <RichTextOrPlain
@@ -179,15 +175,11 @@ export default async function HomePage() {
         <section id="temoignages" aria-label="Témoignage" className="pt-16 pb-10 md:pt-24">
           <figure className="relative flex flex-col gap-9 overflow-hidden rounded-[2.25rem] bg-[#f3eef1] bg-[image:radial-gradient(520px_360px_at_8%_0,#dad8fa,rgb(243_238_241/0)_70%),radial-gradient(520px_380px_at_96%_100%,var(--peach),rgb(243_238_241/0)_70%)] p-[clamp(2.25rem,6vw,5rem)]">
             <blockquote className="relative max-w-240 font-heading text-[clamp(1.5rem,3vw,2.375rem)] leading-[1.3] font-medium tracking-[-0.01em]">
-              « {testimonial.quote}
-              {testimonial.highlight ? (
-                <>
-                  {' '}
-                  <span className="rounded-xl bg-card px-2.5 text-primary-strong [box-decoration-break:clone]">
-                    {testimonial.highlight}
-                  </span>
-                </>
-              ) : null}{' '}
+              «{' '}
+              <RichTitle
+                value={testimonial.quote}
+                highlightClassName="rounded-xl bg-accent px-2.5 text-foreground [box-decoration-break:clone]"
+              />{' '}
               »
             </blockquote>
             {testimonial.author || testimonial.company || testimonial.project ? (
