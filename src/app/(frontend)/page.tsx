@@ -2,6 +2,7 @@ import { ArrowLink } from '@/components/arrow-link'
 import { CtaLink } from '@/components/cta-link'
 import { GlowCard } from '@/components/glow-card'
 import { HeroDecor } from '@/components/hero-decor'
+import { Marquee } from '@/components/marquee'
 import { ClientName } from '@/components/models/client-name'
 import { MediaById } from '@/components/models/media-by-id'
 import { ProjectCard } from '@/components/models/project-card'
@@ -77,7 +78,7 @@ export default async function HomePage() {
           ) : null}
           {clientIds.length ? (
             <div className="min-w-0 flex-[1_1_26rem] overflow-hidden [mask-image:linear-gradient(90deg,transparent,#000_12%,#000_88%,transparent)]">
-              <div className="flex w-max animate-marquee text-muted-foreground hover:[animation-play-state:paused] motion-reduce:animate-none">
+              <Marquee className="flex w-max animate-marquee text-muted-foreground motion-reduce:animate-none">
                 <ul className="flex items-center gap-13 pr-13">
                   {clientIds.map((id) => (
                     <li key={id}>
@@ -93,7 +94,7 @@ export default async function HomePage() {
                     </li>
                   ))}
                 </ul>
-              </div>
+              </Marquee>
             </div>
           ) : null}
         </section>
