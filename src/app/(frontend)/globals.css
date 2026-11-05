@@ -170,6 +170,11 @@
   html {
     @apply font-sans;
   }
+  /* Text selection in the site's lilac; selected text stays dark, even on indigo areas. */
+  ::selection {
+    background-color: #e2e1ff;
+    color: var(--foreground);
+  }
 }
 
 /* Hero background: indigo & peach glows fading into the page background. */
