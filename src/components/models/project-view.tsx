@@ -1,13 +1,13 @@
 import { type JSXConvertersFunction, RichText } from '@payloadcms/richtext-lexical/react'
 import { cacheLife, cacheTag } from 'next/cache'
-import Link from 'next/link'
 import type { CSSProperties, ReactNode } from 'react'
+import { ArrowLink } from '@/components/arrow-link'
+import { CtaLink } from '@/components/cta-link'
 import { GlowCard } from '@/components/glow-card'
 import { PhosphorIcon } from '@/components/phosphor-icon'
 import { RichTextOrPlain } from '@/components/rich-text-or-plain'
 import { TocSpy } from '@/components/toc-spy'
 import { Badge } from '@/components/ui/badge'
-import { Button } from '@/components/ui/button'
 import { ZoomableImage } from '@/components/zoomable-image'
 import { tagDocs, tags } from '@/lib/cache'
 import { getPayload } from '@/lib/payload'
@@ -57,7 +57,7 @@ const drawRange = (index: number, count: number) => {
   } as CSSProperties
 }
 
-const linkClass = 'font-bold underline underline-offset-4 hover:text-primary-strong'
+const _linkClass = 'font-bold underline underline-offset-4 hover:text-primary-strong'
 
 // Images open full screen on click; anything else (videos…) is rendered as is.
 const Zoom = ({ image, className, children }: { image: Media; className?: string; children: ReactNode }) =>
@@ -110,9 +110,7 @@ export async function ProjectView({ id, nextSlot }: { id: string; nextSlot?: Rea
   // « Voir le site » sits next to the gallery heading, or the results heading without gallery.
   const siteLink =
     project.website?.url && isSafeHref(project.website.url) ? (
-      <a href={project.website.url} target="_blank" rel="noopener noreferrer" className={linkClass}>
-        {project.website.label || 'Voir le site'} ↗<span className="sr-only"> (nouvel onglet)</span>
-      </a>
+      <ArrowLink href={project.website.url}>{project.website.label || 'Voir le site'}</ArrowLink>
     ) : null
   const siteLinkInResults = gallery.length ? null : siteLink
   const hasResults = Boolean(project.metrics?.length || project.results || siteLinkInResults)
@@ -282,11 +280,7 @@ export async function ProjectView({ id, nextSlot }: { id: string; nextSlot?: Rea
             <h2 id="en-bref" className={h2Lg}>
               {project.stepsTitle || 'En bref : comment on y est arrivés'}
             </h2>
-            {hasDetail ? (
-              <a href="#detail" className={linkClass}>
-                Lire la démarche détaillée ↓
-              </a>
-            ) : null}
+            {hasDetail ? <ArrowLink href="#detail">Lire la démarche détaillée</ArrowLink> : null}
           </div>
           <ol className="draw-timeline flex min-w-0 flex-[999_1_37.5rem] flex-col">
             {steps.map((step) => (
@@ -453,12 +447,9 @@ export async function ProjectView({ id, nextSlot }: { id: string; nextSlot?: Rea
               {cta.text ? <RichTextOrPlain value={cta.text} className="text-lg" /> : null}
             </div>
             {cta.buttonLabel && cta.buttonHref && isSafeHref(cta.buttonHref) ? (
-              <Button
-                asChild
-                className="h-auto rounded-xl bg-ink px-6.5 py-4.5 text-base font-bold text-primary-foreground hover:bg-ink/85 focus-visible:ring-primary-foreground"
-              >
-                <Link href={cta.buttonHref}>{cta.buttonLabel} →</Link>
-              </Button>
+              <CtaLink href={cta.buttonHref} tone="black">
+                {cta.buttonLabel}
+              </CtaLink>
             ) : null}
           </GlowCard>
         </section>

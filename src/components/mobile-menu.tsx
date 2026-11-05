@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import { type CSSProperties, useEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
+import { CtaLink } from '@/components/cta-link'
 import { isSafeHref } from '@/lib/safe-href'
 
 type NavLink = { id?: string | null; label: string; href: string }
@@ -105,13 +106,9 @@ export function MobileMenu({
               </ul>
               <div className="flex flex-col gap-5" style={{ '--i': links.length + 1 } as CSSProperties}>
                 {cta?.label && cta.href ? (
-                  <Link
-                    href={cta.href}
-                    onClick={close}
-                    className="flex justify-center rounded-full bg-card px-4 py-4 text-base font-bold text-primary-strong"
-                  >
-                    {cta.label} →
-                  </Link>
+                  <CtaLink href={cta.href} onClick={close} tone="white" className="w-full justify-center">
+                    {cta.label}
+                  </CtaLink>
                 ) : null}
                 {safeSmall.length ? (
                   <ul className="flex flex-wrap gap-x-4 gap-y-2 text-base font-semibold text-[#e4e2ff]">

@@ -1,13 +1,13 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { Suspense } from 'react'
+import { CtaLink } from '@/components/cta-link'
 import { GlowCard } from '@/components/glow-card'
 import { ProjectCard } from '@/components/models/project-card'
 import { ProjectCategoryFilter } from '@/components/models/project-category-filter'
 import { filterCountClass, filterLinkClass, filterVariant } from '@/components/models/project-filter-style'
 import { RichTextOrPlain } from '@/components/rich-text-or-plain'
 import { SlidingTabs } from '@/components/sliding-tabs'
-import { Button } from '@/components/ui/button'
 import {
   getProjectCategoryIdBySlug,
   getProjectCategoryIds,
@@ -69,12 +69,9 @@ export default async function ProjectsPage({ searchParams }: PageProps<'/projets
               {cta.text ? <RichTextOrPlain value={cta.text} className="text-lg" /> : null}
             </div>
             {cta.buttonLabel && cta.buttonHref && isSafeHref(cta.buttonHref) ? (
-              <Button
-                asChild
-                className="h-auto rounded-xl bg-ink px-6.5 py-4.5 text-base font-bold text-primary-foreground hover:bg-ink/85 focus-visible:ring-primary-foreground"
-              >
-                <Link href={cta.buttonHref}>{cta.buttonLabel} →</Link>
-              </Button>
+              <CtaLink href={cta.buttonHref} tone="black">
+                {cta.buttonLabel}
+              </CtaLink>
             ) : null}
           </GlowCard>
         </section>

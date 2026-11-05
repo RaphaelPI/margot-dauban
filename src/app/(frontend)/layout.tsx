@@ -5,6 +5,7 @@ import { SiteFooter } from '@/components/site-footer'
 import { SiteHeader } from '@/components/site-header'
 import { getSettings } from '@/data/settings'
 import './globals.css'
+import { CtaGooFilter } from '@/components/cta-link'
 
 const unbounded = Unbounded({
   subsets: ['latin'],
@@ -32,6 +33,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="fr" className={`${unbounded.variable} ${albertSans.variable}`}>
       <body className="relative isolate flex min-h-dvh flex-col overflow-x-clip bg-background text-foreground antialiased">
+        <CtaGooFilter />
         <SiteHeader />
         <main className="mx-auto w-full max-w-page flex-1 px-5 pb-16 md:px-8">{children}</main>
         <SiteFooter />

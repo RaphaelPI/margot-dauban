@@ -1,17 +1,16 @@
-import Link from 'next/link'
+import { ArrowLink } from '@/components/arrow-link'
+import { CtaLink } from '@/components/cta-link'
 import { GlowCard } from '@/components/glow-card'
 import { HeroDecor } from '@/components/hero-decor'
 import { ClientName } from '@/components/models/client-name'
 import { ProjectCard } from '@/components/models/project-card'
 import { ServiceCard } from '@/components/models/service-card'
-import { Button } from '@/components/ui/button'
 import { getClientIds, getFeaturedProjectIds, getHomeServiceIds } from '@/data/ids'
 import { getHome } from '@/data/settings'
 
 const asId = (value: string | { id: string }) => (typeof value === 'string' ? value : value.id)
 
 const h2 = 'font-heading text-[1.875rem] leading-tight font-semibold tracking-[-0.02em] md:text-[2.375rem]'
-const headLink = 'font-bold underline underline-offset-4 hover:text-primary-strong'
 
 export default async function HomePage() {
   const [home, featuredIds, clientIds, serviceIds] = await Promise.all([
@@ -45,9 +44,7 @@ export default async function HomePage() {
             </p>
           ) : null}
           {home.hero.ctaLabel && home.hero.ctaHref ? (
-            <Button asChild className="h-auto rounded-full px-7.5 py-4.25 text-[1.0625rem] font-bold">
-              <Link href={home.hero.ctaHref}>{home.hero.ctaLabel}</Link>
-            </Button>
+            <CtaLink href={home.hero.ctaHref}>{home.hero.ctaLabel}</CtaLink>
           ) : null}
         </div>
       </section>
@@ -102,11 +99,7 @@ export default async function HomePage() {
           <h2 id="projets-titre" className={h2}>
             {home.projects?.title}
           </h2>
-          {home.projects?.linkLabel ? (
-            <Link href="/projets" className={headLink}>
-              {home.projects.linkLabel} →
-            </Link>
-          ) : null}
+          {home.projects?.linkLabel ? <ArrowLink href="/projets">{home.projects.linkLabel}</ArrowLink> : null}
         </div>
         {projectIds.length ? (
           <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
@@ -148,9 +141,7 @@ export default async function HomePage() {
               {home.expertise?.title}
             </h2>
             {home.expertise?.linkLabel ? (
-              <Link href="/prestations" className={headLink}>
-                {home.expertise.linkLabel} →
-              </Link>
+              <ArrowLink href="/prestations">{home.expertise.linkLabel}</ArrowLink>
             ) : null}
           </div>
           <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
@@ -174,12 +165,9 @@ export default async function HomePage() {
               {home.cta.text ? <p className="text-lg">{home.cta.text}</p> : null}
             </div>
             {home.cta.buttonLabel && home.cta.buttonHref ? (
-              <Button
-                asChild
-                className="h-auto rounded-xl bg-ink px-6.5 py-4.5 text-base font-bold text-primary-foreground hover:bg-ink/85 focus-visible:ring-primary-foreground"
-              >
-                <Link href={home.cta.buttonHref}>{home.cta.buttonLabel} →</Link>
-              </Button>
+              <CtaLink href={home.cta.buttonHref} tone="black">
+                {home.cta.buttonLabel}
+              </CtaLink>
             ) : null}
           </GlowCard>
         </section>
