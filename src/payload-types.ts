@@ -1659,7 +1659,15 @@ export interface Setting {
     label?: string | null;
     href?: string | null;
   };
+  /**
+   * Sous ton nom, dans la première colonne.
+   */
   footerText?: string | null;
+  footerNavTitle?: string | null;
+  footerLegalTitle?: string | null;
+  /**
+   * Ex. Contact, FAQ, Profil Malt.
+   */
   footerNav?:
     | {
         label: string;
@@ -1670,6 +1678,29 @@ export interface Setting {
         id?: string | null;
       }[]
     | null;
+  /**
+   * Ex. Mentions légales, Politique de confidentialité. « Gérer les cookies » s’ajoute tout seul quand Google Analytics est réglé.
+   */
+  footerLegal?:
+    | {
+        label: string;
+        /**
+         * /projets, https://…, mailto:…
+         */
+        href: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Affichée seulement sur les pages sans bloc indigo de fin de page (Contact, pages de texte…).
+   */
+  footerCta?: {
+    title?: string | null;
+    label?: string | null;
+    href?: string | null;
+  };
+  footerCopyright?: string | null;
+  footerTopLabel?: string | null;
   seo?: {
     title?: string | null;
     description?: string | null;
@@ -1964,6 +1995,8 @@ export interface SettingsSelect<T extends boolean = true> {
         href?: T;
       };
   footerText?: T;
+  footerNavTitle?: T;
+  footerLegalTitle?: T;
   footerNav?:
     | T
     | {
@@ -1971,6 +2004,22 @@ export interface SettingsSelect<T extends boolean = true> {
         href?: T;
         id?: T;
       };
+  footerLegal?:
+    | T
+    | {
+        label?: T;
+        href?: T;
+        id?: T;
+      };
+  footerCta?:
+    | T
+    | {
+        title?: T;
+        label?: T;
+        href?: T;
+      };
+  footerCopyright?: T;
+  footerTopLabel?: T;
   seo?:
     | T
     | {

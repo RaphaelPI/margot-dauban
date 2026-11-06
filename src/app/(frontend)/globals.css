@@ -169,6 +169,12 @@
   }
   html {
     @apply font-sans;
+    scroll-behavior: smooth;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
   }
   /* Text selection in the site's lilac; selected text stays dark, even on indigo areas. */
   ::selection {
@@ -238,6 +244,11 @@
     border-color: transparent;
     backdrop-filter: none;
   }
+}
+
+/* Footer call to action: only on pages without the indigo end-of-page band (designer's choice). */
+body:has([data-cta-band]) .footer-cta {
+  display: none;
 }
 
 /* Header (StickyHeader): roomy at the top of the page; once scrolled (`data-scrolled`) it gets

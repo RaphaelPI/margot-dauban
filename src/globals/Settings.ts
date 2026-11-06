@@ -98,11 +98,78 @@ export const Settings: GlobalConfig = {
           fields: [
             {
               name: 'footerText',
-              label: 'Texte',
+              label: 'Phrase d’accroche',
               type: 'text',
-              defaultValue: 'Margot Dauban — Webdesigner UI / UX freelance à Toulouse',
+              defaultValue: 'UI / UX Designer Freelance basée à Toulouse.',
+              admin: { description: 'Sous ton nom, dans la première colonne.' },
             },
-            { name: 'footerNav', label: 'Liens', type: 'array', fields: linkFields },
+            {
+              type: 'row',
+              fields: [
+                {
+                  name: 'footerNavTitle',
+                  label: 'Titre colonne 2',
+                  type: 'text',
+                  defaultValue: 'Me trouver',
+                },
+                { name: 'footerLegalTitle', label: 'Titre colonne 3', type: 'text', defaultValue: 'Légal' },
+              ],
+            },
+            {
+              name: 'footerNav',
+              label: 'Liens colonne 2',
+              labels: { singular: 'Lien', plural: 'Liens' },
+              type: 'array',
+              fields: linkFields,
+              admin: { description: 'Ex. Contact, FAQ, Profil Malt.' },
+            },
+            {
+              name: 'footerLegal',
+              label: 'Liens colonne 3',
+              labels: { singular: 'Lien', plural: 'Liens' },
+              type: 'array',
+              fields: linkFields,
+              admin: {
+                description:
+                  'Ex. Mentions légales, Politique de confidentialité. « Gérer les cookies » s’ajoute tout seul quand Google Analytics est réglé.',
+              },
+            },
+            {
+              name: 'footerCta',
+              label: 'Colonne 4 (bouton)',
+              type: 'group',
+              admin: {
+                description:
+                  'Affichée seulement sur les pages sans bloc indigo de fin de page (Contact, pages de texte…).',
+              },
+              fields: [
+                { name: 'title', label: 'Titre', type: 'text', defaultValue: 'Un projet en tête ?' },
+                {
+                  type: 'row',
+                  fields: [
+                    { name: 'label', label: 'Bouton', type: 'text', defaultValue: 'Démarrons votre projet' },
+                    { name: 'href', label: 'Lien du bouton', type: 'text', defaultValue: '/contact' },
+                  ],
+                },
+              ],
+            },
+            {
+              type: 'row',
+              fields: [
+                {
+                  name: 'footerCopyright',
+                  label: 'Mention ©',
+                  type: 'text',
+                  defaultValue: '© 2026 Margot Dauban',
+                },
+                {
+                  name: 'footerTopLabel',
+                  label: 'Lien retour en haut',
+                  type: 'text',
+                  defaultValue: 'Retour en haut',
+                },
+              ],
+            },
           ],
         },
         {

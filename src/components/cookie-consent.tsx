@@ -106,13 +106,9 @@ export function CookieConsent({
 }
 
 // Footer link that reopens the banner to change one's mind.
-export function CookieSettingsButton({ label }: { label: string }) {
+export function CookieSettingsButton({ label, className }: { label: string; className?: string }) {
   return (
-    <button
-      type="button"
-      onClick={() => window.dispatchEvent(new Event(openEvent))}
-      className="text-foreground underline underline-offset-4 hover:text-primary-strong"
-    >
+    <button type="button" onClick={() => window.dispatchEvent(new Event(openEvent))} className={className}>
       {label}
     </button>
   )
