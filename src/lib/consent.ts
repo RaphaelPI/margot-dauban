@@ -31,8 +31,10 @@ export function clearAnalyticsCookies() {
     .filter((name) => name === '_ga' || name.startsWith('_ga_') || name === '_gid')
   const host = location.hostname
   const domains = ['', host, `.${host}`, `.${host.split('.').slice(-2).join('.')}`]
-  for (const name of names)
-    // biome-ignore lint/suspicious/noDocumentCookie: Cookie Store API is not available in every browser yet
-    for (const domain of domains)
+  for (const name of names) {
+    for (const domain of domains) {
+      // biome-ignore lint/suspicious/noDocumentCookie: Cookie Store API is not available in every browser yet
       document.cookie = `${name}=; Max-Age=0; path=/${domain ? `; domain=${domain}` : ''}`
+    }
+  }
 }
