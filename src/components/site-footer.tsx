@@ -10,8 +10,7 @@ type FooterLink = { id?: string | null; label: string; href: string }
 const linkClass =
   'bg-[linear-gradient(currentColor,currentColor)] bg-[length:0_1.5px] bg-left-bottom bg-no-repeat pb-0.5 font-semibold transition-[background-size,color] duration-300 hover:bg-[length:100%_1.5px] hover:text-primary-strong motion-reduce:transition-none'
 const heading = 'text-xs font-bold tracking-[0.08em] text-foreground-soft uppercase'
-const item =
-  "flex items-baseline gap-2.5 before:shrink-0 before:font-bold before:text-[#8c85ff] before:content-['–']"
+const item = 'flex'
 
 function FooterLinks({ links }: { links: FooterLink[] }) {
   return links
