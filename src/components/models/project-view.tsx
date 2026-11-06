@@ -260,7 +260,7 @@ export async function ProjectView({ id, nextSlot }: { id: string; nextSlot?: Rea
           </div>
           <div className="grid gap-5 md:grid-cols-2">
             {gallery.map((image) => (
-              <div key={image.id} className="overflow-hidden rounded-xl bg-muted">
+              <div key={image.id} className="overflow-hidden rounded-xl border border-[#e3e4ec] bg-muted">
                 <Zoom image={image}>
                   <MediaImage
                     media={image}
