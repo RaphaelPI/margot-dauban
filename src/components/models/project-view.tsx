@@ -265,7 +265,7 @@ export async function ProjectView({ id, nextSlot }: { id: string; nextSlot?: Rea
                   <MediaImage
                     media={image}
                     sizes="(min-width: 768px) 580px, 100vw"
-                    className="aspect-[4/3] w-full object-cover"
+                    className="aspect-[16/10] w-full object-cover"
                   />
                 </Zoom>
               </div>
