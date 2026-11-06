@@ -44,7 +44,7 @@ export async function SiteFooter() {
   const showCta = Boolean(cta?.label && cta.href && isSafeHref(cta.href))
 
   return (
-    <footer className="bg-[#f3eef1] bg-[image:radial-gradient(900px_420px_at_12%_100%,#dad8fa,rgb(243_238_241/0)_70%),radial-gradient(900px_420px_at_88%_100%,#fce1d3,rgb(243_238_241/0)_70%),linear-gradient(180deg,#f7f7fa_0%,#f3eef1_100%)] px-5 pt-16 pb-8 md:px-8 md:pt-24">
+    <footer className="border-t bg-[#f3eef1] bg-[image:radial-gradient(900px_420px_at_12%_100%,#dad8fa,rgb(243_238_241/0)_70%),radial-gradient(900px_420px_at_88%_100%,#fce1d3,rgb(243_238_241/0)_70%),linear-gradient(180deg,#f7f7fa_0%,#f3eef1_100%)] px-5 pt-16 pb-8 md:px-8 md:pt-24">
       <div className="mx-auto flex w-full max-w-page flex-col gap-12">
         <div className="grid gap-9 px-2 md:grid-cols-2 md:px-6 lg:grid-cols-[minmax(0,1.3fr)_minmax(0,0.8fr)_minmax(0,1fr)_auto]">
           <div className="flex flex-col gap-4">
