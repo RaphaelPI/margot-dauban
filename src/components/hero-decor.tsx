@@ -14,7 +14,7 @@ export function HeroDecor() {
     <div aria-hidden="true" className="pointer-events-none">
       {/* « Contraste » card (designer's swap for « Couleurs »): an accessibility check. */}
       <div
-        className={`${card} [animation-delay:0s] top-10 -left-26 w-59 -rotate-5 gap-3 px-4 pt-3.5 pb-4 text-xs`}
+        className={`${card} [animation-delay:0s] [--parallax:-28px] top-10 -left-26 w-59 -rotate-5 gap-3 px-4 pt-3.5 pb-4 text-xs`}
       >
         <div className="flex items-center justify-between">
           <strong className="text-[13px]">Contraste</strong>
@@ -39,7 +39,7 @@ export function HeroDecor() {
       </div>
 
       <div
-        className={`${card} [animation-delay:-2.2s] top-88 -left-34 w-62.5 rotate-3 gap-3.5 px-4 pt-3.5 pb-4 text-xs`}
+        className={`${card} [animation-delay:-3s] [--parallax:-16px] top-88 -left-34 w-62.5 rotate-3 gap-3.5 px-4 pt-3.5 pb-4 text-xs`}
       >
         <div className="flex items-center justify-between">
           <strong className="text-[13px]">Stepper</strong>
@@ -78,7 +78,9 @@ export function HeroDecor() {
         </div>
       </div>
 
-      <div className={`${card} [animation-delay:-4.1s] top-28 -right-31 w-57.5 rotate-5 gap-2 p-4 text-xs`}>
+      <div
+        className={`${card} [animation-delay:-6s] [--parallax:-36px] top-28 -right-31 w-57.5 rotate-5 gap-2 p-4 text-xs`}
+      >
         <span className="text-decor-muted">Taux de conversion</span>
         <div className="flex items-baseline gap-2">
           <strong className="font-heading text-[1.625rem] font-semibold">4,8 %</strong>
