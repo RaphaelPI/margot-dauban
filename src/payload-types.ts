@@ -1281,6 +1281,14 @@ export interface Home {
     buttonLabel?: string | null;
     buttonHref?: string | null;
   };
+  /**
+   * Laisser vide pour utiliser le titre et le résumé.
+   */
+  seo?: {
+    title?: string | null;
+    description?: string | null;
+    image?: (string | null) | Media;
+  };
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -1811,6 +1819,13 @@ export interface HomeSelect<T extends boolean = true> {
         text?: T;
         buttonLabel?: T;
         buttonHref?: T;
+      };
+  seo?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        image?: T;
       };
   updatedAt?: T;
   createdAt?: T;

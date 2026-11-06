@@ -1,3 +1,4 @@
+import type { Metadata } from 'next'
 import { ArrowLink } from '@/components/arrow-link'
 import { CtaLink } from '@/components/cta-link'
 import { GlowCard } from '@/components/glow-card'
@@ -21,6 +22,15 @@ const aboutText =
   'text-base leading-[1.75] [&_*+*]:mt-4 [&_a]:font-bold [&_a]:text-primary-strong [&_a]:underline [&_a]:decoration-2 [&_a]:underline-offset-4 [&_li+li]:mt-1.5 [&_ol]:list-decimal [&_ol]:pl-6 [&_strong]:font-bold [&_ul]:list-disc [&_ul]:pl-6'
 
 const h2 = 'font-heading text-[1.875rem] leading-tight font-semibold tracking-[-0.02em] md:text-[2.375rem]'
+
+// Home SEO (Accueil › SEO); empty fields fall back to the site defaults (Réglages › SEO).
+export async function generateMetadata(): Promise<Metadata> {
+  const home = await getHome()
+  return {
+    ...(home.seo?.title ? { title: { absolute: home.seo.title } } : {}),
+    ...(home.seo?.description ? { description: home.seo.description } : {}),
+  }
+}
 
 export default async function HomePage() {
   const [home, featuredIds, clientIds, serviceIds] = await Promise.all([

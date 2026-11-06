@@ -1,7 +1,7 @@
 import { type CollectionConfig, slugField } from 'payload'
 import { loggedIn, publishedOrLoggedIn } from '@/access'
 import { articleEditor } from '@/fields/light-editor'
-import { seoField } from '@/fields/seo'
+import { withSeoTab } from '@/fields/seo'
 
 export const Pages: CollectionConfig = {
   slug: 'pages',
@@ -16,7 +16,6 @@ export const Pages: CollectionConfig = {
   fields: [
     { name: 'title', label: 'Titre', type: 'text', required: true },
     slugField({ useAsSlug: 'title' }),
-    { name: 'content', label: 'Contenu', type: 'richText', editor: articleEditor },
-    seoField,
+    ...withSeoTab([{ name: 'content', label: 'Contenu', type: 'richText', editor: articleEditor }]),
   ],
 }
