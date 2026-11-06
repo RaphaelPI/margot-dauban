@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Footer — panneau en verre</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Albert+Sans:wght@400;500;600;700&amp;family=Unbounded:wght@500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#F7F7FA}
+a{color:#121814;text-decoration:none}
+a:focus-visible{outline:3px solid #4F46E5;outline-offset:4px;border-radius:999px}
+.demo{min-height:150px;border-radius:20px;display:flex;align-items:center;justify-content:center;padding:24px;box-sizing:border-box}
+
+/* ===== CTA principal ===== */
+.cta{position:relative;display:inline-flex;align-items:center;gap:12px;height:60px;padding:0 30px;border-radius:999px;background:#4F46E5;color:#FFFFFF;font-weight:700;font-size:17px;white-space:nowrap}
+.cta:hover{color:#FFFFFF}
+
+/* CTA 1 — goo : le rond se détache */
+.goo{background:none;padding:0 98px 0 32px;isolation:isolate}
+.goo .g-fonds{position:absolute;inset:-12px;filter:url(#goo);z-index:-1;pointer-events:none}
+.goo .g-pill{position:absolute;left:12px;top:12px;bottom:12px;right:calc(12px + 78px);border-radius:999px;background:#4F46E5;transition:background .3s}
+.goo .g-rond,.goo .g-fleche{position:absolute;top:12px;right:12px;width:60px;height:60px;border-radius:50%;transform:translateX(-26px);transition:transform .55s cubic-bezier(.34,1.56,.64,1)}
+.goo .g-rond{background:#4F46E5;transition:transform .55s cubic-bezier(.34,1.56,.64,1),background .3s}
+.goo .g-fleche{top:0;right:0;display:flex;align-items:center;justify-content:center;font-size:22px;color:#FFFFFF}
+.goo .g-fleche span{display:inline-block;transition:transform .45s cubic-bezier(.34,1.56,.64,1) .05s}
+.goo:hover .g-rond,.goo:focus-visible .g-rond,.goo:hover .g-fleche,.goo:focus-visible .g-fleche{transform:none}
+.goo:hover .g-fleche span{transform:rotate(-45deg)}
+.goo:hover .g-pill,.goo:hover .g-rond{background:#4338CA}
+
+/* CTA A2 — capsule normale, le rond se libère au survol */
+.goo2{padding:0 146px 0 32px}
+.goo2 .g-rond,.goo2 .g-fleche{transform:translateX(-78px)}
+.goo2 .g-fleche span{transition:transform .45s cubic-bezier(.34,1.56,.64,1)}
+.goo2:hover .g-rond,.goo2:focus-visible .g-rond,.goo2:hover .g-fleche,.goo2:focus-visible .g-fleche{transform:none}
+.goo2 .g-rond,.goo2 .g-fleche{transition:transform .6s cubic-bezier(.34,1.45,.64,1),background .3s}
+
+/* CTA 2 — flèche qui traverse */
+.traverse{transition:transform .25s ease,box-shadow .25s ease,background .25s}
+.traverse .t-zone{position:relative;width:20px;height:20px;overflow:hidden;display:inline-block}
+.traverse .t-zone span{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;transition:transform .4s cubic-bezier(.65,0,.35,1)}
+.traverse .t-zone span+span{transform:translateX(-140%)}
+.traverse:hover{transform:translateY(-2px);box-shadow:0 14px 28px rgba(79,70,229,.32);background:#4338CA}
+.traverse:hover .t-zone span:first-child{transform:translateX(140%)}
+.traverse:hover .t-zone span+span{transform:none}
+
+/* CTA 3 — texte qui roule */
+.roule{overflow:hidden;transition:background .3s}
+.roule .r-txt{position:relative;display:inline-block;overflow:hidden;height:22px;line-height:22px}
+.roule .r-txt span{display:block;transition:transform .4s cubic-bezier(.65,0,.35,1)}
+.roule:hover{background:#121814}
+.roule:hover .r-txt span{transform:translateY(-100%)}
+.roule .r-pastille{width:28px;height:28px;border-radius:50%;background:#FFFFFF;color:#4F46E5;display:flex;align-items:center;justify-content:center;font-size:15px;transition:transform .4s cubic-bezier(.34,1.56,.64,1)}
+.roule:hover .r-pastille{transform:scale(1.15) rotate(-45deg);color:#121814}
+
+/* CTA 4 — magnétique */
+.aimant{transition:transform .35s cubic-bezier(.22,.61,.36,1),box-shadow .35s;will-change:transform}
+.aimant .a-in{display:inline-flex;align-items:center;gap:12px;transition:transform .35s cubic-bezier(.22,.61,.36,1)}
+.aimant:hover{box-shadow:0 0 0 8px rgba(79,70,229,.14),0 18px 36px rgba(79,70,229,.3)}
+
+/* ===== Liens soulignés ===== */
+.lien{position:relative;display:inline-block;font-size:18px;font-weight:700;color:#121814;padding:2px 0}
+/* L1 — le trait se redessine */
+.l1{background:linear-gradient(#4F46E5,#4F46E5) left bottom/100% 2px no-repeat}
+.l1:hover{animation:redessine .6s cubic-bezier(.65,0,.35,1) forwards;color:#3730A3}
+@keyframes redessine{0%{background-size:100% 2px;background-position:right bottom}49%{background-size:0 2px;background-position:right bottom}50%{background-size:0 2px;background-position:left bottom}100%{background-size:100% 2px;background-position:left bottom}}
+/* L2 — surlignage lilas qui monte */
+.l2{padding:2px 4px;margin:0 -4px;background:linear-gradient(#DAD8FA,#DAD8FA) left bottom/100% 3px no-repeat;transition:background-size .35s cubic-bezier(.65,0,.35,1);border-radius:4px}
+.l2:hover{background-size:100% 100%;color:#2E2A7A}
+/* L3 — trait qui ondule */
+.l3{background:linear-gradient(#4F46E5,#4F46E5) left bottom/100% 2px no-repeat}
+.l3:hover{background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='6' viewBox='0 0 16 6'%3E%3Cpath d='M0 3 Q4 0 8 3 T16 3' fill='none' stroke='%234F46E5' stroke-width='2'/%3E%3C/svg%3E") left bottom/16px 6px repeat-x;animation:onde .7s linear infinite;padding-bottom:6px;color:#3730A3}
+@keyframes onde{to{background-position:16px bottom}}
+/* L4 — trait qui s'épaissit, décalé pêche */
+.l4{text-decoration:underline;text-decoration-color:#B9B4F5;text-decoration-thickness:1.5px;text-underline-offset:6px;transition:text-decoration-color .3s,text-decoration-thickness .3s,text-underline-offset .3s,color .3s}
+.l4:hover{text-decoration-color:#F6A58A;text-decoration-thickness:4px;text-underline-offset:3px;color:#3730A3}
+
+/* ===== Liens avec icône ===== */
+.li{display:inline-flex;align-items:center;gap:10px}
+.li .lt{background:linear-gradient(currentColor,currentColor) left bottom/100% 2px no-repeat;padding-bottom:2px;transition:background-size .35s cubic-bezier(.65,0,.35,1)}
+/* I1 — la flèche glisse, le trait se rétracte */
+.i1 .ic{display:inline-block;transition:transform .35s cubic-bezier(.34,1.56,.64,1);color:#4F46E5}
+.i1:hover{color:#3730A3}
+.i1:hover .ic{transform:translateX(6px)}
+.i1:hover .lt{background-size:0 2px;background-position:right bottom}
+/* I2 — flèche diagonale qui s'envole et revient */
+.i2 .ic{position:relative;width:18px;height:18px;overflow:hidden;display:inline-block;color:#4F46E5}
+.i2 .ic span{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;transition:transform .4s cubic-bezier(.65,0,.35,1)}
+.i2 .ic span+span{transform:translate(-120%,120%)}
+.i2:hover .ic span:first-child{transform:translate(120%,-120%)}
+.i2:hover .ic span+span{transform:none}
+.i2:hover{color:#3730A3}
+/* I3 — pastille lilas qui se remplit et tourne */
+.i3 .ic{width:32px;height:32px;border-radius:50%;background:#E7E6FF;color:#3730A3;display:flex;align-items:center;justify-content:center;font-size:15px;transition:background .3s,color .3s,transform .45s cubic-bezier(.34,1.56,.64,1)}
+.i3:hover .ic{background:#4F46E5;color:#FFFFFF;transform:rotate(-45deg)}
+.i3:hover .lt{background-size:100% 2px;color:#3730A3}
+.i3 .lt{background-size:0 2px}
+/* I4 — la flèche s'allonge */
+.i4 .fl{display:inline-flex;align-items:center;color:#4F46E5}
+.i4 .fl i{display:block;width:14px;height:2px;background:currentColor;border-radius:2px;transition:width .4s cubic-bezier(.65,0,.35,1)}
+.i4 .fl b{display:block;width:8px;height:8px;border-top:2px solid currentColor;border-right:2px solid currentColor;transform:rotate(45deg);margin-left:-8px}
+.i4:hover .fl i{width:34px}
+.i4:hover{color:#3730A3}
+
+.spec{font-size:13px;line-height:1.5;color:#5E6660}
+/* Pastilles — pictos et animations adaptées */
+.px .ic svg{display:block}
+.px .ic{overflow:hidden}
+.px.fleche:hover .ic{transform:rotate(-45deg)}
+.px.externe:hover .ic,.px.telech:hover .ic,.px.mail:hover .ic,.px.tel:hover .ic,.px.agenda:hover .ic{transform:none}
+.px.externe:hover .ic svg{animation:envol .45s cubic-bezier(.65,0,.35,1)}
+@keyframes envol{0%{transform:none}49%{transform:translate(14px,-14px)}50%{transform:translate(-14px,14px)}100%{transform:none}}
+.px.telech:hover .ic svg{animation:chute .5s cubic-bezier(.65,0,.35,1)}
+@keyframes chute{0%{transform:none}49%{transform:translateY(16px)}50%{transform:translateY(-16px)}100%{transform:none}}
+.px.mail:hover .ic svg{animation:bascule .5s ease}
+@keyframes bascule{0%,100%{transform:none}30%{transform:rotate(-12deg) scale(1.1)}60%{transform:rotate(8deg)}}
+.px.tel:hover .ic svg{animation:sonne .6s ease}
+@keyframes sonne{0%,100%{transform:none}15%,45%,75%{transform:rotate(-14deg)}30%,60%,90%{transform:rotate(14deg)}}
+.px.agenda:hover .ic svg{animation:saute .45s cubic-bezier(.34,1.56,.64,1)}
+@keyframes saute{0%,100%{transform:none}40%{transform:translateY(-4px) scale(1.12)}}
+@media (prefers-reduced-motion: reduce){*{transition:none !important;animation:none !important}}
+
+.goo.noir .g-pill,.goo.noir .g-rond{background:#121814}
+.goo.noir:hover .g-pill,.goo.noir:hover .g-rond{background:#2B312D}
+.goo.blanc{color:#3730A3}
+.goo.blanc:hover{color:#3730A3}
+.goo.blanc .g-pill,.goo.blanc .g-rond{background:#FFFFFF}
+.goo.blanc .g-fleche{color:#3730A3}
+.goo.blanc:hover .g-pill,.goo.blanc:hover .g-rond{background:#EEEDFF}
+.ls{font-size:18px;font-weight:700;color:#121814;text-decoration:none;background:linear-gradient(#B9B4F5,#B9B4F5) left bottom/100% 1.5px no-repeat,linear-gradient(#4F46E5,#4F46E5) left bottom/0 2px no-repeat;padding-bottom:3px;transition:background-size .35s cubic-bezier(.65,0,.35,1),color .3s}
+.ls:hover{background-size:100% 1.5px,100% 2px;color:#3730A3}
+.carte-p{background:#FFFFFF;border:1px solid #E1E5DF;border-radius:28px;padding:32px;display:flex;flex-direction:column;gap:24px}
+.tok{display:grid;grid-template-columns:150px 1fr;gap:8px 16px;font-size:14px;line-height:1.5}
+.tok dt{color:#5E6660}.tok dd{margin:0;font-weight:600}
+
+.fl{color:#121814;font-size:15px;font-weight:600;background:linear-gradient(currentColor,currentColor) left bottom/0 1.5px no-repeat;padding-bottom:2px;transition:background-size .3s cubic-bezier(.65,0,.35,1),color .25s}
+.fl:hover{background-size:100% 1.5px;color:#3730A3}
+.haut{display:inline-flex;align-items:center;gap:10px;font-weight:700;font-size:14px;color:#121814}
+.haut span{width:36px;height:36px;border-radius:50%;background:#E7E6FF;color:#3730A3;display:flex;align-items:center;justify-content:center;transition:background .3s,color .3s,transform .4s cubic-bezier(.34,1.56,.64,1)}
+.haut:hover span{background:#4F46E5;color:#FFFFFF;transform:translateY(-3px)}
+.pt{width:8px;height:8px;border-radius:50%;background:#1F9D55;display:inline-block;animation:clignote 1.8s ease-in-out infinite}
+@keyframes clignote{0%,100%{opacity:1}50%{opacity:.35}}
+.sig{font-family:Unbounded,system-ui,sans-serif;font-weight:700;font-size:clamp(64px,10.4vw,150px);line-height:.82;letter-spacing:-.05em;white-space:nowrap;background:linear-gradient(100deg,#4F46E5 0%,#8C85FF 40%,#F6A58A 75%,#FCE1D3 100%);background-size:200% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;transition:background-position 1.2s cubic-bezier(.22,.61,.36,1);margin-bottom:-.12em;display:block;text-align:center}
+.fb:hover .sig{background-position:100% 0}
+@property --mx{syntax:'<length>';inherits:true;initial-value:0px}
+@property --my{syntax:'<length>';inherits:true;initial-value:0px}
+.carte{position:relative;isolation:isolate;transition:border-color .6s ease,box-shadow .6s ease}
+.carte::before{content:"";position:absolute;inset:0;border-radius:inherit;background:radial-gradient(380px circle at var(--mx) var(--my),rgba(226,224,252,0.75),rgba(232,230,253,0.35) 45%,rgba(232,230,253,0) 75%);opacity:0;transition:opacity .7s;z-index:-1;pointer-events:none}
+.carte:hover{border-color:#DCDAF8}.carte:hover::before{opacity:1}
+.finpage{background:#F7F7FA;padding:48px 56px 0;display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.finpage span{height:120px;border-radius:22px;background:#FFFFFF;border:1px solid #E1E5DF}
+@media (prefers-reduced-motion: reduce){*{transition:none !important;animation:none !important}}
+
+footer ul{list-style:none;margin:0;padding:0}
+footer ul li{display:flex;align-items:baseline;gap:10px}
+footer ul li::before{content:"–";color:#8C85FF;font-weight:700;flex-shrink:0}
+</style>
+</helmet>
+<svg aria-hidden="true" width="0" height="0" style="position: absolute">
+  <defs>
+    <filter id="goo"><feGaussianBlur in="SourceGraphic" stdDeviation="7" result="flou"></feGaussianBlur><feColorMatrix in="flou" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 22 -9" result="goo"></feColorMatrix><feComposite in="SourceGraphic" in2="goo" operator="atop"></feComposite></filter>
+  </defs>
+</svg>
+<div style="font-family: 'Albert Sans', system-ui, sans-serif; color: #121814; background: #F7F7FA">
+  <div style="max-width: 1240px; margin: 0 auto; padding: 72px 32px 96px; display: flex; flex-direction: column; gap: 56px">
+    <div style="display: flex; flex-direction: column; gap: 10px; max-width: 780px">
+      <span style="font-size: 13px; font-weight: 700; color: #4F46E5; text-transform: uppercase; letter-spacing: 0.08em">Footer desktop · version retenue</span>
+      <h1 style="margin: 0; font-family: Unbounded, system-ui, sans-serif; font-weight: 600; font-size: 34px; letter-spacing: -0.02em">Footer desktop — panneau en verre</h1>
+      <p style="margin: 0; font-size: 17px; line-height: 1.6; color: #4A544D">Logo + baseline · liens «&nbsp;Me trouver&nbsp;» · liens légaux · CTA «&nbsp;Démarrons votre projet&nbsp;» (composant capsule retenu). Survolez le CTA et les liens.</p>
+    </div>
+    <section style="display: flex; flex-direction: column; gap: 14px">
+      <div style="border-radius: 24px; overflow: hidden; border: 1px solid #E1E5DF">
+        <div class="finpage" aria-hidden="true"><span></span><span></span><span></span></div>
+        <footer style="background: radial-gradient(900px 420px at 12% 100%, #DAD8FA, rgba(243,238,241,0) 70%), radial-gradient(900px 420px at 88% 100%, #FCE1D3, rgba(243,238,241,0) 70%), linear-gradient(180deg, #F7F7FA 0%, #F3EEF1 100%); padding: 96px 32px 32px; display: flex; flex-direction: column; gap: 24px">
+          <div style="background: rgba(255,255,255,.55); -webkit-backdrop-filter: blur(16px); backdrop-filter: blur(16px); border: 1px solid rgba(255,255,255,.9); border-radius: 36px; padding: 48px; box-shadow: 0 24px 60px rgba(40,36,90,.08); display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, .8fr) minmax(0, 1fr) auto; gap: 36px; align-items: start"><div style="display: flex; flex-direction: column; gap: 16px"><span style="display: flex; align-items: center; gap: 12px"><span style="width: 48px; height: 48px; border-radius: 50%; background: #E2E1FF; border: 2px solid #FFFFFF; box-shadow: 0 4px 12px rgba(40,36,90,.1); display: flex; align-items: center; justify-content: center; font-size: 10px">[Logo]</span><strong style="font-family: Unbounded, system-ui, sans-serif; font-weight: 600; font-size: 18px">Margot Dauban</strong></span><p style="margin: 0; font-size: 16px; line-height: 1.55; color: #414A44; max-width: 300px">UI / UX Designer Freelance basée à Toulouse.</p></div><nav aria-label="Informations" style="display: flex; flex-direction: column; gap: 16px"><span style="font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: #5E6660">Me trouver</span><ul style="display: flex; flex-direction: column; gap: 12px"><li><a class="fl" href="https://www.margotdauban.fr/contact/">Contact</a></li><li><a class="fl" href="https://www.margotdauban.fr/faq/">FAQ</a></li><li><a class="fl" href="https://www.malt.fr/profile/margotdauban" target="_blank" rel="noopener">Profil Malt</a></li></ul></nav><nav aria-label="Informations légales" style="display: flex; flex-direction: column; gap: 16px"><span style="font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: #5E6660">Légal</span><ul style="display: flex; flex-direction: column; gap: 12px"><li><a class="fl" href="https://www.margotdauban.fr/mentions-legales/">Mentions légales</a></li><li><a class="fl" href="https://www.margotdauban.fr/politique-de-confidentialite/">Politique de confidentialité</a></li></ul></nav>
+            <div style="display: flex; flex-direction: column; gap: 18px; align-items: flex-start"><strong style="font-family: Unbounded, system-ui, sans-serif; font-weight: 600; font-size: 20px; line-height: 1.25">Un projet en tête&nbsp;?</strong><a href="https://www.margotdauban.fr/contact/" class="cta goo goo2 noir"><span class="g-fonds" aria-hidden="true"><span class="g-pill"></span><span class="g-rond"></span></span>Démarrons votre projet<span class="g-fleche" aria-hidden="true"><span>→</span></span></a></div>
+          </div>
+          <div style="padding: 0 24px"><div style="display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; padding-top: 22px; border-top: 1px solid rgba(79,70,229,.14); font-size: 13px; color: #5E6660"><span>© 2026 Margot Dauban</span><a href="#" class="haut">Retour en haut <span aria-hidden="true">↑</span></a></div></div>
+        </footer>
+      </div>
+    </section>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1100}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return { suivre: function (e) { var el = e.currentTarget; var r = el.getBoundingClientRect(); var k = r.width ? el.offsetWidth / r.width : 1; el.style.setProperty('--mx', ((e.clientX - r.left) * k) + 'px'); el.style.setProperty('--my', ((e.clientY - r.top) * k) + 'px'); } };
+  }
+}
+</script>
+</body>
+</html>

@@ -8,12 +8,13 @@ const [sceneWidth, sceneHeight] = [620, 460]
 type Step = { id?: string | null; title: string; text?: string | null; screenLabel?: string | null }
 
 // « Comment se déroule une mission »: steps as tabs, a screen that builds itself for the
-// selected step. Plays by itself while on screen; stops for good once the visitor picks a step,
+// selected step. Plays by itself while on screen; a picked step restarts the bar from there,
 // pauses while a tab has keyboard focus, never plays with reduced motion. The progress bar's
 // own animation moves to the next step when it ends, so bar and steps never drift apart.
 export function ProcessShowcase({ steps }: { steps: Step[] }) {
   const shown = steps.slice(0, processScenes.length)
   const [current, setCurrent] = useState(0)
+  const [round, setRound] = useState(0)
   const [auto, setAuto] = useState(false)
   const [focused, setFocused] = useState(false)
   const [visible, setVisible] = useState(false)
@@ -40,8 +41,10 @@ export function ProcessShowcase({ steps }: { steps: Step[] }) {
   useEffect(() => {
     const el = root.current
     if (!el) return
+    // On screen = any part of it in the top three quarters of the window: plays as soon as the
+    // visitor reaches it, and doesn't stop / restart while the block is partly visible.
     const observer = new IntersectionObserver(([entry]) => setVisible(entry.isIntersecting), {
-      threshold: 0.35,
+      rootMargin: '0px 0px -25% 0px',
     })
     observer.observe(el)
     return () => observer.disconnect()
@@ -49,9 +52,10 @@ export function ProcessShowcase({ steps }: { steps: Step[] }) {
   const playing = auto && visible && !focused && shown.length > 1
   const next = () => setCurrent((i) => (i + 1) % shown.length)
 
+  // Picking a step shows it and the bar restarts from there (designer's choice), then it goes on.
   const pick = (index: number, focus = false) => {
-    setAuto(false)
     setCurrent(index)
+    setRound((n) => n + 1)
     if (focus) tabs.current[index]?.focus()
   }
   const onKeyDown = (event: KeyboardEvent) => {
@@ -98,7 +102,8 @@ export function ProcessShowcase({ steps }: { steps: Step[] }) {
               tabIndex={selected ? 0 : -1}
               onClick={() => pick(index)}
               onKeyDown={onKeyDown}
-              onFocus={() => setFocused(true)}
+              // Keyboard focus pauses (time to read); a mouse click doesn't.
+              onFocus={(event) => setFocused(event.currentTarget.matches(':focus-visible'))}
               onBlur={() => setFocused(false)}
               className={`relative min-h-11 overflow-hidden rounded-[1.125rem] border px-5.5 py-5 text-left transition-[background,border-color] duration-300 ${selected ? 'border-[#cfccf7] bg-card shadow-[0_12px_28px_rgb(79_70_229/0.1)]' : 'border-transparent hover:bg-card/60'}`}
             >
@@ -118,11 +123,12 @@ export function ProcessShowcase({ steps }: { steps: Step[] }) {
               {selected && auto && shown.length > 1 ? (
                 <span aria-hidden="true" className="absolute inset-x-0 bottom-0 h-0.75 bg-[#eeedfb]">
                   <span
-                    key={current}
-                    className="block h-full animate-fill bg-primary"
+                    key={`${current}-${round}`}
+                    className="block h-full origin-left bg-primary"
                     onAnimationEnd={next}
+                    // Scaling (not width) keeps the fill smooth, even while the screen animates.
                     style={{
-                      animationDuration: `${processDurations[current]}ms`,
+                      animation: `fill-scale ${processDurations[current]}ms linear both`,
                       animationPlayState: playing ? 'running' : 'paused',
                     }}
                   />

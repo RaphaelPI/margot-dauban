@@ -1,3 +1,4 @@
+import type { Metadata } from 'next'
 import { ArrowLink } from '@/components/arrow-link'
 import { CtaLink } from '@/components/cta-link'
 import { GlowCard } from '@/components/glow-card'
@@ -21,6 +22,15 @@ const aboutText =
   'text-base leading-[1.75] [&_*+*]:mt-4 [&_a]:font-bold [&_a]:text-primary-strong [&_a]:underline [&_a]:decoration-2 [&_a]:underline-offset-4 [&_li+li]:mt-1.5 [&_ol]:list-decimal [&_ol]:pl-6 [&_strong]:font-bold [&_ul]:list-disc [&_ul]:pl-6'
 
 const h2 = 'font-heading text-[1.875rem] leading-tight font-semibold tracking-[-0.02em] md:text-[2.375rem]'
+
+// Home SEO (Accueil › SEO); empty fields fall back to the site defaults (Réglages › SEO).
+export async function generateMetadata(): Promise<Metadata> {
+  const home = await getHome()
+  return {
+    ...(home.seo?.title ? { title: { absolute: home.seo.title } } : {}),
+    ...(home.seo?.description ? { description: home.seo.description } : {}),
+  }
+}
 
 export default async function HomePage() {
   const [home, featuredIds, clientIds, serviceIds] = await Promise.all([
@@ -238,6 +248,7 @@ export default async function HomePage() {
       {home.cta?.title ? (
         <section className="pt-14">
           <GlowCard
+            data-cta-band=""
             as="div"
             className="flex flex-wrap items-center justify-between gap-8 rounded-[2rem] bg-primary px-7 py-12 text-primary-foreground [--glow-from:rgb(140_133_255/0.45)] [--glow-mid:rgb(120_112_250/0.15)] [--glow-size:520px] hover:shadow-[0_16px_36px_rgb(79_70_229/0.12)] md:px-12 md:py-18"
           >

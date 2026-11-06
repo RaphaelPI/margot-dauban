@@ -12,6 +12,18 @@ export const seoField: Field = {
   ],
 }
 
+// Puts a page's fields in a « Contenu » tab and its SEO in its own « SEO » tab (designer's rule:
+// SEO always in a separate tab). Unnamed tabs: the stored data keeps the same shape.
+export const withSeoTab = (fields: Field[], contentLabel = 'Contenu'): Field[] => [
+  {
+    type: 'tabs',
+    tabs: [
+      { label: contentLabel, fields },
+      { label: 'SEO', fields: [seoField] },
+    ],
+  },
+]
+
 export const linkFields: Field[] = [
   {
     type: 'row',

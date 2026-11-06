@@ -1281,6 +1281,14 @@ export interface Home {
     buttonLabel?: string | null;
     buttonHref?: string | null;
   };
+  /**
+   * Laisser vide pour utiliser le titre et le résumé.
+   */
+  seo?: {
+    title?: string | null;
+    description?: string | null;
+    image?: (string | null) | Media;
+  };
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -1659,8 +1667,51 @@ export interface Setting {
     label?: string | null;
     href?: string | null;
   };
+  /**
+   * Sous ton nom, dans la première colonne.
+   */
   footerText?: string | null;
+  footerNavTitle?: string | null;
+  footerLegalTitle?: string | null;
+  /**
+   * Ex. Contact, FAQ, Profil Malt.
+   */
   footerNav?:
+    | {
+        label: string;
+        /**
+         * /projets, https://…, mailto:…
+         */
+        href: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Ex. Mentions légales, Politique de confidentialité. « Gérer les cookies » s’ajoute tout seul quand Google Analytics est réglé.
+   */
+  footerLegal?:
+    | {
+        label: string;
+        /**
+         * /projets, https://…, mailto:…
+         */
+        href: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Affichée seulement sur les pages sans bloc indigo de fin de page (Contact, pages de texte…).
+   */
+  footerCta?: {
+    title?: string | null;
+    label?: string | null;
+    href?: string | null;
+  };
+  footerCopyright?: string | null;
+  /**
+   * Affichés en ligne, centrés, après la mention © (ex. Mentions légales, CGV).
+   */
+  footerBottomLinks?:
     | {
         label: string;
         /**
@@ -1674,6 +1725,31 @@ export interface Setting {
     title?: string | null;
     description?: string | null;
     image?: (string | null) | Media;
+  };
+  /**
+   * Commence par « G- », ex. G-AB12CD34EF (Google Analytics › Administration › Flux de données).
+   */
+  gaId?: string | null;
+  cookieBanner?: {
+    title?: string | null;
+    text?: {
+      root: {
+        type: string;
+        children: {
+          type: any;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    } | null;
+    refuseLabel?: string | null;
+    acceptLabel?: string | null;
+    manageLabel?: string | null;
   };
   updatedAt?: string | null;
   createdAt?: string | null;
@@ -1743,6 +1819,13 @@ export interface HomeSelect<T extends boolean = true> {
         text?: T;
         buttonLabel?: T;
         buttonHref?: T;
+      };
+  seo?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        image?: T;
       };
   updatedAt?: T;
   createdAt?: T;
@@ -1939,7 +2022,31 @@ export interface SettingsSelect<T extends boolean = true> {
         href?: T;
       };
   footerText?: T;
+  footerNavTitle?: T;
+  footerLegalTitle?: T;
   footerNav?:
+    | T
+    | {
+        label?: T;
+        href?: T;
+        id?: T;
+      };
+  footerLegal?:
+    | T
+    | {
+        label?: T;
+        href?: T;
+        id?: T;
+      };
+  footerCta?:
+    | T
+    | {
+        title?: T;
+        label?: T;
+        href?: T;
+      };
+  footerCopyright?: T;
+  footerBottomLinks?:
     | T
     | {
         label?: T;
@@ -1952,6 +2059,16 @@ export interface SettingsSelect<T extends boolean = true> {
         title?: T;
         description?: T;
         image?: T;
+      };
+  gaId?: T;
+  cookieBanner?:
+    | T
+    | {
+        title?: T;
+        text?: T;
+        refuseLabel?: T;
+        acceptLabel?: T;
+        manageLabel?: T;
       };
   updatedAt?: T;
   createdAt?: T;

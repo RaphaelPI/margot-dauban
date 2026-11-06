@@ -437,6 +437,7 @@ export async function ProjectView({ id, nextSlot }: { id: string; nextSlot?: Rea
       {cta?.title ? (
         <section className="pb-10 md:pb-14">
           <GlowCard
+            data-cta-band=""
             as="div"
             className="flex flex-wrap items-center justify-between gap-8 rounded-[2rem] bg-primary px-7 py-12 text-primary-foreground [--glow-from:rgb(140_133_255/0.45)] [--glow-mid:rgb(120_112_250/0.15)] [--glow-size:520px] hover:shadow-[0_16px_36px_rgb(79_70_229/0.12)] md:px-12 md:py-18"
           >

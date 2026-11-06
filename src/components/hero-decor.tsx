@@ -1,44 +1,46 @@
 // Fixed decorative cards around the homepage title (mockup V4 · 8). Purely visual:
 // hidden from assistive tech and on screens too narrow to keep them clear of the text.
 const card =
-  'absolute hidden flex-col rounded-2xl border border-decor-border bg-card shadow-[0_20px_40px_rgb(40_36_90/0.12)] xl:flex'
+  'hero-float absolute hidden flex-col rounded-2xl border border-decor-border bg-card shadow-[0_20px_40px_rgb(40_36_90/0.12)] xl:flex'
 
-const swatches = [
-  { name: 'Indigo / 500', hex: '#4F46E5' },
-  { name: 'Indigo / 700', hex: '#3730A3' },
-  { name: 'Pêche / 100', hex: '#FCE1D3' },
+// Ratios computed with the WCAG formula (white on #4F46E5: 6.29, #6B4A3C on #FCE1D3: 6.31).
+const contrasts = [
+  { pair: 'Blanc / Indigo', ratio: 'AA · 6,3:1 ✓' },
+  { pair: 'Brun / Pêche', ratio: 'AA · 6,3:1 ✓' },
 ]
 
 export function HeroDecor() {
   return (
     <div aria-hidden="true" className="pointer-events-none">
-      <div className={`${card} top-10 -left-26 w-49 -rotate-5 gap-2 p-3 text-[11px]`}>
+      {/* « Contraste » card (designer's swap for « Couleurs »): an accessibility check. */}
+      <div
+        className={`${card} [animation-delay:0s] [--parallax:-28px] top-10 -left-26 w-59 -rotate-5 gap-3 px-4 pt-3.5 pb-4 text-xs`}
+      >
         <div className="flex items-center justify-between">
-          <strong className="text-xs">Couleurs</strong>
-          <span className="text-[10px] text-decor-muted">5 styles</span>
+          <strong className="text-[13px]">Contraste</strong>
+          <span className="text-[11px] text-decor-muted">Accessibilité</span>
         </div>
-        <div className="flex h-6.5 overflow-hidden rounded-[7px]">
-          <span className="flex-1 bg-primary-strong" />
-          <span className="flex-1 bg-primary" />
-          <span className="flex-1 bg-lilac" />
-          <span className="flex-1 bg-accent" />
-          <span className="flex-1 bg-peach" />
+        <div className="flex gap-2 text-base font-bold">
+          <span className="flex h-12 flex-1 items-center justify-center rounded-[10px] bg-primary text-white">
+            Aa
+          </span>
+          <span className="flex h-12 flex-1 items-center justify-center rounded-[10px] bg-peach text-[#6b4a3c]">
+            Aa
+          </span>
         </div>
-        <div className="flex flex-col gap-1.25">
-          {swatches.map((swatch) => (
-            <div key={swatch.hex} className="flex items-center gap-1.75">
-              <span
-                className="size-3.5 rounded border border-black/5"
-                style={{ backgroundColor: swatch.hex }}
-              />
-              <span className="flex-1">{swatch.name}</span>
-              <span className="text-decor-muted">{swatch.hex}</span>
+        <div className="flex flex-col gap-1.75">
+          {contrasts.map((row) => (
+            <div key={row.pair} className="flex items-center justify-between">
+              <span>{row.pair}</span>
+              <span className="font-bold text-success-foreground">{row.ratio}</span>
             </div>
           ))}
         </div>
       </div>
 
-      <div className={`${card} top-88 -left-34 w-62.5 rotate-3 gap-3.5 px-4 pt-3.5 pb-4 text-xs`}>
+      <div
+        className={`${card} [animation-delay:-3s] [--parallax:-16px] top-88 -left-34 w-62.5 rotate-3 gap-3.5 px-4 pt-3.5 pb-4 text-xs`}
+      >
         <div className="flex items-center justify-between">
           <strong className="text-[13px]">Stepper</strong>
           <span className="text-[11px] text-decor-muted">Composant</span>
@@ -76,7 +78,9 @@ export function HeroDecor() {
         </div>
       </div>
 
-      <div className={`${card} top-28 -right-31 w-57.5 rotate-5 gap-2 p-4 text-xs`}>
+      <div
+        className={`${card} [animation-delay:-6s] [--parallax:-36px] top-28 -right-31 w-57.5 rotate-5 gap-2 p-4 text-xs`}
+      >
         <span className="text-decor-muted">Taux de conversion</span>
         <div className="flex items-baseline gap-2">
           <strong className="font-heading text-[1.625rem] font-semibold">4,8 %</strong>

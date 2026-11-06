@@ -169,6 +169,12 @@
   }
   html {
     @apply font-sans;
+    scroll-behavior: smooth;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
   }
   /* Text selection in the site's lilac; selected text stays dark, even on indigo areas. */
   ::selection {
@@ -238,6 +244,46 @@
     border-color: transparent;
     backdrop-filter: none;
   }
+}
+
+/* Hero decorative cards: a very subtle float, plus a light parallax while the page scrolls
+   (each card drifts up by --parallax over the first screen; browsers without scroll-driven
+   animations just float). Designer's request; nothing moves with reduced motion. */
+@utility hero-float {
+  animation: hero-float 9s ease-in-out infinite;
+  @supports (animation-timeline: scroll()) {
+    animation:
+      hero-float 9s ease-in-out infinite,
+      hero-parallax linear both;
+    animation-timeline: auto, scroll(root);
+    animation-range:
+      normal,
+      0 100vh;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
+}
+
+@keyframes hero-float {
+  0%,
+  100% {
+    translate: 0 0;
+  }
+  50% {
+    translate: 0 -4px;
+  }
+}
+
+@keyframes hero-parallax {
+  to {
+    transform: translateY(var(--parallax, -24px));
+  }
+}
+
+/* Footer call to action: only on pages without the indigo end-of-page band (designer's choice). */
+body:has([data-cta-band]) .footer-cta {
+  display: none;
 }
 
 /* Header (StickyHeader): roomy at the top of the page; once scrolled (`data-scrolled`) it gets
@@ -802,6 +848,15 @@
   }
   to {
     width: 100%;
+  }
+}
+
+@keyframes fill-scale {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
   }
 }
 

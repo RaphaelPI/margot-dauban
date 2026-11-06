@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { Albert_Sans, Unbounded } from 'next/font/google'
 import type { ReactNode } from 'react'
+import { SiteCookies } from '@/components/site-cookies'
 import { SiteFooter } from '@/components/site-footer'
 import { SiteHeader } from '@/components/site-header'
 import { getSettings } from '@/data/settings'
@@ -42,6 +43,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <SiteHeader />
         <main className="mx-auto w-full max-w-page flex-1 px-5 pb-16 md:px-8">{children}</main>
         <SiteFooter />
+        <SiteCookies />
       </body>
     </html>
   )
