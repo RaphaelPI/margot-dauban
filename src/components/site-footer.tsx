@@ -44,7 +44,12 @@ export async function SiteFooter() {
   const showCta = Boolean(cta?.label && cta.href && isSafeHref(cta.href))
 
   return (
-    <footer className="border-t bg-[#f3eef1] bg-[image:radial-gradient(900px_420px_at_12%_100%,#dad8fa,rgb(243_238_241/0)_70%),radial-gradient(900px_420px_at_88%_100%,#fce1d3,rgb(243_238_241/0)_70%),linear-gradient(180deg,#f7f7fa_0%,#f3eef1_100%)] px-5 pt-16 pb-8 md:px-8 md:pt-24">
+    <footer className="relative bg-[#f3eef1] bg-[image:radial-gradient(900px_420px_at_12%_100%,#dad8fa,rgb(243_238_241/0)_70%),radial-gradient(900px_420px_at_88%_100%,#fce1d3,rgb(243_238_241/0)_70%),linear-gradient(180deg,#f7f7fa_0%,#f3eef1_100%)] px-5 pt-16 pb-8 md:px-8 md:pt-24">
+      {/* Hairlines fading out at both ends (designer's choice). */}
+      <span
+        aria-hidden="true"
+        className="absolute inset-x-0 top-0 h-px bg-[linear-gradient(90deg,transparent,#d9dae4_20%,#d9dae4_80%,transparent)]"
+      />
       <div className="mx-auto flex w-full max-w-page flex-col gap-12">
         <div className="grid gap-9 px-2 md:grid-cols-2 md:px-6 lg:grid-cols-[minmax(0,1.3fr)_minmax(0,0.8fr)_minmax(0,1fr)_auto]">
           <div className="flex flex-col gap-4">
@@ -64,10 +69,12 @@ export async function SiteFooter() {
           </div>
 
           {settings.footerNav?.length ? (
-            <nav aria-labelledby="pied-nav" className="flex flex-col gap-4">
-              <span id="pied-nav" className={heading}>
-                {settings.footerNavTitle || 'Me trouver'}
-              </span>
+            <nav aria-label={settings.footerNavTitle || 'Liens'} className="flex flex-col gap-4">
+              {settings.footerNavTitle ? (
+                <span aria-hidden="true" className={heading}>
+                  {settings.footerNavTitle}
+                </span>
+              ) : null}
               <ul className="flex flex-col gap-3 text-base">
                 <FooterLinks links={settings.footerNav} />
               </ul>
@@ -75,10 +82,15 @@ export async function SiteFooter() {
           ) : null}
 
           {settings.footerLegal?.length || settings.gaId ? (
-            <nav aria-labelledby="pied-legal" className="flex flex-col gap-4">
-              <span id="pied-legal" className={heading}>
-                {settings.footerLegalTitle || 'Légal'}
-              </span>
+            <nav
+              aria-label={settings.footerLegalTitle || 'Informations légales'}
+              className="flex flex-col gap-4"
+            >
+              {settings.footerLegalTitle ? (
+                <span aria-hidden="true" className={heading}>
+                  {settings.footerLegalTitle}
+                </span>
+              ) : null}
               <ul className="flex flex-col gap-3 text-base">
                 <FooterLinks links={settings.footerLegal ?? []} />
                 {settings.gaId ? (
@@ -105,17 +117,38 @@ export async function SiteFooter() {
           ) : null}
         </div>
 
-        <div className="flex flex-wrap items-center justify-between gap-4 border-t border-primary/15 px-2 pt-5.5 text-[0.8125rem] text-foreground-soft md:px-6">
-          <span>{settings.footerCopyright}</span>
-          <a href="#haut" className="group flex items-center gap-2.5 text-sm font-bold text-foreground">
-            {settings.footerTopLabel || 'Retour en haut'}
-            <span
-              aria-hidden="true"
-              className="flex size-9 items-center justify-center rounded-full bg-[#e7e6ff] text-primary-strong transition-[background-color,color,transform] duration-300 group-hover:-translate-y-0.75 group-hover:bg-primary group-hover:text-white motion-reduce:transition-none"
-            >
-              ↑
-            </span>
-          </a>
+        <div className="relative pt-5.5 text-center text-[0.8125rem] text-foreground-soft">
+          <span
+            aria-hidden="true"
+            className="absolute inset-x-0 top-0 h-px bg-[linear-gradient(90deg,transparent,rgb(79_70_229/0.1)_20%,rgb(79_70_229/0.1)_80%,transparent)]"
+          />
+          <p className="flex flex-wrap items-center justify-center gap-x-7 gap-y-1.5">
+            {settings.footerCopyright ? <span>{settings.footerCopyright}</span> : null}
+            {settings.footerBottomLinks
+              ?.filter((link) => isSafeHref(link.href))
+              .map((link) => {
+                const external = /^https?:/.test(link.href)
+                return (
+                  <span key={link.id ?? link.href}>
+                    {external ? (
+                      <a
+                        href={link.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="hover:text-primary-strong hover:underline"
+                      >
+                        {link.label}
+                        <span className="sr-only"> (nouvel onglet)</span>
+                      </a>
+                    ) : (
+                      <Link href={link.href} className="hover:text-primary-strong hover:underline">
+                        {link.label}
+                      </Link>
+                    )}
+                  </span>
+                )
+              })}
+          </p>
         </div>
       </div>
     </footer>

@@ -108,11 +108,16 @@ export const Settings: GlobalConfig = {
               fields: [
                 {
                   name: 'footerNavTitle',
-                  label: 'Titre colonne 2',
+                  label: 'Titre colonne 2 (facultatif)',
                   type: 'text',
                   defaultValue: 'Me trouver',
                 },
-                { name: 'footerLegalTitle', label: 'Titre colonne 3', type: 'text', defaultValue: 'Légal' },
+                {
+                  name: 'footerLegalTitle',
+                  label: 'Titre colonne 3 (facultatif)',
+                  type: 'text',
+                  defaultValue: 'Légal',
+                },
               ],
             },
             {
@@ -154,21 +159,20 @@ export const Settings: GlobalConfig = {
               ],
             },
             {
-              type: 'row',
-              fields: [
-                {
-                  name: 'footerCopyright',
-                  label: 'Mention ©',
-                  type: 'text',
-                  defaultValue: '© 2026 Margot Dauban',
-                },
-                {
-                  name: 'footerTopLabel',
-                  label: 'Lien retour en haut',
-                  type: 'text',
-                  defaultValue: 'Retour en haut',
-                },
-              ],
+              name: 'footerCopyright',
+              label: 'Mention ©',
+              type: 'text',
+              defaultValue: '© 2026 Margot Dauban',
+            },
+            {
+              name: 'footerBottomLinks',
+              label: 'Liens de la ligne du bas',
+              labels: { singular: 'Lien', plural: 'Liens' },
+              type: 'array',
+              fields: linkFields,
+              admin: {
+                description: 'Affichés en ligne, centrés, après la mention © (ex. Mentions légales, CGV).',
+              },
             },
           ],
         },

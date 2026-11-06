@@ -18,10 +18,7 @@ export async function SiteHeader() {
   return (
     // Stays visible while scrolling. Phones get the logo and a burger (MobileMenu); over the open
     // menu the header turns see-through and white (`data-menu` on <html>, beats the scroll fade).
-    <StickyHeader
-      id="haut"
-      className="header-fade sticky top-0 z-40 border-b bg-background/85 backdrop-blur-md transition-colors [html[data-menu=open]_&]:border-transparent! [html[data-menu=open]_&]:bg-transparent! [html[data-menu=open]_&]:text-white [html[data-menu=open]_&]:backdrop-blur-none!"
-    >
+    <StickyHeader className="header-fade sticky top-0 z-40 border-b bg-background/85 backdrop-blur-md transition-colors [html[data-menu=open]_&]:border-transparent! [html[data-menu=open]_&]:bg-transparent! [html[data-menu=open]_&]:text-white [html[data-menu=open]_&]:backdrop-blur-none!">
       <div className="header-bar mx-auto flex w-full max-w-page flex-wrap items-center justify-between gap-x-6 gap-y-4 px-5 md:px-8">
         <div className="flex items-center">
           <Link href="/" className="flex items-center rounded-full">

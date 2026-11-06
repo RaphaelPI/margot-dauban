@@ -1700,7 +1700,19 @@ export interface Setting {
     href?: string | null;
   };
   footerCopyright?: string | null;
-  footerTopLabel?: string | null;
+  /**
+   * Affichés en ligne, centrés, après la mention © (ex. Mentions légales, CGV).
+   */
+  footerBottomLinks?:
+    | {
+        label: string;
+        /**
+         * /projets, https://…, mailto:…
+         */
+        href: string;
+        id?: string | null;
+      }[]
+    | null;
   seo?: {
     title?: string | null;
     description?: string | null;
@@ -2019,7 +2031,13 @@ export interface SettingsSelect<T extends boolean = true> {
         href?: T;
       };
   footerCopyright?: T;
-  footerTopLabel?: T;
+  footerBottomLinks?:
+    | T
+    | {
+        label?: T;
+        href?: T;
+        id?: T;
+      };
   seo?:
     | T
     | {
