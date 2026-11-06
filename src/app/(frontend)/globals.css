@@ -246,6 +246,24 @@
   }
 }
 
+/* Hero decorative cards gently float (designer's request); still with reduced motion. */
+@utility hero-float {
+  animation: hero-float 6s ease-in-out infinite;
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
+}
+
+@keyframes hero-float {
+  0%,
+  100% {
+    translate: 0 0;
+  }
+  50% {
+    translate: 0 -8px;
+  }
+}
+
 /* Footer call to action: only on pages without the indigo end-of-page band (designer's choice). */
 body:has([data-cta-band]) .footer-cta {
   display: none;

@@ -1,7 +1,7 @@
 // Fixed decorative cards around the homepage title (mockup V4 · 8). Purely visual:
 // hidden from assistive tech and on screens too narrow to keep them clear of the text.
 const card =
-  'absolute hidden flex-col rounded-2xl border border-decor-border bg-card shadow-[0_20px_40px_rgb(40_36_90/0.12)] xl:flex'
+  'hero-float absolute hidden flex-col rounded-2xl border border-decor-border bg-card shadow-[0_20px_40px_rgb(40_36_90/0.12)] xl:flex'
 
 // Ratios computed with the WCAG formula (white on #4F46E5: 6.29, #6B4A3C on #FCE1D3: 6.31).
 const contrasts = [
@@ -13,7 +13,9 @@ export function HeroDecor() {
   return (
     <div aria-hidden="true" className="pointer-events-none">
       {/* « Contraste » card (designer's swap for « Couleurs »): an accessibility check. */}
-      <div className={`${card} top-10 -left-26 w-59 -rotate-5 gap-3 px-4 pt-3.5 pb-4 text-xs`}>
+      <div
+        className={`${card} [animation-delay:0s] top-10 -left-26 w-59 -rotate-5 gap-3 px-4 pt-3.5 pb-4 text-xs`}
+      >
         <div className="flex items-center justify-between">
           <strong className="text-[13px]">Contraste</strong>
           <span className="text-[11px] text-decor-muted">Accessibilité</span>
@@ -36,7 +38,9 @@ export function HeroDecor() {
         </div>
       </div>
 
-      <div className={`${card} top-88 -left-34 w-62.5 rotate-3 gap-3.5 px-4 pt-3.5 pb-4 text-xs`}>
+      <div
+        className={`${card} [animation-delay:-2.2s] top-88 -left-34 w-62.5 rotate-3 gap-3.5 px-4 pt-3.5 pb-4 text-xs`}
+      >
         <div className="flex items-center justify-between">
           <strong className="text-[13px]">Stepper</strong>
           <span className="text-[11px] text-decor-muted">Composant</span>
@@ -74,7 +78,7 @@ export function HeroDecor() {
         </div>
       </div>
 
-      <div className={`${card} top-28 -right-31 w-57.5 rotate-5 gap-2 p-4 text-xs`}>
+      <div className={`${card} [animation-delay:-4.1s] top-28 -right-31 w-57.5 rotate-5 gap-2 p-4 text-xs`}>
         <span className="text-decor-muted">Taux de conversion</span>
         <div className="flex items-baseline gap-2">
           <strong className="font-heading text-[1.625rem] font-semibold">4,8 %</strong>
