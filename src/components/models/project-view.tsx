@@ -280,7 +280,12 @@ export async function ProjectView({ id, nextSlot }: { id: string; nextSlot?: Rea
             <h2 id="en-bref" className={h2Lg}>
               {project.stepsTitle || 'En bref : comment on y est arrivés'}
             </h2>
-            {hasDetail ? <ArrowLink href="#detail">Lire la démarche détaillée</ArrowLink> : null}
+            {/* Bottom-aligned with the last step when side by side (designer's choice). */}
+            {hasDetail ? (
+              <ArrowLink href="#detail" className="mt-auto mb-6">
+                Lire la démarche détaillée
+              </ArrowLink>
+            ) : null}
           </div>
           <ol className="draw-timeline flex min-w-0 flex-[999_1_37.5rem] flex-col">
             {steps.map((step) => (
