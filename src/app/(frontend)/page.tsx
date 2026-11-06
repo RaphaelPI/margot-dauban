@@ -234,7 +234,7 @@ export default async function HomePage() {
               {home.expertise?.title}
             </h2>
             {home.expertise?.linkLabel ? (
-              <ArrowLink href="/prestations">{home.expertise.linkLabel}</ArrowLink>
+              <ArrowLink href="/expertises">{home.expertise.linkLabel}</ArrowLink>
             ) : null}
           </div>
           <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">

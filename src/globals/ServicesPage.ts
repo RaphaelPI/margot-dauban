@@ -33,7 +33,7 @@ export const ServicesPage: GlobalConfig = {
   label: 'Page Prestations',
   admin: {
     description:
-      'Textes de la page Prestations (/prestations). Les expertises se gèrent dans « Expertises ».',
+      'Textes de la page Expertises (/expertises, anciennement /prestations). Les expertises se gèrent dans « Expertises ».',
   },
   access: { read: () => true, update: loggedIn },
   fields: [

@@ -1366,7 +1366,7 @@ export interface ProjectsPage {
   createdAt?: string | null;
 }
 /**
- * Textes de la page Prestations (/prestations). Les expertises se gèrent dans « Expertises ».
+ * Textes de la page Expertises (/expertises, anciennement /prestations). Les expertises se gèrent dans « Expertises ».
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "services-page".
