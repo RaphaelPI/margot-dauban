@@ -816,6 +816,15 @@ body:has([data-cta-band]) .footer-cta {
   }
 }
 
+@keyframes fill-scale {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
 /* Mission screen, steps 3 and 4: a cursor walks the shopping journey (list → product → cart).
    Delays match the cursor path; see designs/13-page-prestations/process-ecran.html. */
 .ps-frame {

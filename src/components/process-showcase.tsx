@@ -40,8 +40,10 @@ export function ProcessShowcase({ steps }: { steps: Step[] }) {
   useEffect(() => {
     const el = root.current
     if (!el) return
+    // On screen = any part of it in the top three quarters of the window: plays as soon as the
+    // visitor reaches it, and doesn't stop / restart while the block is partly visible.
     const observer = new IntersectionObserver(([entry]) => setVisible(entry.isIntersecting), {
-      threshold: 0.35,
+      rootMargin: '0px 0px -25% 0px',
     })
     observer.observe(el)
     return () => observer.disconnect()
@@ -119,10 +121,11 @@ export function ProcessShowcase({ steps }: { steps: Step[] }) {
                 <span aria-hidden="true" className="absolute inset-x-0 bottom-0 h-0.75 bg-[#eeedfb]">
                   <span
                     key={current}
-                    className="block h-full animate-fill bg-primary"
+                    className="block h-full origin-left bg-primary"
                     onAnimationEnd={next}
+                    // Scaling (not width) keeps the fill smooth, even while the screen animates.
                     style={{
-                      animationDuration: `${processDurations[current]}ms`,
+                      animation: `fill-scale ${processDurations[current]}ms linear both`,
                       animationPlayState: playing ? 'running' : 'paused',
                     }}
                   />
