@@ -860,15 +860,148 @@ body:has([data-cta-band]) .footer-cta {
   }
 }
 
-/* Mission screen, steps 3 and 4: a cursor walks the shopping journey (list → product → cart).
-   Delays match the cursor path; see designs/13-page-prestations/process-ecran.html. */
-.ps-frame {
+/* Mission screen (designs/70-animation-process/Process-B-Ecran.dc.html). Each step plays once,
+   then its deliverable card rises (.ps-reveal, delay set inline). */
+
+/* Step 1: persona, sticky notes, insight. */
+.ps-ring circle,
+.ps-circle path {
+  stroke-dasharray: 100;
+  stroke-dashoffset: 100;
+  animation: ps-draw 0.7s cubic-bezier(0.65, 0, 0.35, 1) 0.25s forwards;
+}
+.ps-circle path {
+  animation-delay: 2.3s;
+}
+.ps-bubble {
+  opacity: 0;
+  transform-origin: 20px 0;
+  animation: ps-bubble 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) 0.6s forwards;
+}
+.ps-postit {
+  opacity: 0;
+  transform: rotate(var(--r));
+  box-shadow: 0 8px 16px rgb(40 36 90 / 0.1);
+  animation: ps-stick 0.5s cubic-bezier(0.34, 1.45, 0.64, 1) both;
+}
+.ps-reveal {
+  opacity: 0;
+  animation: ps-rise 0.55s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
+}
+
+/* Step 2: audit of the current product list. */
+.ps-scan {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    rgb(79 70 229 / 0),
+    var(--primary) 30%,
+    var(--primary) 70%,
+    rgb(79 70 229 / 0)
+  );
+  box-shadow: 0 0 14px 3px rgb(79 70 229 / 0.35);
+  opacity: 0;
+  animation: ps-scan 1.4s cubic-bezier(0.45, 0, 0.55, 1) 0.2s both;
+}
+.ps-lead,
+.ps-line-h {
+  transform: scaleX(0);
+  transform-origin: left;
+  animation: ps-stretch 0.35s ease forwards;
+}
+.ps-line-h {
+  animation-duration: 0.3s;
+}
+.ps-line-v {
+  transform: scaleY(0);
+  transform-origin: top;
+  animation: ps-stretch 0.3s ease forwards;
+}
+.ps-tag {
+  opacity: 0;
+  animation: ps-tag 0.4s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
+}
+.ps-heat {
+  z-index: 1;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgb(224 96 58 / 0.7),
+    rgb(246 165 138 / 0.45) 40%,
+    rgb(252 225 211 / 0) 70%
+  );
+  opacity: 0;
+  animation: ps-fade 0.8s ease 2.6s forwards;
+}
+.ps-heat-figure {
+  opacity: 0;
+  animation: ps-fade 0.4s ease 2.8s forwards;
+}
+
+/* Step 3: site map, wireframes, prototype links. */
+.ps-img {
+  display: block;
+  height: 34px;
+  border-radius: 5px;
+  background:
+    linear-gradient(to top right, transparent calc(50% - 0.6px), #d5d3ee 50%, transparent calc(50% + 0.6px)),
+    linear-gradient(to top left, transparent calc(50% - 0.6px), #d5d3ee 50%, transparent calc(50% + 0.6px)),
+    #f4f3ff;
+}
+.ps-check {
+  opacity: 0;
+  animation: pop 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+.ps-hot-1 {
+  animation: ps-hot-1 0.4s ease 2.6s forwards;
+}
+.ps-hot-2 {
+  animation: ps-hot-2 0.4s ease 3s forwards;
+}
+.ps-noodle {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+  animation: 0.6s cubic-bezier(0.65, 0, 0.35, 1) both;
+}
+.ps-noodle-1 {
+  clip-path: inset(-10px 87% -10px 13%);
+  animation-name: ps-link-1;
+  animation-delay: 2.9s;
+}
+.ps-noodle-2 {
+  clip-path: inset(-10px 39% -10px 61%);
+  animation-name: ps-link-2;
+  animation-delay: 3.3s;
+}
+.ps-dot {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  background: var(--primary);
+  box-shadow: 0 0 0 1px var(--primary);
+  opacity: 0;
+  animation: pop 0.3s ease forwards;
+}
+.ps-dot-end {
+  border-radius: 2px;
+  rotate: 45deg;
+}
+
+/* Step 4: the cursor walks the shopping journey (list → product → cart). */
+.ps-flash {
   animation:
     pop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both,
-    ps-frame 0.4s ease both;
-}
-.ps-cursor-3 {
-  animation: ps-cursor-3 3.4s cubic-bezier(0.6, 0, 0.3, 1) 0.6s both;
+    ps-flash 1s ease;
 }
 .ps-list {
   animation:
@@ -920,39 +1053,101 @@ body:has([data-cta-band]) .footer-cta {
   animation: ps-ripple 0.6s ease-out 4.3s;
 }
 
-@keyframes ps-frame {
-  from {
-    border-color: #b9b4f5;
-    box-shadow: none;
-  }
+@keyframes ps-draw {
   to {
-    border-color: var(--primary);
-    box-shadow: 0 0 0 4px rgb(79 70 229 / 0.15);
+    stroke-dashoffset: 0;
   }
 }
-@keyframes ps-cursor-3 {
+@keyframes ps-bubble {
+  from {
+    opacity: 0;
+    transform: scale(0.7) translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes ps-stick {
+  from {
+    opacity: 0;
+    transform: translateY(-10px) scale(1.12) rotate(0deg);
+    box-shadow: 0 18px 30px rgb(40 36 90 / 0.18);
+  }
+  to {
+    opacity: 1;
+    transform: rotate(var(--r));
+    box-shadow: 0 8px 16px rgb(40 36 90 / 0.1);
+  }
+}
+@keyframes ps-rise {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes ps-scan {
   0% {
-    top: 70%;
-    left: 12%;
+    top: 0;
     opacity: 0;
   }
-  8% {
+  8%,
+  90% {
     opacity: 1;
-  }
-  30%,
-  40% {
-    top: 52%;
-    left: 16%;
-  }
-  66%,
-  76% {
-    top: 60%;
-    left: 50%;
   }
   100% {
-    top: 46%;
-    left: 84%;
+    top: 100%;
+    opacity: 0;
+  }
+}
+@keyframes ps-stretch {
+  to {
+    transform: none;
+  }
+}
+@keyframes ps-tag {
+  from {
+    opacity: 0;
+    transform: translateX(10px);
+  }
+  to {
     opacity: 1;
+    transform: none;
+  }
+}
+@keyframes ps-hot-1 {
+  to {
+    background: rgb(226 224 252 / 0.4);
+    box-shadow: 0 0 0 2px var(--primary);
+  }
+}
+@keyframes ps-hot-2 {
+  to {
+    box-shadow: 0 0 0 3px rgb(79 70 229 / 0.3);
+  }
+}
+@keyframes ps-link-1 {
+  to {
+    clip-path: inset(-10px 63.7% -10px 13%);
+  }
+}
+@keyframes ps-link-2 {
+  to {
+    clip-path: inset(-10px 27.3% -10px 61%);
+  }
+}
+@keyframes ps-flash {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgb(79 70 229 / 0);
+  }
+  30%,
+  70% {
+    box-shadow: 0 0 0 3px rgb(79 70 229 / 0.45);
   }
 }
 @keyframes ps-leave {
@@ -1009,35 +1204,35 @@ body:has([data-cta-band]) .footer-cta {
 }
 @keyframes ps-cursor-4 {
   0% {
-    top: 330px;
+    top: 270px;
     left: 92%;
     opacity: 0;
   }
   5% {
-    top: 330px;
+    top: 270px;
     left: 92%;
     opacity: 1;
   }
   17%,
   25% {
-    top: 118px;
+    top: 96px;
     left: 50%;
     opacity: 1;
   }
   42% {
-    top: 200px;
+    top: 170px;
     left: 62%;
     opacity: 1;
   }
   52%,
   60% {
-    top: 322px;
+    top: 263px;
     left: 74%;
     opacity: 1;
   }
   78%,
   100% {
-    top: 286px;
+    top: 226px;
     left: 76%;
     opacity: 1;
   }
@@ -1059,18 +1254,41 @@ body:has([data-cta-band]) .footer-cta {
   .process-screen * {
     animation: none;
   }
-  .process-screen .ps-cursor-3,
   .process-screen .ps-cursor-4,
-  .process-screen .ps-list {
+  .process-screen .ps-list,
+  .process-screen .ps-scan {
     display: none;
   }
-  .process-screen .ps-sheet,
-  .process-screen .ps-veil {
+  .process-screen
+    :is(
+      .ps-sheet,
+      .ps-veil,
+      .ps-bubble,
+      .ps-postit,
+      .ps-reveal,
+      .ps-tag,
+      .ps-heat,
+      .ps-heat-figure,
+      .ps-check,
+      .ps-dot
+    ) {
     opacity: 1;
   }
-  .process-screen .ps-badge,
-  .process-screen .ps-drawer {
+  .process-screen :is(.ps-badge, .ps-drawer, .ps-lead, .ps-line-h, .ps-line-v) {
     transform: none;
+  }
+  .process-screen :is(.ps-ring circle, .ps-circle path) {
+    stroke-dashoffset: 0;
+  }
+  .process-screen .ps-noodle-1 {
+    clip-path: inset(-10px 63.7% -10px 13%);
+  }
+  .process-screen .ps-noodle-2 {
+    clip-path: inset(-10px 27.3% -10px 61%);
+  }
+  .process-screen .ps-hot-1 {
+    background: rgb(226 224 252 / 0.4);
+    box-shadow: 0 0 0 2px var(--primary);
   }
 }
 

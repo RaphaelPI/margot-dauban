@@ -160,7 +160,7 @@ export function ProcessShowcase({ steps }: { steps: Step[] }) {
         <p className="sr-only">
           Étape {current + 1} : {shown[current]?.title}. {shown[current]?.text}
         </p>
-        {/* Decorative illustration of the step: replayed each time the step changes. */}
+        {/* Decorative illustration of the step: replayed each time a step is shown or picked. */}
         <div
           ref={screen}
           aria-hidden="true"
@@ -175,7 +175,7 @@ export function ProcessShowcase({ steps }: { steps: Step[] }) {
               transform: `scale(${scale})`,
             }}
           >
-            <Scene key={current} />
+            <Scene key={`${current}-${round}`} />
           </div>
         </div>
       </div>
