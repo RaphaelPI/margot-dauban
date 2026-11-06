@@ -1,5 +1,4 @@
 import type { Metadata } from 'next'
-import { ArrowLink } from '@/components/arrow-link'
 import { ContactForm } from '@/components/contact-form'
 import { CopyButton } from '@/components/copy-button'
 import { GlowCard } from '@/components/glow-card'
@@ -53,8 +52,8 @@ export default async function ContactPageView() {
             <ul className="flex flex-col gap-2.5">
               {cards.map((card, index) => {
                 const href = card.href && isSafeHref(card.href) ? card.href : null
-                const _external = href?.startsWith('http')
                 // mailto: link → a button copies the bare address next to it.
+                const external = href ? /^https?:/.test(href) : false
                 const email = mailtoAddress(href)
                 return (
                   <li key={card.id ?? card.value}>
@@ -74,17 +73,19 @@ export default async function ContactPageView() {
                         ) : null}
                         {href ? (
                           <span className="flex flex-wrap items-center gap-x-2 gap-y-1">
-                            <ArrowLink
+                            <a
                               href={href}
-                              className="max-w-full text-base [&_.arrow-link-text]:min-w-0 [&_.arrow-link-text]:break-words"
+                              {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+                              className="min-w-0 font-semibold break-words transition-colors hover:text-primary-strong"
                             >
-                              {/* The round's pictogram replaces a typed arrow. */}
+                              {/* A typed trailing arrow is dropped: plain text link (designer's choice). */}
                               {card.value.replace(/\s*[→↗]\s*$/, '')}
-                            </ArrowLink>
+                              {external ? <span className="sr-only"> (nouvel onglet)</span> : null}
+                            </a>
                             {email ? <CopyButton value={email} label={`Copier l’adresse ${email}`} /> : null}
                           </span>
                         ) : (
-                          <strong className="break-words">{card.value}</strong>
+                          <strong className="font-semibold break-words">{card.value}</strong>
                         )}
                       </span>
                     </GlowCard>
