@@ -9,7 +9,7 @@ type FooterLink = { id?: string | null; label: string; href: string }
 
 const linkClass =
   'bg-[linear-gradient(currentColor,currentColor)] bg-[length:0_1.5px] bg-left-bottom bg-no-repeat pb-0.5 font-semibold transition-[background-size,color] duration-300 hover:bg-[length:100%_1.5px] hover:text-primary-strong motion-reduce:transition-none'
-const heading = 'text-xs font-bold tracking-[0.08em] text-foreground-soft uppercase'
+const heading = 'text-[0.6875rem] font-bold tracking-[0.08em] text-foreground-soft uppercase'
 const item = 'flex'
 
 function FooterLinks({ links }: { links: FooterLink[] }) {
@@ -60,10 +60,10 @@ export async function SiteFooter() {
                   className="size-12 rounded-full object-cover"
                 />
               ) : null}
-              <strong className="font-heading text-lg font-semibold">{settings.siteName}</strong>
+              <strong className="font-heading text-base font-semibold">{settings.siteName}</strong>
             </span>
             {settings.footerText ? (
-              <p className="max-w-75 text-base leading-normal text-foreground-soft">{settings.footerText}</p>
+              <p className="max-w-75 text-sm leading-normal text-foreground-soft">{settings.footerText}</p>
             ) : null}
           </div>
 
@@ -74,7 +74,7 @@ export async function SiteFooter() {
                   {settings.footerNavTitle}
                 </span>
               ) : null}
-              <ul className="flex flex-col gap-3 text-base">
+              <ul className="flex flex-col gap-2.5 text-sm">
                 <FooterLinks links={settings.footerNav} />
               </ul>
             </nav>
@@ -90,7 +90,7 @@ export async function SiteFooter() {
                   {settings.footerLegalTitle}
                 </span>
               ) : null}
-              <ul className="flex flex-col gap-3 text-base">
+              <ul className="flex flex-col gap-2.5 text-sm">
                 <FooterLinks links={settings.footerLegal ?? []} />
                 {settings.gaId ? (
                   <li className={item}>
@@ -107,7 +107,7 @@ export async function SiteFooter() {
           {showCta && cta?.href ? (
             <div className="footer-cta flex flex-col items-start gap-4.5">
               {cta.title ? (
-                <strong className="font-heading text-xl leading-tight font-semibold">{cta.title}</strong>
+                <strong className="font-heading text-base leading-tight font-semibold">{cta.title}</strong>
               ) : null}
               <CtaLink href={cta.href} tone="black">
                 {cta.label}
