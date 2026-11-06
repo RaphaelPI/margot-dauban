@@ -135,7 +135,7 @@ export default async function HomePage() {
         // first on phones.
         <section
           aria-labelledby="a-propos-titre"
-          className="grid items-center gap-12 pt-16 pb-10 md:grid-cols-2 md:gap-12 md:pt-24 lg:gap-16"
+          className="grid items-center gap-12 pt-16 pb-10 md:grid-cols-2 md:items-stretch md:gap-12 md:pt-24 lg:gap-16"
         >
           <div className="flex flex-col gap-5">
             {about.eyebrow ? (
@@ -167,12 +167,13 @@ export default async function HomePage() {
           </div>
           {aboutImage ? (
             <div
-              className={`aspect-[4/5] overflow-hidden rounded-[2rem] border bg-[#f3f1f7] bg-[image:radial-gradient(420px_circle_at_20%_15%,#dad8fa,rgb(218_216_250/0)_70%),radial-gradient(420px_circle_at_85%_90%,#fce1d3,rgb(252_225_211/0)_70%)] ${about.imagePosition === 'right' ? '' : 'md:order-first'}`}
+              className={`relative aspect-[4/5] overflow-hidden rounded-[2rem] border md:aspect-auto bg-[#f3f1f7] bg-[image:radial-gradient(420px_circle_at_20%_15%,#dad8fa,rgb(218_216_250/0)_70%),radial-gradient(420px_circle_at_85%_90%,#fce1d3,rgb(252_225_211/0)_70%)] ${about.imagePosition === 'right' ? '' : 'md:order-first'}`}
             >
               <MediaById
                 id={aboutImage}
                 sizes="(min-width: 1024px) 560px, 100vw"
-                className="size-full object-cover"
+                // Fills the frame, which is as tall as the text column from tablet up.
+                className="absolute inset-0 size-full object-cover"
               />
             </div>
           ) : null}
