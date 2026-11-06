@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { CookieSettingsButton } from '@/components/cookie-consent'
 import { getSettings } from '@/data/settings'
 
 export async function SiteFooter() {
@@ -17,6 +18,9 @@ export async function SiteFooter() {
               {link.label}
             </Link>
           ))}
+          {settings.gaId ? (
+            <CookieSettingsButton label={settings.cookieBanner?.manageLabel || 'Gérer les cookies'} />
+          ) : null}
         </nav>
       </div>
     </footer>

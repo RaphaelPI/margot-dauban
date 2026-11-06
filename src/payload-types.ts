@@ -1675,6 +1675,31 @@ export interface Setting {
     description?: string | null;
     image?: (string | null) | Media;
   };
+  /**
+   * Commence par « G- », ex. G-AB12CD34EF (Google Analytics › Administration › Flux de données).
+   */
+  gaId?: string | null;
+  cookieBanner?: {
+    title?: string | null;
+    text?: {
+      root: {
+        type: string;
+        children: {
+          type: any;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    } | null;
+    refuseLabel?: string | null;
+    acceptLabel?: string | null;
+    manageLabel?: string | null;
+  };
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -1952,6 +1977,16 @@ export interface SettingsSelect<T extends boolean = true> {
         title?: T;
         description?: T;
         image?: T;
+      };
+  gaId?: T;
+  cookieBanner?:
+    | T
+    | {
+        title?: T;
+        text?: T;
+        refuseLabel?: T;
+        acceptLabel?: T;
+        manageLabel?: T;
       };
   updatedAt?: T;
   createdAt?: T;

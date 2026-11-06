@@ -1,5 +1,6 @@
 import type { GlobalConfig } from 'payload'
 import { loggedIn } from '@/access'
+import { lightText, richTextFrom } from '@/fields/light-editor'
 import { linkFields } from '@/fields/seo'
 
 export const Settings: GlobalConfig = {
@@ -115,6 +116,55 @@ export const Settings: GlobalConfig = {
                 { name: 'title', label: 'Titre', type: 'text' },
                 { name: 'description', label: 'Description', type: 'textarea', maxLength: 160 },
                 { name: 'image', label: 'Image de partage', type: 'upload', relationTo: 'media' },
+              ],
+            },
+          ],
+        },
+        {
+          label: 'Cookies',
+          description:
+            'Google Analytics ne se charge qu’après l’accord du visiteur, via le bandeau. Sans identifiant, ni bandeau ni statistiques.',
+          fields: [
+            {
+              name: 'gaId',
+              label: 'Identifiant Google Analytics',
+              type: 'text',
+              admin: {
+                description:
+                  'Commence par « G- », ex. G-AB12CD34EF (Google Analytics › Administration › Flux de données).',
+              },
+              validate: (value: string | null | undefined) =>
+                !value ||
+                /^G-[A-Z0-9]{4,}$/.test(value.trim()) ||
+                'Format attendu : G- suivi de lettres et chiffres.',
+            },
+            {
+              name: 'cookieBanner',
+              label: 'Bandeau',
+              type: 'group',
+              fields: [
+                { name: 'title', label: 'Titre', type: 'text', defaultValue: 'Un petit cookie ?' },
+                {
+                  name: 'text',
+                  label: 'Texte',
+                  ...lightText,
+                  defaultValue: richTextFrom(
+                    'J’utilise Google Analytics pour savoir quelles pages vous intéressent. Ces cookies ne sont déposés qu’avec votre accord.',
+                  ),
+                },
+                {
+                  type: 'row',
+                  fields: [
+                    { name: 'refuseLabel', label: 'Bouton refuser', type: 'text', defaultValue: 'Refuser' },
+                    { name: 'acceptLabel', label: 'Bouton accepter', type: 'text', defaultValue: 'Accepter' },
+                    {
+                      name: 'manageLabel',
+                      label: 'Lien du pied de page',
+                      type: 'text',
+                      defaultValue: 'Gérer les cookies',
+                    },
+                  ],
+                },
               ],
             },
           ],
