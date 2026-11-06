@@ -60,10 +60,10 @@ Extracted from margotdauban.fr (WordPress) and the V4 home design. Field names E
 | `home` | global | no | hero, stats, project selection (or featured), expertise titles, CTA | home page |
 | `faq-page` | global | no | eyebrow, title (« & » in indigo), intro, CTA, SEO for `/faq`; questions from `faqs` grouped by `faqCategories` | `/faq` page |
 | `projects-page` | global | no | title, highlight, intro, contact band (`cta`), SEO for `/projets` | `/projets` page |
-| `services-page` | global | no | hero (title, highlight, lead, body, callout, portrait), expertises title, process (eyebrow, title, intro, ≤ 4 steps with screen label), team (title, text, labels), CTA, SEO for `/prestations` | `/prestations` page, `ProcessShowcase` |
+| `services-page` | global | no | hero (title, highlight, lead, body, callout, portrait), expertises title, process (eyebrow, title, intro, ≤ 4 steps with screen label), team (title, text, labels), CTA, SEO for `/expertises` | `/expertises` page, `ProcessShowcase` |
 | `settings` | global | no | identity, photo, availability, header nav + button, footer, default SEO | header, footer, metadata |
 
-Not modelled yet (features to request): contact form + submissions, `/projets` list, `/prestations` and `/faq` pages.
+Not modelled yet (features to request): contact form + submissions, `/projets` list, `/expertises` and `/faq` pages.
 
 ## Environments
 

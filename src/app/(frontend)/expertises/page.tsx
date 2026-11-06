@@ -16,7 +16,7 @@ import { isSafeHref } from '@/lib/safe-href'
 export async function generateMetadata(): Promise<Metadata> {
   const page = await getServicesPage()
   return {
-    title: page.seo?.title ?? 'Prestations',
+    title: page.seo?.title ?? 'Expertises',
     description: page.seo?.description ?? page.hero?.lead ?? undefined,
   }
 }
