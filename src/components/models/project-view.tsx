@@ -327,7 +327,9 @@ export async function ProjectView({ id, nextSlot }: { id: string; nextSlot?: Rea
             aria-label="Sommaire de la démarche"
             className="flex flex-[1_1_15rem] flex-col gap-2.5 self-start rounded-xl border bg-card p-6.5 text-base md:sticky md:top-[calc(var(--header-h,7rem)+1.5rem)]"
           >
-            <span className={`${kicker} text-muted-foreground`}>Sommaire</span>
+            <span className={`${kicker} text-muted-foreground`}>
+              {project.approachTitle || 'La démarche en détail'}
+            </span>
             <ul className="flex flex-col gap-2.5 font-semibold">
               {hasContext ? (
                 <li>
