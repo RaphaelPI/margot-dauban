@@ -360,7 +360,8 @@ export async function ProjectView({ id, nextSlot }: { id: string; nextSlot?: Rea
             </ul>
           </TocSpy>
           <div className="flex max-w-195 min-w-0 flex-[999_1_40rem] flex-col gap-14">
-            <h2 id="detail-titre" className={h2Lg}>
+            {/* Half the column gap under the title (designer's choice). */}
+            <h2 id="detail-titre" className={`${h2Lg} -mb-7`}>
               {project.approachTitle || 'La démarche en détail'}
             </h2>
             {hasContext ? (
