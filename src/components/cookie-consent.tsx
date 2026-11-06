@@ -30,7 +30,7 @@ function loadAnalytics(gaId: string) {
   document.head.appendChild(script)
 }
 
-// Cookie banner (designs: small card bottom left). Nothing from Google loads before
+// Cookie banner: small card bottom right, compact text (14px, designer's explicit exception). Nothing from Google loads before
 // « Accepter »; « Refuser » or a later change of mind stops measuring and clears its cookies.
 // The choice lasts 6 months (lib/consent). `children` = the banner text, rendered on the server.
 export function CookieConsent({
@@ -72,16 +72,16 @@ export function CookieConsent({
 
   if (!open) return null
   const button =
-    'min-h-11 flex-1 rounded-full px-5 text-base font-bold transition-colors focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-none'
+    'min-h-9 flex-1 rounded-full px-4 text-sm font-bold transition-colors focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-none'
   return (
     <section
       aria-labelledby="cookies-titre"
-      className="fixed inset-x-4 bottom-4 z-50 flex animate-in flex-col gap-3 rounded-2xl border border-border/50 bg-card p-5 shadow-[0_20px_50px_rgb(40_36_90/0.16)] fade-in-0 slide-in-from-bottom-2 motion-reduce:animate-none sm:right-auto sm:max-w-sm"
+      className="fixed inset-x-4 bottom-4 z-50 flex animate-in flex-col gap-2.5 rounded-2xl border border-border/50 bg-card p-4.5 shadow-[0_20px_50px_rgb(40_36_90/0.16)] fade-in-0 slide-in-from-bottom-2 motion-reduce:animate-none sm:left-auto sm:max-w-xs"
     >
-      <h2 id="cookies-titre" className="font-heading text-lg font-semibold">
+      <h2 id="cookies-titre" className="font-heading text-base font-semibold">
         {title}
       </h2>
-      <div className="text-base leading-relaxed text-foreground-soft [&_a]:font-semibold [&_a]:text-primary-strong [&_a]:underline [&_a]:underline-offset-4">
+      <div className="text-sm leading-relaxed text-foreground-soft [&_a]:font-semibold [&_a]:text-primary-strong [&_a]:underline [&_a]:underline-offset-4">
         {children}
       </div>
       {/* Same size and weight for both answers: refusing is as easy as accepting. */}
