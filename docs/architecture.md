@@ -41,7 +41,7 @@ Goal: every model-related component is cached **for life, by id**, and refreshed
 - Invalidation: `src/lib/cache.ts` adds `afterChange`/`afterDelete` hooks to **every** collection and global (wrapped in `src/collections/index.ts` / `src/globals/index.ts`). A change expires `<collection>:<id>` and `<collection>`; a global change expires `global:<slug>`. Uses `revalidateTag(tag, { expire: 0 })` (hooks are not Server Actions, so no `updateTag`): the next request renders fresh content.
 - Drafts: saving a draft of an unpublished doc invalidates nothing. Publishing or unpublishing does.
 - Scripts running outside Next (seed, migrations) pass `context: { disableRevalidate: true }`.
-- Dynamic routes (`/projets/[slug]`, `/[slug]`) use `generateStaticParams` (published slugs, `src/data/ids.ts`): every page is prerendered as full HTML, no `<Suspense>`, nothing streamed at request time. A slug published after the build renders on its first visit, then is cached; tag expiry refreshes it. Empty DB: a `_` placeholder param keeps the build working (`cacheComponents` needs ≥ 1 entry) and renders the 404. Unknown slugs return HTTP 404.
+- Dynamic routes (`/projets/[slug]`, `/projets/categorie/[slug]`, `/[slug]`) use `generateStaticParams` (published slugs, `src/data/ids.ts`; category filters are paths, never `searchParams`): every page is prerendered as full HTML, no `<Suspense>`, nothing streamed at request time. A slug published after the build renders on its first visit, then is cached; tag expiry refreshes it. Empty DB: a `_` placeholder param keeps the build working (`cacheComponents` needs ≥ 1 entry) and renders the 404. Unknown slugs return HTTP 404.
 
 ## Content model
 

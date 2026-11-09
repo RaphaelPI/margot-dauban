@@ -65,16 +65,16 @@ export const getProjectCategoryIdBySlug = async (slug: string) =>
 
 export const getNextProjectId = async (id: string) => nextInList(await getProjectIds(), id)
 
-// Route params for `generateStaticParams` only (prerender every published page at build).
-// Rendering still goes through the id lookups above.
-async function findPublishedSlugs(collection: 'projects' | 'pages') {
+// Route params for `generateStaticParams` only (prerender every page at build).
+// Rendering still goes through the id lookups above. `where` = `published` for collections with drafts.
+async function findSlugs(collection: 'projects' | 'pages' | 'project-categories', where?: Where) {
   'use cache'
   cacheLife('model')
   cacheTag(tags.collection(collection))
   const payload = await getPayload()
   const { docs } = await payload.find({
     collection,
-    where: published,
+    where,
     limit: 0,
     pagination: false,
     select: { slug: true },
@@ -83,6 +83,8 @@ async function findPublishedSlugs(collection: 'projects' | 'pages') {
   return docs.flatMap((doc) => (doc.slug ? [{ slug: doc.slug }] : []))
 }
 
-export const getProjectSlugs = () => findPublishedSlugs('projects')
+export const getProjectSlugs = () => findSlugs('projects', published)
 
-export const getPageSlugs = () => findPublishedSlugs('pages')
+export const getPageSlugs = () => findSlugs('pages', published)
+
+export const getProjectCategorySlugs = () => findSlugs('project-categories')
