@@ -1,9 +1,14 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
-import { Suspense } from 'react'
 import { PageView } from '@/components/models/page-view'
-import { getPageIdBySlug } from '@/data/ids'
+import { getPageIdBySlug, getPageSlugs } from '@/data/ids'
 import { getPageMeta } from '@/data/pages'
+
+// Every published text page is prerendered (same pattern as /projets/[slug]).
+export async function generateStaticParams() {
+  const slugs = await getPageSlugs()
+  return slugs.length ? slugs : [{ slug: '_' }]
+}
 
 export async function generateMetadata({ params }: PageProps<'/[slug]'>): Promise<Metadata> {
   const id = await getPageIdBySlug((await params).slug)
@@ -11,17 +16,8 @@ export async function generateMetadata({ params }: PageProps<'/[slug]'>): Promis
   return meta ?? {}
 }
 
-export default function Page({ params }: PageProps<'/[slug]'>) {
-  return (
-    <Suspense>
-      <PageContent params={params} />
-    </Suspense>
-  )
-}
-
-async function PageContent({ params }: Pick<PageProps<'/[slug]'>, 'params'>) {
-  const { slug } = await params
-  const id = await getPageIdBySlug(slug)
+export default async function Page({ params }: PageProps<'/[slug]'>) {
+  const id = await getPageIdBySlug((await params).slug)
   if (!id) notFound()
   return <PageView id={id} />
 }

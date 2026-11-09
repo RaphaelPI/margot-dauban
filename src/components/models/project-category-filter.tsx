@@ -24,7 +24,7 @@ export async function ProjectCategoryFilter({ id, active }: { id: string; active
 
   return (
     <Link
-      href={`/projets?categorie=${encodeURIComponent(category.slug ?? id)}`}
+      href={`/projets/categorie/${encodeURIComponent(category.slug ?? id)}`}
       scroll={false}
       aria-current={active ? 'page' : undefined}
       className={filterLinkClass}

@@ -36,11 +36,11 @@ Newest last. Change a decision by adding an entry that supersedes it. Agentic wo
 | 29 | 2026-11-02 | `/projets` page (#11): projects `orderable` (manual order used everywhere, replaces `-year`; a migration seeds `_order` from the old order), `project-categories` orderable collection, `categories` hasMany on projects, filter in `?categorie=<slug>` read in a `Suspense` child; page texts in a `projects-page` global | Designer's call: she orders projects by hand and manages the filters; a URL filter is shareable and keeps the page server-rendered |
 | 30 | 2026-11-03 | `/expertises` page (#13): texts in a `services-page` global, expertises from `services`; « Comment se déroule une mission » = `ProcessShowcase` client tabs with decorative CSS-animated screens (fixed content, `aria-hidden`), self-playing until the visitor interacts, paused on hover/focus, static with reduced motion; `services.animation` now accepts images too | Designer's call (Process B mockup); WCAG 2.2.2 for self-updating content; number 29 left for #11 |
 | 31 | 2026-11-04 | Merge gate: registering a collection/global (`src/collections|globals/index.ts`), generated admin files (`src/app/(payload)`) and dependencies move from `blocked` to the designer tier; `src/collections/Users.ts` (auth) becomes critical. `payload.config.ts` stays critical but no longer lists models. Refines #24 | New pages shipped by the designer no longer wait on a maintainer; auth, access, config, CI and migrations still do |
+| 33 | 2026-11-09 | `/projets/[slug]`, `/projets/categorie/[slug]` (replaces `?categorie=`) and `/[slug]`: `generateStaticParams` from published slugs, `params` read outside `<Suspense>` (`_` placeholder when the DB is empty) | Full HTML served from cache instead of a shell + ~1 s streamed content on Vercel. Unknown slugs now return a real 404 |
 | 32 | 2026-11-09 | `cacheLife('model')`: `revalidate` and `expire` = `Infinity`; `partialPrefetching: false` set explicitly | Content only changes through Payload hooks (tag expiry), so time-based refresh only cost recomputes. Explicit `false` silences Next 16.4's warning and keeps #22 |
 
 ## Open questions
 
 - Draft preview / Payload Live Preview for the designer (see unpublished content on the real layout) — first likely feature.
 - SEO: per-page metadata, Open Graph images, sitemap.
-- Unknown slugs return HTTP 200 + `noindex` (streamed not-found). Revisit with `generateStaticParams` once content exists.
 - Real MongoDB integration tests in CI (service exists already) — add with the first query-heavy feature.
