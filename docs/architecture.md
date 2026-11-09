@@ -4,7 +4,7 @@
 
 | Layer       | Choice                                                                     | Notes                                                           |
 | ----------- | -------------------------------------------------------------------------- | --------------------------------------------------------------- |
-| App         | Next.js 16, App Router, React 19, `cacheComponents` (no `partialPrefetching`, see decisions #22) | Single app, no monorepo                                         |
+| App         | Next.js 16, App Router, React 19, `cacheComponents` (`partialPrefetching: false`, see decisions #22) | Single app, no monorepo                                         |
 | CMS         | Payload 3, mounted in Next                                                 | Admin `/admin` (French), REST `/api/*`, GraphQL disabled        |
 | Database    | MongoDB Atlas                                                              | `@payloadcms/db-mongodb`                                        |
 | Media       | Amazon S3                                                                  | `@payloadcms/storage-s3`; local dev without S3 writes `./media` |
@@ -37,7 +37,7 @@ Goal: every model-related component is cached **for life, by id**, and refreshed
 | Id lookups (`getProjectIds`, `getProjectIdBySlug`)                        | `src/data`              | arguments     | `projects`                                                 |
 | Globals (`getSettings`)                                                   | `src/data`              | —             | `global:settings`                                          |
 
-- Lifetime: custom profile `cacheLife('model')` in `next.config.ts` (revalidate 1 year, expire just over 1 year). Time-based refresh is only a safety net.
+- Lifetime: custom profile `cacheLife('model')` in `next.config.ts` (`revalidate` and `expire` = `Infinity`): no time-based refresh, entries only change when a Payload hook expires their tag.
 - Invalidation: `src/lib/cache.ts` adds `afterChange`/`afterDelete` hooks to **every** collection and global (wrapped in `src/collections/index.ts` / `src/globals/index.ts`). A change expires `<collection>:<id>` and `<collection>`; a global change expires `global:<slug>`. Uses `revalidateTag(tag, { expire: 0 })` (hooks are not Server Actions, so no `updateTag`): the next request renders fresh content.
 - Drafts: saving a draft of an unpublished doc invalidates nothing. Publishing or unpublishing does.
 - Scripts running outside Next (seed, migrations) pass `context: { disableRevalidate: true }`.

@@ -1,7 +1,8 @@
 import { RichText } from '@payloadcms/richtext-lexical/react'
 import { cacheLife, cacheTag } from 'next/cache'
-import { tags } from '@/lib/cache'
+import { tagDocs, tags } from '@/lib/cache'
 import { getPayload } from '@/lib/payload'
+import { richTextUploads } from '@/lib/rich-text-uploads'
 
 // Text page of the « Pages » collection (mentions légales, confidentialité…): title and formatted
 // rich text in the site's style.
@@ -15,6 +16,7 @@ export async function PageView({ id }: { id: string }) {
   const payload = await getPayload()
   const page = await payload.findByID({ collection: 'pages', id, depth: 1, disableErrors: true })
   if (!page) return null
+  tagDocs('media', richTextUploads(page.content))
 
   return (
     <>
