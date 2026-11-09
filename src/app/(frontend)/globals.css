@@ -26,6 +26,7 @@
   --color-success-foreground: var(--success-foreground);
   --color-decor-muted: var(--decor-muted);
   --color-decor-border: var(--decor-border);
+  --color-bikini: var(--bikini);
   --animate-marquee: marquee 34s linear infinite;
   --animate-float: float 7s ease-in-out infinite;
   --animate-blink: blink 1.8s ease-in-out infinite;
@@ -106,6 +107,8 @@
   --success-foreground: #1d6b3e;
   --decor-muted: #6b6b78;
   --decor-border: #e6e6ee;
+  /* Le Bikini's orange: captions of its case study animation, like the Figma visuals (#74). */
+  --bikini: #ff4d12;
   --destructive: oklch(0.577 0.245 27.325);
   --border: #eaeaea;
   --input: #e1e5df;

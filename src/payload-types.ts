@@ -446,7 +446,7 @@ export interface Project {
           [k: string]: unknown;
         } | null;
         /**
-         * Alterne texte et images : bouton « + » de la barre d’outils › Upload, ou tape « / » dans une ligne vide.
+         * Alterne texte et images : bouton « + » de la barre d’outils › Upload, ou tape « / » dans une ligne vide. Pour une animation : « + » › Animation.
          */
         content?: {
           root: {
@@ -2083,6 +2083,19 @@ export interface CollectionsWidget {
     [k: string]: unknown;
   };
   width: 'full';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "AnimationBlock".
+ */
+export interface AnimationBlock {
+  /**
+   * Animation codée sur mesure : elle tourne en boucle, avec un bouton Pause.
+   */
+  animation: 'bikini-homepage';
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'animation';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

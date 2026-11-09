@@ -17,6 +17,7 @@ Aller sur `https://<le-site>/admin` (site en ligne).
 | Remplacer une image                                             | **Médias**                                                                                                          |
 | Changer le témoignage de l'accueil                              | **Accueil** → Témoignage (vide = bloc masqué)                                                                       |
 | Mettre une animation sur une expertise                          | **Expertises** → l'expertise → Animation : déposer le fichier Lottie (.json)                                        |
+| Mettre une animation codée dans une étape d'un projet | **Projets** → le projet → *Étude de cas* → Étapes → Texte détaillé : bouton « + » › **Animation**, puis choisir l'animation. Chaque animation est codée sur mesure (une demande par nouvelle animation) |
 
 - **Brouillon / Publier** : tant que ce n'est pas publié, rien n'apparaît sur le site. Publier = visible à la prochaine visite (quelques secondes).
 - L'admin d'une **preview** (lien Vercel d'une PR) utilise une base de test : ce qu'on y saisit n'arrive jamais sur le site en ligne.
