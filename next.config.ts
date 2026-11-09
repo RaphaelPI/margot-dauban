@@ -3,13 +3,15 @@ import type { NextConfig } from 'next'
 
 const nextConfig: NextConfig = {
   cacheComponents: true,
+  // Off on purpose: on, /admin loops to /admin/login on Vercel (docs/decisions.md #22).
+  partialPrefetching: false,
   cacheLife: {
-    // Model components (src/components/models): content only changes when Payload
-    // revalidates its tag (src/lib/cache.ts), so time-based refresh is a safety net.
+    // Model components and data lookups: cached forever on the server, refreshed ONLY when a
+    // Payload hook expires their tag (src/lib/cache.ts). `stale` is the browser router cache.
     model: {
       stale: 60 * 5,
-      revalidate: 60 * 60 * 24 * 365,
-      expire: 60 * 60 * 24 * 366,
+      revalidate: Infinity,
+      expire: Infinity,
     },
   },
   images: {
