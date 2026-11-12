@@ -30,7 +30,7 @@ export function Testimonial({
       <blockquote
         className={
           compact
-            ? 'relative flex max-w-200 flex-col gap-4 font-heading text-[clamp(1.0625rem,1.5vw,1.25rem)] leading-[1.6] font-medium'
+            ? 'relative flex flex-col gap-4 font-heading text-[clamp(1.0625rem,1.5vw,1.25rem)] leading-[1.6] font-medium'
             : 'relative max-w-240 font-heading text-[clamp(1.5rem,3vw,2.375rem)] leading-[1.3] font-medium tracking-[-0.01em]'
         }
       >

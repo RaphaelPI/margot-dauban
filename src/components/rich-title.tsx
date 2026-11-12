@@ -20,7 +20,7 @@ export function RichTitle({
   quote?: boolean
   paragraphClassName?: string
 }) {
-  const paragraphs = titleParagraphs(value)
+  const paragraphs = quote ? withoutOwnQuoteMarks(titleParagraphs(value)) : titleParagraphs(value)
   return paragraphs.map((pieces, p) => {
     const content = (
       <>
@@ -59,4 +59,15 @@ function renderPieces(pieces: ReturnType<typeof titleParagraphs>[number], highli
       <Fragment key={i}>{keepTogether(piece.text)}</Fragment>
     ),
   )
+}
+
+// Quotation marks typed in the admin are dropped: the quote adds its own.
+function withoutOwnQuoteMarks(paragraphs: ReturnType<typeof titleParagraphs>) {
+  const copy = paragraphs.map((pieces) => pieces.map((piece) => ({ ...piece })))
+  const first = copy[0]?.[0]
+  const lastParagraph = copy[copy.length - 1]
+  const last = lastParagraph?.[lastParagraph.length - 1]
+  if (first) first.text = first.text.replace(/^\s*[«"“]\s*/, '')
+  if (last) last.text = last.text.replace(/\s*[»"”]\s*$/, '')
+  return copy
 }
