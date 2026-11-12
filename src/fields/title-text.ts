@@ -22,6 +22,28 @@ const text = (value: string, bold = false) => ({
   version: 1,
 })
 
+// Rich text title made of plain and bold pieces, in order (empty pieces skipped).
+export const titlePieces = (pieces: { text?: string | null; bold?: boolean }[]) => ({
+  root: {
+    type: 'root',
+    format: '' as const,
+    indent: 0,
+    version: 1,
+    direction: 'ltr' as const,
+    children: [
+      {
+        type: 'paragraph',
+        format: '' as const,
+        indent: 0,
+        version: 1,
+        direction: 'ltr' as const,
+        textFormat: 0,
+        children: pieces.flatMap((piece) => (piece.text ? [text(piece.text, piece.bold)] : [])),
+      },
+    ],
+  },
+})
+
 // Rich text title from the former « title + highlighted end » pair: the end becomes bold.
 export const titleFrom = (title: string, highlight?: string | null) => ({
   root: {

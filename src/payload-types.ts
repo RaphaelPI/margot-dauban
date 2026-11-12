@@ -191,12 +191,24 @@ export interface Project {
    */
   headline?: {
     /**
-     * Ex. « +10 % de chiffre d’affaires »
+     * Le texte en gras s’affiche surligné en lilas.
      */
+    title?: {
+      root: {
+        type: string;
+        children: {
+          type: any;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    } | null;
     highlight?: string | null;
-    /**
-     * Ex. « grâce à une expérience d’achat repensée… »
-     */
     text?: string | null;
   };
   /**
@@ -874,6 +886,7 @@ export interface ProjectsSelect<T extends boolean = true> {
   headline?:
     | T
     | {
+        title?: T;
         highlight?: T;
         text?: T;
       };

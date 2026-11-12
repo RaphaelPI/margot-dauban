@@ -6,6 +6,7 @@ import { CtaLink } from '@/components/cta-link'
 import { GlowCard } from '@/components/glow-card'
 import { PhosphorIcon } from '@/components/phosphor-icon'
 import { RichTextOrPlain } from '@/components/rich-text-or-plain'
+import { RichTitle } from '@/components/rich-title'
 import { Testimonial } from '@/components/testimonial'
 import { TocSpy } from '@/components/toc-spy'
 import { Badge } from '@/components/ui/badge'
@@ -98,7 +99,7 @@ export async function ProjectView({ id, nextSlot }: { id: string; nextSlot?: Rea
   )
 
   const testimonial = titlePlain(project.testimonial?.quote) ? project.testimonial : null
-  const headline = project.headline?.highlight || project.headline?.text ? project.headline : null
+  const headline = titlePlain(project.headline?.title) ? project.headline?.title : null
   const gallery = images(project.gallery)
   const steps = (project.approach ?? []).map((step, index) => ({
     ...step,
@@ -158,11 +159,10 @@ export async function ProjectView({ id, nextSlot }: { id: string; nextSlot?: Rea
         </div>
         <p className="max-w-215 font-heading text-[clamp(1.25rem,2.2vw,1.75rem)] leading-[1.35] font-medium text-balance">
           {headline ? (
-            <>
-              {headline.highlight ? <span className="text-primary">{headline.highlight}</span> : null}
-              {headline.highlight && headline.text ? ' ' : null}
-              {headline.text}
-            </>
+            <RichTitle
+              value={headline}
+              highlightClassName="rounded-lg bg-accent px-1.5 text-foreground [box-decoration-break:clone]"
+            />
           ) : (
             project.summary
           )}
