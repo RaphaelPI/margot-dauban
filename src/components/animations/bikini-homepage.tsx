@@ -76,17 +76,18 @@ const HIDDEN_AT: Partial<Record<BlockName, Slot>> = {
 }
 // Staggered delays (s) so blocks don't run into each other.
 const DELAYS: Record<string, Partial<Record<BlockName, number>>> = {
-  'A2>B': { affiche: 0, curio: 0.25, objets: 0.15, plan: 0.3, horaires: 0.45, maxcooper: 0.9, camille: 1.05 },
-  'B>A2': { maxcooper: 0, camille: 0, horaires: 0.2, plan: 0.35, objets: 0.5, curio: 0.3, affiche: 1 },
+  'A2>B': { affiche: 0, curio: 0.18, objets: 0.1, plan: 0.2, horaires: 0.3, maxcooper: 0.6, camille: 0.7 },
+  'B>A2': { maxcooper: 0, camille: 0, horaires: 0.14, plan: 0.24, objets: 0.34, curio: 0.2, affiche: 0.7 },
 }
 
 type Caption = 'contenu' | 'grille'
 const SEQUENCE: { state: State; caption: Caption | null; duration: number; flash?: BlockName }[] = [
-  { state: 'A', caption: null, duration: 2200 },
-  { state: 'A2', caption: 'contenu', duration: 2400, flash: 'une' },
-  { state: 'B', caption: 'grille', duration: 3600 },
-  { state: 'A2', caption: 'grille', duration: 2600 },
-  { state: 'A', caption: 'contenu', duration: 1800, flash: 'une' },
+  // The first step is short: the animation starts almost as soon as it's on screen.
+  { state: 'A', caption: null, duration: 500 },
+  { state: 'A2', caption: 'contenu', duration: 1700, flash: 'une' },
+  { state: 'B', caption: 'grille', duration: 2500 },
+  { state: 'A2', caption: 'grille', duration: 1800 },
+  { state: 'A', caption: 'contenu', duration: 1300, flash: 'une' },
 ]
 
 const BLOCKS: { name: BlockName; images: { variant?: Variant; file: string }[] }[] = [
@@ -174,7 +175,7 @@ export function BikiniHomepageAnimation({ className }: { className?: string }) {
         else if (name === 'une') {
           // Same place, new content: the new poster fades in over the old one.
           for (const img of images) {
-            img.style.transition = 'opacity .7s ease'
+            img.style.transition = 'opacity .5s ease'
             img.style.transitionDelay = `${delay}s`
             img.style.opacity = img.dataset.variant === 'A' || variant === 'B' ? '1' : '0'
           }
@@ -185,7 +186,7 @@ export function BikiniHomepageAnimation({ className }: { className?: string }) {
             img.style.transitionDelay = `${delay}s`
             img.style.opacity = '0'
           }
-          later(show, (delay + 1) * 1000)
+          later(show, (delay + 0.7) * 1000)
         }
       }
       current.current = state
@@ -215,7 +216,7 @@ export function BikiniHomepageAnimation({ className }: { className?: string }) {
         flashed.dataset.flash = 'true'
         later(() => {
           flashed.dataset.flash = 'false'
-        }, 1400)
+        }, 1000)
       }
       step.current = (step.current + 1) % SEQUENCE.length
       later(next, duration)
@@ -235,7 +236,7 @@ export function BikiniHomepageAnimation({ className }: { className?: string }) {
           observer.disconnect()
         }
       },
-      { threshold: 0.35 },
+      { threshold: 0.1 },
     )
     observer.observe(el)
     return () => observer.disconnect()
@@ -302,7 +303,7 @@ export function BikiniHomepageAnimation({ className }: { className?: string }) {
               }}
               data-hidden="false"
               className={cn(
-                'absolute overflow-hidden bg-muted transition-[left,top,width,height,opacity,transform,box-shadow] duration-1000 ease-[cubic-bezier(.65,0,.35,1)] motion-reduce:transition-none',
+                'absolute overflow-hidden bg-muted transition-[left,top,width,height,opacity,transform,box-shadow] duration-700 ease-[cubic-bezier(.65,0,.35,1)] motion-reduce:transition-none',
                 'data-[hidden=true]:scale-94 data-[hidden=true]:opacity-0 data-[flash=true]:shadow-[inset_0_0_0_6px_var(--bikini)]',
               )}
             >
