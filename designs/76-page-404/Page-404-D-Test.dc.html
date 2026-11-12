@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>404 D — Le test utilisateur raté</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Albert+Sans:wght@400;500;600;700&amp;family=Unbounded:wght@500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#F7F7FA}
+a{color:#121814}a:hover{color:#3730A3}
+button,input,select,textarea{font:inherit;color:inherit}
+.champ{width:100%;box-sizing:border-box;background:#FFFFFF;border:1px solid #D9DAE4;border-radius:12px;padding:13px 16px;font-size:16px;min-height:48px;transition:border-color .2s,box-shadow .2s}
+.champ:focus{outline:none;border-color:#4F46E5;box-shadow:0 0 0 4px rgba(79,70,229,0.15)}
+.champ::placeholder{color:#8A8A98}
+button:focus-visible,a:focus-visible{outline:3px solid #4F46E5;outline-offset:3px}
+@property --mx{syntax:'<length>';inherits:true;initial-value:0px}
+@property --my{syntax:'<length>';inherits:true;initial-value:0px}
+.carte{position:relative;isolation:isolate;transition:border-color .6s ease,box-shadow .6s ease}
+.carte::before{content:"";position:absolute;inset:0;border-radius:inherit;background:radial-gradient(380px circle at var(--mx) var(--my),rgba(226,224,252,0.75),rgba(232,230,253,0.35) 45%,rgba(232,230,253,0) 75%);opacity:0;transition:opacity .7s cubic-bezier(.22,.61,.36,1);z-index:-1;pointer-events:none}
+.carte:hover{border-color:#DCDAF8;box-shadow:0 16px 36px rgba(79,70,229,0.06)}
+.carte:hover::before{opacity:1}
+.carte-indigo::before{background:radial-gradient(520px circle at var(--mx) var(--my),rgba(140,133,255,0.85),rgba(120,112,250,0.35) 45%,rgba(120,112,250,0) 75%)}
+.carte-indigo:hover{box-shadow:0 20px 44px rgba(79,70,229,0.22)}
+.clignote{animation:clignote 1.8s ease-in-out infinite}
+@keyframes clignote{0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(31,157,85,0.45)}50%{opacity:0.45;box-shadow:0 0 0 6px rgba(31,157,85,0)}}
+.apparait{animation:apparait .5s cubic-bezier(.22,.61,.36,1) both}
+@keyframes apparait{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion: reduce){.clignote,.apparait{animation:none}.carte,.carte::before,.champ{transition:none}}
+
+body{margin:0;background:#F7F7FA}
+a{color:#121814;text-decoration:none}
+a:focus-visible{outline:3px solid #4F46E5;outline-offset:4px;border-radius:999px}
+.demo{min-height:150px;border-radius:20px;display:flex;align-items:center;justify-content:center;padding:24px;box-sizing:border-box}
+
+/* ===== CTA principal ===== */
+.cta{position:relative;display:inline-flex;align-items:center;gap:12px;height:60px;padding:0 30px;border-radius:999px;background:#4F46E5;color:#FFFFFF;font-weight:700;font-size:17px;white-space:nowrap}
+.cta:hover{color:#FFFFFF}
+
+/* CTA 1 — goo : le rond se détache */
+.goo{background:none;padding:0 98px 0 32px;isolation:isolate}
+.goo .g-fonds{position:absolute;inset:-12px;filter:url(#goo);z-index:-1;pointer-events:none}
+.goo .g-pill{position:absolute;left:12px;top:12px;bottom:12px;right:calc(12px + 78px);border-radius:999px;background:#4F46E5;transition:background .3s}
+.goo .g-rond,.goo .g-fleche{position:absolute;top:12px;right:12px;width:60px;height:60px;border-radius:50%;transform:translateX(-26px);transition:transform .55s cubic-bezier(.34,1.56,.64,1)}
+.goo .g-rond{background:#4F46E5;transition:transform .55s cubic-bezier(.34,1.56,.64,1),background .3s}
+.goo .g-fleche{top:0;right:0;display:flex;align-items:center;justify-content:center;font-size:22px;color:#FFFFFF}
+.goo .g-fleche span{display:inline-block;transition:transform .45s cubic-bezier(.34,1.56,.64,1) .05s}
+.goo:hover .g-rond,.goo:focus-visible .g-rond,.goo:hover .g-fleche,.goo:focus-visible .g-fleche{transform:none}
+.goo:hover .g-fleche span{transform:rotate(-45deg)}
+.goo:hover .g-pill,.goo:hover .g-rond{background:#4338CA}
+
+/* CTA A2 — capsule normale, le rond se libère au survol */
+.goo2{padding:0 146px 0 32px}
+.goo2 .g-rond,.goo2 .g-fleche{transform:translateX(-78px)}
+.goo2 .g-fleche span{transition:transform .45s cubic-bezier(.34,1.56,.64,1)}
+.goo2:hover .g-rond,.goo2:focus-visible .g-rond,.goo2:hover .g-fleche,.goo2:focus-visible .g-fleche{transform:none}
+.goo2 .g-rond,.goo2 .g-fleche{transition:transform .6s cubic-bezier(.34,1.45,.64,1),background .3s}
+
+/* CTA 2 — flèche qui traverse */
+.traverse{transition:transform .25s ease,box-shadow .25s ease,background .25s}
+.traverse .t-zone{position:relative;width:20px;height:20px;overflow:hidden;display:inline-block}
+.traverse .t-zone span{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;transition:transform .4s cubic-bezier(.65,0,.35,1)}
+.traverse .t-zone span+span{transform:translateX(-140%)}
+.traverse:hover{transform:translateY(-2px);box-shadow:0 14px 28px rgba(79,70,229,.32);background:#4338CA}
+.traverse:hover .t-zone span:first-child{transform:translateX(140%)}
+.traverse:hover .t-zone span+span{transform:none}
+
+/* CTA 3 — texte qui roule */
+.roule{overflow:hidden;transition:background .3s}
+.roule .r-txt{position:relative;display:inline-block;overflow:hidden;height:22px;line-height:22px}
+.roule .r-txt span{display:block;transition:transform .4s cubic-bezier(.65,0,.35,1)}
+.roule:hover{background:#121814}
+.roule:hover .r-txt span{transform:translateY(-100%)}
+.roule .r-pastille{width:28px;height:28px;border-radius:50%;background:#FFFFFF;color:#4F46E5;display:flex;align-items:center;justify-content:center;font-size:15px;transition:transform .4s cubic-bezier(.34,1.56,.64,1)}
+.roule:hover .r-pastille{transform:scale(1.15) rotate(-45deg);color:#121814}
+
+/* CTA 4 — magnétique */
+.aimant{transition:transform .35s cubic-bezier(.22,.61,.36,1),box-shadow .35s;will-change:transform}
+.aimant .a-in{display:inline-flex;align-items:center;gap:12px;transition:transform .35s cubic-bezier(.22,.61,.36,1)}
+.aimant:hover{box-shadow:0 0 0 8px rgba(79,70,229,.14),0 18px 36px rgba(79,70,229,.3)}
+
+/* ===== Liens soulignés ===== */
+.lien{position:relative;display:inline-block;font-size:18px;font-weight:700;color:#121814;padding:2px 0}
+/* L1 — le trait se redessine */
+.l1{background:linear-gradient(#4F46E5,#4F46E5) left bottom/100% 2px no-repeat}
+.l1:hover{animation:redessine .6s cubic-bezier(.65,0,.35,1) forwards;color:#3730A3}
+@keyframes redessine{0%{background-size:100% 2px;background-position:right bottom}49%{background-size:0 2px;background-position:right bottom}50%{background-size:0 2px;background-position:left bottom}100%{background-size:100% 2px;background-position:left bottom}}
+/* L2 — surlignage lilas qui monte */
+.l2{padding:2px 4px;margin:0 -4px;background:linear-gradient(#DAD8FA,#DAD8FA) left bottom/100% 3px no-repeat;transition:background-size .35s cubic-bezier(.65,0,.35,1);border-radius:4px}
+.l2:hover{background-size:100% 100%;color:#2E2A7A}
+/* L3 — trait qui ondule */
+.l3{background:linear-gradient(#4F46E5,#4F46E5) left bottom/100% 2px no-repeat}
+.l3:hover{background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='6' viewBox='0 0 16 6'%3E%3Cpath d='M0 3 Q4 0 8 3 T16 3' fill='none' stroke='%234F46E5' stroke-width='2'/%3E%3C/svg%3E") left bottom/16px 6px repeat-x;animation:onde .7s linear infinite;padding-bottom:6px;color:#3730A3}
+@keyframes onde{to{background-position:16px bottom}}
+/* L4 — trait qui s'épaissit, décalé pêche */
+.l4{text-decoration:underline;text-decoration-color:#B9B4F5;text-decoration-thickness:1.5px;text-underline-offset:6px;transition:text-decoration-color .3s,text-decoration-thickness .3s,text-underline-offset .3s,color .3s}
+.l4:hover{text-decoration-color:#F6A58A;text-decoration-thickness:4px;text-underline-offset:3px;color:#3730A3}
+
+/* ===== Liens avec icône ===== */
+.li{display:inline-flex;align-items:center;gap:10px}
+.li .lt{background:linear-gradient(currentColor,currentColor) left bottom/100% 2px no-repeat;padding-bottom:2px;transition:background-size .35s cubic-bezier(.65,0,.35,1)}
+/* I1 — la flèche glisse, le trait se rétracte */
+.i1 .ic{display:inline-block;transition:transform .35s cubic-bezier(.34,1.56,.64,1);color:#4F46E5}
+.i1:hover{color:#3730A3}
+.i1:hover .ic{transform:translateX(6px)}
+.i1:hover .lt{background-size:0 2px;background-position:right bottom}
+/* I2 — flèche diagonale qui s'envole et revient */
+.i2 .ic{position:relative;width:18px;height:18px;overflow:hidden;display:inline-block;color:#4F46E5}
+.i2 .ic span{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;transition:transform .4s cubic-bezier(.65,0,.35,1)}
+.i2 .ic span+span{transform:translate(-120%,120%)}
+.i2:hover .ic span:first-child{transform:translate(120%,-120%)}
+.i2:hover .ic span+span{transform:none}
+.i2:hover{color:#3730A3}
+/* I3 — pastille lilas qui se remplit et tourne */
+.i3 .ic{width:32px;height:32px;border-radius:50%;background:#E7E6FF;color:#3730A3;display:flex;align-items:center;justify-content:center;font-size:15px;transition:background .3s,color .3s,transform .45s cubic-bezier(.34,1.56,.64,1)}
+.i3:hover .ic{background:#4F46E5;color:#FFFFFF;transform:rotate(-45deg)}
+.i3:hover .lt{background-size:100% 2px;color:#3730A3}
+.i3 .lt{background-size:0 2px}
+/* I4 — la flèche s'allonge */
+.i4 .fl{display:inline-flex;align-items:center;color:#4F46E5}
+.i4 .fl i{display:block;width:14px;height:2px;background:currentColor;border-radius:2px;transition:width .4s cubic-bezier(.65,0,.35,1)}
+.i4 .fl b{display:block;width:8px;height:8px;border-top:2px solid currentColor;border-right:2px solid currentColor;transform:rotate(45deg);margin-left:-8px}
+.i4:hover .fl i{width:34px}
+.i4:hover{color:#3730A3}
+
+.spec{font-size:13px;line-height:1.5;color:#5E6660}
+/* Pastilles — pictos et animations adaptées */
+.px .ic svg{display:block}
+.px .ic{overflow:hidden}
+.px.fleche:hover .ic{transform:rotate(-45deg)}
+.px.externe:hover .ic,.px.telech:hover .ic,.px.mail:hover .ic,.px.tel:hover .ic,.px.agenda:hover .ic{transform:none}
+.px.externe:hover .ic svg{animation:envol .45s cubic-bezier(.65,0,.35,1)}
+@keyframes envol{0%{transform:none}49%{transform:translate(14px,-14px)}50%{transform:translate(-14px,14px)}100%{transform:none}}
+.px.telech:hover .ic svg{animation:chute .5s cubic-bezier(.65,0,.35,1)}
+@keyframes chute{0%{transform:none}49%{transform:translateY(16px)}50%{transform:translateY(-16px)}100%{transform:none}}
+.px.mail:hover .ic svg{animation:bascule .5s ease}
+@keyframes bascule{0%,100%{transform:none}30%{transform:rotate(-12deg) scale(1.1)}60%{transform:rotate(8deg)}}
+.px.tel:hover .ic svg{animation:sonne .6s ease}
+@keyframes sonne{0%,100%{transform:none}15%,45%,75%{transform:rotate(-14deg)}30%,60%,90%{transform:rotate(14deg)}}
+.px.agenda:hover .ic svg{animation:saute .45s cubic-bezier(.34,1.56,.64,1)}
+@keyframes saute{0%,100%{transform:none}40%{transform:translateY(-4px) scale(1.12)}}
+@media (prefers-reduced-motion: reduce){*{transition:none !important;animation:none !important}}
+
+.goo.noir .g-pill,.goo.noir .g-rond{background:#121814}
+.goo.noir:hover .g-pill,.goo.noir:hover .g-rond{background:#2B312D}
+.goo.blanc{color:#3730A3}
+.goo.blanc:hover{color:#3730A3}
+.goo.blanc .g-pill,.goo.blanc .g-rond{background:#FFFFFF}
+.goo.blanc .g-fleche{color:#3730A3}
+.goo.blanc:hover .g-pill,.goo.blanc:hover .g-rond{background:#EEEDFF}
+.ls{font-size:18px;font-weight:700;color:#121814;text-decoration:none;background:linear-gradient(#B9B4F5,#B9B4F5) left bottom/100% 1.5px no-repeat,linear-gradient(#4F46E5,#4F46E5) left bottom/0 2px no-repeat;padding-bottom:3px;transition:background-size .35s cubic-bezier(.65,0,.35,1),color .3s}
+.ls:hover{background-size:100% 1.5px,100% 2px;color:#3730A3}
+.carte-p{background:#FFFFFF;border:1px solid #E1E5DF;border-radius:28px;padding:32px;display:flex;flex-direction:column;gap:24px}
+.tok{display:grid;grid-template-columns:150px 1fr;gap:8px 16px;font-size:14px;line-height:1.5}
+.tok dt{color:#5E6660}.tok dd{margin:0;font-weight:600}
+.kpi{background:#FFFFFF;border:1px solid #E1E5DF;border-radius:16px;padding:14px;display:flex;flex-direction:column;gap:6px;box-shadow:0 12px 26px rgba(40,36,90,.06)}
+.kpi span{font-size:12px;color:#5E6660}.kpi strong{font-family:Unbounded,system-ui,sans-serif;font-size:24px}.kpi .rouge{color:#B4401C}
+.compteur{animation:tremble .4s ease-in-out 1.4s 3}
+@keyframes tremble{0%,100%{transform:none}25%{transform:translateX(-3px) rotate(-2deg)}75%{transform:translateX(3px) rotate(2deg)}}
+.ecran{background:#FFFFFF;border:1px solid #E1E5DF;border-radius:18px;overflow:hidden;box-shadow:0 20px 40px rgba(40,36,90,.08)}
+.wf-barre{display:flex;gap:6px;padding:10px 14px;border-bottom:1px solid #F1F1F5}.wf-barre i{width:9px;height:9px;border-radius:50%;background:#E3E4EC}
+.tache{position:absolute;width:80px;height:80px;border-radius:50%;background:radial-gradient(circle,rgba(224,96,58,.75),rgba(246,165,138,.4) 40%,rgba(252,225,211,0) 70%);opacity:0;animation:tache 2.4s ease-in-out infinite}
+@keyframes tache{0%{opacity:0;transform:scale(.5)}30%,70%{opacity:1;transform:scale(1)}100%{opacity:0;transform:scale(1.1)}}
+.clic{position:absolute;width:22px;height:22px;margin:-11px 0 0 -11px;border-radius:50%;border:2px solid #E0603A;animation:clic 1s ease-out infinite}
+@keyframes clic{0%{transform:scale(.3);opacity:1}100%{transform:scale(2.2);opacity:0}}
+.verdict{background:#121814;color:#FFFFFF;border-radius:16px;padding:14px 16px;font-size:14px;line-height:1.7}
+@media (prefers-reduced-motion: reduce){*{animation-duration:.01s !important;animation-iteration-count:1 !important;transition:none !important}}
+</style>
+</helmet>
+<svg aria-hidden="true" width="0" height="0" style="position: absolute">
+  <defs>
+    <filter id="goo"><feGaussianBlur in="SourceGraphic" stdDeviation="7" result="flou"></feGaussianBlur><feColorMatrix in="flou" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 22 -9" result="goo"></feColorMatrix><feComposite in="SourceGraphic" in2="goo" operator="atop"></feComposite></filter>
+  </defs>
+</svg>
+<div style="font-family: 'Albert Sans', system-ui, sans-serif; color: #121814; background: radial-gradient(900px 540px at 18% 0px, #DAD8FA, rgba(247,247,250,0) 70%), radial-gradient(900px 540px at 82% 60px, #FCE1D3, rgba(247,247,250,0) 70%), linear-gradient(180deg, #F3EEF1 0px, #F6F4F6 600px, #F7F7FA 1000px, #F7F7FA 100%)">
+  <div style="max-width: 1240px; margin: 0 auto; padding: 0 32px">
+    <header style="display: flex; justify-content: space-between; align-items: center; gap: 24px; padding: 22px 0; flex-wrap: wrap">
+      <a href="#" style="display: flex; align-items: center; gap: 12px; text-decoration: none">
+        <span aria-hidden="true" style="width: 44px; height: 44px; border-radius: 50%; background: #E2E1FF; border: 2px solid #FFFFFF; display: flex; align-items: center; justify-content: center; font-size: 10px">[Photo]</span>
+        <span style="display: flex; flex-direction: column"><strong style="font-family: Unbounded, system-ui, sans-serif; font-weight: 600; font-size: 15px">Margot Dauban</strong><span style="font-size: 14px; color: #4F5A53">Webdesigner UI / UX</span></span>
+      </a>
+      <nav aria-label="Navigation principale" style="display: flex; align-items: center; gap: 28px; flex-wrap: wrap; font-size: 15px; font-weight: 500">
+        <span style="display: inline-flex; align-items: center; gap: 8px; background: #FFFFFF; border: 1px solid #E3E4EC; border-radius: 999px; padding: 7px 14px; font-size: 14px; font-weight: 600; color: #1D6B3E"><span aria-hidden="true" class="clignote" style="width: 8px; height: 8px; border-radius: 50%; background: #1F9D55"></span>Disponible</span>
+        <a href="#" style="text-decoration: none">Projets</a>
+        <a href="#" style="text-decoration: none">Témoignages</a>
+        <a href="#" style="text-decoration: none">Services</a>
+        <a href="#" style="text-decoration: none">À propos</a>
+        <a href="#" style="text-decoration: none; background: #4F46E5; color: #FFFFFF; padding: 12px 20px; border-radius: 999px; font-weight: 700">Me contacter</a>
+      </nav>
+    </header>
+    <section style="min-height: 640px; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); gap: 56px; align-items: center; padding: 48px 0 96px">
+      <div style="display: flex; flex-direction: column; gap: 22px">
+        <span style="align-self: flex-start; font-size: 13px; font-weight: 700; color: #B4401C; background: #FDE7E0; padding: 6px 12px; border-radius: 999px">Rapport de test · erreur 404</span>
+        <h1 style="margin: 0; font-family: Unbounded, system-ui, sans-serif; font-weight: 600; font-size: clamp(32px, 4vw, 50px); line-height: 1.1; letter-spacing: -0.02em">Résultat du test&nbsp;: cette page n’existe pas.</h1>
+        <p style="margin: 0; font-size: 18px; line-height: 1.6; color: #4A544D; max-width: 480px">Bonne nouvelle&nbsp;: repérer ce qui bloque les utilisateurs, c’est précisément mon métier. Mauvaise nouvelle&nbsp;: ici, c’est moi qui suis prise en défaut.</p>
+        <div style="display: flex; align-items: center; gap: 28px; flex-wrap: wrap"><a href="/" class="cta goo goo2 "><span class="g-fonds" aria-hidden="true"><span class="g-pill"></span><span class="g-rond"></span></span>Retour à l’accueil<span class="g-fleche" aria-hidden="true"><span>→</span></span></a><a href="/contact/" class="lien li i3 px fleche"><span class="lt">Me contacter</span><span class="ic" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span></a></div>
+      </div>
+      <div aria-hidden="true" style="display: flex; flex-direction: column; gap: 14px">
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px">
+          <div class="kpi"><span>Taux de réussite</span><strong class="rouge">0 %</strong></div>
+          <div class="kpi"><span>Clics de frustration</span><strong class="compteur">404</strong></div>
+          <div class="kpi"><span>Temps perdu</span><strong>3 s</strong></div>
+        </div>
+        <div class="ecran">
+          <div class="wf-barre"><i></i><i></i><i></i></div>
+          <div style="position: relative; height: 230px; display: flex; align-items: center; justify-content: center">
+            <span style="font-family: Unbounded, system-ui, sans-serif; font-weight: 700; font-size: 84px; color: #EEEDFB; letter-spacing: -0.04em">404</span>
+            <span class="tache" style="left: 18%; top: 22%; animation-delay: .3s"></span>
+            <span class="tache" style="left: 58%; top: 40%; animation-delay: .7s; width: 110px; height: 110px"></span>
+            <span class="tache" style="left: 36%; top: 58%; animation-delay: 1.1s"></span>
+            <span class="clic" style="left: 63%; top: 52%"></span>
+          </div>
+        </div>
+        <div class="verdict"><strong>Diagnostic</strong> · lien cassé ou page déplacée<br><strong>Recommandation</strong> · revenir à l’accueil (sévérité&nbsp;: <span style="color: #B4401C; font-weight: 700">critique</span>)</div>
+      </div>
+    </section>
+  </div>
+  <footer style="border-top: 1px solid #E1E5DF">
+    <div style="max-width: 1240px; margin: 0 auto; padding: 28px 32px; display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; font-size: 14px; color: #414A44">
+      <span>Margot Dauban — Webdesigner UI / UX freelance à Toulouse</span>
+      <nav aria-label="Liens de pied de page" style="display: flex; gap: 20px; flex-wrap: wrap"><a href="#">Contact</a><a href="#">FAQ</a><a href="#">Profil Malt</a><a href="#">Mentions légales</a><a href="#">Confidentialité</a></nav>
+    </div>
+  </footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1000}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>
