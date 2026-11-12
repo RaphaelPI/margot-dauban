@@ -102,12 +102,6 @@ export default async function NotFound() {
               {report.recommendation ? (
                 <>
                   <strong>Recommandation</strong> · {report.recommendation}
-                  {report.severity ? (
-                    <>
-                      {' '}
-                      (sévérité : <span className="font-bold text-[#f6a58a]">{report.severity}</span>)
-                    </>
-                  ) : null}
                 </>
               ) : null}
             </p>

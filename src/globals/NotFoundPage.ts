@@ -23,7 +23,7 @@ export const NotFoundPage: GlobalConfig = {
       label: 'Titre',
       ...titleText(),
       required: true,
-      defaultValue: titleFrom('Résultat du test : cette page n’existe pas.'),
+      defaultValue: titleFrom('Cette page n’existe pas.'),
       admin: { description: 'Le texte en gras s’affiche surligné en lilas.' },
     },
     {
@@ -82,16 +82,10 @@ export const NotFoundPage: GlobalConfig = {
           defaultValue: 'lien cassé ou page déplacée',
         },
         {
-          type: 'row',
-          fields: [
-            {
-              name: 'recommendation',
-              label: 'Recommandation',
-              type: 'text',
-              defaultValue: 'revenir à l’accueil',
-            },
-            { name: 'severity', label: 'Sévérité (en rouge)', type: 'text', defaultValue: 'critique' },
-          ],
+          name: 'recommendation',
+          label: 'Recommandation',
+          type: 'text',
+          defaultValue: 'revenir à l’accueil',
         },
       ],
     },

@@ -1673,7 +1673,6 @@ export interface NotFoundPage {
       | null;
     diagnosis?: string | null;
     recommendation?: string | null;
-    severity?: string | null;
   };
   updatedAt?: string | null;
   createdAt?: string | null;
@@ -2066,7 +2065,6 @@ export interface NotFoundPageSelect<T extends boolean = true> {
             };
         diagnosis?: T;
         recommendation?: T;
-        severity?: T;
       };
   updatedAt?: T;
   createdAt?: T;
