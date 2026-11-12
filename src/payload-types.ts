@@ -107,6 +107,7 @@ export interface Config {
     'services-page': ServicesPage;
     'faq-page': FaqPage;
     'contact-page': ContactPage;
+    'not-found-page': NotFoundPage;
     settings: Setting;
   };
   globalsSelect: {
@@ -115,6 +116,7 @@ export interface Config {
     'services-page': ServicesPageSelect<false> | ServicesPageSelect<true>;
     'faq-page': FaqPageSelect<false> | FaqPageSelect<true>;
     'contact-page': ContactPageSelect<false> | ContactPageSelect<true>;
+    'not-found-page': NotFoundPageSelect<false> | NotFoundPageSelect<true>;
     settings: SettingsSelect<false> | SettingsSelect<true>;
   };
   locale: null;
@@ -1625,6 +1627,57 @@ export interface ContactPage {
   createdAt?: string | null;
 }
 /**
+ * Textes de la page affichée quand une adresse n’existe pas (lien cassé, page supprimée).
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "not-found-page".
+ */
+export interface NotFoundPage {
+  id: string;
+  badge?: string | null;
+  /**
+   * Le texte en gras s’affiche surligné en lilas.
+   */
+  title: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  text?: string | null;
+  homeLabel?: string | null;
+  linkLabel?: string | null;
+  linkHref?: string | null;
+  /**
+   * Textes de l’illustration à droite.
+   */
+  report?: {
+    /**
+     * Le premier chiffre s’affiche en rouge, le deuxième tremble.
+     */
+    stats?:
+      | {
+          label: string;
+          value: string;
+          id?: string | null;
+        }[]
+      | null;
+    diagnosis?: string | null;
+    recommendation?: string | null;
+  };
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "settings".
  */
@@ -1984,6 +2037,34 @@ export interface ContactPageSelect<T extends boolean = true> {
         title?: T;
         description?: T;
         image?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "not-found-page_select".
+ */
+export interface NotFoundPageSelect<T extends boolean = true> {
+  badge?: T;
+  title?: T;
+  text?: T;
+  homeLabel?: T;
+  linkLabel?: T;
+  linkHref?: T;
+  report?:
+    | T
+    | {
+        stats?:
+          | T
+          | {
+              label?: T;
+              value?: T;
+              id?: T;
+            };
+        diagnosis?: T;
+        recommendation?: T;
       };
   updatedAt?: T;
   createdAt?: T;
