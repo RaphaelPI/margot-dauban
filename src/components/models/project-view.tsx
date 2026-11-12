@@ -6,12 +6,14 @@ import { CtaLink } from '@/components/cta-link'
 import { GlowCard } from '@/components/glow-card'
 import { PhosphorIcon } from '@/components/phosphor-icon'
 import { RichTextOrPlain } from '@/components/rich-text-or-plain'
+import { Testimonial } from '@/components/testimonial'
 import { TocSpy } from '@/components/toc-spy'
 import { Badge } from '@/components/ui/badge'
 import { ZoomableImage } from '@/components/zoomable-image'
 import { tagDocs, tags } from '@/lib/cache'
 import { getPayload } from '@/lib/payload'
 import { richTextUploads } from '@/lib/rich-text-uploads'
+import { titlePlain } from '@/lib/rich-title'
 import { isSafeHref } from '@/lib/safe-href'
 import type { Media } from '@/payload-types'
 import { MediaImage } from './media-image'
@@ -90,10 +92,12 @@ export async function ProjectView({ id, nextSlot }: { id: string; nextSlot?: Rea
     project.cover,
     project.hero,
     project.gallery,
+    project.testimonial?.photo,
     project.approach?.map((step) => step.images),
     project.approach?.map((step) => richTextUploads(step.content)),
   )
 
+  const testimonial = titlePlain(project.testimonial?.quote) ? project.testimonial : null
   const headline = project.headline?.highlight || project.headline?.text ? project.headline : null
   const gallery = images(project.gallery)
   const steps = (project.approach ?? []).map((step, index) => ({
@@ -314,6 +318,25 @@ export async function ProjectView({ id, nextSlot }: { id: string; nextSlot?: Rea
               </li>
             ))}
           </ol>
+        </section>
+      ) : null}
+
+      {testimonial ? (
+        <section aria-label="Témoignage" className="pb-16 md:pb-26">
+          <Testimonial
+            compact
+            quote={testimonial.quote}
+            author={testimonial.author}
+            role={testimonial.role}
+            company={testimonial.company}
+            photoId={
+              testimonial.photo
+                ? typeof testimonial.photo === 'string'
+                  ? testimonial.photo
+                  : testimonial.photo.id
+                : null
+            }
+          />
         </section>
       ) : null}
 
