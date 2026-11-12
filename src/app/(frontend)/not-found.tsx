@@ -28,7 +28,7 @@ export default async function NotFound() {
       {/* Indigo & peach glow behind the header and title (body is the positioned ancestor). */}
       <div aria-hidden="true" className="bg-hero absolute inset-x-0 top-0 -z-10 h-[1000px]" />
 
-      <section className="grid items-center gap-14 pt-12 pb-16 md:min-h-[40rem] md:grid-cols-[minmax(0,1fr)_minmax(0,1.05fr)] md:pb-24">
+      <section className="grid items-center gap-12 pt-12 pb-16 md:min-h-[40rem] md:grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)] md:pb-24">
         <div className="flex flex-col items-start gap-5.5">
           {page.badge ? (
             <span className="rounded-full bg-[#fde7e0] px-3 py-1.5 text-sm font-bold text-[#b4401c]">
