@@ -11,6 +11,7 @@ import { ProjectLink } from '@/components/models/project-link'
 import { ServiceCard } from '@/components/models/service-card'
 import { RichTextOrPlain } from '@/components/rich-text-or-plain'
 import { RichTitle } from '@/components/rich-title'
+import { Testimonial } from '@/components/testimonial'
 import { getClientIds, getFeaturedProjectIds, getHomeServiceIds } from '@/data/ids'
 import { getHome } from '@/data/settings'
 import { titlePlain } from '@/lib/rich-title'
@@ -181,50 +182,22 @@ export default async function HomePage() {
       ) : null}
 
       {testimonial ? (
-        // Variant A of designs/42-temoignage-accueil: the quote on the hero's colours (lilac top left,
-        // peach bottom right, as in the designer's screenshot), no watermark quote mark.
         <section id="temoignages" aria-label="Témoignage" className="pt-16 pb-10 md:pt-24">
-          <figure className="relative flex flex-col gap-9 overflow-hidden rounded-[2.25rem] bg-[#f3eef1] bg-[image:radial-gradient(520px_360px_at_8%_0,#dad8fa,rgb(243_238_241/0)_70%),radial-gradient(520px_380px_at_96%_100%,var(--peach),rgb(243_238_241/0)_70%)] p-[clamp(2.25rem,6vw,5rem)]">
-            <blockquote className="relative max-w-240 font-heading text-[clamp(1.5rem,3vw,2.375rem)] leading-[1.3] font-medium tracking-[-0.01em]">
-              «{' '}
-              <RichTitle
-                value={testimonial.quote}
-                highlightClassName="rounded-xl bg-accent px-2.5 text-foreground [box-decoration-break:clone]"
-              />{' '}
-              »
-            </blockquote>
-            {testimonial.author || testimonial.company || testimonial.project ? (
-              <figcaption className="relative flex flex-wrap items-center justify-between gap-6">
-                <span className="flex items-center gap-4">
-                  {testimonial.photo ? (
-                    <span className="size-16 shrink-0 overflow-hidden rounded-full border-3 border-card bg-card shadow-[0_8px_20px_rgb(40_36_90/0.12)]">
-                      <MediaById
-                        id={asId(testimonial.photo)}
-                        sizes="64px"
-                        className="size-full object-cover"
-                      />
-                    </span>
-                  ) : null}
-                  <span className="flex flex-col gap-0.5">
-                    {testimonial.author ? (
-                      <strong className="text-[1.0625rem]">{testimonial.author}</strong>
-                    ) : null}
-                    {testimonial.role || testimonial.company ? (
-                      <span className="text-base text-foreground-soft">
-                        {[testimonial.role, testimonial.company].filter(Boolean).join(' · ')}
-                      </span>
-                    ) : null}
-                  </span>
-                </span>
-                {testimonial.project ? (
-                  <ProjectLink
-                    id={asId(testimonial.project)}
-                    label={testimonial.linkLabel || 'Lire le cas client'}
-                  />
-                ) : null}
-              </figcaption>
-            ) : null}
-          </figure>
+          <Testimonial
+            quote={testimonial.quote}
+            author={testimonial.author}
+            role={testimonial.role}
+            company={testimonial.company}
+            photoId={testimonial.photo ? asId(testimonial.photo) : null}
+            link={
+              testimonial.project ? (
+                <ProjectLink
+                  id={asId(testimonial.project)}
+                  label={testimonial.linkLabel || 'Lire le cas client'}
+                />
+              ) : null
+            }
+          />
         </section>
       ) : null}
 

@@ -8,6 +8,8 @@ import { CtaLink } from '@/components/cta-link'
 import { GlowCard } from '@/components/glow-card'
 import { PhosphorIcon } from '@/components/phosphor-icon'
 import { RichTextOrPlain } from '@/components/rich-text-or-plain'
+import { RichTitle } from '@/components/rich-title'
+import { Testimonial } from '@/components/testimonial'
 import { TocSpy } from '@/components/toc-spy'
 import { Badge } from '@/components/ui/badge'
 import { ZoomableImage } from '@/components/zoomable-image'
@@ -15,6 +17,7 @@ import type { AnimationName } from '@/fields/animation-block'
 import { tagDocs, tags } from '@/lib/cache'
 import { getPayload } from '@/lib/payload'
 import { richTextUploads } from '@/lib/rich-text-uploads'
+import { titlePlain } from '@/lib/rich-title'
 import { isSafeHref } from '@/lib/safe-href'
 import type { AnimationBlock, Media } from '@/payload-types'
 import { MediaImage } from './media-image'
@@ -101,11 +104,13 @@ export async function ProjectView({ id, nextSlot }: { id: string; nextSlot?: Rea
     project.cover,
     project.hero,
     project.gallery,
+    project.testimonial?.photo,
     project.approach?.map((step) => step.images),
     project.approach?.map((step) => richTextUploads(step.content)),
   )
 
-  const headline = project.headline?.highlight || project.headline?.text ? project.headline : null
+  const testimonial = titlePlain(project.testimonial?.quote) ? project.testimonial : null
+  const headline = titlePlain(project.headline?.title) ? project.headline?.title : null
   const gallery = images(project.gallery)
   const steps = (project.approach ?? []).map((step, index) => ({
     ...step,
@@ -165,11 +170,10 @@ export async function ProjectView({ id, nextSlot }: { id: string; nextSlot?: Rea
         </div>
         <p className="max-w-215 font-heading text-[clamp(1.25rem,2.2vw,1.75rem)] leading-[1.35] font-medium text-balance">
           {headline ? (
-            <>
-              {headline.highlight ? <span className="text-primary">{headline.highlight}</span> : null}
-              {headline.highlight && headline.text ? ' ' : null}
-              {headline.text}
-            </>
+            <RichTitle
+              value={headline}
+              highlightClassName="rounded-lg bg-accent px-1.5 text-foreground [box-decoration-break:clone]"
+            />
           ) : (
             project.summary
           )}
@@ -325,6 +329,25 @@ export async function ProjectView({ id, nextSlot }: { id: string; nextSlot?: Rea
               </li>
             ))}
           </ol>
+        </section>
+      ) : null}
+
+      {testimonial ? (
+        <section aria-label="Témoignage" className="pb-16 md:pb-26">
+          <Testimonial
+            compact
+            quote={testimonial.quote}
+            author={testimonial.author}
+            role={testimonial.role}
+            company={testimonial.company}
+            photoId={
+              testimonial.photo
+                ? typeof testimonial.photo === 'string'
+                  ? testimonial.photo
+                  : testimonial.photo.id
+                : null
+            }
+          />
         </section>
       ) : null}
 

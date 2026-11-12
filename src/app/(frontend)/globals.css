@@ -1328,3 +1328,77 @@ body:has([data-cta-band]) .footer-cta {
     box-shadow: 0 0 0 6px rgb(31 157 85 / 0);
   }
 }
+
+/* Page 404 « Le test utilisateur raté » (designs/76-page-404): heat spots fade in and out on the
+   blank screen, a click keeps pulsing, the frustration counter shakes three times. */
+.nf-heat {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgb(224 96 58 / 0.75),
+    rgb(246 165 138 / 0.4) 40%,
+    rgb(252 225 211 / 0) 70%
+  );
+  opacity: 0;
+  animation: nf-heat 2.4s ease-in-out infinite;
+}
+.nf-click {
+  position: absolute;
+  width: 22px;
+  height: 22px;
+  margin: -11px 0 0 -11px;
+  border: 2px solid #e0603a;
+  border-radius: 50%;
+  animation: nf-click 1s ease-out infinite;
+}
+.nf-shake {
+  animation: nf-shake 0.4s ease-in-out 1.4s 3;
+}
+@keyframes nf-heat {
+  0% {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  30%,
+  70% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.1);
+  }
+}
+@keyframes nf-click {
+  0% {
+    opacity: 1;
+    transform: scale(0.3);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(2.2);
+  }
+}
+@keyframes nf-shake {
+  0%,
+  100% {
+    transform: none;
+  }
+  25% {
+    transform: translateX(-3px) rotate(-2deg);
+  }
+  75% {
+    transform: translateX(3px) rotate(2deg);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .nf-heat,
+  .nf-click,
+  .nf-shake {
+    animation: none;
+  }
+  .nf-heat {
+    opacity: 0.8;
+  }
+}

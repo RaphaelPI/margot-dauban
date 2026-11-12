@@ -107,6 +107,7 @@ export interface Config {
     'services-page': ServicesPage;
     'faq-page': FaqPage;
     'contact-page': ContactPage;
+    'not-found-page': NotFoundPage;
     settings: Setting;
   };
   globalsSelect: {
@@ -115,6 +116,7 @@ export interface Config {
     'services-page': ServicesPageSelect<false> | ServicesPageSelect<true>;
     'faq-page': FaqPageSelect<false> | FaqPageSelect<true>;
     'contact-page': ContactPageSelect<false> | ContactPageSelect<true>;
+    'not-found-page': NotFoundPageSelect<false> | NotFoundPageSelect<true>;
     settings: SettingsSelect<false> | SettingsSelect<true>;
   };
   locale: null;
@@ -189,12 +191,24 @@ export interface Project {
    */
   headline?: {
     /**
-     * Ex. « +10 % de chiffre d’affaires »
+     * Le texte en gras s’affiche surligné en lilas.
      */
+    title?: {
+      root: {
+        type: string;
+        children: {
+          type: any;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    } | null;
     highlight?: string | null;
-    /**
-     * Ex. « grâce à une expérience d’achat repensée… »
-     */
     text?: string | null;
   };
   /**
@@ -320,6 +334,33 @@ export interface Project {
   website?: {
     url?: string | null;
     label?: string | null;
+  };
+  /**
+   * Citation du client, entre « En bref » et « La démarche en détail ». Vide = bloc masqué.
+   */
+  testimonial?: {
+    /**
+     * Sans guillemets : ils sont ajoutés automatiquement. Le texte en gras s’affiche surligné en lilas. Un retour à la ligne = un nouveau paragraphe.
+     */
+    quote?: {
+      root: {
+        type: string;
+        children: {
+          type: any;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    } | null;
+    author?: string | null;
+    role?: string | null;
+    company?: string | null;
+    photo?: (string | null) | Media;
   };
   approachTitle?: string | null;
   contextTitle?: string | null;
@@ -845,6 +886,7 @@ export interface ProjectsSelect<T extends boolean = true> {
   headline?:
     | T
     | {
+        title?: T;
         highlight?: T;
         text?: T;
       };
@@ -881,6 +923,15 @@ export interface ProjectsSelect<T extends boolean = true> {
     | {
         url?: T;
         label?: T;
+      };
+  testimonial?:
+    | T
+    | {
+        quote?: T;
+        author?: T;
+        role?: T;
+        company?: T;
+        photo?: T;
       };
   approachTitle?: T;
   contextTitle?: T;
@@ -1625,6 +1676,57 @@ export interface ContactPage {
   createdAt?: string | null;
 }
 /**
+ * Textes de la page affichée quand une adresse n’existe pas (lien cassé, page supprimée).
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "not-found-page".
+ */
+export interface NotFoundPage {
+  id: string;
+  badge?: string | null;
+  /**
+   * Le texte en gras s’affiche surligné en lilas.
+   */
+  title: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  text?: string | null;
+  homeLabel?: string | null;
+  linkLabel?: string | null;
+  linkHref?: string | null;
+  /**
+   * Textes de l’illustration à droite.
+   */
+  report?: {
+    /**
+     * Le premier chiffre s’affiche en rouge, le deuxième tremble.
+     */
+    stats?:
+      | {
+          label: string;
+          value: string;
+          id?: string | null;
+        }[]
+      | null;
+    diagnosis?: string | null;
+    recommendation?: string | null;
+  };
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "settings".
  */
@@ -1984,6 +2086,34 @@ export interface ContactPageSelect<T extends boolean = true> {
         title?: T;
         description?: T;
         image?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "not-found-page_select".
+ */
+export interface NotFoundPageSelect<T extends boolean = true> {
+  badge?: T;
+  title?: T;
+  text?: T;
+  homeLabel?: T;
+  linkLabel?: T;
+  linkHref?: T;
+  report?:
+    | T
+    | {
+        stats?:
+          | T
+          | {
+              label?: T;
+              value?: T;
+              id?: T;
+            };
+        diagnosis?: T;
+        recommendation?: T;
       };
   updatedAt?: T;
   createdAt?: T;

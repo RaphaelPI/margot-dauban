@@ -2,6 +2,7 @@ import { type CollectionConfig, slugField } from 'payload'
 import { loggedIn, publishedOrLoggedIn } from '@/access'
 import { lightText, richTextFrom, stepEditor } from '@/fields/light-editor'
 import { seoField } from '@/fields/seo'
+import { titleEditor, titlePieces, titleText } from '@/fields/title-text'
 import { validateHref } from '@/lib/safe-href'
 
 export const Projects: CollectionConfig = {
@@ -98,18 +99,38 @@ export const Projects: CollectionConfig = {
                   admin: { description: 'Vide : l’accroche de la carte est utilisée.' },
                   fields: [
                     {
+                      name: 'title',
+                      label: 'Accroche',
+                      type: 'richText',
+                      editor: titleEditor,
+                      admin: { description: 'Le texte en gras s’affiche surligné en lilas.' },
+                      hooks: {
+                        // Older projects: « Début en couleur » (bold) followed by « Suite de la phrase ».
+                        afterRead: [
+                          ({ value, siblingData }) =>
+                            value ??
+                            (siblingData?.highlight || siblingData?.text
+                              ? titlePieces([
+                                  { text: siblingData.highlight, bold: true },
+                                  { text: siblingData.highlight && siblingData.text ? ' ' : '' },
+                                  { text: siblingData.text },
+                                ])
+                              : value),
+                        ],
+                      },
+                    },
+                    // Former two-part tagline: kept (it feeds the field above until saved), hidden.
+                    {
                       name: 'highlight',
-                      label: 'Début en couleur',
+                      label: 'Début en couleur (ancien)',
                       type: 'text',
-                      admin: { description: 'Ex. « +10 % de chiffre d’affaires »' },
+                      admin: { hidden: true },
                     },
                     {
                       name: 'text',
-                      label: 'Suite de la phrase',
+                      label: 'Suite de la phrase (ancien)',
                       type: 'textarea',
-                      admin: {
-                        description: 'Ex. « grâce à une expérience d’achat repensée… »',
-                      },
+                      admin: { hidden: true },
                     },
                   ],
                 },
@@ -251,6 +272,35 @@ export const Projects: CollectionConfig = {
                         },
                       ],
                     },
+                  ],
+                },
+                {
+                  name: 'testimonial',
+                  label: 'Témoignage',
+                  type: 'group',
+                  admin: {
+                    description:
+                      'Citation du client, entre « En bref » et « La démarche en détail ». Vide = bloc masqué.',
+                  },
+                  fields: [
+                    {
+                      name: 'quote',
+                      label: 'Citation',
+                      ...titleText(),
+                      admin: {
+                        description:
+                          'Sans guillemets : ils sont ajoutés automatiquement. Le texte en gras s’affiche surligné en lilas. Un retour à la ligne = un nouveau paragraphe.',
+                      },
+                    },
+                    {
+                      type: 'row',
+                      fields: [
+                        { name: 'author', label: 'Prénom Nom', type: 'text' },
+                        { name: 'role', label: 'Poste', type: 'text' },
+                        { name: 'company', label: 'Entreprise', type: 'text' },
+                      ],
+                    },
+                    { name: 'photo', label: 'Photo', type: 'upload', relationTo: 'media' },
                   ],
                 },
               ],
