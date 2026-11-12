@@ -2,6 +2,7 @@ import { type CollectionConfig, slugField } from 'payload'
 import { loggedIn, publishedOrLoggedIn } from '@/access'
 import { articleEditor, lightText, richTextFrom } from '@/fields/light-editor'
 import { seoField } from '@/fields/seo'
+import { titleText } from '@/fields/title-text'
 import { validateHref } from '@/lib/safe-href'
 
 export const Projects: CollectionConfig = {
@@ -251,6 +252,35 @@ export const Projects: CollectionConfig = {
                         },
                       ],
                     },
+                  ],
+                },
+                {
+                  name: 'testimonial',
+                  label: 'Témoignage',
+                  type: 'group',
+                  admin: {
+                    description:
+                      'Citation du client, entre « En bref » et « La démarche en détail ». Vide = bloc masqué.',
+                  },
+                  fields: [
+                    {
+                      name: 'quote',
+                      label: 'Citation',
+                      ...titleText(),
+                      admin: {
+                        description:
+                          'Sans guillemets : ils sont ajoutés automatiquement. Le texte en gras s’affiche surligné en lilas. Un retour à la ligne = un nouveau paragraphe.',
+                      },
+                    },
+                    {
+                      type: 'row',
+                      fields: [
+                        { name: 'author', label: 'Prénom Nom', type: 'text' },
+                        { name: 'role', label: 'Poste', type: 'text' },
+                        { name: 'company', label: 'Entreprise', type: 'text' },
+                      ],
+                    },
+                    { name: 'photo', label: 'Photo', type: 'upload', relationTo: 'media' },
                   ],
                 },
               ],

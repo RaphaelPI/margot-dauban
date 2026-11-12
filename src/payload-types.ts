@@ -323,6 +323,33 @@ export interface Project {
     url?: string | null;
     label?: string | null;
   };
+  /**
+   * Citation du client, entre « En bref » et « La démarche en détail ». Vide = bloc masqué.
+   */
+  testimonial?: {
+    /**
+     * Sans guillemets : ils sont ajoutés automatiquement. Le texte en gras s’affiche surligné en lilas. Un retour à la ligne = un nouveau paragraphe.
+     */
+    quote?: {
+      root: {
+        type: string;
+        children: {
+          type: any;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    } | null;
+    author?: string | null;
+    role?: string | null;
+    company?: string | null;
+    photo?: (string | null) | Media;
+  };
   approachTitle?: string | null;
   contextTitle?: string | null;
   context?: {
@@ -883,6 +910,15 @@ export interface ProjectsSelect<T extends boolean = true> {
     | {
         url?: T;
         label?: T;
+      };
+  testimonial?:
+    | T
+    | {
+        quote?: T;
+        author?: T;
+        role?: T;
+        company?: T;
+        photo?: T;
       };
   approachTitle?: T;
   contextTitle?: T;
