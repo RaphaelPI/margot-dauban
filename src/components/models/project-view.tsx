@@ -1,6 +1,8 @@
+import type { SerializedBlockNode } from '@payloadcms/richtext-lexical'
 import { type JSXConvertersFunction, RichText } from '@payloadcms/richtext-lexical/react'
 import { cacheLife, cacheTag } from 'next/cache'
 import type { CSSProperties, ReactNode } from 'react'
+import { BikiniHomepageAnimation } from '@/components/animations/bikini-homepage'
 import { ArrowLink } from '@/components/arrow-link'
 import { CtaLink } from '@/components/cta-link'
 import { GlowCard } from '@/components/glow-card'
@@ -11,12 +13,13 @@ import { Testimonial } from '@/components/testimonial'
 import { TocSpy } from '@/components/toc-spy'
 import { Badge } from '@/components/ui/badge'
 import { ZoomableImage } from '@/components/zoomable-image'
+import type { AnimationName } from '@/fields/animation-block'
 import { tagDocs, tags } from '@/lib/cache'
 import { getPayload } from '@/lib/payload'
 import { richTextUploads } from '@/lib/rich-text-uploads'
 import { titlePlain } from '@/lib/rich-title'
 import { isSafeHref } from '@/lib/safe-href'
-import type { Media } from '@/payload-types'
+import type { AnimationBlock, Media } from '@/payload-types'
 import { MediaImage } from './media-image'
 
 // Case study template « Cas client — Template mix » (designs/9-template-projet):
@@ -30,9 +33,17 @@ const chip = 'h-auto rounded-md px-3 py-1.5 text-sm font-bold'
 // Rich text from the admin: paragraphs, lists, links, bold (no typography plugin installed).
 const body =
   'text-lg leading-[1.7] text-foreground-soft [&_*+*]:mt-4 [&_a]:font-bold [&_a]:underline [&_a]:underline-offset-4 [&_li+li]:mt-1.5 [&_ol]:list-decimal [&_ol]:pl-6 [&_strong]:font-bold [&_strong]:text-foreground [&_ul]:list-disc [&_ul]:pl-6'
+// Coded animations inserted in a step's text (block « Animation », src/fields/animation-block.ts).
+const animations: Record<AnimationName, () => ReactNode> = {
+  'bikini-homepage': () => <BikiniHomepageAnimation className="my-8" />,
+}
 // Images in a step's text open full screen on click; other uploads keep the default rendering.
 const stepConverters: JSXConvertersFunction = ({ defaultConverters }) => ({
   ...defaultConverters,
+  blocks: {
+    animation: ({ node }: { node: SerializedBlockNode<AnimationBlock> }) =>
+      animations[node.fields.animation as AnimationName]?.() ?? null,
+  },
   upload: (args) => {
     const rendered = typeof defaultConverters.upload === 'function' ? defaultConverters.upload(args) : null
     const media = args.node.value as Media | string

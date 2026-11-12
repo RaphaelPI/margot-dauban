@@ -1,4 +1,5 @@
 import {
+  BlocksFeature,
   BoldFeature,
   FixedToolbarFeature,
   ItalicFeature,
@@ -10,6 +11,7 @@ import {
   UnorderedListFeature,
 } from '@payloadcms/richtext-lexical'
 import type { FieldHook } from 'payload'
+import { AnimationBlock } from './animation-block'
 
 // Light editor for short texts: bold, italic, underline, links and lists, with a visible toolbar.
 export const lightEditor = lexicalEditor({
@@ -39,6 +41,15 @@ const paragraph = (text: string) => ({
 // links, images from Médias…) with a visible toolbar, so « insert an image » is easy to find.
 export const articleEditor = lexicalEditor({
   features: ({ defaultFeatures }) => [...defaultFeatures, FixedToolbarFeature()],
+})
+
+// A case study step's detailed text: the article editor plus coded animations (block « Animation »).
+export const stepEditor = lexicalEditor({
+  features: ({ defaultFeatures }) => [
+    ...defaultFeatures,
+    BlocksFeature({ blocks: [AnimationBlock] }),
+    FixedToolbarFeature(),
+  ],
 })
 
 // Rich text value from plain text, one paragraph per line (field defaults, older plain values).
