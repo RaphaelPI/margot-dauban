@@ -1,6 +1,6 @@
 import { type CollectionConfig, slugField } from 'payload'
 import { loggedIn, publishedOrLoggedIn } from '@/access'
-import { lightText, richTextFrom, stepEditor } from '@/fields/light-editor'
+import { lightEditor, lightText, richTextFrom, stepEditor } from '@/fields/light-editor'
 import { seoField } from '@/fields/seo'
 import { titleEditor, titlePieces, titleText } from '@/fields/title-text'
 import { validateHref } from '@/lib/safe-href'
@@ -140,6 +140,16 @@ export const Projects: CollectionConfig = {
                   type: 'upload',
                   relationTo: 'media',
                   admin: { description: "Sinon, l'image de la carte." },
+                },
+                {
+                  name: 'overviewIntro',
+                  label: 'Texte avant « La prestation en bref »',
+                  type: 'richText',
+                  editor: lightEditor,
+                  admin: {
+                    description:
+                      'Facultatif. Ex. « Projet réalisé sous accord de confidentialité : le nom du client et les écrans réels ne sont pas communiqués. »',
+                  },
                 },
                 {
                   name: 'overviewTitle',

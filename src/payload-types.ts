@@ -215,6 +215,24 @@ export interface Project {
    * Sinon, l'image de la carte.
    */
   hero?: (string | null) | Media;
+  /**
+   * Facultatif. Ex. « Projet réalisé sous accord de confidentialité : le nom du client et les écrans réels ne sont pas communiqués. »
+   */
+  overviewIntro?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
   overviewTitle?: string | null;
   /**
    * Vide : le titre par défaut.
@@ -891,6 +909,7 @@ export interface ProjectsSelect<T extends boolean = true> {
         text?: T;
       };
   hero?: T;
+  overviewIntro?: T;
   overviewTitle?: T;
   overviewLabels?:
     | T
