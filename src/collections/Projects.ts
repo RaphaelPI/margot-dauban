@@ -1,6 +1,7 @@
 import { type CollectionConfig, slugField } from 'payload'
 import { loggedIn, publishedOrLoggedIn } from '@/access'
 import { lightEditor, lightText, richTextFrom, stepEditor } from '@/fields/light-editor'
+import { seoField } from '@/fields/seo'
 import { titleEditor, titlePieces, titleText } from '@/fields/title-text'
 import { validateHref } from '@/lib/safe-href'
 
