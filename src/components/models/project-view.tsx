@@ -191,6 +191,10 @@ export async function ProjectView({ id, nextSlot }: { id: string; nextSlot?: Rea
         </div>
       </section>
 
+      {project.overviewIntro ? (
+        <RichText data={project.overviewIntro} className={`${body} max-w-200 pb-10`} />
+      ) : null}
+
       {hasOverview ? (
         <section aria-labelledby="bref" className="flex flex-col gap-5 pb-6">
           <h2 id="bref" className={h2}>
