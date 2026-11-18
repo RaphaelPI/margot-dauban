@@ -192,7 +192,7 @@ export async function ProjectView({ id, nextSlot }: { id: string; nextSlot?: Rea
       </section>
 
       {project.overviewIntro ? (
-        <RichText data={project.overviewIntro} className={`${body} max-w-200 pb-10`} />
+        <RichText data={project.overviewIntro} className={`${body} -mt-6 max-w-200 pb-10 md:-mt-10`} />
       ) : null}
 
       {hasOverview ? (
