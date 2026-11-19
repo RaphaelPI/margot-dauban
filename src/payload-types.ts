@@ -1808,7 +1808,7 @@ export interface Setting {
       }[]
     | null;
   /**
-   * Ex. Mentions légales, Politique de confidentialité. « Gérer les cookies » s’ajoute tout seul quand Google Analytics est réglé.
+   * Ex. Mentions légales, CGV.
    */
   footerLegal?:
     | {
@@ -1830,7 +1830,7 @@ export interface Setting {
   };
   footerCopyright?: string | null;
   /**
-   * Affichés en ligne, centrés, après la mention © (ex. Mentions légales, CGV).
+   * Affichés en ligne, centrés, après la mention © (ex. Mentions légales, Politique de confidentialité). « Gérer les cookies » s’ajoute tout seul à la fin quand Google Analytics est réglé.
    */
   footerBottomLinks?:
     | {
