@@ -80,7 +80,7 @@ export async function SiteFooter() {
             </nav>
           ) : null}
 
-          {settings.footerLegal?.length || settings.gaId ? (
+          {settings.footerLegal?.length ? (
             <nav
               aria-label={settings.footerLegalTitle || 'Informations légales'}
               className="flex flex-col gap-4"
@@ -91,15 +91,7 @@ export async function SiteFooter() {
                 </span>
               ) : null}
               <ul className="flex flex-col gap-2.5 text-sm">
-                <FooterLinks links={settings.footerLegal ?? []} />
-                {settings.gaId ? (
-                  <li className={item}>
-                    <CookieSettingsButton
-                      label={settings.cookieBanner?.manageLabel || 'Gérer les cookies'}
-                      className={linkClass}
-                    />
-                  </li>
-                ) : null}
+                <FooterLinks links={settings.footerLegal} />
               </ul>
             </nav>
           ) : null}
@@ -147,6 +139,15 @@ export async function SiteFooter() {
                   </span>
                 )
               })}
+            {/* Reopens the cookie banner: only when Google Analytics is set. */}
+            {settings.gaId ? (
+              <span>
+                <CookieSettingsButton
+                  label={settings.cookieBanner?.manageLabel || 'Gérer les cookies'}
+                  className="cursor-pointer hover:text-primary-strong hover:underline"
+                />
+              </span>
+            ) : null}
           </p>
         </div>
       </div>

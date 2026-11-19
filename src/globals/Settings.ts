@@ -135,8 +135,7 @@ export const Settings: GlobalConfig = {
               type: 'array',
               fields: linkFields,
               admin: {
-                description:
-                  'Ex. Mentions légales, Politique de confidentialité. « Gérer les cookies » s’ajoute tout seul quand Google Analytics est réglé.',
+                description: 'Ex. Mentions légales, CGV.',
               },
             },
             {
@@ -171,7 +170,8 @@ export const Settings: GlobalConfig = {
               type: 'array',
               fields: linkFields,
               admin: {
-                description: 'Affichés en ligne, centrés, après la mention © (ex. Mentions légales, CGV).',
+                description:
+                  'Affichés en ligne, centrés, après la mention © (ex. Mentions légales, Politique de confidentialité). « Gérer les cookies » s’ajoute tout seul à la fin quand Google Analytics est réglé.',
               },
             },
           ],
