@@ -83,5 +83,6 @@ Real content is written in the **production admin**. The preview database holds 
 | `PAYLOAD_SECRET`                           | Vercel (per env), local `.env`             | `openssl rand -base64 32`, different per env, ≥ 32 chars                           |
 | `S3_BUCKET`, `S3_REGION`, `S3_PREFIX`      | Vercel (per env)                           | Required on Vercel (read-only filesystem), checked by `src/lib/env.ts`             |
 | `S3_ACCESS_KEY_ID`, `S3_SECRET_ACCESS_KEY` | Vercel (per env)                           | IAM user limited to the bucket                                                     |
+| `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS`, `EMAIL_FROM` | Vercel (Production) | Optional: contact form notifications (Payload nodemailer adapter). Unset: messages only in the admin |
 
 Local: Next and the Payload CLI load `.env`.

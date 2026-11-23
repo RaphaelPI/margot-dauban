@@ -1,8 +1,8 @@
 import type { CollectionAfterChangeHook, CollectionConfig } from 'payload'
 import { loggedIn } from '@/access'
 
-// Notifies Margot of a new message. Sends nothing until an e-mail adapter is configured in
-// payload.config.ts (separate issue): Payload then only logs the attempt. Never blocks saving.
+// Notifies Margot of a new message by e-mail (SMTP adapter in payload.config.ts, enabled by the
+// SMTP_* env vars; without them Payload only logs the attempt). Never blocks saving.
 const notify: CollectionAfterChangeHook = async ({ doc, operation, req }) => {
   if (operation !== 'create') return doc
   try {

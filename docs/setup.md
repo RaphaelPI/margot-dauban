@@ -49,6 +49,7 @@ Needed so agent label changes and PRs trigger the next workflows.
 | `S3_BUCKET`, `S3_REGION`                   | bucket, region            | same                         |
 | `S3_PREFIX`                                | `prod`                    | `preview`                    |
 | `S3_ACCESS_KEY_ID`, `S3_SECRET_ACCESS_KEY` | IAM user                  | same                         |
+| `SMTP_HOST`, `SMTP_USER`, `SMTP_PASS`, `EMAIL_FROM` (+ `SMTP_PORT`, default 465) | SMTP of the hello@ mailbox (O2Switch) | unset (no e-mails from tests) |
 
 - **Preview links for the designer**: Vercel protects preview deployments by default (Vercel Authentication). Either invite the designer to the Vercel team, or Settings → Deployment Protection → disable it for previews (previews only show the preview database).
 - The Vercel GitHub integration must stay on: its `Vercel` commit status and PR comment drive the preview comment and its check is part of the merge conditions.
