@@ -1,6 +1,7 @@
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { mongooseAdapter } from '@payloadcms/db-mongodb'
+import { nodemailerAdapter } from '@payloadcms/email-nodemailer'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
 import { s3Storage } from '@payloadcms/storage-s3'
 import { fr } from '@payloadcms/translations/languages/fr'
@@ -27,6 +28,21 @@ export default buildConfig({
   graphQL: { disable: true },
   typescript: { outputFile: path.resolve(dirname, 'payload-types.ts') },
   db: mongooseAdapter({ url: env.DATABASE_URL }),
+  // Contact form notifications (collections/ContactMessages.ts). Without SMTP, Payload logs them.
+  email: env.SMTP_HOST
+    ? nodemailerAdapter({
+        defaultFromAddress: env.EMAIL_FROM ?? '',
+        defaultFromName: 'Site margotdauban.fr',
+        // Checked when an e-mail is sent, not at start-up: a mail server hiccup never blocks the site.
+        skipVerify: true,
+        transportOptions: {
+          host: env.SMTP_HOST,
+          port: env.SMTP_PORT,
+          secure: env.SMTP_PORT === 465,
+          auth: { user: env.SMTP_USER, pass: env.SMTP_PASS },
+        },
+      })
+    : undefined,
   sharp,
   plugins: [
     // Without S3 (local dev), uploads go to ./media. Fields always inserted: same schema
