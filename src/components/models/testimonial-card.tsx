@@ -93,7 +93,7 @@ export async function TestimonialCard({ id }: { id: string }) {
           <MediaImage
             media={visual}
             sizes="(min-width: 1024px) 580px, 100vw"
-            className="aspect-[16/10] w-full object-cover"
+            className="aspect-[3/2] w-full object-cover"
           />
         </div>
       ) : null}

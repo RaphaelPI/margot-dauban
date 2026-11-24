@@ -716,6 +716,9 @@ export interface Testimonial {
    */
   photo?: (string | null) | Media;
   visual?: ('none' | 'project' | 'custom') | null;
+  /**
+   * Format 3:2, comme les images des projets (ex. 1200 × 800 px) : affichée en entier.
+   */
   image?: (string | null) | Media;
   /**
    * Vide : celles du projet relié.

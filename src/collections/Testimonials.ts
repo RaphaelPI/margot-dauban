@@ -89,7 +89,10 @@ export const Testimonials: CollectionConfig = {
       label: 'Image',
       type: 'upload',
       relationTo: 'media',
-      admin: { condition: (_, siblingData) => siblingData?.visual === 'custom' },
+      admin: {
+        condition: (_, siblingData) => siblingData?.visual === 'custom',
+        description: 'Format 3:2, comme les images des projets (ex. 1200 × 800 px) : affichée en entier.',
+      },
     },
     {
       name: 'categories',
