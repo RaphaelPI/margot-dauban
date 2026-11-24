@@ -14,7 +14,8 @@ const resetClass =
   'cursor-pointer font-bold text-primary-strong underline underline-offset-4 hover:text-primary'
 
 // Filters of the Témoignages page: project categories (the Projects page tabs) and sectors, combined.
-// Cards are rendered on the server (`cards`, by id); filtering only hides the others.
+// Cards are rendered on the server (`cards`, by id); filtering only hides the others. Two columns,
+// cards of a row share its height (author and link aligned at the bottom).
 export function TestimonialsBrowser({
   items,
   categories,
@@ -111,11 +112,11 @@ export function TestimonialsBrowser({
 
       <section aria-label="Témoignages" className="pb-24">
         {shown.length ? (
-          <div className="columns-[2_26rem] gap-6">
+          <div className="grid gap-6 md:grid-cols-2">
             {shown.map((item) => (
               <div
                 key={item.id}
-                className="animate-in break-inside-avoid fade-in-0 slide-in-from-bottom-3 duration-500 motion-reduce:animate-none"
+                className="flex animate-in fade-in-0 slide-in-from-bottom-3 duration-500 motion-reduce:animate-none"
               >
                 {cards[item.id]}
               </div>

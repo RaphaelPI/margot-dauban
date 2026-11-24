@@ -83,7 +83,7 @@ export async function TestimonialCard({ id }: { id: string }) {
         : null
 
   return (
-    <article className="mb-6 flex break-inside-avoid flex-col gap-4 rounded-3xl border bg-card px-7.5 pt-6 pb-7.5">
+    <article className="flex flex-1 flex-col gap-4 rounded-3xl border bg-card px-7.5 pt-6 pb-7.5">
       {visual && typeof visual === 'object' ? (
         <div className="overflow-hidden rounded-[0.875rem] bg-muted">
           <MediaImage
@@ -115,7 +115,7 @@ export async function TestimonialCard({ id }: { id: string }) {
           full={<RichTitle value={testimonial.quote} before={open} after={close} {...quoteLook} />}
         />
       </blockquote>
-      <footer className="flex items-center gap-3 border-t border-[#ececf2] pt-4">
+      <footer className="mt-auto flex items-center gap-3 border-t border-[#ececf2] pt-4">
         {testimonial.logo && typeof testimonial.logo === 'object' ? (
           <span className="flex size-11 shrink-0 items-center justify-center overflow-hidden rounded-xl border bg-card">
             <MediaImage media={testimonial.logo} sizes="44px" className="size-full object-contain p-1" />
