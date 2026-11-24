@@ -339,10 +339,11 @@ export async function ProjectView({ id, nextSlot }: { id: string; nextSlot?: Rea
         </section>
       ) : null}
 
-      {/* The testimonial linked to this project in « Témoignages »; else the older one stored here. */}
+      {/* The testimonial linked to this project in « Témoignages » (its fields overridden by this
+          project's own block when filled); else the project's own block. */}
       {linkedTestimonialId ? (
         <section aria-label="Témoignage" className="pb-16 md:pb-26">
-          <TestimonialQuote id={linkedTestimonialId} fallbackCompany={project.title} />
+          <TestimonialQuote id={linkedTestimonialId} projectId={id} />
         </section>
       ) : testimonial ? (
         <section aria-label="Témoignage" className="pb-16 md:pb-26">

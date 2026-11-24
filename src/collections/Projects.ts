@@ -286,13 +286,11 @@ export const Projects: CollectionConfig = {
                 },
                 {
                   name: 'testimonial',
-                  label: 'Témoignage (ancien emplacement)',
+                  label: 'Témoignage',
                   type: 'group',
                   admin: {
                     description:
-                      'Les témoignages se gèrent maintenant dans « Témoignages » (relié à ce projet, il s’affiche ici en priorité). Ce bloc reste affiché tant qu’aucun témoignage n’est relié ; videz-le une fois recopié.',
-                    // Only shown while it still holds an older quote.
-                    condition: (_, siblingData) => Boolean(siblingData?.testimonial?.quote),
+                      'Entre « En bref » et « La démarche en détail ». Le témoignage relié à ce projet dans « Témoignages » s’affiche ici ; remplissez ce bloc pour mettre un autre texte sur cette page (plus court, autre extrait…). Les champs vides reprennent ceux du témoignage relié.',
                   },
                   fields: [
                     {

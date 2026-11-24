@@ -37,12 +37,12 @@ const quoteLook = {
 // Indigo quotation marks glued to the first and last words (« … » excerpt: opening mark only).
 const mark = 'font-heading text-[1.375em] leading-none font-bold text-primary'
 const open = (
-  <span aria-hidden="true" className={`${mark} mr-0.5`}>
+  <span aria-hidden="true" className={`${mark} mr-1.5`}>
     “
   </span>
 )
 const close = (
-  <span aria-hidden="true" className={`${mark} ml-0.5`}>
+  <span aria-hidden="true" className={`${mark} ml-1.5`}>
     ”
   </span>
 )
