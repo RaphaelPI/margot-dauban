@@ -290,7 +290,7 @@ export const Projects: CollectionConfig = {
                   type: 'group',
                   admin: {
                     description:
-                      'Citation du client, entre « En bref » et « La démarche en détail ». Vide = bloc masqué.',
+                      'Entre « En bref » et « La démarche en détail ». Le témoignage relié à ce projet dans « Témoignages » s’affiche ici ; remplissez ce bloc pour mettre un autre texte sur cette page (plus court, autre extrait…). Les champs vides reprennent ceux du témoignage relié.',
                   },
                   fields: [
                     {

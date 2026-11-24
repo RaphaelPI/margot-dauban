@@ -6,9 +6,17 @@ import { NotFoundPage } from './NotFoundPage'
 import { ProjectsPage } from './ProjectsPage'
 import { ServicesPage } from './ServicesPage'
 import { Settings } from './Settings'
+import { TestimonialsPage } from './TestimonialsPage'
 
 // Registered globals (admin order). Adding one here is a content model change, not a
 // critical one: the designer can validate it. Every global gets the revalidation hooks.
-export const globals = [Home, ProjectsPage, ServicesPage, FaqPage, ContactPage, NotFoundPage, Settings].map(
-  withGlobalRevalidation,
-)
+export const globals = [
+  Home,
+  ProjectsPage,
+  ServicesPage,
+  FaqPage,
+  ContactPage,
+  TestimonialsPage,
+  NotFoundPage,
+  Settings,
+].map(withGlobalRevalidation)

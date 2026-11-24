@@ -13,6 +13,7 @@ import { Testimonial } from '@/components/testimonial'
 import { TocSpy } from '@/components/toc-spy'
 import { Badge } from '@/components/ui/badge'
 import { ZoomableImage } from '@/components/zoomable-image'
+import { getTestimonialIdForProject } from '@/data/ids'
 import type { AnimationName } from '@/fields/animation-block'
 import { tagDocs, tags } from '@/lib/cache'
 import { getPayload } from '@/lib/payload'
@@ -21,6 +22,7 @@ import { titlePlain } from '@/lib/rich-title'
 import { isSafeHref } from '@/lib/safe-href'
 import type { AnimationBlock, Media } from '@/payload-types'
 import { MediaImage } from './media-image'
+import { TestimonialQuote } from './testimonial-quote'
 
 // Case study template « Cas client — Template mix » (designs/9-template-projet):
 // part 1 = summary read at a glance, part 2 = detailed approach. Empty sections are not rendered.
@@ -97,7 +99,10 @@ export async function ProjectView({ id, nextSlot }: { id: string; nextSlot?: Rea
   cacheLife('model')
   cacheTag(tags.doc('projects', id))
   const payload = await getPayload()
-  const project = await payload.findByID({ collection: 'projects', id, depth: 1, disableErrors: true })
+  const [project, linkedTestimonialId] = await Promise.all([
+    payload.findByID({ collection: 'projects', id, depth: 1, disableErrors: true }),
+    getTestimonialIdForProject(id),
+  ])
   if (!project) return null
   tagDocs(
     'media',
@@ -336,7 +341,13 @@ export async function ProjectView({ id, nextSlot }: { id: string; nextSlot?: Rea
         </section>
       ) : null}
 
-      {testimonial ? (
+      {/* The testimonial linked to this project in « Témoignages » (its fields overridden by this
+          project's own block when filled); else the project's own block. */}
+      {linkedTestimonialId ? (
+        <section aria-label="Témoignage" className="pb-16 md:pb-26">
+          <TestimonialQuote id={linkedTestimonialId} projectId={id} />
+        </section>
+      ) : testimonial ? (
         <section aria-label="Témoignage" className="pb-16 md:pb-26">
           <Testimonial
             compact

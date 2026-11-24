@@ -69,6 +69,7 @@ export interface Config {
   collections: {
     projects: Project;
     'project-categories': ProjectCategory;
+    testimonials: Testimonial;
     clients: Client;
     services: Service;
     faqs: Faq;
@@ -85,6 +86,7 @@ export interface Config {
   collectionsSelect: {
     projects: ProjectsSelect<false> | ProjectsSelect<true>;
     'project-categories': ProjectCategoriesSelect<false> | ProjectCategoriesSelect<true>;
+    testimonials: TestimonialsSelect<false> | TestimonialsSelect<true>;
     clients: ClientsSelect<false> | ClientsSelect<true>;
     services: ServicesSelect<false> | ServicesSelect<true>;
     faqs: FaqsSelect<false> | FaqsSelect<true>;
@@ -107,6 +109,7 @@ export interface Config {
     'services-page': ServicesPage;
     'faq-page': FaqPage;
     'contact-page': ContactPage;
+    'testimonials-page': TestimonialsPage;
     'not-found-page': NotFoundPage;
     settings: Setting;
   };
@@ -116,6 +119,7 @@ export interface Config {
     'services-page': ServicesPageSelect<false> | ServicesPageSelect<true>;
     'faq-page': FaqPageSelect<false> | FaqPageSelect<true>;
     'contact-page': ContactPageSelect<false> | ContactPageSelect<true>;
+    'testimonials-page': TestimonialsPageSelect<false> | TestimonialsPageSelect<true>;
     'not-found-page': NotFoundPageSelect<false> | NotFoundPageSelect<true>;
     settings: SettingsSelect<false> | SettingsSelect<true>;
   };
@@ -354,7 +358,7 @@ export interface Project {
     label?: string | null;
   };
   /**
-   * Citation du client, entre « En bref » et « La démarche en détail ». Vide = bloc masqué.
+   * Entre « En bref » et « La démarche en détail ». Le témoignage relié à ce projet dans « Témoignages » s’affiche ici ; remplissez ce bloc pour mettre un autre texte sur cette page (plus court, autre extrait…). Les champs vides reprennent ceux du témoignage relié.
    */
   testimonial?: {
     /**
@@ -667,6 +671,65 @@ export interface Media {
   };
 }
 /**
+ * Page Témoignages, dans cet ordre (glisser-déposer pour réordonner), et page du projet relié.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "testimonials".
+ */
+export interface Testimonial {
+  id: string;
+  _order?: string | null;
+  /**
+   * Reprend ses catégories, son secteur, son image et le lien « Voir le use case ». Le témoignage s’affiche aussi sur la page du projet.
+   */
+  project?: (string | null) | Project;
+  /**
+   * Sans guillemets. Le texte en gras s’affiche surligné en lilas. Un retour à la ligne = un nouveau paragraphe. Les avis longs se replient (« Voir plus »).
+   */
+  quote: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  author: string;
+  role?: string | null;
+  /**
+   * Vide : le nom du projet relié.
+   */
+  company?: string | null;
+  /**
+   * Carré, SVG ou PNG. Vide : les initiales sur fond coloré.
+   */
+  logo?: (string | null) | Media;
+  /**
+   * Affichée sur la page du projet.
+   */
+  photo?: (string | null) | Media;
+  visual?: ('none' | 'project' | 'custom') | null;
+  image?: (string | null) | Media;
+  /**
+   * Vide : celles du projet relié.
+   */
+  categories?: (string | ProjectCategory)[] | null;
+  /**
+   * Vide : celui du projet relié. Ex. Santé, Culture
+   */
+  sector?: string | null;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
  * Références affichées sur l'accueil (bandeau).
  *
  * This interface was referenced by `Config`'s JSON-Schema
@@ -855,6 +918,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'project-categories';
         value: string | ProjectCategory;
+      } | null)
+    | ({
+        relationTo: 'testimonials';
+        value: string | Testimonial;
       } | null)
     | ({
         relationTo: 'clients';
@@ -1057,6 +1124,27 @@ export interface ProjectCategoriesSelect<T extends boolean = true> {
   slug?: T;
   updatedAt?: T;
   createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "testimonials_select".
+ */
+export interface TestimonialsSelect<T extends boolean = true> {
+  _order?: T;
+  project?: T;
+  quote?: T;
+  author?: T;
+  role?: T;
+  company?: T;
+  logo?: T;
+  photo?: T;
+  visual?: T;
+  image?: T;
+  categories?: T;
+  sector?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1791,6 +1879,58 @@ export interface ContactPage {
   createdAt?: string | null;
 }
 /**
+ * Textes de la page Témoignages (/temoignages). Les avis se gèrent dans « Témoignages ».
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "testimonials-page".
+ */
+export interface TestimonialsPage {
+  id: string;
+  /**
+   * Le texte en gras s’affiche surligné en lilas.
+   */
+  title: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  intro?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  /**
+   * Laisser vide pour utiliser le titre et le résumé.
+   */
+  seo?: {
+    title?: string | null;
+    description?: string | null;
+    image?: (string | null) | Media;
+  };
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
  * Textes de la page affichée quand une adresse n’existe pas (lien cassé, page supprimée).
  *
  * This interface was referenced by `Config`'s JSON-Schema
@@ -2195,6 +2335,24 @@ export interface ContactPageSelect<T extends boolean = true> {
         successTitle?: T;
         successText?: T;
       };
+  seo?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        image?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "testimonials-page_select".
+ */
+export interface TestimonialsPageSelect<T extends boolean = true> {
+  title?: T;
+  intro?: T;
   seo?:
     | T
     | {
