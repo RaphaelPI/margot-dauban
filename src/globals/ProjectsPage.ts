@@ -1,15 +1,21 @@
 import type { GlobalConfig } from 'payload'
-import { loggedIn } from '@/access'
+import { loggedIn, publishedOrLoggedIn } from '@/access'
 import { lightText, richTextFrom } from '@/fields/light-editor'
 import { withSeoTab } from '@/fields/seo'
 import { legacyHighlight, titleFrom, titleText } from '@/fields/title-text'
+import { globalPreviewPaths, previewUrl } from '@/lib/preview-url'
 import { validateHref } from '@/lib/safe-href'
 
 export const ProjectsPage: GlobalConfig = {
   slug: 'projects-page',
   label: 'Page Projets',
-  admin: { description: 'Textes de la page qui liste tous les projets (/projets).' },
-  access: { read: () => true, update: loggedIn },
+  admin: {
+    preview: () => previewUrl(globalPreviewPaths['projects-page']),
+    description: 'Textes de la page qui liste tous les projets (/projets).',
+  },
+  // Drafts: « Enregistrer le brouillon » changes nothing online until « Publier »; « Aperçu » shows it.
+  access: { read: publishedOrLoggedIn, update: loggedIn },
+  versions: { drafts: true },
   fields: [
     ...withSeoTab([
       {

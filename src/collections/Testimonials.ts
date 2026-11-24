@@ -1,6 +1,7 @@
 import type { CollectionConfig } from 'payload'
 import { loggedIn, publishedOrLoggedIn } from '@/access'
 import { titleText } from '@/fields/title-text'
+import { previewUrl } from '@/lib/preview-url'
 
 // Client testimonials: the « Témoignages » page (designs/89-page-temoignages) and the quote block
 // of the linked project's page. Linked to a project, a testimonial takes its categories, sector,
@@ -9,6 +10,7 @@ export const Testimonials: CollectionConfig = {
   slug: 'testimonials',
   labels: { singular: 'Témoignage', plural: 'Témoignages' },
   admin: {
+    preview: () => previewUrl('/temoignages'),
     useAsTitle: 'author',
     defaultColumns: ['author', 'company', 'project', '_status'],
     description:

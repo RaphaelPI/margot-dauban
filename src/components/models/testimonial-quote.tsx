@@ -2,6 +2,7 @@ import { cacheLife, cacheTag } from 'next/cache'
 import { Testimonial } from '@/components/testimonial'
 import { tags } from '@/lib/cache'
 import { getPayload } from '@/lib/payload'
+import { isPreview } from '@/lib/preview'
 import { titlePlain } from '@/lib/rich-title'
 
 const idOf = (value: unknown) =>
@@ -14,13 +15,15 @@ export async function TestimonialQuote({ id, projectId }: { id: string; projectI
   cacheLife('model')
   cacheTag(tags.doc('testimonials', id), tags.doc('projects', projectId))
   const payload = await getPayload()
+  const draft = await isPreview()
   const [testimonial, project] = await Promise.all([
-    payload.findByID({ collection: 'testimonials', id, depth: 0, disableErrors: true }),
+    payload.findByID({ collection: 'testimonials', id, depth: 0, disableErrors: true, draft }),
     payload.findByID({
       collection: 'projects',
       id: projectId,
       depth: 0,
       disableErrors: true,
+      draft,
       select: { title: true, testimonial: true },
     }),
   ])

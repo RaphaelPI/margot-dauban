@@ -4,11 +4,13 @@ import type { CollectionSlug, Sort, Where } from 'payload'
 import { tags } from '@/lib/cache'
 import { nextInList } from '@/lib/next-in-list'
 import { getPayload } from '@/lib/payload'
+import { isPreview, withoutPublishedFilter } from '@/lib/preview'
 
 const published: Where = { _status: { equals: 'published' } }
 
 // Lookups return ids only; model components fetch and cache each doc by id.
-// Collections with drafts must pass `published` in `where` (the Local API skips access control).
+// Collections with drafts must pass `published` in `where` (the Local API skips access control);
+// while previewing drafts (/apercu), that filter is dropped and the latest drafts are read.
 export async function findIds(
   collection: CollectionSlug,
   { where, sort, limit }: { where?: Where; sort?: Sort; limit?: number } = {},
@@ -17,9 +19,11 @@ export async function findIds(
   cacheLife('model')
   cacheTag(tags.collection(collection))
   const payload = await getPayload()
+  const draft = await isPreview()
   const { docs } = await payload.find({
     collection,
-    where,
+    where: draft ? withoutPublishedFilter(where) : where,
+    draft,
     sort,
     limit: limit ?? 0,
     pagination: Boolean(limit),

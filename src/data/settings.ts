@@ -2,6 +2,7 @@ import 'server-only'
 import { cacheLife, cacheTag } from 'next/cache'
 import { tags } from '@/lib/cache'
 import { getPayload } from '@/lib/payload'
+import { isPreview } from '@/lib/preview'
 
 export async function getSettings() {
   'use cache'
@@ -20,7 +21,7 @@ export async function getHome() {
   cacheLife('model')
   cacheTag(tags.global('home'))
   const payload = await getPayload()
-  return payload.findGlobal({ slug: 'home', depth: 0 })
+  return payload.findGlobal({ slug: 'home', depth: 0, draft: await isPreview() })
 }
 
 export async function getProjectsPage() {
@@ -28,7 +29,7 @@ export async function getProjectsPage() {
   cacheLife('model')
   cacheTag(tags.global('projects-page'))
   const payload = await getPayload()
-  return payload.findGlobal({ slug: 'projects-page', depth: 0 })
+  return payload.findGlobal({ slug: 'projects-page', depth: 0, draft: await isPreview() })
 }
 
 export async function getServicesPage() {
@@ -36,7 +37,7 @@ export async function getServicesPage() {
   cacheLife('model')
   cacheTag(tags.global('services-page'))
   const payload = await getPayload()
-  const page = await payload.findGlobal({ slug: 'services-page', depth: 1 })
+  const page = await payload.findGlobal({ slug: 'services-page', depth: 1, draft: await isPreview() })
   const portrait = page.hero?.portrait
   if (typeof portrait === 'object' && portrait) cacheTag(tags.doc('media', portrait.id))
   return page
@@ -47,7 +48,7 @@ export async function getFaqPage() {
   cacheLife('model')
   cacheTag(tags.global('faq-page'))
   const payload = await getPayload()
-  return payload.findGlobal({ slug: 'faq-page', depth: 0 })
+  return payload.findGlobal({ slug: 'faq-page', depth: 0, draft: await isPreview() })
 }
 
 export async function getContactPage() {
@@ -55,7 +56,7 @@ export async function getContactPage() {
   cacheLife('model')
   cacheTag(tags.global('contact-page'))
   const payload = await getPayload()
-  return payload.findGlobal({ slug: 'contact-page', depth: 0 })
+  return payload.findGlobal({ slug: 'contact-page', depth: 0, draft: await isPreview() })
 }
 
 export async function getNotFoundPage() {
@@ -63,7 +64,7 @@ export async function getNotFoundPage() {
   cacheLife('model')
   cacheTag(tags.global('not-found-page'))
   const payload = await getPayload()
-  return payload.findGlobal({ slug: 'not-found-page', depth: 0 })
+  return payload.findGlobal({ slug: 'not-found-page', depth: 0, draft: await isPreview() })
 }
 
 export async function getTestimonialsPage() {
@@ -71,5 +72,5 @@ export async function getTestimonialsPage() {
   cacheLife('model')
   cacheTag(tags.global('testimonials-page'))
   const payload = await getPayload()
-  return payload.findGlobal({ slug: 'testimonials-page', depth: 0 })
+  return payload.findGlobal({ slug: 'testimonials-page', depth: 0, draft: await isPreview() })
 }

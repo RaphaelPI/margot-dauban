@@ -21,6 +21,7 @@ Aller sur `https://<le-site>/admin` (site en ligne).
 | Mettre une animation codée dans une étape d'un projet | **Projets** → le projet → *Étude de cas* → Étapes → Texte détaillé : bouton « + » › **Animation**, puis choisir l'animation. Chaque animation est codée sur mesure (une demande par nouvelle animation) |
 
 - **Brouillon / Publier** : tant que ce n'est pas publié, rien n'apparaît sur le site. Publier = visible à la prochaine visite (quelques secondes).
+- **Aperçu** : sur un projet, une page, un témoignage ou les réglages d'une page (Accueil, Page Projets, Page Témoignages…), « Enregistrer le brouillon » puis le bouton **Aperçu** ouvre le site avec tes brouillons, visibles par toi seule (connectée à l'admin). Un bandeau en bas le rappelle ; « Quitter l'aperçu » revient au site publié. **Réglages du site** (menu, pied de page…) reste sans brouillon : enregistrer = en ligne.
 - L'admin d'une **preview** (lien Vercel d'une PR) utilise une base de test : ce qu'on y saisit n'arrive jamais sur le site en ligne.
 
 Besoin d'un **nouveau type de contenu** (ex. « Témoignages », un champ « Vidéo » sur les projets, un bloc « Chiffres clés ») ? C'est une fonctionnalité → 2.
