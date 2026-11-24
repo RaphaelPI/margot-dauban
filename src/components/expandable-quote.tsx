@@ -19,7 +19,7 @@ export function ExpandableQuote({ excerpt, full }: { excerpt?: ReactNode; full: 
         aria-expanded={open}
         aria-controls={id}
         onClick={() => setOpen((value) => !value)}
-        className="inline-flex items-center gap-1 rounded-sm text-sm font-semibold text-muted-foreground transition-colors hover:text-primary-strong focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-none"
+        className="inline-flex cursor-pointer items-center gap-1 rounded-sm text-sm font-semibold text-muted-foreground transition-colors hover:text-primary-strong focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-none"
       >
         {open ? 'Voir moins' : 'Voir plus'}
         <span

@@ -7,10 +7,11 @@ import { SlidingTabs } from '@/components/sliding-tabs'
 type Item = { id: string; categoryIds: string[]; sector: string | null }
 
 const chip =
-  'inline-flex min-h-10 items-center gap-1.5 rounded-full border border-[#d9dae4] bg-card px-3.5 py-2 text-sm font-bold transition-colors hover:border-[#a9a6c9] aria-pressed:border-primary aria-pressed:bg-primary aria-pressed:text-primary-foreground focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-none'
+  'inline-flex min-h-10 cursor-pointer items-center gap-1.5 rounded-full border border-[#d9dae4] bg-card px-3.5 py-2 text-sm font-bold transition-colors hover:border-[#a9a6c9] aria-pressed:border-primary aria-pressed:bg-primary aria-pressed:text-primary-foreground focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-none'
 const chipCount =
   'rounded-full bg-muted px-1.5 text-sm text-muted-foreground group-aria-pressed:bg-white/20 group-aria-pressed:text-primary-foreground'
-const resetClass = 'font-bold text-primary-strong underline underline-offset-4 hover:text-primary'
+const resetClass =
+  'cursor-pointer font-bold text-primary-strong underline underline-offset-4 hover:text-primary'
 
 // Filters of the Témoignages page: project categories (the Projects page tabs) and sectors, combined.
 // Cards are rendered on the server (`cards`, by id); filtering only hides the others.
