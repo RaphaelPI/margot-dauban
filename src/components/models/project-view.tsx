@@ -99,7 +99,10 @@ export async function ProjectView({ id, nextSlot }: { id: string; nextSlot?: Rea
   cacheLife('model')
   cacheTag(tags.doc('projects', id))
   const payload = await getPayload()
-  const project = await payload.findByID({ collection: 'projects', id, depth: 1, disableErrors: true })
+  const [project, linkedTestimonialId] = await Promise.all([
+    payload.findByID({ collection: 'projects', id, depth: 1, disableErrors: true }),
+    getTestimonialIdForProject(id),
+  ])
   if (!project) return null
   tagDocs(
     'media',
@@ -112,7 +115,6 @@ export async function ProjectView({ id, nextSlot }: { id: string; nextSlot?: Rea
   )
 
   const testimonial = titlePlain(project.testimonial?.quote) ? project.testimonial : null
-  const linkedTestimonialId = await getTestimonialIdForProject(id)
   const headline = titlePlain(project.headline?.title) ? project.headline?.title : null
   const gallery = images(project.gallery)
   const steps = (project.approach ?? []).map((step, index) => ({

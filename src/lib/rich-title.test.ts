@@ -43,4 +43,13 @@ describe('rich titles', () => {
       'mot1 mot2,'.replace(',', '…'),
     ])
   })
+
+  it('adds the ellipsis when the cut falls at the end of a paragraph', () => {
+    const { paragraphs, cut } = titleExcerpt(
+      [[{ text: 'un deux trois.', highlight: false }], [{ text: 'quatre', highlight: false }]],
+      3,
+    )
+    expect(cut).toBe(true)
+    expect(paragraphs.map((p) => p.map((piece) => piece.text).join(''))).toEqual(['un deux trois…'])
+  })
 })

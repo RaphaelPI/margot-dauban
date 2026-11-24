@@ -30,7 +30,7 @@ export async function getTestimonialFilters() {
       pagination: false,
       depth: 1,
       select: { categories: true, sector: true, project: true },
-      populate: { projects: { categories: true, sector: true } },
+      populate: { projects: { categories: true, sector: true, _status: true } },
     }),
     payload.find({
       collection: 'project-categories',
@@ -42,7 +42,9 @@ export async function getTestimonialFilters() {
     }),
   ])
   const items = docs.map((doc) => {
-    const project = typeof doc.project === 'object' ? doc.project : null
+    // Same rule as the card: an unpublished project lends nothing.
+    const project =
+      typeof doc.project === 'object' && doc.project?._status === 'published' ? doc.project : null
     const own = (doc.categories ?? []).map(idOf).filter((id): id is string => Boolean(id))
     const inherited = (project?.categories ?? []).map(idOf).filter((id): id is string => Boolean(id))
     return {

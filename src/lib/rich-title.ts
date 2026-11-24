@@ -36,7 +36,7 @@ export function titleExcerpt(paragraphs: TitlePiece[][], maxWords: number) {
   let left = maxWords
   const kept: TitlePiece[][] = []
   for (const pieces of paragraphs) {
-    if (left <= 0) return { paragraphs: kept, cut: true }
+    if (left <= 0) break
     const keptPieces: TitlePiece[] = []
     for (const piece of pieces) {
       const words = piece.text.split(/(\s+)/)
