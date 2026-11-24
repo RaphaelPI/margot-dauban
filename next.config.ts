@@ -14,9 +14,9 @@ const nextConfig: NextConfig = {
       expire: Infinity,
     },
   },
-  images: {
-    localPatterns: [{ pathname: '/api/media/file/**' }],
-  },
+  // Vercel's image optimizer is off (billed per transformation): media sizes are generated once
+  // at upload by Payload and served by `MediaImage` as a plain <img srcset> (docs/decisions.md).
+  images: { unoptimized: true },
   // URLs of the former WordPress site (margotdauban.fr) that changed: old links, bookmarks and
   // search results land on the new page (308). Unchanged: /, /contact, /faq, /projets, and text
   // pages (/mentions-legales, /politique-de-confidentialite) served by /[slug].

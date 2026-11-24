@@ -34,7 +34,7 @@ Needed so agent label changes and PRs trigger the next workflows.
 
 ## 4. Amazon S3
 
-- One bucket (e.g. `margot-dauban-media`, region `eu-west-3`), **Block Public Access on**: files are served through Payload (`/api/media/file/…`) and optimized by `next/image`.
+- One bucket (e.g. `margot-dauban-media`, region `eu-west-3`), **Block Public Access on**: files are served through Payload (`/api/media/file/…`, cached a year by the Vercel CDN); image widths are generated at upload, no `next/image` optimizer (docs/decisions.md #34).
 - One IAM user with a policy limited to that bucket (`s3:GetObject`, `s3:PutObject`, `s3:DeleteObject`, `s3:ListBucket`). Prefixes `prod/` and `preview/` separate environments.
 
 ## 5. Vercel
