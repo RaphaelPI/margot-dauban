@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { Albert_Sans, Unbounded } from 'next/font/google'
-import type { ReactNode } from 'react'
+import { type ReactNode, Suspense } from 'react'
+import { PreviewBanner } from '@/components/preview-banner'
 import { SiteCookies } from '@/components/site-cookies'
 import { SiteFooter } from '@/components/site-footer'
 import { SiteHeader } from '@/components/site-header'
@@ -44,6 +45,10 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <main className="mx-auto w-full max-w-page flex-1 px-5 pb-16 md:px-8">{children}</main>
         <SiteFooter />
         <SiteCookies />
+        {/* Only while an editor previews drafts (draft mode = request data, hence Suspense). */}
+        <Suspense fallback={null}>
+          <PreviewBanner />
+        </Suspense>
       </body>
     </html>
   )

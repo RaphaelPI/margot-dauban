@@ -4,6 +4,7 @@ import { ExpandableQuote } from '@/components/expandable-quote'
 import { RichTitle } from '@/components/rich-title'
 import { tagDocs, tags } from '@/lib/cache'
 import { getPayload } from '@/lib/payload'
+import { isPreview, isShown } from '@/lib/preview'
 import { titleExcerpt, titleParagraphs } from '@/lib/rich-title'
 import { MediaImage } from './media-image'
 
@@ -56,15 +57,17 @@ export async function TestimonialCard({ id }: { id: string }) {
   cacheLife('model')
   cacheTag(tags.doc('testimonials', id))
   const payload = await getPayload()
+  const draft = await isPreview()
   const testimonial = await payload.findByID({
     collection: 'testimonials',
     id,
     depth: 2,
     disableErrors: true,
+    draft,
   })
   if (!testimonial) return null
   const project =
-    typeof testimonial.project === 'object' && testimonial.project?._status === 'published'
+    typeof testimonial.project === 'object' && isShown(testimonial.project, draft)
       ? testimonial.project
       : null
   if (project) cacheTag(tags.doc('projects', project.id))

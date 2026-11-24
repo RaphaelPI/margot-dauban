@@ -1,16 +1,20 @@
 import type { GlobalConfig } from 'payload'
-import { loggedIn } from '@/access'
+import { loggedIn, publishedOrLoggedIn } from '@/access'
 import { lightText, richTextFrom } from '@/fields/light-editor'
 import { withSeoTab } from '@/fields/seo'
 import { titleFrom, titleText } from '@/fields/title-text'
+import { globalPreviewPaths, previewUrl } from '@/lib/preview-url'
 
 export const TestimonialsPage: GlobalConfig = {
   slug: 'testimonials-page',
   label: 'Page Témoignages',
   admin: {
+    preview: () => previewUrl(globalPreviewPaths['testimonials-page']),
     description: 'Textes de la page Témoignages (/temoignages). Les avis se gèrent dans « Témoignages ».',
   },
-  access: { read: () => true, update: loggedIn },
+  // Drafts: « Enregistrer le brouillon » changes nothing online until « Publier »; « Aperçu » shows it.
+  access: { read: publishedOrLoggedIn, update: loggedIn },
+  versions: { drafts: true },
   fields: [
     ...withSeoTab([
       {

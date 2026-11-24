@@ -17,6 +17,7 @@ import { getTestimonialIdForProject } from '@/data/ids'
 import type { AnimationName } from '@/fields/animation-block'
 import { tagDocs, tags } from '@/lib/cache'
 import { getPayload } from '@/lib/payload'
+import { isPreview } from '@/lib/preview'
 import { richTextUploads } from '@/lib/rich-text-uploads'
 import { titlePlain } from '@/lib/rich-title'
 import { isSafeHref } from '@/lib/safe-href'
@@ -99,8 +100,9 @@ export async function ProjectView({ id, nextSlot }: { id: string; nextSlot?: Rea
   cacheLife('model')
   cacheTag(tags.doc('projects', id))
   const payload = await getPayload()
+  const draft = await isPreview()
   const [project, linkedTestimonialId] = await Promise.all([
-    payload.findByID({ collection: 'projects', id, depth: 1, disableErrors: true }),
+    payload.findByID({ collection: 'projects', id, depth: 1, disableErrors: true, draft }),
     getTestimonialIdForProject(id),
   ])
   if (!project) return null
