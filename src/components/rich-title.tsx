@@ -1,5 +1,5 @@
 import { Fragment } from 'react'
-import { titleParagraphs } from '@/lib/rich-title'
+import { titleExcerpt, titleParagraphs } from '@/lib/rich-title'
 
 // French typography: a space before « : ; ! ? » » and after « « » never breaks the line, so the
 // punctuation stays with its word.
@@ -14,13 +14,17 @@ export function RichTitle({
   highlightClassName = 'rounded-[0.875rem] bg-accent px-3 text-foreground [box-decoration-break:clone]',
   quote = false,
   paragraphClassName,
+  maxWords,
 }: {
   value: unknown
   highlightClassName?: string
   quote?: boolean
   paragraphClassName?: string
+  /** Show only the first words, « … » glued to the last one (see `titleExcerpt`). */
+  maxWords?: number
 }) {
-  const paragraphs = quote ? withoutOwnQuoteMarks(titleParagraphs(value)) : titleParagraphs(value)
+  const all = quote ? withoutOwnQuoteMarks(titleParagraphs(value)) : titleParagraphs(value)
+  const paragraphs = maxWords ? titleExcerpt(all, maxWords).paragraphs : all
   return paragraphs.map((pieces, p) => {
     const content = (
       <>

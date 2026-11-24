@@ -5,6 +5,7 @@ import { GlowCard } from '@/components/glow-card'
 import { RichTitle } from '@/components/rich-title'
 import { tagDocs, tags } from '@/lib/cache'
 import { getPayload } from '@/lib/payload'
+import { titleExcerpt, titleParagraphs } from '@/lib/rich-title'
 import { MediaImage } from './media-image'
 
 // Initials tiles when there is no logo (colours of the mockup), picked from the company name.
@@ -26,6 +27,13 @@ const initialsOf = (name: string) =>
     .join('')
     .slice(0, 2)
     .toUpperCase()
+
+// Long quotes show their first 40 words, then « Voir plus » (as in the mockup).
+const excerptWords = 40
+const quoteLook = {
+  paragraphClassName: 'block',
+  highlightClassName: 'rounded-md bg-accent px-1 text-foreground [box-decoration-break:clone]',
+}
 
 const tag = 'rounded-md px-2.5 py-1 text-sm font-bold'
 
@@ -95,13 +103,14 @@ export async function TestimonialCard({ id }: { id: string }) {
         “
       </span>
       <blockquote className="text-[1.0625rem] leading-[1.7]">
-        <ExpandableQuote>
-          <RichTitle
-            value={testimonial.quote}
-            paragraphClassName="block"
-            highlightClassName="rounded-md bg-accent px-1 text-foreground [box-decoration-break:clone]"
-          />
-        </ExpandableQuote>
+        <ExpandableQuote
+          excerpt={
+            titleExcerpt(titleParagraphs(testimonial.quote), excerptWords).cut ? (
+              <RichTitle value={testimonial.quote} maxWords={excerptWords} {...quoteLook} />
+            ) : undefined
+          }
+          full={<RichTitle value={testimonial.quote} {...quoteLook} />}
+        />
       </blockquote>
       <footer className="flex items-center gap-3 border-t border-[#ececf2] pt-4">
         {testimonial.logo && typeof testimonial.logo === 'object' ? (
