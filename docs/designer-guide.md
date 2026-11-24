@@ -15,6 +15,7 @@ Aller sur `https://<le-site>/admin` (site en ligne).
 | Créer une page (À propos, Services…)                            | **Pages** → Créer. Elle sera visible à `/<slug>`                                                                    |
 | Changer le nom du site, l'accroche, l'intro, l'email, les liens | **Réglages du site**                                                                                                |
 | Remplacer une image                                             | **Médias**                                                                                                          |
+| Ajouter un témoignage (page Témoignages et page du projet) | **Témoignages** → Créer, relier le projet (catégories, secteur, image et lien repris du projet, modifiables), puis Publier. Ordre par glisser-déposer. Textes de la page : **Page Témoignages** |
 | Changer le témoignage de l'accueil                              | **Accueil** → Témoignage (vide = bloc masqué)                                                                       |
 | Mettre une animation sur une expertise                          | **Expertises** → l'expertise → Animation : déposer le fichier Lottie (.json)                                        |
 | Mettre une animation codée dans une étape d'un projet | **Projets** → le projet → *Étude de cas* → Étapes → Texte détaillé : bouton « + » › **Animation**, puis choisir l'animation. Chaque animation est codée sur mesure (une demande par nouvelle animation) |

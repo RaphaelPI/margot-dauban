@@ -63,6 +63,18 @@ export const getProjectCategoryIds = () => findIds('project-categories', { sort:
 export const getProjectCategoryIdBySlug = async (slug: string) =>
   (await findIds('project-categories', { where: { slug: { equals: slug } }, limit: 1 }))[0] ?? null
 
+// Testimonials: admin order; the one shown on a project's page is the first linked to it.
+export const getTestimonialIds = () => findIds('testimonials', { where: published, sort: '_order' })
+
+export const getTestimonialIdForProject = async (projectId: string) =>
+  (
+    await findIds('testimonials', {
+      where: { and: [published, { project: { equals: projectId } }] },
+      sort: '_order',
+      limit: 1,
+    })
+  )[0] ?? null
+
 export const getNextProjectId = async (id: string) => nextInList(await getProjectIds(), id)
 
 // Route params for `generateStaticParams` only (prerender every page at build).

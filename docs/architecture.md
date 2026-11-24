@@ -51,6 +51,7 @@ Extracted from margotdauban.fr (WordPress) and the V4 home design. Field names E
 |---|---|---|---|---|
 | `projects` | collection (orderable) | yes | Card (type, sector, accroche, cover), case study in two parts — résumé (headline, hero, défi / réponse / interventions, chiffres clés, galerie, steps in short, objectives, site link) and détail (contexte, objectives and constraints as cards, steps with text and images) — plus contact band (`cta`), section titles editable; legacy `lead` and `constraints` rich text kept but not rendered; `categories`, SEO, `featured` | `ProjectCard`, `ProjectView`, `ProjectNextCard` |
 | `project-categories` | collection (orderable) | no | title, slug (filters of `/projets`, `?categorie=<slug>`) | `ProjectCategoryFilter` |
+| `testimonials` | collection (orderable) | yes | quote (bold = highlight), author, role, company, logo, photo, optional `project` (its categories, sector, cover, title and case study link fill whatever is left empty), card visual (none / project / custom), categories, sector | `TestimonialCard` (`/temoignages`, client-side filters), `TestimonialQuote` (project page, before the legacy `projects.testimonial` group) |
 | `clients` | collection (orderable) | no | name, logo, url (home marquee) | `ClientName` |
 | `services` | collection (orderable) | no | expertise group: title, description, full list, short home list, `showOnHome` | `ServiceCard` |
 | `faqs` | collection (orderable) | no | question, answer, category (6 fixed) | — (FAQ page to build) |
@@ -61,6 +62,7 @@ Extracted from margotdauban.fr (WordPress) and the V4 home design. Field names E
 | `faq-page` | global | no | eyebrow, title (« & » in indigo), intro, CTA, SEO for `/faq`; questions from `faqs` grouped by `faqCategories` | `/faq` page |
 | `projects-page` | global | no | title, highlight, intro, contact band (`cta`), SEO for `/projets` | `/projets` page |
 | `services-page` | global | no | hero (title, highlight, lead, body, callout, portrait), expertises title, process (eyebrow, title, intro, ≤ 4 steps with screen label), team (title, text, labels), CTA, SEO for `/expertises` | `/expertises` page, `ProcessShowcase` |
+| `testimonials-page` | global | no | title (bold = highlight), intro, SEO for `/temoignages` | `/temoignages` page |
 | `settings` | global | no | identity, photo, availability, header nav + button, footer, default SEO | header, footer, metadata |
 
 Not modelled yet (features to request): contact form + submissions, `/projets` list, `/expertises` and `/faq` pages.

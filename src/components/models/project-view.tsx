@@ -13,6 +13,7 @@ import { Testimonial } from '@/components/testimonial'
 import { TocSpy } from '@/components/toc-spy'
 import { Badge } from '@/components/ui/badge'
 import { ZoomableImage } from '@/components/zoomable-image'
+import { getTestimonialIdForProject } from '@/data/ids'
 import type { AnimationName } from '@/fields/animation-block'
 import { tagDocs, tags } from '@/lib/cache'
 import { getPayload } from '@/lib/payload'
@@ -21,6 +22,7 @@ import { titlePlain } from '@/lib/rich-title'
 import { isSafeHref } from '@/lib/safe-href'
 import type { AnimationBlock, Media } from '@/payload-types'
 import { MediaImage } from './media-image'
+import { TestimonialQuote } from './testimonial-quote'
 
 // Case study template « Cas client — Template mix » (designs/9-template-projet):
 // part 1 = summary read at a glance, part 2 = detailed approach. Empty sections are not rendered.
@@ -110,6 +112,7 @@ export async function ProjectView({ id, nextSlot }: { id: string; nextSlot?: Rea
   )
 
   const testimonial = titlePlain(project.testimonial?.quote) ? project.testimonial : null
+  const linkedTestimonialId = await getTestimonialIdForProject(id)
   const headline = titlePlain(project.headline?.title) ? project.headline?.title : null
   const gallery = images(project.gallery)
   const steps = (project.approach ?? []).map((step, index) => ({
@@ -336,7 +339,12 @@ export async function ProjectView({ id, nextSlot }: { id: string; nextSlot?: Rea
         </section>
       ) : null}
 
-      {testimonial ? (
+      {/* The testimonial linked to this project in « Témoignages »; else the older one stored here. */}
+      {linkedTestimonialId ? (
+        <section aria-label="Témoignage" className="pb-16 md:pb-26">
+          <TestimonialQuote id={linkedTestimonialId} fallbackCompany={project.title} />
+        </section>
+      ) : testimonial ? (
         <section aria-label="Témoignage" className="pb-16 md:pb-26">
           <Testimonial
             compact

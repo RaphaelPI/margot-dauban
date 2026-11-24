@@ -286,11 +286,13 @@ export const Projects: CollectionConfig = {
                 },
                 {
                   name: 'testimonial',
-                  label: 'Témoignage',
+                  label: 'Témoignage (ancien emplacement)',
                   type: 'group',
                   admin: {
                     description:
-                      'Citation du client, entre « En bref » et « La démarche en détail ». Vide = bloc masqué.',
+                      'Les témoignages se gèrent maintenant dans « Témoignages » (relié à ce projet, il s’affiche ici en priorité). Ce bloc reste affiché tant qu’aucun témoignage n’est relié ; videz-le une fois recopié.',
+                    // Only shown while it still holds an older quote.
+                    condition: (_, siblingData) => Boolean(siblingData?.testimonial?.quote),
                   },
                   fields: [
                     {

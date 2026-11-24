@@ -13,8 +13,9 @@ const looks = {
   underline: { nav: '', rail: 'gap-8.5', marker: 'bottom-0 h-0.75 rounded-[3px] bg-primary' },
 }
 
-// Tabs whose marker (pill or underline) slides to the current link (aria-current="page"). The
-// marker moves on click, before the new page arrives; scrolls horizontally on small screens.
+// Tabs whose marker (pill or underline) slides to the current link (aria-current="page") or the
+// pressed button (filters within a page). The marker moves on click, before the new page arrives;
+// scrolls horizontally on small screens.
 export function SlidingTabs({
   children,
   className = '',
@@ -35,7 +36,11 @@ export function SlidingTabs({
     link.scrollIntoView({ block: 'nearest', inline: 'nearest', behavior: animate ? 'smooth' : 'auto' })
   }, [])
   const moveToCurrent = useCallback(
-    (animate: boolean) => moveTo(rail.current?.querySelector<HTMLElement>('[aria-current="page"]'), animate),
+    (animate: boolean) =>
+      moveTo(
+        rail.current?.querySelector<HTMLElement>('[aria-current="page"], [aria-pressed="true"]'),
+        animate,
+      ),
     [moveTo],
   )
 
@@ -63,7 +68,7 @@ export function SlidingTabs({
       <div
         ref={rail}
         className={`relative inline-flex ${look.rail}`}
-        onClick={(event) => moveTo((event.target as HTMLElement).closest('a'), true)}
+        onClick={(event) => moveTo((event.target as HTMLElement).closest<HTMLElement>('a, button'), true)}
       >
         <span
           ref={pill}

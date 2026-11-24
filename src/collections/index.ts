@@ -7,6 +7,7 @@ import { Pages } from './Pages'
 import { ProjectCategories } from './ProjectCategories'
 import { Projects } from './Projects'
 import { Services } from './Services'
+import { Testimonials } from './Testimonials'
 import { Users } from './Users'
 
 // Registered collections (admin order). Adding one here is a content model change, not a
@@ -14,6 +15,7 @@ import { Users } from './Users'
 export const collections = [
   Projects,
   ProjectCategories,
+  Testimonials,
   Clients,
   Services,
   Faqs,
