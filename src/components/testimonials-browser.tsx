@@ -48,7 +48,7 @@ export function TestimonialsBrowser({
 
   return (
     <>
-      {categories.length || sectors.length > 1 ? (
+      {categories.length || sectors.length ? (
         <section aria-label="Filtrer les témoignages" className="flex flex-col gap-5.5 pb-10">
           {categories.length ? (
             <div
@@ -76,7 +76,7 @@ export function TestimonialsBrowser({
               </p>
             </div>
           ) : null}
-          {shownSectors.length > 1 || sector ? (
+          {shownSectors.length || sector ? (
             <div className="flex flex-wrap items-center gap-2.5">
               <span className="min-w-30 text-sm font-bold tracking-[0.08em] text-muted-foreground uppercase">
                 Secteur
