@@ -76,6 +76,18 @@ export async function TestimonialCard({ id }: { id: string }) {
           />
         </div>
       ) : null}
+      {categories.length || sector ? (
+        <div className="flex flex-wrap gap-1.5">
+          {categories.map((category) =>
+            typeof category === 'object' ? (
+              <span key={category.id} className={`${tag} bg-secondary`}>
+                {category.title}
+              </span>
+            ) : null,
+          )}
+          {sector ? <span className={`${tag} bg-tag-warm text-tag-warm-foreground`}>{sector}</span> : null}
+        </div>
+      ) : null}
       <span
         aria-hidden="true"
         className="mt-2.5 font-heading text-[2.5rem] leading-[0.6] font-bold text-primary"
@@ -91,18 +103,6 @@ export async function TestimonialCard({ id }: { id: string }) {
           />
         </ExpandableQuote>
       </blockquote>
-      {categories.length || sector ? (
-        <div className="flex flex-wrap gap-1.5">
-          {categories.map((category) =>
-            typeof category === 'object' ? (
-              <span key={category.id} className={`${tag} bg-secondary`}>
-                {category.title}
-              </span>
-            ) : null,
-          )}
-          {sector ? <span className={`${tag} bg-tag-warm text-tag-warm-foreground`}>{sector}</span> : null}
-        </div>
-      ) : null}
       <footer className="flex items-center gap-3 border-t border-[#ececf2] pt-4">
         {testimonial.logo && typeof testimonial.logo === 'object' ? (
           <span className="flex size-11 shrink-0 items-center justify-center overflow-hidden rounded-xl border bg-card">

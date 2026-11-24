@@ -23,7 +23,7 @@ export function ExpandableQuote({ children }: { children: ReactNode }) {
   }, [open])
 
   return (
-    <div className="flex flex-col items-start gap-2.5">
+    <div className="flex flex-col items-start gap-1.5">
       <div id={id} ref={box} className={`[&>*+*]:mt-3 ${open ? '' : 'line-clamp-7'}`}>
         {children}
       </div>
@@ -33,7 +33,7 @@ export function ExpandableQuote({ children }: { children: ReactNode }) {
           aria-expanded={open}
           aria-controls={id}
           onClick={() => setOpen((value) => !value)}
-          className="inline-flex items-center gap-1.5 rounded-full border border-[#dcdaf8] bg-[#f4f3ff] px-3 py-1.5 text-base font-bold text-primary-strong transition-colors hover:border-[#c7c3ff] hover:bg-secondary focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-none"
+          className="inline-flex items-center gap-1 rounded-sm text-sm font-semibold text-muted-foreground underline-offset-4 transition-colors hover:text-primary-strong hover:underline focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-none"
         >
           {open ? 'Voir moins' : 'Voir plus'}
           <span
