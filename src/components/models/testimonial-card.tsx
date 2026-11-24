@@ -1,7 +1,6 @@
 import { cacheLife, cacheTag } from 'next/cache'
 import { ArrowLink } from '@/components/arrow-link'
 import { ExpandableQuote } from '@/components/expandable-quote'
-import { GlowCard } from '@/components/glow-card'
 import { RichTitle } from '@/components/rich-title'
 import { tagDocs, tags } from '@/lib/cache'
 import { getPayload } from '@/lib/payload'
@@ -34,6 +33,19 @@ const quoteLook = {
   paragraphClassName: 'block',
   highlightClassName: 'rounded-md bg-accent px-1 text-foreground [box-decoration-break:clone]',
 }
+
+// Indigo quotation marks glued to the first and last words (« … » excerpt: opening mark only).
+const mark = 'font-heading text-[1.375em] leading-none font-bold text-primary'
+const open = (
+  <span aria-hidden="true" className={`${mark} mr-0.5`}>
+    “
+  </span>
+)
+const close = (
+  <span aria-hidden="true" className={`${mark} ml-0.5`}>
+    ”
+  </span>
+)
 
 const tag = 'rounded-md px-2.5 py-1 text-sm font-bold'
 
@@ -71,10 +83,7 @@ export async function TestimonialCard({ id }: { id: string }) {
         : null
 
   return (
-    <GlowCard
-      as="article"
-      className="mb-6 flex break-inside-avoid flex-col gap-4 rounded-3xl border bg-card px-7.5 pt-6 pb-7.5 hover:border-accent hover:shadow-[0_16px_36px_rgb(79_70_229/0.06)]"
-    >
+    <article className="mb-6 flex break-inside-avoid flex-col gap-4 rounded-3xl border bg-card px-7.5 pt-6 pb-7.5">
       {visual && typeof visual === 'object' ? (
         <div className="overflow-hidden rounded-[0.875rem] bg-muted">
           <MediaImage
@@ -96,20 +105,14 @@ export async function TestimonialCard({ id }: { id: string }) {
           {sector ? <span className={`${tag} bg-tag-warm text-tag-warm-foreground`}>{sector}</span> : null}
         </div>
       ) : null}
-      <span
-        aria-hidden="true"
-        className="mt-2.5 font-heading text-[2.5rem] leading-[0.6] font-bold text-primary"
-      >
-        “
-      </span>
       <blockquote className="text-[1.0625rem] leading-[1.7]">
         <ExpandableQuote
           excerpt={
             titleExcerpt(titleParagraphs(testimonial.quote), excerptWords).cut ? (
-              <RichTitle value={testimonial.quote} maxWords={excerptWords} {...quoteLook} />
+              <RichTitle value={testimonial.quote} maxWords={excerptWords} before={open} {...quoteLook} />
             ) : undefined
           }
-          full={<RichTitle value={testimonial.quote} {...quoteLook} />}
+          full={<RichTitle value={testimonial.quote} before={open} after={close} {...quoteLook} />}
         />
       </blockquote>
       <footer className="flex items-center gap-3 border-t border-[#ececf2] pt-4">
@@ -139,6 +142,6 @@ export async function TestimonialCard({ id }: { id: string }) {
           Voir le use case
         </ArrowLink>
       ) : null}
-    </GlowCard>
+    </article>
   )
 }

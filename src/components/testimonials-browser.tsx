@@ -29,13 +29,22 @@ export function TestimonialsBrowser({
   const [sector, setSector] = useState<string | null>(null)
   const inCategory = (item: Item, id: string | null) => !id || item.categoryIds.includes(id)
   const inSector = (item: Item, name: string | null) => !name || item.sector === name
+  // Sectors follow the chosen category: only those of its testimonials.
+  const shownSectors = sectors.filter((name) =>
+    items.some((item) => inCategory(item, category) && item.sector === name),
+  )
+  const pickCategory = (id: string | null) => {
+    setCategory(id)
+    if (sector && !items.some((item) => inCategory(item, id) && item.sector === sector)) setSector(null)
+  }
   const shown = items.filter((item) => inCategory(item, category) && inSector(item, sector))
   const reset = () => {
     setCategory(null)
     setSector(null)
   }
   const countIn = (id: string | null) => items.filter((item) => inCategory(item, id)).length
-  const countOf = (name: string | null) => items.filter((item) => inSector(item, name)).length
+  const countOf = (name: string | null) =>
+    items.filter((item) => inCategory(item, category) && inSector(item, name)).length
 
   return (
     <>
@@ -51,7 +60,7 @@ export function TestimonialsBrowser({
                     key={option.id ?? 'tous'}
                     type="button"
                     aria-pressed={category === option.id}
-                    onClick={() => setCategory(option.id)}
+                    onClick={() => pickCategory(option.id)}
                     className={`${filterLinkClass} cursor-pointer aria-pressed:text-foreground`}
                   >
                     {option.title}
@@ -67,12 +76,12 @@ export function TestimonialsBrowser({
               </p>
             </div>
           ) : null}
-          {sectors.length > 1 ? (
+          {shownSectors.length > 1 || sector ? (
             <div className="flex flex-wrap items-center gap-2.5">
               <span className="min-w-30 text-sm font-bold tracking-[0.08em] text-muted-foreground uppercase">
                 Secteur
               </span>
-              {[null, ...sectors].map((name) => (
+              {[null, ...shownSectors].map((name) => (
                 <button
                   key={name ?? 'tous'}
                   type="button"
