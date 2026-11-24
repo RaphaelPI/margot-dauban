@@ -684,7 +684,7 @@ export interface Testimonial {
    */
   project?: (string | null) | Project;
   /**
-   * Sans guillemets. Le texte en gras s’affiche surligné en lilas. Un retour à la ligne = un nouveau paragraphe. Les avis longs se replient (« Voir plus »).
+   * Sans guillemets. Le texte en gras reste en gras sur la page Témoignages et s’affiche surligné en lilas sur la page du projet. Un retour à la ligne = un nouveau paragraphe. Les avis longs se replient (« Voir plus »).
    */
   quote: {
     root: {
