@@ -1543,6 +1543,7 @@ export interface Home {
     description?: string | null;
     image?: (string | null) | Media;
   };
+  _status?: ('draft' | 'published') | null;
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -1616,6 +1617,7 @@ export interface ProjectsPage {
     description?: string | null;
     image?: (string | null) | Media;
   };
+  _status?: ('draft' | 'published') | null;
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -1759,6 +1761,7 @@ export interface ServicesPage {
     description?: string | null;
     image?: (string | null) | Media;
   };
+  _status?: ('draft' | 'published') | null;
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -1804,6 +1807,7 @@ export interface FaqPage {
     description?: string | null;
     image?: (string | null) | Media;
   };
+  _status?: ('draft' | 'published') | null;
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -1875,6 +1879,7 @@ export interface ContactPage {
     description?: string | null;
     image?: (string | null) | Media;
   };
+  _status?: ('draft' | 'published') | null;
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -1927,6 +1932,7 @@ export interface TestimonialsPage {
     description?: string | null;
     image?: (string | null) | Media;
   };
+  _status?: ('draft' | 'published') | null;
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -1978,6 +1984,7 @@ export interface NotFoundPage {
     diagnosis?: string | null;
     recommendation?: string | null;
   };
+  _status?: ('draft' | 'published') | null;
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -2184,6 +2191,7 @@ export interface HomeSelect<T extends boolean = true> {
         description?: T;
         image?: T;
       };
+  _status?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;
@@ -2211,6 +2219,7 @@ export interface ProjectsPageSelect<T extends boolean = true> {
         description?: T;
         image?: T;
       };
+  _status?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;
@@ -2274,6 +2283,7 @@ export interface ServicesPageSelect<T extends boolean = true> {
         description?: T;
         image?: T;
       };
+  _status?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;
@@ -2301,6 +2311,7 @@ export interface FaqPageSelect<T extends boolean = true> {
         description?: T;
         image?: T;
       };
+  _status?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;
@@ -2342,6 +2353,7 @@ export interface ContactPageSelect<T extends boolean = true> {
         description?: T;
         image?: T;
       };
+  _status?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;
@@ -2360,6 +2372,7 @@ export interface TestimonialsPageSelect<T extends boolean = true> {
         description?: T;
         image?: T;
       };
+  _status?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;
@@ -2388,6 +2401,7 @@ export interface NotFoundPageSelect<T extends boolean = true> {
         diagnosis?: T;
         recommendation?: T;
       };
+  _status?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;

@@ -1,7 +1,8 @@
 import type { GlobalConfig } from 'payload'
-import { loggedIn } from '@/access'
+import { loggedIn, publishedOrLoggedIn } from '@/access'
 import { withSeoTab } from '@/fields/seo'
 import { legacyHighlight, titleFrom, titleText } from '@/fields/title-text'
+import { globalPreviewPaths, previewUrl } from '@/lib/preview-url'
 import { validateHref } from '@/lib/safe-href'
 
 // Page « Contact » (/contact, designs/31-page-contact). Messages sent from the form are stored
@@ -9,8 +10,13 @@ import { validateHref } from '@/lib/safe-href'
 export const ContactPage: GlobalConfig = {
   slug: 'contact-page',
   label: 'Page Contact',
-  admin: { description: 'Textes de la page Contact (/contact). Les messages reçus sont dans « Messages ».' },
-  access: { read: () => true, update: loggedIn },
+  admin: {
+    preview: () => previewUrl(globalPreviewPaths['contact-page']),
+    description: 'Textes de la page Contact (/contact). Les messages reçus sont dans « Messages ».',
+  },
+  // Drafts: « Enregistrer le brouillon » changes nothing online until « Publier »; « Aperçu » shows it.
+  access: { read: publishedOrLoggedIn, update: loggedIn },
+  versions: { drafts: true },
   fields: [
     ...withSeoTab([
       {

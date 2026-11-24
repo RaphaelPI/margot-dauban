@@ -1,14 +1,20 @@
 import type { GlobalConfig } from 'payload'
-import { loggedIn } from '@/access'
+import { loggedIn, publishedOrLoggedIn } from '@/access'
 import { lightText, richTextFrom } from '@/fields/light-editor'
 import { withSeoTab } from '@/fields/seo'
+import { globalPreviewPaths, previewUrl } from '@/lib/preview-url'
 import { validateHref } from '@/lib/safe-href'
 
 export const FaqPage: GlobalConfig = {
   slug: 'faq-page',
   label: 'Page FAQ',
-  admin: { description: 'Textes de la page FAQ (/faq). Les questions se gèrent dans « FAQ ».' },
-  access: { read: () => true, update: loggedIn },
+  admin: {
+    preview: () => previewUrl(globalPreviewPaths['faq-page']),
+    description: 'Textes de la page FAQ (/faq). Les questions se gèrent dans « FAQ ».',
+  },
+  // Drafts: « Enregistrer le brouillon » changes nothing online until « Publier »; « Aperçu » shows it.
+  access: { read: publishedOrLoggedIn, update: loggedIn },
+  versions: { drafts: true },
   fields: [
     ...withSeoTab([
       { name: 'eyebrow', label: 'Surtitre', type: 'text', defaultValue: 'FAQ' },

@@ -2,11 +2,13 @@ import { type CollectionConfig, slugField } from 'payload'
 import { loggedIn, publishedOrLoggedIn } from '@/access'
 import { articleEditor } from '@/fields/light-editor'
 import { withSeoTab } from '@/fields/seo'
+import { previewUrl } from '@/lib/preview-url'
 
 export const Pages: CollectionConfig = {
   slug: 'pages',
   labels: { singular: 'Page', plural: 'Pages' },
   admin: {
+    preview: (doc) => previewUrl(`/${doc.slug}`),
     useAsTitle: 'title',
     defaultColumns: ['title', 'slug', '_status'],
     description: 'Pages de texte : à propos, mentions légales, confidentialité…',

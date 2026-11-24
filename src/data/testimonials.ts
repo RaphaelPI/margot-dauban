@@ -2,6 +2,7 @@ import 'server-only'
 import { cacheLife, cacheTag } from 'next/cache'
 import { tags } from '@/lib/cache'
 import { getPayload } from '@/lib/payload'
+import { isPreview, isShown } from '@/lib/preview'
 
 const idOf = (value: unknown) =>
   typeof value === 'string'
@@ -21,10 +22,12 @@ export async function getTestimonialFilters() {
     tags.collection('project-categories'),
   )
   const payload = await getPayload()
+  const draft = await isPreview()
   const [{ docs }, { docs: categories }] = await Promise.all([
     payload.find({
       collection: 'testimonials',
-      where: { _status: { equals: 'published' } },
+      where: draft ? undefined : { _status: { equals: 'published' } },
+      draft,
       sort: '_order',
       limit: 0,
       pagination: false,
@@ -43,8 +46,7 @@ export async function getTestimonialFilters() {
   ])
   const items = docs.map((doc) => {
     // Same rule as the card: an unpublished project lends nothing.
-    const project =
-      typeof doc.project === 'object' && doc.project?._status === 'published' ? doc.project : null
+    const project = typeof doc.project === 'object' && isShown(doc.project, draft) ? doc.project : null
     const own = (doc.categories ?? []).map(idOf).filter((id): id is string => Boolean(id))
     const inherited = (project?.categories ?? []).map(idOf).filter((id): id is string => Boolean(id))
     return {

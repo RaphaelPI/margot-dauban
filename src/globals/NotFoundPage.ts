@@ -1,6 +1,7 @@
 import type { GlobalConfig } from 'payload'
-import { loggedIn } from '@/access'
+import { loggedIn, publishedOrLoggedIn } from '@/access'
 import { titleFrom, titleText } from '@/fields/title-text'
+import { globalPreviewPaths, previewUrl } from '@/lib/preview-url'
 import { validateHref } from '@/lib/safe-href'
 
 // Page « 404 » shown for any unknown address (designs/76-page-404): a failed user test.
@@ -8,9 +9,12 @@ export const NotFoundPage: GlobalConfig = {
   slug: 'not-found-page',
   label: 'Page 404',
   admin: {
+    preview: () => previewUrl(globalPreviewPaths['not-found-page']),
     description: 'Textes de la page affichée quand une adresse n’existe pas (lien cassé, page supprimée).',
   },
-  access: { read: () => true, update: loggedIn },
+  // Drafts: « Enregistrer le brouillon » changes nothing online until « Publier »; « Aperçu » shows it.
+  access: { read: publishedOrLoggedIn, update: loggedIn },
+  versions: { drafts: true },
   fields: [
     {
       name: 'badge',

@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { GlowCard } from '@/components/glow-card'
 import { tagDocs, tags } from '@/lib/cache'
 import { getPayload } from '@/lib/payload'
+import { isPreview } from '@/lib/preview'
 import { MediaImage } from './media-image'
 
 // « Projet suivant » card at the bottom of a case study.
@@ -11,7 +12,8 @@ export async function ProjectNextCard({ id }: { id: string }) {
   cacheLife('model')
   cacheTag(tags.doc('projects', id))
   const payload = await getPayload()
-  const project = await payload.findByID({ collection: 'projects', id, depth: 1, disableErrors: true })
+  const draft = await isPreview()
+  const project = await payload.findByID({ collection: 'projects', id, depth: 1, disableErrors: true, draft })
   if (!project) return null
   tagDocs('media', project.cover)
 

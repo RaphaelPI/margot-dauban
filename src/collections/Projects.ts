@@ -3,12 +3,17 @@ import { loggedIn, publishedOrLoggedIn } from '@/access'
 import { lightEditor, lightText, richTextFrom, stepEditor } from '@/fields/light-editor'
 import { seoField } from '@/fields/seo'
 import { titleEditor, titlePieces, titleText } from '@/fields/title-text'
+import { previewUrl } from '@/lib/preview-url'
 import { validateHref } from '@/lib/safe-href'
 
 export const Projects: CollectionConfig = {
   slug: 'projects',
   labels: { singular: 'Projet', plural: 'Projets' },
-  admin: { useAsTitle: 'title', defaultColumns: ['title', 'kind', 'sector', 'year', 'featured', '_status'] },
+  admin: {
+    preview: (doc) => previewUrl(`/projets/${doc.slug}`),
+    useAsTitle: 'title',
+    defaultColumns: ['title', 'kind', 'sector', 'year', 'featured', '_status'],
+  },
   access: { read: publishedOrLoggedIn, create: loggedIn, update: loggedIn, delete: loggedIn },
   versions: { drafts: true },
   // Manual order (drag and drop in the list), used everywhere projects are listed.
