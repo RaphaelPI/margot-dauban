@@ -138,7 +138,7 @@ export async function TestimonialCard({ id }: { id: string }) {
         </span>
       </footer>
       {project?.slug ? (
-        <ArrowLink href={`/projets/${project.slug}`} className="self-start">
+        <ArrowLink href={`/projets/${project.slug}`} className="self-start text-[1.0625rem]!">
           Voir le use case
         </ArrowLink>
       ) : null}

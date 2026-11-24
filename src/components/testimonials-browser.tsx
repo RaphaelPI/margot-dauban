@@ -93,9 +93,14 @@ export function TestimonialsBrowser({
                   <span className={chipCount}>{countOf(name)}</span>
                 </button>
               ))}
+              {/* On the chips' (last) line, pushed to the right. */}
+              {category || sector ? (
+                <button type="button" onClick={reset} className={`ml-auto ${resetClass}`}>
+                  Réinitialiser
+                </button>
+              ) : null}
             </div>
-          ) : null}
-          {category || sector ? (
+          ) : category ? (
             <button type="button" onClick={reset} className={`-mt-2 self-end ${resetClass}`}>
               Réinitialiser
             </button>
