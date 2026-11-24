@@ -1,6 +1,7 @@
 import { cacheLife, cacheTag } from 'next/cache'
 import { tags } from '@/lib/cache'
 import { getPayload } from '@/lib/payload'
+import { isPreview } from '@/lib/preview'
 
 // Title and SEO of a text page, for the browser tab and search engines.
 export async function getPageMeta(id: string) {
@@ -8,7 +9,8 @@ export async function getPageMeta(id: string) {
   cacheLife('model')
   cacheTag(tags.doc('pages', id))
   const payload = await getPayload()
-  const page = await payload.findByID({ collection: 'pages', id, depth: 0, disableErrors: true })
+  const draft = await isPreview()
+  const page = await payload.findByID({ collection: 'pages', id, depth: 0, disableErrors: true, draft })
   return page
     ? { title: page.seo?.title || page.title, description: page.seo?.description ?? undefined }
     : null

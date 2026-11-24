@@ -1,13 +1,17 @@
 import type { GlobalConfig } from 'payload'
-import { loggedIn } from '@/access'
+import { loggedIn, publishedOrLoggedIn } from '@/access'
 import { lightText, richTextFrom } from '@/fields/light-editor'
 import { withSeoTab } from '@/fields/seo'
 import { legacyHighlight, titleFrom, titleText } from '@/fields/title-text'
+import { globalPreviewPaths, previewUrl } from '@/lib/preview-url'
 
 export const Home: GlobalConfig = {
   slug: 'home',
   label: 'Accueil',
-  access: { read: () => true, update: loggedIn },
+  admin: { preview: () => previewUrl(globalPreviewPaths.home) },
+  // Drafts: « Enregistrer le brouillon » changes nothing online until « Publier »; « Aperçu » shows it.
+  access: { read: publishedOrLoggedIn, update: loggedIn },
+  versions: { drafts: true },
   fields: [
     ...withSeoTab([
       {
