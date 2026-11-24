@@ -31,7 +31,8 @@ const initialsOf = (name: string) =>
 const excerptWords = 40
 const quoteLook = {
   paragraphClassName: 'block',
-  highlightClassName: 'rounded-md bg-accent px-1 text-foreground [box-decoration-break:clone]',
+  // Bold stays bold here (no lilac highlight, unlike titles and the project page block).
+  highlightClassName: 'font-bold',
 }
 
 // Indigo quotation marks glued to the first and last words (« … » excerpt: opening mark only).
