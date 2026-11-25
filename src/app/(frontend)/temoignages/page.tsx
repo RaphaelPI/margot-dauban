@@ -44,7 +44,13 @@ export default async function TestimonialsPageView() {
         ) : null}
       </header>
 
-      <TestimonialsBrowser items={items} categories={categories} sectors={sectors} cards={cards} />
+      <TestimonialsBrowser
+        items={items}
+        categories={categories}
+        sectors={sectors}
+        cards={cards}
+        showSectors={page.showSectorFilters !== false}
+      />
     </>
   )
 }

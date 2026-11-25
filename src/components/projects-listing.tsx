@@ -4,15 +4,18 @@ import { GlowCard } from '@/components/glow-card'
 import { ProjectCard } from '@/components/models/project-card'
 import { ProjectCategoryFilter } from '@/components/models/project-category-filter'
 import { filterCountClass, filterLinkClass, filterVariant } from '@/components/models/project-filter-style'
+import { ProjectsGrid } from '@/components/projects-grid'
 import { RichTextOrPlain } from '@/components/rich-text-or-plain'
 import { RichTitle } from '@/components/rich-title'
 import { SlidingTabs } from '@/components/sliding-tabs'
 import { getProjectCategoryIds, getProjectIds, getProjectIdsInCategory } from '@/data/ids'
+import { getProjectSectors } from '@/data/project-sectors'
 import { getProjectsPage } from '@/data/settings'
 import { isSafeHref } from '@/lib/safe-href'
 
 // Body of the Projects page (designs/11-page-projets): all projects (`/projets`) or one category
-// (`/projets/categorie/<slug>`). One static page per filter, so a filtered list can be shared.
+// (`/projets/categorie/<slug>`). One static page per category, so a filtered list can be shared;
+// the optional sector chips filter on the page.
 export async function ProjectsListing({ categoryId = null }: { categoryId?: string | null }) {
   const page = await getProjectsPage()
   const cta = page.cta
@@ -34,7 +37,7 @@ export async function ProjectsListing({ categoryId = null }: { categoryId?: stri
         ) : null}
       </header>
 
-      <ProjectList categoryId={categoryId} />
+      <ProjectList categoryId={categoryId} showSectors={page.showSectorFilters !== false} />
 
       {cta?.title ? (
         <section className="pb-4">
@@ -61,20 +64,21 @@ export async function ProjectsListing({ categoryId = null }: { categoryId?: stri
   )
 }
 
-async function ProjectList({ categoryId }: { categoryId: string | null }) {
-  const [allIds, categoryIds, ids] = await Promise.all([
+async function ProjectList({ categoryId, showSectors }: { categoryId: string | null; showSectors: boolean }) {
+  const [allIds, categoryIds, ids, sectors] = await Promise.all([
     getProjectIds(),
     getProjectCategoryIds(),
     categoryId ? getProjectIdsInCategory(categoryId) : getProjectIds(),
+    getProjectSectors(),
   ])
 
   return (
-    <>
-      {categoryIds.length ? (
-        <section
-          aria-label="Filtrer les projets"
-          className={`mb-8 flex flex-wrap justify-between gap-4 pt-2 ${filterVariant === 'underline' ? 'items-end border-b' : 'items-center'}`}
-        >
+    <ProjectsGrid
+      showSectors={showSectors}
+      items={ids.map((id) => ({ id, sector: sectors[id] ?? null }))}
+      cards={Object.fromEntries(ids.map((id) => [id, <ProjectCard key={id} id={id} />]))}
+      tabs={
+        categoryIds.length ? (
           <SlidingTabs aria-label="Catégories de projets" variant={filterVariant}>
             <Link
               href="/projets"
@@ -89,29 +93,8 @@ async function ProjectList({ categoryId }: { categoryId: string | null }) {
               <ProjectCategoryFilter key={id} id={id} active={id === categoryId} />
             ))}
           </SlidingTabs>
-          <p
-            aria-live="polite"
-            className={`text-base text-muted-foreground ${filterVariant === 'underline' ? 'pb-4' : ''}`}
-          >
-            {ids.length} projet{ids.length > 1 ? 's' : ''}
-          </p>
-        </section>
-      ) : null}
-
-      <section aria-labelledby="liste-projets" className="pb-24">
-        <h2 id="liste-projets" className="sr-only">
-          Liste des projets
-        </h2>
-        {ids.length ? (
-          <div className="grid grid-cols-[repeat(auto-fill,minmax(min(21.25rem,100%),1fr))] gap-5">
-            {ids.map((id) => (
-              <ProjectCard key={id} id={id} />
-            ))}
-          </div>
-        ) : (
-          <p className="text-muted-foreground">Aucun projet publié pour le moment.</p>
-        )}
-      </section>
-    </>
+        ) : null
+      }
+    />
   )
 }
