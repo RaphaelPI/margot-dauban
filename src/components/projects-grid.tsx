@@ -1,13 +1,8 @@
 'use client'
 
 import { type ReactNode, useState } from 'react'
-import {
-  chipClass,
-  chipCountClass,
-  chipLabelClass,
-  filterVariant,
-  resetClass,
-} from '@/components/models/project-filter-style'
+import { filterVariant } from '@/components/models/project-filter-style'
+import { SectorChips } from '@/components/sector-chips'
 
 type Item = { id: string; sector: string | null }
 
@@ -52,26 +47,13 @@ export function ProjectsGrid({
             </div>
           ) : null}
           {showSectors && sectors.length ? (
-            <div className="flex flex-wrap items-center gap-2.5">
-              <span className={chipLabelClass}>Secteur</span>
-              {[null, ...sectors].map((name) => (
-                <button
-                  key={name ?? 'tous'}
-                  type="button"
-                  aria-pressed={active === name}
-                  onClick={() => setSector(name)}
-                  className={chipClass}
-                >
-                  {name ?? 'Tous secteurs'}
-                  <span className={chipCountClass}>{countOf(name)}</span>
-                </button>
-              ))}
-              {active ? (
-                <button type="button" onClick={() => setSector(null)} className={`ml-auto ${resetClass}`}>
-                  Réinitialiser
-                </button>
-              ) : null}
-            </div>
+            <SectorChips
+              sectors={sectors}
+              active={active}
+              onPick={setSector}
+              countOf={countOf}
+              onReset={active ? () => setSector(null) : undefined}
+            />
           ) : null}
         </section>
       ) : null}
