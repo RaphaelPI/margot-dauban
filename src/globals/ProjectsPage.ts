@@ -41,6 +41,13 @@ export const ProjectsPage: GlobalConfig = {
         ),
       },
       {
+        name: 'showSectorFilters',
+        label: 'Afficher les filtres par secteur',
+        type: 'checkbox',
+        defaultValue: true,
+        admin: { description: 'Pastilles « Secteur » sous les onglets de catégories.' },
+      },
+      {
         name: 'cta',
         label: 'Bandeau de contact (bas de page)',
         type: 'group',

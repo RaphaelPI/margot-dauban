@@ -1592,6 +1592,10 @@ export interface ProjectsPage {
     };
     [k: string]: unknown;
   } | null;
+  /**
+   * Pastilles « Secteur » sous les onglets de catégories.
+   */
+  showSectorFilters?: boolean | null;
   cta?: {
     title?: string | null;
     text?: {
@@ -1928,6 +1932,10 @@ export interface TestimonialsPage {
     [k: string]: unknown;
   } | null;
   /**
+   * Pastilles « Secteur » sous les onglets de catégories.
+   */
+  showSectorFilters?: boolean | null;
+  /**
    * Laisser vide pour utiliser le titre et le résumé.
    */
   seo?: {
@@ -2207,6 +2215,7 @@ export interface ProjectsPageSelect<T extends boolean = true> {
   title?: T;
   highlight?: T;
   intro?: T;
+  showSectorFilters?: T;
   cta?:
     | T
     | {
@@ -2368,6 +2377,7 @@ export interface ContactPageSelect<T extends boolean = true> {
 export interface TestimonialsPageSelect<T extends boolean = true> {
   title?: T;
   intro?: T;
+  showSectorFilters?: T;
   seo?:
     | T
     | {

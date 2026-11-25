@@ -19,3 +19,12 @@ const looks = {
 
 export const filterLinkClass = looks[filterVariant].link
 export const filterCountClass = looks[filterVariant].count
+
+// Sector chips (second filter row, Témoignages and Projets pages).
+export const chipClass =
+  'group inline-flex min-h-10 cursor-pointer items-center gap-1.5 rounded-full border border-[#d9dae4] bg-card px-3.5 py-2 text-sm font-bold transition-colors hover:border-[#a9a6c9] aria-pressed:border-primary aria-pressed:bg-primary aria-pressed:text-primary-foreground focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-none'
+export const chipCountClass =
+  'rounded-full bg-muted px-1.5 text-sm text-muted-foreground group-aria-pressed:bg-white/20 group-aria-pressed:text-primary-foreground'
+export const chipLabelClass = 'min-w-30 text-sm font-bold tracking-[0.08em] text-muted-foreground uppercase'
+export const resetClass =
+  'cursor-pointer font-bold text-primary-strong underline underline-offset-4 hover:text-primary'

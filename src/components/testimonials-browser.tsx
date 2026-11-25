@@ -1,17 +1,18 @@
 'use client'
 
 import { type ReactNode, useState } from 'react'
-import { filterCountClass, filterLinkClass, filterVariant } from '@/components/models/project-filter-style'
+import {
+  chipClass,
+  chipCountClass,
+  chipLabelClass,
+  filterCountClass,
+  filterLinkClass,
+  filterVariant,
+  resetClass,
+} from '@/components/models/project-filter-style'
 import { SlidingTabs } from '@/components/sliding-tabs'
 
 type Item = { id: string; categoryIds: string[]; sector: string | null }
-
-const chip =
-  'inline-flex min-h-10 cursor-pointer items-center gap-1.5 rounded-full border border-[#d9dae4] bg-card px-3.5 py-2 text-sm font-bold transition-colors hover:border-[#a9a6c9] aria-pressed:border-primary aria-pressed:bg-primary aria-pressed:text-primary-foreground focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-none'
-const chipCount =
-  'rounded-full bg-muted px-1.5 text-sm text-muted-foreground group-aria-pressed:bg-white/20 group-aria-pressed:text-primary-foreground'
-const resetClass =
-  'cursor-pointer font-bold text-primary-strong underline underline-offset-4 hover:text-primary'
 
 // Filters of the Témoignages page: project categories (the Projects page tabs) and sectors, combined.
 // Cards are rendered on the server (`cards`, by id); filtering only hides the others. Two columns,
@@ -21,11 +22,14 @@ export function TestimonialsBrowser({
   categories,
   sectors,
   cards,
+  showSectors = true,
 }: {
   items: Item[]
   categories: { id: string; title: string }[]
   sectors: string[]
   cards: Record<string, ReactNode>
+  /** « Afficher les filtres par secteur » (Page Témoignages). */
+  showSectors?: boolean
 }) {
   const [category, setCategory] = useState<string | null>(null)
   const [sector, setSector] = useState<string | null>(null)
@@ -50,7 +54,7 @@ export function TestimonialsBrowser({
 
   return (
     <>
-      {categories.length || sectors.length ? (
+      {categories.length || (showSectors && sectors.length) ? (
         <section aria-label="Filtrer les témoignages" className="flex flex-col gap-5.5 pb-10">
           {categories.length ? (
             <div
@@ -78,21 +82,19 @@ export function TestimonialsBrowser({
               </p>
             </div>
           ) : null}
-          {shownSectors.length || sector ? (
+          {showSectors && (shownSectors.length || sector) ? (
             <div className="flex flex-wrap items-center gap-2.5">
-              <span className="min-w-30 text-sm font-bold tracking-[0.08em] text-muted-foreground uppercase">
-                Secteur
-              </span>
+              <span className={chipLabelClass}>Secteur</span>
               {[null, ...shownSectors].map((name) => (
                 <button
                   key={name ?? 'tous'}
                   type="button"
                   aria-pressed={sector === name}
                   onClick={() => setSector(name)}
-                  className={`group ${chip}`}
+                  className={chipClass}
                 >
                   {name ?? 'Tous secteurs'}
-                  <span className={chipCount}>{countOf(name)}</span>
+                  <span className={chipCountClass}>{countOf(name)}</span>
                 </button>
               ))}
               {/* On the chips' (last) line, pushed to the right. */}
