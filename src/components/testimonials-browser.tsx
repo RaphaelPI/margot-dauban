@@ -2,14 +2,12 @@
 
 import { type ReactNode, useState } from 'react'
 import {
-  chipClass,
-  chipCountClass,
-  chipLabelClass,
   filterCountClass,
   filterLinkClass,
   filterVariant,
   resetClass,
 } from '@/components/models/project-filter-style'
+import { SectorChips } from '@/components/sector-chips'
 import { SlidingTabs } from '@/components/sliding-tabs'
 
 type Item = { id: string; categoryIds: string[]; sector: string | null }
@@ -83,27 +81,13 @@ export function TestimonialsBrowser({
             </div>
           ) : null}
           {showSectors && (shownSectors.length || sector) ? (
-            <div className="flex flex-wrap items-center gap-2.5">
-              <span className={chipLabelClass}>Secteur</span>
-              {[null, ...shownSectors].map((name) => (
-                <button
-                  key={name ?? 'tous'}
-                  type="button"
-                  aria-pressed={sector === name}
-                  onClick={() => setSector(name)}
-                  className={chipClass}
-                >
-                  {name ?? 'Tous secteurs'}
-                  <span className={chipCountClass}>{countOf(name)}</span>
-                </button>
-              ))}
-              {/* On the chips' (last) line, pushed to the right. */}
-              {category || sector ? (
-                <button type="button" onClick={reset} className={`ml-auto ${resetClass}`}>
-                  Réinitialiser
-                </button>
-              ) : null}
-            </div>
+            <SectorChips
+              sectors={shownSectors}
+              active={sector}
+              onPick={setSector}
+              countOf={countOf}
+              onReset={category || sector ? reset : undefined}
+            />
           ) : category ? (
             <button type="button" onClick={reset} className={`-mt-2 self-end ${resetClass}`}>
               Réinitialiser

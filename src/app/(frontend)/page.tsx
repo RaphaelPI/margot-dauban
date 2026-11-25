@@ -74,7 +74,7 @@ export default async function HomePage() {
           className="flex flex-wrap items-center gap-x-10 gap-y-5 rounded-3xl border bg-card px-6 py-5 md:rounded-full md:px-9 md:py-4.5"
         >
           {home.stats?.length ? (
-            <dl className="flex shrink-0 flex-wrap gap-x-8 gap-y-4">
+            <dl className="flex flex-col gap-4 md:shrink-0 md:flex-row md:flex-wrap md:gap-x-8">
               {home.stats.map((stat) => (
                 <div key={stat.id ?? stat.label} className="flex flex-row-reverse items-center gap-2.5">
                   <dt className="max-w-26 text-sm leading-snug text-muted-foreground">{stat.label}</dt>
