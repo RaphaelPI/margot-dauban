@@ -48,7 +48,7 @@ export function SectorChips({
           </button>
         ) : null}
       </div>
-      <div className="-mx-5 flex gap-2.5 overflow-x-auto px-5 pb-1 [scrollbar-width:none] md:contents [&::-webkit-scrollbar]:hidden">
+      <div className="-mx-5 -my-1 flex gap-2.5 overflow-x-auto px-5 py-1 [scrollbar-width:none] md:contents [&::-webkit-scrollbar]:hidden">
         {sectors.map(chip)}
       </div>
     </div>
