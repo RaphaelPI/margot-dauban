@@ -85,7 +85,7 @@ export function ProjectsGrid({
             {shown.map((item) => (
               <div
                 key={item.id}
-                className="flex animate-in fade-in-0 duration-300 motion-reduce:animate-none"
+                className="grid animate-in fade-in-0 duration-300 motion-reduce:animate-none"
               >
                 {cards[item.id]}
               </div>
